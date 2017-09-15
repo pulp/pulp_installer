@@ -1,0 +1,17 @@
+galaxy_info:
+  author: Pulp Team
+  description: A role that installs pulp3
+  issue_tracker_url: https://pulp.plan.io/projects/external/issues/new
+  license: GPLv2
+  min_ansible_version: 2.2
+  platforms:
+  - name: Fedora
+    versions:
+    - 25
+  - name: EL
+    versions:
+     - 7
+  galaxy_tags:
+    - pulp3
+    - pulpcore
+  dependencies: []

@@ -1,0 +1,107 @@
+---
+- name: Create user {{ pulp_user }}
+  user:
+    name: "{{ pulp_user }}"
+    comment: "Pulp user"
+
+- name: Get user's info
+  getent:
+    database: passwd
+    key: "{{ pulp_user }}"
+
+- name: Set variable referencing user's home directory
+  set_fact:
+    pulp_user_home: "{{ getent_passwd[pulp_user][4] }}"
+
+- name: Make user's home directory world-readable
+  file:
+    path: "{{ pulp_user_home }}"
+    state: directory
+    mode: 0755
+
+- name: Set variable referencing pulpvenv dir
+  set_fact:
+    pulp_venv: "{{ pulp_user_home }}/pulpvenv"
+
+- name: Create ~/.bashrc.d/
+  file:
+    path: "{{ pulp_user_home }}/.bashrc.d/"
+    state: directory
+  become_user: "{{ pulp_user }}"
+
+- name: Create directory /var/lib/pulp
+  file:
+    path: /var/lib/pulp
+    state: directory
+    owner: "{{ pulp_user }}"
+    group: "{{ pulp_user }}"
+    mode: 0775
+
+- name: Install pulpcore
+  pip:
+    name: pulpcore
+    state: present
+    virtualenv: "{{ pulp_venv }}"
+    virtualenv_python: python3
+  become_user: "{{ pulp_user }}"
+
+- name: Add Django supplemental bashrc
+  copy:
+    src: files/django.bashrc
+    dest: "{{pulp_user_home}}/.bashrc.d/django.bashrc"
+    owner: "{{ pulp_user }}"
+    group: "{{ pulp_user }}"
+
+- name: Source  ~/.bashrc.d/
+  blockinfile:
+    path: "{{ pulp_user_home }}/.bashrc"
+    block: |
+      if [ -d ~/.bashrc.d ]; then
+        for file in ~/.bashrc.d/*; do
+          . "$file"
+        done
+      fi
+    marker: "# {mark} Ansible managed block: source bashrc.d/"
+    create: yes
+  become_user: "{{ pulp_user }}"
+
+- name: Create /etc/pulp dir
+  file:
+    path: /etc/pulp
+    state: directory
+    owner: "{{ pulp_user }}"
+    group: "{{ pulp_user }}"
+
+- name : Find server.yaml config file
+  find:
+    paths: "{{ pulp_venv }}"
+    patterns: 'server.yaml'
+    recurse: true
+  register: result
+
+- name: Ensure the server.yaml was found
+  assert:
+    that: 'result["matched"] == 1'
+
+- name: Install server.yaml Config file
+  copy:
+    remote_src: true
+    src: '{{ result["files"][0]["path"] }}'
+    dest: "/etc/pulp/server.yaml"
+    owner: "{{ pulp_user }}"
+    group: "{{ pulp_user }}"
+    force: false
+
+- name: Generate random secret for Django
+  shell: cat /dev/urandom | tr -dc 'a-z0-9!@#$%^&*(\-_=+)' | head -c 50
+  check_mode: false
+  changed_when: false
+  register: random_secret
+
+- name: Add development server configuration in server.yaml
+  blockinfile:
+    path: "/etc/pulp/server.yaml"
+    block: |
+      # Pulp Development Configuration
+      DEBUG: True
+      SECRET_KEY: {{ random_secret.stdout | to_nice_yaml }}
