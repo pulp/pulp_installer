@@ -7,10 +7,7 @@ galaxy_info:
   platforms:
   - name: Fedora
     versions:
-    - 25
-  - name: EL
-    versions:
-     - 7
+    - all
   galaxy_tags:
     - pulp3
     - pulpcore
