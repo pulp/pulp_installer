@@ -29,9 +29,9 @@
     state: directory
   become_user: "{{ pulp_user }}"
 
-- name: Create directory /var/lib/pulp
+- name: Create directory /var/lib/pulp/tmp
   file:
-    path: /var/lib/pulp
+    path: /var/lib/pulp/tmp
     state: directory
     owner: "{{ pulp_user }}"
     group: "{{ pulp_user }}"
