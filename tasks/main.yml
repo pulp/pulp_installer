@@ -92,16 +92,15 @@
     group: "{{ pulp_user }}"
     force: false
 
-- name: Generate random secret for Django
-  shell: cat /dev/urandom | tr -dc 'a-z0-9!@#$%^&*(\-_=+)' | head -c 50
-  check_mode: false
+- name: Generate random secret for server.yaml
+  shell: tr -dc 'a-z0-9!@#$%^&*(\-_=+)' < /dev/urandom | head -c 50
   changed_when: false
-  register: random_secret
+  check_mode: false
+  register: result
 
-- name: Add development server configuration in server.yaml
-  blockinfile:
-    path: "/etc/pulp/server.yaml"
-    block: |
-      # Pulp Development Configuration
-      DEBUG: True
-      SECRET_KEY: {{ random_secret.stdout | to_nice_yaml }}
+# TODO: Conditionally execute this task.
+- name: Add SECRET_KEY to server.yaml
+  lineinfile:
+    path: /etc/pulp/server.yaml
+    regexp: '^SECRET_KEY: '
+    line: "SECRET_KEY: '{{ result.stdout }}'"
