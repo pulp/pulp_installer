@@ -42,7 +42,7 @@
     name: pulpcore
     state: present
     virtualenv: "{{ pulp_venv }}"
-    virtualenv_command: /usr/bin/python3 -m venv
+    virtualenv_command: "{{ ansible_python_interpreter }} -m venv"
   become_user: "{{ pulp_user }}"
 
 - name: Add Django supplemental bashrc
