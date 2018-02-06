@@ -1,3 +1,46 @@
 ---
 
 pulp_user: pulp
+
+pulp_install_user: root
+pulp_install_dir: '/opt/pulp'
+pulp_install_plugins: []
+
+pulp_python_interpreter: '{% if ansible_python_interpreter is defined %}{{ ansible_python_interpreter }}{% else %}/usr/bin/python3{% endif %}'
+
+pulp_database_migrate: true
+pulp_default_admin_password: ''
+
+pulp_config_dir: '/etc/pulp'
+pulp_var_dir: '/var/lib/pulp'
+pulp_cache_dir: '/var/cache/pulp'
+
+pulp_postgres_user: 'postgres'
+pulp_postgres_login_user: ''
+pulp_postgres_login_password: ''
+pulp_postgres_port: 5432
+pulp_psycopg_package: 'python2-psycopg2'
+
+pulp_config_database:
+  default:
+    ENGINE: django.db.backends.sqlite3
+    NAME: '{{ pulp_var_dir }}/database/pulp.sqlite3'
+
+pulp_config_secret_key: ''
+pulp_config: {}
+
+pulp_install_service_files: true
+
+pulp_resource_manager_state: started
+pulp_resource_manager_enabled: true
+
+pulp_web_state: started
+pulp_web_enabled: true
+
+pulp_workers:
+  1:
+    state: started
+    enabled: true
+  2:
+    state: started
+    enabled: true
