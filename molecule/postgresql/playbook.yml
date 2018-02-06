@@ -1,0 +1,16 @@
+---
+- name: Converge
+  hosts: pulp
+  roles:
+    - role: ansible-pulp3
+      pulp_config_secret_key: 'aabbccddeeffgghhiijj'
+      pulp_config_database:
+        default:
+          ENGINE: django.db.backends.postgresql
+          NAME: 'pulp'
+          USER: 'pulp'
+          PASSWORD: 'supersecure'
+          HOST: 'postgres'
+          PORT: 5432
+      pulp_postgres_login_user: 'postgres'
+      pulp_postgres_login_password: '{{ ansible_env.POSTGRES_ENV_POSTGRES_PASSWORD  }}'

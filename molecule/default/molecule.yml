@@ -1,0 +1,28 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+lint:
+  name: yamllint
+platforms:
+  - name: fedora-27
+    image: fedora:27
+    dockerfile_tpl: centos-systemd
+provisioner:
+  name: ansible
+  lint:
+    name: ansible-lint
+  options:
+    diff: True
+    v: True
+  playbooks:
+    create: ../common/create.yml
+    destroy: ../common/destroy.yml
+    prepare: ../common/prepare.yml
+scenario:
+  name: default
+verifier:
+  name: testinfra
+  lint:
+    name: flake8
