@@ -9,6 +9,9 @@ platforms:
   - name: fedora-27
     image: fedora:27
     dockerfile_tpl: centos-systemd
+  - name: debian-9
+    image: debian:9
+    dockerfile_tpl: debian-systemd
 provisioner:
   name: ansible
   lint:

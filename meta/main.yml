@@ -10,6 +10,9 @@ galaxy_info:
     - name: Fedora
       versions:
         - all
+    - name: Debian
+      versions:
+        - stretch
   galaxy_tags:
     - pulp3
     - pulpcore

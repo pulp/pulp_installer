@@ -3,7 +3,7 @@
 - name: Install service files
   template:
     src: '{{ item }}.service.j2'
-    dest: '/usr/lib/systemd/system/{{ item }}.service'
+    dest: '/lib/systemd/system/{{ item }}.service'
     owner: root
     group: root
     mode: 0644

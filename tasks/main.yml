@@ -5,6 +5,11 @@
     msg: pulp_config_secret_key is not set!
   when: pulp_config_secret_key is not defined or pulp_config_secret_key == ''
 
+- name: Load OS specific variables
+  include_vars: '{{ ansible_os_family }}.yml'
+  tags:
+    - always
+
 - import_tasks: install.yml
 - import_tasks: configure.yml
 - import_tasks: database.yml

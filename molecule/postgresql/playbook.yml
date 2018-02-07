@@ -7,7 +7,7 @@
       pulp_config_database:
         default:
           ENGINE: django.db.backends.postgresql
-          NAME: 'pulp'
+          NAME: 'pulp-{{ ansible_nodename }}'
           USER: 'pulp'
           PASSWORD: 'supersecure'
           HOST: 'postgres'

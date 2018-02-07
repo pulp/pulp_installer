@@ -11,6 +11,11 @@ platforms:
     dockerfile_tpl: centos-systemd
     groups:
       - pulp
+  - name: debian-9
+    image: debian:9
+    dockerfile_tpl: debian-systemd
+    groups:
+      - pulp
   - name: postgres
     image: postgres:9.6-alpine
     env:

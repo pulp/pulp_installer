@@ -1,4 +1,11 @@
 ---
+- name: Install prerequisites
+  package:
+    name: '{{ item }}'
+    state: installed
+  with_items: '{{ pulp_preq_packages }}'
+  when: pulp_install_prerequisites | bool()
+
 - name: Create user {{ pulp_user }}
   user:
     name: "{{ pulp_user }}"

@@ -1,0 +1,6 @@
+---
+pulp_preq_packages:
+  - python3
+  - python3-devel
+
+pulp_psycopg_package: 'python{{ ansible_python.version.major }}-psycopg2'

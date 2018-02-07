@@ -5,6 +5,7 @@ pulp_user: pulp
 pulp_install_user: root
 pulp_install_dir: '/opt/pulp'
 pulp_install_plugins: []
+pulp_install_prerequisites: true
 
 pulp_python_interpreter: '{% if ansible_python_interpreter is defined %}{{ ansible_python_interpreter }}{% else %}/usr/bin/python3{% endif %}'
 
@@ -19,7 +20,6 @@ pulp_postgres_user: 'postgres'
 pulp_postgres_login_user: ''
 pulp_postgres_login_password: ''
 pulp_postgres_port: 5432
-pulp_psycopg_package: 'python2-psycopg2'
 
 pulp_config_database:
   default:

@@ -1,5 +1,5 @@
 ---
-- name: Converge
+- name: Do a default install of pulp
   hosts: all
   roles:
     - role: ansible-pulp3
