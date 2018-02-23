@@ -63,19 +63,21 @@
       changed_when: False
       check_mode: no
 
-    - name: Make the migrations-dir writable for the {{ pulp_user }} user
+    - name: Make the migrations directories writable for the {{ pulp_user }} user
       file:
-        name: '{{ pulp_full_libdir.stdout_lines[0] }}/site-packages/pulpcore/app/migrations'
+        name: '{{ pulp_full_libdir.stdout_lines[0] }}/site-packages/{{ item }}/app/migrations'
         state: directory
         owner: '{{ pulp_user }}'
         group: '{{ pulp_user }}'
         mode: 0700
+      with_items: "{{ ['pulpcore'] | union(pulp_install_plugins) }}"
 
     - name: Create database migrations for pulp_app
-      command: '{{ pulp_install_dir }}/bin/pulp-manager makemigrations pulp_app'
+      command: '{{ pulp_install_dir }}/bin/pulp-manager makemigrations {{ item }}'
       changed_when: False
       become: true
       become_user: '{{ pulp_user }}'
+      with_items: "{{ ['pulp_app'] | union(pulp_install_plugins) }}"
 
     - name: Run database migrations
       command: '{{ pulp_install_dir }}/bin/pulp-manager {{ item }} --no-input'
