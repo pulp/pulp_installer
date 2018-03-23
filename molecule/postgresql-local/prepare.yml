@@ -1,0 +1,32 @@
+---
+- name: Prepare
+  hosts: all
+  gather_facts: true
+  tasks:
+    - block:
+        - name: Install Postgres
+          package:
+            name: '{{ item }}'
+            state: installed
+          with_items:
+            - postgresql-server
+            - postgresql-contrib
+        - name: Initiate database
+          command: postgresql-setup --initdb --unit postgresql
+        - name: Start Postgres
+          service:
+            name: postgresql
+            state: started
+      when: ansible_os_family == 'RedHat'
+    - block:
+        - name: Install Postgres
+          package:
+            name: '{{ item }}'
+            state: installed
+          with_items:
+            - postgresql
+        - name: Start Postgres
+          service:
+            name: postgresql
+            state: started
+      when: ansible_os_family == 'Debian'
