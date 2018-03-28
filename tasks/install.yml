@@ -6,10 +6,16 @@
   with_items: '{{ pulp_preq_packages }}'
   when: pulp_install_prerequisites | bool()
 
+- name: Find the nologin executable
+  command: which nologin
+  changed_when: False
+  check_mode: False
+  register: result
+
 - name: Create user {{ pulp_user }}
   user:
     name: "{{ pulp_user }}"
-    shell: /bin/nologin
+    shell: "{{ result.stdout.strip() }}"
     home: '{{ pulp_var_dir }}'
     comment: "Pulp user"
 
