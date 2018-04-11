@@ -44,3 +44,6 @@ pulp_workers:
   2:
     state: started
     enabled: true
+
+pulp_broker_state: started
+pulp_broker_enabled: true
