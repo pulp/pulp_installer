@@ -1,0 +1,13 @@
+---
+
+- name: Install RabbitMQ
+  package:
+    name: rabbitmq-server
+    state: present
+
+- name: Start and enable RabbitMQ
+  systemd:
+    name: rabbitmq-server
+    state: '{{ pulp_broker_state }}'
+    enabled: '{{ pulp_broker_enabled }}'
+    daemon_reload: true
