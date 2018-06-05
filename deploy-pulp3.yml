@@ -1,0 +1,13 @@
+---
+- hosts: all
+  become: true
+  pre_tasks:
+    - name: Require Ansible 2.4+
+      assert:
+        that:
+          - ansible_version.full is version_compare('2.4', operator='ge')
+        msg: >
+          This playbook requires Ansible 2.4+. Consider creating a virtualenv
+          and installing Ansible with pip.
+  roles:
+    - pulp3
