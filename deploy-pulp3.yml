@@ -11,3 +11,4 @@
           and installing Ansible with pip.
   roles:
     - pulp3
+    - redis

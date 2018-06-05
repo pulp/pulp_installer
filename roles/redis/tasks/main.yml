@@ -1,0 +1,15 @@
+- block:
+
+  - name: Install Redis
+    package:
+      name: redis
+      state: present
+
+  - name: Start Redis
+    systemd:
+      name: redis
+      state: started
+      enabled: yes
+      daemon_reload: yes
+
+  become: true
