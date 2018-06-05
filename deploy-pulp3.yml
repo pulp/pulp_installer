@@ -10,4 +10,5 @@
           This playbook requires Ansible 2.4+. Consider creating a virtualenv
           and installing Ansible with pip.
   roles:
+    - redis
     - pulp3

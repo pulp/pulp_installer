@@ -1,0 +1,22 @@
+- block:
+
+  - name: Install Redis
+    package:
+      name: redis
+      state: present
+
+  - name: Start Redis
+    systemd:
+      name: redis
+      state: started
+      enabled: yes
+      daemon_reload: yes
+
+  become: true
+
+- name: Install RQ
+  pip:
+    name: rq
+    state: present
+    virtualenv: '{{ pulp_install_dir }}'
+    virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
