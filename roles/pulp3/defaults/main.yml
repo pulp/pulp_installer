@@ -2,7 +2,6 @@
 
 pulp_user: pulp
 
-pulp_install_user: root
 pulp_install_dir: '/opt/pulp'
 pulp_install_plugins: []
 pulp_install_prerequisites: true
