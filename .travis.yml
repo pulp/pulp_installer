@@ -9,6 +9,9 @@ sudo: required
 services:
   - docker
 
+before_install:
+  - sudo apt-get -qq update
+
 # Install molecule and docker-py
 install:
   - pip install tox-travis
