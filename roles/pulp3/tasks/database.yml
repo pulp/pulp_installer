@@ -93,6 +93,5 @@
   command: '{{ pulp_install_dir }}/bin/pulp-manager reset-admin-password --password {{ pulp_default_admin_password }}'
   become: true
   become_user: '{{ pulp_user }}'
-  changed_when: False
   no_log: True
   when: pulp_default_admin_password != ''
