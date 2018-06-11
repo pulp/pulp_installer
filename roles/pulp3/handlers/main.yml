@@ -11,14 +11,11 @@
     name: pulp_resource_manager.service
     state: restarted
 
-- name: reload systemd and restart pulp_web
+- name: reload systemd and restart pulp_wsgi.service
   systemd:
-    daemon_reload: true
-
-- name: restart pulp_web
-  service:
-    name: pulp_web.service
+    name: pulp_wsgi.service
     state: restarted
+    daemon_reload: true
 
 - name: reload systemd and restart pulp_worker@
   systemd:
