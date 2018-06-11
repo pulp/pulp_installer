@@ -1,0 +1,28 @@
+- block:
+
+  - name: Install Nginx
+    package:
+      name: nginx
+      state: present
+
+  - name: Install Nginx configuration file
+    copy:
+      src: nginx.conf
+      dest: /etc/nginx/nginx.conf
+    notify: reload nginx
+
+  - name: Start and enable Nginx
+    systemd:
+      name: nginx
+      state: started
+      enabled: true
+      daemon_reload: true
+
+  - name: Accept connections on port 80
+    firewalld:
+      service: http
+      permanent: true
+      immediate: true
+      state: enabled
+
+  become: true
