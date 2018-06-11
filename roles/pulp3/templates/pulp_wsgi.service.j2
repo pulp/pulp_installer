@@ -1,0 +1,23 @@
+[Unit]
+Description=Pulp WSGI Server
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User={{ pulp_user }}
+PIDFile=/run/pulp_wsgi.pid
+RuntimeDirectory=pulp_wsgi
+ExecStart={{ pulp_install_dir }}/bin/gunicorn pulpcore.app.wsgi:application
+ProtectSystem=full
+PrivateTmp=yes
+PrivateDevices=yes
+
+# This directive is set to an absolute path in other Pulp units. Using an
+# absolute path is an abuse of the directive, as it should be a relative path,
+# not an absolute path. PIDFile is now used to ensure that PID files are laid
+# out in a standard way. If this directive had any other effects, it is better
+# to use the correct directive than to uncomment this.
+# WorkingDirectory=/var/run/pulp_wsgi/
+
+[Install]
+WantedBy=multi-user.target

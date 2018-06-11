@@ -8,16 +8,9 @@
     group: root
     mode: 0644
   with_items:
-    - pulp_web
     - pulp_resource_manager
     - pulp_worker@
   notify: 'reload systemd and restart {{ item }}'
-
-- name: Set the pulp_web service state
-  service:
-    name: pulp_web.service
-    state: '{{ pulp_web_state }}'
-    enabled: '{{ pulp_web_enabled }}'
 
 - name: Set the pulp_resource_manager service state
   service:
