@@ -1,12 +1,28 @@
 - block:
 
+  - name: Find site-packages directory
+    find:
+      paths: '{{ pulp_install_dir }}'
+      recurse: true
+      file_type: directory
+      patterns: site-packages
+    register: result
+
+  - name: Assert one directory has been found
+    assert:
+      that: '{{ result.matched }} == 1'
+
+  - name: Set fact referencing Pulp's static files directory
+    set_fact:
+      pulp_webserver_static_dir: '{{ result.files[0].path }}/rest_framework'
+
   - name: Install Nginx
     package:
       name: nginx
       state: present
 
   - name: Install Nginx configuration file
-    copy:
+    template:
       src: nginx.conf
       dest: /etc/nginx/nginx.conf
     notify: reload nginx
