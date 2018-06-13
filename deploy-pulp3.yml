@@ -10,8 +10,8 @@
           This playbook requires Ansible 2.4+. Consider creating a virtualenv
           and installing Ansible with pip.
   roles:
-    - redis
+    - pulp3-redis
     - name: pulp3
       vars:
         pulp_default_admin_password: 'password'
-    - name: webserver
+    - name: pulp3-webserver
