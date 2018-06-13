@@ -14,4 +14,4 @@
     - name: pulp3
       vars:
         pulp_default_admin_password: 'password'
-    - name: pulp3-webserver
+    - pulp3-webserver
