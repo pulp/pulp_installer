@@ -14,8 +14,10 @@ before_install:
 
 # Install molecule and docker-py
 install:
-  - pip install tox-travis
+  - pip install tox-travis ansible-review==0.13.4
 
 # Test all the scenarios against the Ansible versions defined in the tox.ini file
 script:
+  - tox -e standards
   - tox
+
