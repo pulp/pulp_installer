@@ -3,6 +3,8 @@
   become: true
   vars:
     pulp_config_secret_key: secret
+    pulp_default_admin_password: ''
+    ansible_python_interpreter: /usr/bin/python3
   pre_tasks:
     - name: Require Ansible 2.4+
       assert:

@@ -1,15 +1,15 @@
 ---
-- name: Disable SELinux (Pulp 3 is currently incompatible with SELinux)
-  selinux:
-    policy: targeted
-    state: permissive
-
 - name: Install prerequisites
   package:
     name: '{{ item }}'
     state: installed
   with_items: '{{ pulp_preq_packages }}'
   when: pulp_install_prerequisites | bool()
+
+- name: Disable SELinux (Pulp 3 is currently incompatible with SELinux)
+  selinux:
+    policy: targeted
+    state: permissive
 
 - name: Find the nologin executable
   command: which nologin
