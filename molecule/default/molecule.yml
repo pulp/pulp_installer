@@ -20,6 +20,7 @@ provisioner:
 scenario:
   name: default
 verifier:
-  name: testinfra
+  name: inspec
   lint:
-    name: flake8
+    name: rubocop
+    enabled: false

@@ -1,2 +1,2 @@
-molecule == 2.14
+molecule == 2.15
 docker-py >= 1.10
