@@ -1,0 +1,7 @@
+pulp3_workers:
+  1:
+    state: started
+    enabled: true
+  2:
+    state: started
+    enabled: true

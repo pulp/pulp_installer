@@ -2,25 +2,15 @@
 
 - name: Install service files
   template:
-    src: '{{ item }}.service.j2'
-    dest: '/lib/systemd/system/{{ item }}.service'
+    src: 'pulp_resource_manager.service.j2'
+    dest: '/lib/systemd/system/pulp_resource_manager.service'
     owner: root
     group: root
     mode: 0644
-  with_items:
-    - pulp_resource_manager
-    - pulp_worker@
-  notify: 'reload systemd and restart {{ item }}'
+  notify: 'reload systemd and restart pulp_resource_manager'
 
 - name: Set the pulp_resource_manager service state
   service:
     name: pulp_resource_manager.service
     state: '{{ pulp_resource_manager_state }}'
     enabled: '{{ pulp_resource_manager_enabled }}'
-
-- name: Set pulp_worker service states
-  service:
-    name: 'pulp_worker@{{ item.key }}.service'
-    state: '{{ item.value.state }}'
-    enabled: '{{ item.value.enabled }}'
-  with_dict: '{{ pulp_workers }}'

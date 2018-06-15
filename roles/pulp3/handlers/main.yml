@@ -16,16 +16,3 @@
     name: pulp_wsgi.service
     state: restarted
     daemon_reload: true
-
-- name: reload systemd and restart pulp_worker@
-  systemd:
-    daemon_reload: true
-    name: 'pulp_worker@{{ item.key }}.service'
-    state: restarted
-  with_dict: '{{ pulp_workers }}'
-
-- name: restart pulp_worker@
-  service:
-    name: 'pulp_worker@{{ item.key }}.service'
-    state: restarted
-  with_dict: '{{ pulp_workers }}'

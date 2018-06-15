@@ -35,11 +35,3 @@ pulp_resource_manager_enabled: true
 
 pulp_wsgi_state: started
 pulp_wsgi_enabled: true
-
-pulp_workers:
-  1:
-    state: started
-    enabled: true
-  2:
-    state: started
-    enabled: true
