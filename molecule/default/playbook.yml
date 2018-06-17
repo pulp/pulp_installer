@@ -15,7 +15,5 @@
           and installing Ansible with pip.
   roles:
     - pulp3-redis
-    - name: pulp3
-      vars:
-        pulp_default_admin_password: 'password'
+    - pulp3
     - pulp3-webserver
