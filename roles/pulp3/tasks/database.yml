@@ -10,83 +10,83 @@
   when: pulp_config_database['default']['ENGINE'] == 'django.db.backends.sqlite3'
 
 - block:
-    - name: Install psycopg package
-      package:
-        name: '{{ pulp_psycopg_package }}'
-        state: installed
+  - name: Install psycopg package
+    package:
+      name: '{{ pulp_psycopg_package }}'
+      state: installed
 
-    - block:
-        # The database is remote
-        - name: Add Pulp database user
-          postgresql_user:
-            name: "{{ pulp_config_database['default']['USER'] }}"
-            password: "{{ pulp_config_database['default']['PASSWORD'] }}"
-            role_attr_flags: SUPERUSER,LOGIN
-            login_host: "{{ pulp_config_database['default']['HOST'] | default('localhost') }}"
-            login_user: '{{ pulp_postgres_login_user }}'
-            login_password: '{{ pulp_postgres_login_password }}'
-            port: '{{ pulp_postgres_port }}'
+  - block:
+    # The database is remote
+    - name: Add Pulp database user
+      postgresql_user:
+        name: "{{ pulp_config_database['default']['USER'] }}"
+        password: "{{ pulp_config_database['default']['PASSWORD'] }}"
+        role_attr_flags: SUPERUSER,LOGIN
+        login_host: "{{ pulp_config_database['default']['HOST'] | default('localhost') }}"
+        login_user: '{{ pulp_postgres_login_user }}'
+        login_password: '{{ pulp_postgres_login_password }}'
+        port: '{{ pulp_postgres_port }}'
 
-        - name: Add Pulp database
-          postgresql_db:
-            name: "{{ pulp_config_database['default']['NAME'] }}"
-            owner: "{{ pulp_config_database['default']['USER'] }}"
-            login_host: "{{ pulp_config_database['default']['HOST'] | default('localhost') }}"
-            login_user: '{{ pulp_postgres_login_user }}'
-            login_password: '{{ pulp_postgres_login_password }}'
-            port: '{{ pulp_postgres_port }}'
-      when: pulp_config_database['default']['HOST'] is defined and pulp_config_database['default']['HOST'] != 'localhost'
+    - name: Add Pulp database
+      postgresql_db:
+        name: "{{ pulp_config_database['default']['NAME'] }}"
+        owner: "{{ pulp_config_database['default']['USER'] }}"
+        login_host: "{{ pulp_config_database['default']['HOST'] | default('localhost') }}"
+        login_user: '{{ pulp_postgres_login_user }}'
+        login_password: '{{ pulp_postgres_login_password }}'
+        port: '{{ pulp_postgres_port }}'
+    when: pulp_config_database['default']['HOST'] is defined and pulp_config_database['default']['HOST'] != 'localhost'
 
-    - block:
-        # The database is local
-        - name: Add Pulp database user
-          postgresql_user:
-            name: "{{ pulp_config_database['default']['USER'] }}"
-            password: "{{ pulp_config_database['default']['PASSWORD'] }}"
-            role_attr_flags: SUPERUSER,LOGIN
-          become: yes
-          become_user: '{{ pulp_postgres_user }}'
+  - block:
+    # The database is local
+    - name: Add Pulp database user
+      postgresql_user:
+        name: "{{ pulp_config_database['default']['USER'] }}"
+        password: "{{ pulp_config_database['default']['PASSWORD'] }}"
+        role_attr_flags: SUPERUSER,LOGIN
+      become: yes
+      become_user: '{{ pulp_postgres_user }}'
 
-        - name: Add Pulp database
-          postgresql_db:
-            name: "{{ pulp_config_database['default']['NAME'] }}"
-            owner: "{{ pulp_config_database['default']['USER'] }}"
-          become: yes
-          become_user: '{{ pulp_postgres_user }}'
-      when: pulp_config_database['default']['HOST'] is not defined or (pulp_config_database['default']['HOST'] is defined and pulp_config_database['default']['HOST'] == 'localhost')
+    - name: Add Pulp database
+      postgresql_db:
+        name: "{{ pulp_config_database['default']['NAME'] }}"
+        owner: "{{ pulp_config_database['default']['USER'] }}"
+      become: yes
+      become_user: '{{ pulp_postgres_user }}'
+    when: pulp_config_database['default']['HOST'] is not defined or (pulp_config_database['default']['HOST'] is defined and pulp_config_database['default']['HOST'] == 'localhost')
   when: pulp_config_database['default']['ENGINE'] in ['django.db.backends.postgresql_psycopg2', 'django.db.backends.postgresql']
 
 - block:
-    - name: Get the exact pulpcore install dir
-      shell: 'ls -d {{ pulp_install_dir }}/lib/python?.?'
-      register: pulp_full_libdir
-      changed_when: False
-      check_mode: no
+  - name: Get the exact pulpcore install dir
+    shell: 'ls -d {{ pulp_install_dir }}/lib/python?.?'
+    register: pulp_full_libdir
+    changed_when: False
+    check_mode: no
 
-    - name: Make the migrations directories writable for the {{ pulp_user }} user
-      file:
-        name: '{{ pulp_full_libdir.stdout_lines[0] }}/site-packages/{{ item }}/app/migrations'
-        state: directory
-        owner: '{{ pulp_user }}'
-        group: '{{ pulp_user }}'
-        mode: 0700
-      with_items: "{{ ['pulpcore'] | union(pulp_install_plugins) }}"
+  - name: Make the migrations directories writable for the {{ pulp_user }} user
+    file:
+      name: '{{ pulp_full_libdir.stdout_lines[0] }}/site-packages/{{ item }}/app/migrations'
+      state: directory
+      owner: '{{ pulp_user }}'
+      group: '{{ pulp_user }}'
+      mode: 0700
+    with_items: "{{ ['pulpcore'] | union(pulp_install_plugins) }}"
 
-    - name: Create database migrations for pulp_app
-      command: '{{ pulp_install_dir }}/bin/pulp-manager makemigrations {{ item }}'
-      changed_when: False
-      become: true
-      become_user: '{{ pulp_user }}'
-      with_items: "{{ ['pulp_app'] | union(pulp_install_plugins) }}"
+  - name: Create database migrations for pulp_app
+    command: '{{ pulp_install_dir }}/bin/pulp-manager makemigrations {{ item }}'
+    changed_when: False
+    become: true
+    become_user: '{{ pulp_user }}'
+    with_items: "{{ ['pulp_app'] | union(pulp_install_plugins) }}"
 
-    - name: Run database migrations
-      command: '{{ pulp_install_dir }}/bin/pulp-manager {{ item }} --no-input'
-      become: true
-      become_user: '{{ pulp_user }}'
-      changed_when: False
-      with_items:
-        - 'migrate auth'
-        - 'migrate'
+  - name: Run database migrations
+    command: '{{ pulp_install_dir }}/bin/pulp-manager {{ item }} --no-input'
+    become: true
+    become_user: '{{ pulp_user }}'
+    changed_when: False
+    with_items:
+    - 'migrate auth'
+    - 'migrate'
   when: pulp_database_migrate | bool()
 
 - name: Set the Super User's password
@@ -94,4 +94,4 @@
   become: true
   become_user: '{{ pulp_user }}'
   no_log: True
-  when: pulp_default_admin_password != ''
+  when: pulp_default_admin_password

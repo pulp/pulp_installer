@@ -1,7 +1,7 @@
 # Standards: 0.1
 galaxy_info:
   author: Pulp
-  description: Pulp worker
+  description: Pulp Web Server
   company: Red Hat
   min_ansible_version: 2.4
   platforms:
@@ -10,3 +10,4 @@ galaxy_info:
     - 28
   license: GPL-3.0
 dependencies: []
+

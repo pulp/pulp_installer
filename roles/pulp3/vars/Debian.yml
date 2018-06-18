@@ -1,6 +1,6 @@
 ---
 pulp_preq_packages:
-  - python3
-  - python3-venv
+- python3
+- python3-venv
 
 pulp_psycopg_package: 'python{% if ansible_python.version.major != 2 %}{{ ansible_python.version.major }}{% endif %}-psycopg2'
