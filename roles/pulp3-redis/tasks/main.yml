@@ -1,3 +1,5 @@
+# Standards: 0.1
+---
 - block:
 
   - name: Install Redis
