@@ -1,4 +1,3 @@
----
 - name: Install service files
   template:
     src: pulp_worker@.service.j2
