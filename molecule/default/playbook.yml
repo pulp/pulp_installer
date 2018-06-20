@@ -6,7 +6,6 @@
     pulp_default_admin_password: ''
     ansible_python_interpreter: /usr/bin/python3
   roles:
-    - pulp3-redis
     - pulp3
     - pulp3-workers
     - pulp3-webserver
