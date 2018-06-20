@@ -1,16 +1,15 @@
----
-
 - name: Install service files
   template:
-    src: 'pulp_resource_manager.service.j2'
-    dest: '/lib/systemd/system/pulp_resource_manager.service'
+    src: pulp_resource_manager.service.j2
+    dest: /etc/systemd/system/pulp_resource_manager.service
     owner: root
     group: root
     mode: 0644
-  notify: 'reload systemd and restart pulp_resource_manager'
+  notify: Restart pulp_resource_manager
 
 - name: Set the pulp_resource_manager service state
-  service:
+  systemd:
     name: pulp_resource_manager.service
     state: '{{ pulp_resource_manager_state }}'
     enabled: '{{ pulp_resource_manager_enabled }}'
+    daemon_reload: true

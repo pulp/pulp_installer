@@ -28,8 +28,5 @@ pulp_config: {}
 
 pulp_install_service_files: true
 
-pulp_resource_manager_state: started
-pulp_resource_manager_enabled: true
-
 pulp_wsgi_state: started
 pulp_wsgi_enabled: true

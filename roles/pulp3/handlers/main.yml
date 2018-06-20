@@ -1,16 +1,3 @@
----
-
-- name: reload systemd and restart pulp_resource_manager
-  systemd:
-    daemon_reload: true
-    name: pulp_resource_manager.service
-    state: restarted
-
-- name: restart pulp_resource_manager
-  service:
-    name: pulp_resource_manager.service
-    state: restarted
-
 - name: reload systemd and restart pulp_wsgi.service
   systemd:
     name: pulp_wsgi.service
