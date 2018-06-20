@@ -94,4 +94,4 @@
   become: true
   become_user: '{{ pulp_user }}'
   no_log: True
-  when: pulp_default_admin_password
+  when: pulp_default_admin_password is defined
