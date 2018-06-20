@@ -9,4 +9,5 @@ galaxy_info:
     versions:
     - 28
   license: GPL-3.0
-dependencies: []
+dependencies:
+- pulp3-redis
