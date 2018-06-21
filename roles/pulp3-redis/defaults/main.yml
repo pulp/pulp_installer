@@ -1,0 +1,4 @@
+---
+pulp_install_dir: '/opt/pulp'
+pulp_user: pulp
+pulp_python_interpreter: '{% if ansible_python_interpreter is defined %}{{ ansible_python_interpreter }}{% else %}/usr/bin/python3{% endif %}'
