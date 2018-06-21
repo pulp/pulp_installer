@@ -8,7 +8,7 @@ lint:
   enabled: False
 platforms:
   - name: instance
-    image: fedora
+    image: fedora:27
     privileged: True
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
