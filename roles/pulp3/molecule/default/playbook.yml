@@ -1,6 +1,0 @@
----
-- name: Do a default install of pulp
-  hosts: all
-  roles:
-    - role: ansible-pulp3
-      pulp_config_secret_key: 'aabbccddeeffgghhiijj'
