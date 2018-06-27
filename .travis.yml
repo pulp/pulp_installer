@@ -1,7 +1,7 @@
 ---
 
 language: python
-python: 2.7
+python: 3.6
 
 sudo: required
 
@@ -14,7 +14,7 @@ before_install:
 
 # Install molecule and docker-py
 install:
-  - pip install tox-travis ansible-review==0.13.4
+  - pip install tox-travis
 
 # Test all the scenarios against the Ansible versions defined in the tox.ini file
 script:
