@@ -15,6 +15,6 @@ lint-ansible-lint:
 	ansible-lint deploy-pulp3.yml
 
 lint-ansible-review:
-	find roles -type f -name '*.yml' -print0 | xargs -0 ansible-review
+	find roles -type f -name '*.yml' -print0 | xargs -0 ansible-review -c ansible-review-config.ini
 
 .PHONY: help lint lint-syntax-check lint-ansible-lint lint-ansible-review
