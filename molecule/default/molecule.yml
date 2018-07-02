@@ -7,8 +7,14 @@ lint:
   name: yamllint
   enabled: False
 platforms:
-  - name: instance
+  - name: fedora
     image: fedora:27
+    privileged: True
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    command: /usr/sbin/init
+  - name: centos
+    image: centos:7
     privileged: True
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
