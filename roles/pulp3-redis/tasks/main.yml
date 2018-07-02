@@ -1,7 +1,17 @@
 # Standards: 0.1
 ---
-- block:
+- name: Load OS specific variables
+  include_vars: '{{ ansible_distribution }}.yml'
+  tags:
+  - always
 
+- name: Install requirements
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ pulp_preq_packages }}"
+
+- block:
   - name: Install Redis
     package:
       name: redis
