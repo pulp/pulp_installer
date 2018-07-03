@@ -20,6 +20,5 @@ install:
 
 # Test all the scenarios against the Ansible versions defined in the tox.ini file
 script:
-  - tox -e standards
   - tox
 
