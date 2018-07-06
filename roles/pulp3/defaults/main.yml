@@ -8,9 +8,6 @@ pulp_install_prerequisites: true
 
 pulp_python_interpreter: '{% if ansible_python_interpreter is defined %}{{ ansible_python_interpreter }}{% else %}/usr/bin/python3{% endif %}'
 
-pulp_database_migrate: true
-pulp_default_admin_password: ''
-
 pulp_config_dir: '/etc/pulp'
 pulp_var_dir: '/var/lib/pulp'
 pulp_cache_dir: '/var/cache/pulp'

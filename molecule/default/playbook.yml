@@ -3,7 +3,7 @@
   become: true
   vars:
     pulp_config_secret_key: secret
-    pulp_default_admin_password: ''
+    pulp_default_admin_password: 'password'
     ansible_python_interpreter: /usr/bin/python3
   roles:
     - pulp3-redis
