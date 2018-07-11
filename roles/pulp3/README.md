@@ -1,5 +1,5 @@
-Role Name
-=========
+Pulp3
+=====
 
 Ansible role that installs Pulp 3 from PyPi and provides basic config.
 

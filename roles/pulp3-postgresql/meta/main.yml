@@ -1,0 +1,20 @@
+# Standards: 0.1
+---
+galaxy_info:
+  author: Pulp Team
+  description: A role that installs pulp3's database
+  issue_tracker_url: https://pulp.plan.io/projects/external/issues/new
+  license: GPLv2
+  company: Red Hat
+  min_ansible_version: 2.2
+  platforms:
+  - name: Fedora
+    versions:
+    - all
+  - name: Debian
+    versions:
+    - stretch
+  galaxy_tags:
+  - pulp3
+dependencies:
+- pulp3

@@ -1,4 +1,4 @@
-- name: reload systemd and restart pulp_wsgi.service
+- name: Restart pulp_wsgi.service
   systemd:
     name: pulp_wsgi.service
     state: restarted

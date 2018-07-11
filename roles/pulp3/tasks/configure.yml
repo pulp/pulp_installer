@@ -8,7 +8,7 @@
     group: '{{ pulp_user }}'
     mode: 0750
 
-- name: Configure Pulp
+- name: Create configuration file for Pulp
   template:
     src: server.yaml.j2
     dest: '{{ pulp_config_dir }}/server.yaml'

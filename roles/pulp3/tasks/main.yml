@@ -1,9 +1,8 @@
 ---
 
-- name: Fail when pulp_config_secret_key is not set
-  fail:
-    msg: pulp_config_secret_key is not set!
-  when: pulp_config_secret_key is not defined or not pulp_config_secret_key
+- name: Fail when pulp_secret_key is not set
+  assert:
+    that: pulp_secret_key is defined
 
 - name: Load OS specific variables
   include_vars: '{{ ansible_distribution }}.yml'
@@ -12,5 +11,4 @@
 
 - import_tasks: install.yml
 - import_tasks: configure.yml
-- import_tasks: database.yml
 - import_tasks: wsgi.yml

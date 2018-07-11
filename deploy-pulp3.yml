@@ -6,6 +6,7 @@
   - name: pulp3
     vars:
       pulp_default_admin_password: 'password'
+  - pulp3-postgresql
   - pulp3-workers
   - pulp3-resource-manager
   - pulp3-webserver
