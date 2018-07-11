@@ -6,7 +6,6 @@ pulp_install_dir: '/opt/pulp'
 pulp_install_plugins: []
 pulp_install_prerequisites: true
 
-pulp_database_migrate: true
 pulp_default_admin_password: ''
 
 pulp_config_dir: '/etc/pulp'
