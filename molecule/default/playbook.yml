@@ -2,12 +2,11 @@
 - hosts: all
   become: true
   vars:
-    pulp_config_secret_key: secret
+    pulp_secret_key: secret
     pulp_default_admin_password: 'password'
     ansible_python_interpreter: "/usr/bin/env python"
   roles:
-    - pulp3-redis
-    - pulp3
+    - pulp3-postgresql
     - pulp3-workers
     - pulp3-resource-manager
     - pulp3-webserver

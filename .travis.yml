@@ -1,24 +1,21 @@
----
-
-language: python
-python:
-  - 2.7
-  - 3.6
-
+# Molecule runs tests in containers.
 sudo: required
-
-# Enable the docker service
 services:
-  - docker
+- docker
 
-before_install:
-  - sudo apt-get -qq update
-
-# Install molecule and docker-py
+# Manually defining a build matrix is more cumbersome than using a tool like
+# tox-travis. However, this avoids adding yet another layer of abstraction, and
+# it offers great flexibility. See:
+# https://stackoverflow.com/questions/37016688/how-to-run-tox-with-travis-ci
+language: python
+matrix:
+  include:
+  - python: 2.7
+    env: TOXENV=py27
+  - python: 3.6
+    env: TOXENV=py36
 install:
-  - pip install tox-travis
-
-# Test all the scenarios against the Ansible versions defined in the tox.ini file
+- pip install --upgrade pip
+- pip install tox
 script:
-  - tox
-
+- tox

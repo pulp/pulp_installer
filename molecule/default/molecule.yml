@@ -1,11 +1,12 @@
 ---
 dependency:
   name: galaxy
+  role-file: requirements.yml
 driver:
   name: docker
 lint:
   name: yamllint
-  enabled: False
+  enabled: false
 platforms:
   - name: fedora
     image: fedora:27

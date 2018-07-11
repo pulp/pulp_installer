@@ -34,6 +34,12 @@
       enabled: true
       daemon_reload: true
 
+  - name: Start and enable firewalld
+    systemd:
+      name: firewalld
+      state: started
+      enabled: true
+
   - name: Accept connections on port 80
     firewalld:
       service: http

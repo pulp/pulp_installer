@@ -19,13 +19,13 @@ RUN if [[ "$(source /etc/os-release && echo "$ID")" == 'centos' ]]; then \
   yum makecache fast ;\
   yum update -y ;\
   yum install -y python sudo python2-dnf yum-plugin-ovl bash which \
-                 selinux-policy firewalld jemalloc ;\
+                 selinux-policy iptables firewalld jemalloc ;\
   sed -i 's/plugins=0/plugins=1/g' /etc/yum.conf ;\
   yum clean all ;\
 elif [[ "$(source /etc/os-release && echo "$ID")" == 'fedora' ]]; then \
   dnf makecache ;\
   dnf --assumeyes install python sudo python2-dnf bash which selinux-policy \
-                          python-firewall firewalld jemalloc ;\
+                          python-firewall iptables firewalld jemalloc ;\
   dnf clean all ;\
 fi
 
