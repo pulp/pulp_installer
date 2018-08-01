@@ -31,17 +31,16 @@
   assert:
     that: '{{ result.matched }} == 1'
 
-- name: Create the migrations directory
-  file:
-    name: '{{ result.files[0].path }}/site-packages/{{ item }}/app/migrations'
-    state: directory
-    owner: '{{ pulp_user }}'
-    group: '{{ pulp_user }}'
-    mode: 0700
-  with_items: "{{ ['pulpcore'] | union(pulp_install_plugins) }}"
-  become: true
-
 - block:
+
+  - name: Create the migrations directory
+    file:
+      name: '{{ result.files[0].path }}/site-packages/{{ item }}/app/migrations'
+      state: directory
+      owner: '{{ pulp_user }}'
+      group: '{{ pulp_user }}'
+      mode: 0700
+    with_items: "{{ ['pulpcore'] | union(pulp_install_plugins) }}"
 
   - name: Create database migrations for pulp_app
     command: '{{ pulp_install_dir }}/bin/pulp-manager makemigrations {{ item }}'

@@ -3,3 +3,4 @@
     name: pulp_resource_manager.service
     state: restarted
     daemon_reload: true
+  become: true

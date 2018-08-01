@@ -6,6 +6,7 @@
     group: root
     mode: 0644
   notify: Reload systemd and restart pulp workers
+  become: true
 
 - name: Set states of pulp workers
   service:
@@ -13,3 +14,4 @@
     state: '{{ item.value.state }}'
     enabled: '{{ item.value.enabled }}'
   with_dict: '{{ pulp3_workers }}'
+  become: true

@@ -1,6 +1,5 @@
 ---
 - hosts: all
-  become: true
   vars:
     pulp_secret_key: secret
     pulp_default_admin_password: 'password'

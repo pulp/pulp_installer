@@ -5,13 +5,13 @@
   tags:
   - always
 
-- name: Install requirements
-  package:
-    name: "{{ item }}"
-    state: present
-  with_items: "{{ pulp_preq_packages }}"
-
 - block:
+  - name: Install requirements
+    package:
+      name: "{{ item }}"
+      state: present
+    with_items: "{{ pulp_preq_packages }}"
+
   - name: Install Redis
     package:
       name: redis
@@ -32,3 +32,5 @@
     state: present
     virtualenv: '{{ pulp_install_dir }}'
     virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+  become: true
+  become_user: '{{ pulp_user }}'

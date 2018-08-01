@@ -1,7 +1,6 @@
 # Standards: 0.1
 ---
 - hosts: all
-  become: true
   roles:
   - name: pulp3
     vars:

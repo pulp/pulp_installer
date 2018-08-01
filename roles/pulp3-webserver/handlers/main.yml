@@ -3,3 +3,4 @@
     name: nginx
     state: reloaded
     daemon_reload: true
+  become: true

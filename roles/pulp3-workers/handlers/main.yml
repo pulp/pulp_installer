@@ -4,3 +4,4 @@
     name: pulp_worker@{{ item.key }}.service
     state: restarted
   with_dict: '{{ pulp3_workers }}'
+  become: true

@@ -1,17 +1,19 @@
----
+- block:
 
-- name: Create configuration directory for Pulp
-  file:
-    path: '{{ pulp_config_dir }}'
-    state: directory
-    owner: root
-    group: '{{ pulp_user }}'
-    mode: 0750
+  - name: Create configuration directory for Pulp
+    file:
+      path: '{{ pulp_config_dir }}'
+      state: directory
+      owner: root
+      group: '{{ pulp_user }}'
+      mode: 0750
 
-- name: Create configuration file for Pulp
-  template:
-    src: server.yaml.j2
-    dest: '{{ pulp_config_dir }}/server.yaml'
-    owner: root
-    group: '{{ pulp_user }}'
-    mode: 0640
+  - name: Create configuration file for Pulp
+    template:
+      src: server.yaml.j2
+      dest: '{{ pulp_config_dir }}/server.yaml'
+      owner: root
+      group: '{{ pulp_user }}'
+      mode: 0640
+
+  become: true
