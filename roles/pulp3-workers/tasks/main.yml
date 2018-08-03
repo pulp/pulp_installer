@@ -9,7 +9,8 @@
   become: true
 
 - name: Set states of pulp workers
-  service:
+  systemd:
+    daemon_reload: true
     name: pulp_worker@{{ item.key }}.service
     state: '{{ item.value.state }}'
     enabled: '{{ item.value.enabled }}'
