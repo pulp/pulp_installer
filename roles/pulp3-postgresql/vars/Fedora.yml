@@ -1,1 +1,1 @@
-pulp_psycopg_package: python2-psycopg2
+pulp_psycopg_package: python3-psycopg2

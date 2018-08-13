@@ -22,6 +22,10 @@ platforms:
     command: /usr/sbin/init
 provisioner:
   name: ansible
+  inventory:
+    links:
+      group_vars: ./group_vars/
+      host_vars: ./host_vars/
   lint:
     name: ansible-lint
 scenario:

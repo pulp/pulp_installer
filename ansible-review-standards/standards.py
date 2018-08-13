@@ -1,3 +1,0 @@
-#!/usr/bin/env python3
-# coding=utf-8
-from ansiblereview.examples.standards import standards

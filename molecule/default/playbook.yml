@@ -1,9 +1,5 @@
 ---
 - hosts: all
-  vars:
-    pulp_secret_key: secret
-    pulp_default_admin_password: 'password'
-    ansible_python_interpreter: "/usr/bin/env python"
   roles:
     - pulp3-postgresql
     - pulp3-workers
