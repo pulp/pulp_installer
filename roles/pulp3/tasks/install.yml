@@ -1,69 +1,70 @@
+---
 - block:
 
-  - name: Install prerequisites
-    package:
-      name: '{{ pulp_preq_packages }}'
-      state: present
+    - name: Install prerequisites
+      package:
+        name: '{{ pulp_preq_packages }}'
+        state: present
 
-  - name: Disable SELinux (Pulp 3 is currently incompatible with SELinux)
-    selinux:
-      policy: targeted
-      state: permissive
+    - name: Disable SELinux (Pulp 3 is currently incompatible with SELinux)
+      selinux:
+        policy: targeted
+        state: permissive
 
-  # Become root so as to search paths like /usr/sbin.
-  - name: Find the nologin executable
-    command: which nologin
-    changed_when: False
-    check_mode: False
-    register: result
+    # Become root so as to search paths like /usr/sbin.
+    - name: Find the nologin executable
+      command: which nologin
+      changed_when: False
+      check_mode: False
+      register: result
 
-  - name: Create user {{ pulp_user }}
-    user:
-      name: '{{ pulp_user }}'
-      shell: '{{ result.stdout.strip() }}'
-      home: '{{ pulp_var_dir }}'
-      system: true
+    - name: Create user {{ pulp_user }}
+      user:
+        name: '{{ pulp_user }}'
+        shell: '{{ result.stdout.strip() }}'
+        home: '{{ pulp_var_dir }}'
+        system: true
 
-  - name: Create temp dir for Pulp
-    file:
-      path: '{{ pulp_var_dir }}/tmp'
-      state: directory
-      owner: '{{ pulp_user }}'
-      group: '{{ pulp_user }}'
-      mode: 0775
+    - name: Create temp dir for Pulp
+      file:
+        path: '{{ pulp_var_dir }}/tmp'
+        state: directory
+        owner: '{{ pulp_user }}'
+        group: '{{ pulp_user }}'
+        mode: 0775
 
-  - name: Create cache dir for Pulp
-    file:
-      path: '{{ pulp_cache_dir }}'
-      state: directory
-      owner: '{{ pulp_user }}'
-      group: '{{ pulp_user }}'
-      mode: 0775
+    - name: Create cache dir for Pulp
+      file:
+        path: '{{ pulp_cache_dir }}'
+        state: directory
+        owner: '{{ pulp_user }}'
+        group: '{{ pulp_user }}'
+        mode: 0775
 
-  - name: Create pulp install dir
-    file:
-      path: '{{ pulp_install_dir }}'
-      state: directory
-      owner: '{{ pulp_user }}'
-      group: '{{ pulp_user }}'
+    - name: Create pulp install dir
+      file:
+        path: '{{ pulp_install_dir }}'
+        state: directory
+        owner: '{{ pulp_user }}'
+        group: '{{ pulp_user }}'
 
   become: true
 
 - block:
 
-  - name: Install pulpcore
-    pip:
-      name: pulpcore
-      state: present
-      virtualenv: '{{ pulp_install_dir }}'
-      virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+    - name: Install pulpcore
+      pip:
+        name: pulpcore
+        state: present
+        virtualenv: '{{ pulp_install_dir }}'
+        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
 
-  - name: Install Pulp plugins
-    pip:
-      name: '{{ pulp_install_plugins }}'
-      state: present
-      virtualenv: '{{ pulp_install_dir }}'
-      virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+    - name: Install Pulp plugins
+      pip:
+        name: '{{ pulp_install_plugins }}'
+        state: present
+        virtualenv: '{{ pulp_install_dir }}'
+        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
 
   become: true
   become_user: '{{ pulp_user }}'

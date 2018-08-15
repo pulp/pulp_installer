@@ -1,3 +1,4 @@
+---
 pulp3_workers:
   1:
     state: started

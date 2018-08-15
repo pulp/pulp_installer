@@ -1,3 +1,4 @@
+---
 - name: Restart pulp_resource_manager
   systemd:
     name: pulp_resource_manager.service

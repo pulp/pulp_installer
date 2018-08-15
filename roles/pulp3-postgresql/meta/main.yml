@@ -1,4 +1,3 @@
-# Standards: 0.1
 ---
 galaxy_info:
   author: Pulp Team
@@ -8,13 +7,13 @@ galaxy_info:
   company: Red Hat
   min_ansible_version: 2.2
   platforms:
-  - name: Fedora
-    versions:
-    - all
-  - name: Debian
-    versions:
-    - stretch
+    - name: Fedora
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - stretch
   galaxy_tags:
-  - pulp3
+    - pulp3
 dependencies:
-- pulp3
+  - pulp3

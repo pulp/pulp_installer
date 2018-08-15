@@ -1,7 +1,8 @@
+---
 # Molecule runs tests in containers.
 sudo: required
 services:
-- docker
+  - docker
 
 # Manually defining a build matrix is more cumbersome than using a tool like
 # tox-travis. However, this avoids adding yet another layer of abstraction, and
@@ -10,12 +11,12 @@ services:
 language: python
 matrix:
   include:
-  - python: 2.7
-    env: TOXENV=py27
-  - python: 3.6
-    env: TOXENV=py36
+    - python: 2.7
+      env: TOXENV=py27
+    - python: 3.6
+      env: TOXENV=py36
 install:
-- pip install --upgrade pip
-- pip install tox
+  - pip install --upgrade pip
+  - pip install tox
 script:
-- tox
+  - tox
