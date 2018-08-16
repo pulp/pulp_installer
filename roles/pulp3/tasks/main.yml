@@ -1,0 +1,14 @@
+---
+
+- name: Fail when pulp_secret_key is not set
+  assert:
+    that: pulp_secret_key is defined
+
+- name: Load OS specific variables
+  include_vars: '{{ ansible_distribution }}.yml'
+  tags:
+  - always
+
+- import_tasks: install.yml
+- import_tasks: configure.yml
+- import_tasks: wsgi.yml

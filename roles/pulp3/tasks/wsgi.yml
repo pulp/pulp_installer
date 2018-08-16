@@ -1,0 +1,26 @@
+- name: Install gunicorn
+  pip:
+    name: gunicorn
+    state: present
+    virtualenv: '{{ pulp_install_dir }}'
+    virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+  become: true
+  become_user: '{{ pulp_user }}'
+
+- name: Install pulp_wsgi service files
+  template:
+    src: pulp_wsgi.service.j2
+    dest: /etc/systemd/system/pulp_wsgi.service
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  notify: Restart pulp_wsgi.service
+
+- name: Start pulp_wsgi.service
+  systemd:
+    name: pulp_wsgi.service
+    state: '{{ pulp_wsgi_state }}'
+    enabled: '{{ pulp_wsgi_enabled }}'
+    daemon_reload: true
+  become: true

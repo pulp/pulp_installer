@@ -1,0 +1,18 @@
+- name: Install service files
+  template:
+    src: pulp_worker@.service.j2
+    dest: /lib/systemd/system/pulp_worker@.service
+    owner: root
+    group: root
+    mode: 0644
+  notify: Reload systemd and restart pulp workers
+  become: true
+
+- name: Set states of pulp workers
+  systemd:
+    daemon_reload: true
+    name: pulp_worker@{{ item.key }}.service
+    state: '{{ item.value.state }}'
+    enabled: '{{ item.value.enabled }}'
+  with_dict: '{{ pulp3_workers }}'
+  become: true

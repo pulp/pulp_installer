@@ -1,31 +1,43 @@
 ---
 dependency:
   name: galaxy
+  role-file: requirements.yml
 driver:
   name: docker
 lint:
   name: yamllint
+  enabled: false
 platforms:
+  - name: centos-7
+    image: centos:7
+    privileged: True
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    command: /usr/sbin/init
   - name: fedora-27
     image: fedora:27
-    dockerfile_tpl: centos-systemd
-  - name: debian-9
-    image: debian:9
-    dockerfile_tpl: debian-systemd
+    privileged: True
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    command: /usr/sbin/init
+  - name: fedora-28
+    image: fedora:28
+    privileged: True
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    command: /usr/sbin/init
 provisioner:
   name: ansible
+  inventory:
+    links:
+      group_vars: ./group_vars/
+      host_vars: ./host_vars/
   lint:
     name: ansible-lint
-  options:
-    diff: True
-    v: True
-  playbooks:
-    create: ../common/create.yml
-    destroy: ../common/destroy.yml
-    prepare: ../common/prepare.yml
 scenario:
   name: default
 verifier:
-  name: testinfra
+  name: inspec
   lint:
-    name: flake8
+    name: rubocop
+    enabled: false

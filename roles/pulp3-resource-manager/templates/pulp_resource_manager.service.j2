@@ -1,0 +1,20 @@
+[Unit]
+Description=Pulp Resource Manager
+After=network-online.target
+Wants=network-online.target
+
+# This service will break if left running while PostgreSQL restarts.
+BindsTo=postgresql-{{ postgresql_version}}.service
+After=postgresql-{{ postgresql_version}}.service
+
+[Service]
+Environment="DJANGO_SETTINGS_MODULE=pulpcore.app.settings"
+User={{ pulp_user }}
+WorkingDirectory=/var/run/pulp_resource_manager/
+RuntimeDirectory=pulp_resource_manager
+ExecStart={{ pulp_install_dir }}/bin/rq worker \
+          -w pulpcore.tasking.worker.PulpWorker -n resource_manager@%%h \
+          --pid=/var/run/pulp_resource_manager/resource_manager.pid
+
+[Install]
+WantedBy=multi-user.target

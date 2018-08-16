@@ -1,7 +1,0 @@
----
-databases:
-  {{ pulp_config_database | to_nice_yaml }}
-
-SECRET_KEY: '{{ pulp_config_secret_key }}'
-
-{% if pulp_config != {} %}{{ pulp_config | to_nice_yaml }}{% endif %}

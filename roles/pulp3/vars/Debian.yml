@@ -1,0 +1,4 @@
+---
+pulp_preq_packages:
+- python3
+- python3-venv

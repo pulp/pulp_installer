@@ -1,0 +1,4 @@
+/*.retry
+.tox
+**/*.pyc
+/roles/ANXS.postgresql

@@ -1,0 +1,13 @@
+---
+
+pulp_cache_dir: '/var/cache/pulp'
+pulp_config: {}
+pulp_config_dir: '/etc/pulp'
+pulp_default_admin_password: ''
+pulp_install_dir: '/opt/pulp'
+pulp_install_plugins: []
+pulp_install_service_files: true
+pulp_user: pulp
+pulp_var_dir: '/var/lib/pulp'
+pulp_wsgi_enabled: true
+pulp_wsgi_state: started

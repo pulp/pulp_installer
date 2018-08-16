@@ -1,0 +1,67 @@
+- name: Load OS specific variables
+  include_vars: '{{ ansible_distribution }}.yml'
+  tags:
+  - always
+
+- block:
+
+  # See: https://github.com/ANXS/postgresql/pull/371
+  - name: Install psycopg package
+    package:
+      name: '{{ pulp_psycopg_package }}'
+      state: present
+
+  # See: https://github.com/ANXS/postgresql/pull/376
+  - name: Install and configure PostgreSQL
+    import_role:
+      name: ANXS.postgresql
+    when: pulp_postgresql_call_anxs_postgresql
+
+  become: true
+
+- name: Get the exact pulpcore install dir
+  find:
+    paths: '{{ pulp_install_dir }}/lib/'
+    pattern: '^python.\..$'
+    use_regex: true
+    file_type: directory
+  register: result
+
+- name: Assert the pulpcore install dir was found
+  assert:
+    that: '{{ result.matched }} == 1'
+
+- block:
+
+  - name: Create the migrations directory
+    file:
+      name: '{{ result.files[0].path }}/site-packages/{{ item }}/app/migrations'
+      state: directory
+      owner: '{{ pulp_user }}'
+      group: '{{ pulp_user }}'
+      mode: 0700
+    with_items: "{{ ['pulpcore'] | union(pulp_install_plugins) }}"
+
+  - name: Create database migrations for pulp_app
+    command: '{{ pulp_install_dir }}/bin/pulp-manager makemigrations {{ item }}'
+    with_items: "{{ ['pulp_app'] | union(pulp_install_plugins) }}"
+    changed_when: False
+
+  - name: Run database auth migrations
+    command: '{{ pulp_install_dir }}/bin/pulp-manager migrate auth --no-input'
+    register: result
+    changed_when: "'No migrations to apply' not in result.stdout"
+
+  - name: Run database migrations
+    command: '{{ pulp_install_dir }}/bin/pulp-manager migrate --no-input'
+    register: result
+    changed_when: "'No migrations to apply' not in result.stdout"
+
+  - name: Set the Pulp admin user's password
+    command: '{{ pulp_install_dir }}/bin/pulp-manager reset-admin-password --password {{ pulp_default_admin_password }}'
+    no_log: true
+    when: pulp_default_admin_password is defined
+    changed_when: false  # This might be a lie.
+
+  become: true
+  become_user: '{{ pulp_user }}'

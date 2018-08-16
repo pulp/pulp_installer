@@ -1,0 +1,36 @@
+# Standards: 0.1
+---
+- name: Load OS specific variables
+  include_vars: '{{ ansible_distribution }}.yml'
+  tags:
+  - always
+
+- block:
+  - name: Install requirements
+    package:
+      name: "{{ item }}"
+      state: present
+    with_items: "{{ pulp_preq_packages }}"
+
+  - name: Install Redis
+    package:
+      name: redis
+      state: present
+
+  - name: Start Redis
+    systemd:
+      name: redis
+      state: started
+      enabled: yes
+      daemon_reload: yes
+
+  become: true
+
+- name: Install RQ
+  pip:
+    name: rq
+    state: present
+    virtualenv: '{{ pulp_install_dir }}'
+    virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+  become: true
+  become_user: '{{ pulp_user }}'

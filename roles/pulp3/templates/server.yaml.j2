@@ -1,0 +1,6 @@
+databases:
+  {{ pulp_database_config | to_yaml }}
+
+SECRET_KEY: '{{ pulp_secret_key }}'
+
+{% if pulp_config != {} %}{{ pulp_config | to_yaml }}{% endif %}
