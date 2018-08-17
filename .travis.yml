@@ -1,5 +1,8 @@
 # Molecule runs tests in containers.
 sudo: required
+# By default, Traivs provides Ubuntu 14.04 VMs. We specify a newer release so
+# that Python 3.7 can be used in testing.
+dist: xenial
 services:
 - docker
 
@@ -14,6 +17,8 @@ matrix:
     env: TOXENV=py27
   - python: 3.6
     env: TOXENV=py36
+  - python: 3.7
+    env: TOXENV=py37
 install:
 - pip install --upgrade pip
 - pip install tox
