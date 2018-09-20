@@ -9,6 +9,7 @@
       group: '{{ pulp_user }}'
       mode: 0750
 
+  # TODO 3721 must be done before docs are complete
   - name: Create configuration file for Pulp
     template:
       src: server.yaml.j2

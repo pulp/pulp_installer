@@ -35,6 +35,11 @@
         enabled: true
         daemon_reload: true
 
+    - name: Install firewalld
+      package:
+        name: firewalld
+        state: present
+
     - name: Start and enable firewalld
       systemd:
         name: firewalld

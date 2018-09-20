@@ -1,5 +1,5 @@
 ---
-pulp3_workers:
+pulp_workers:
   1:
     state: started
     enabled: true
