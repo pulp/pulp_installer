@@ -1,3 +1,4 @@
+---
 - name: Reload systemd and restart pulp workers
   systemd:
     daemon_reload: true

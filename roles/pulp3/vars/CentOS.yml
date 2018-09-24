@@ -1,8 +1,8 @@
 ---
 pulp_preq_packages:
-- python36
-- python36-devel
-- libselinux-python  # For ansible itself
-- python-psycopg2
-- python-contextlib2
+  - python36
+  - python36-devel
+  - libselinux-python  # For ansible itself
+  - python-psycopg2
+  - python-contextlib2
 pulp_python_interpreter: /usr/bin/python36

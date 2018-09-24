@@ -1,3 +1,4 @@
+---
 pulp_postgresql_call_anxs_postgresql: true
 pulp_database_config:
   default:

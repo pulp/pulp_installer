@@ -7,7 +7,7 @@
 - name: Load OS specific variables
   include_vars: '{{ ansible_distribution }}.yml'
   tags:
-  - always
+    - always
 
 - import_tasks: install.yml
 - import_tasks: configure.yml
