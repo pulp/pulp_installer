@@ -16,7 +16,8 @@ Role Variables:
 * `pulp_postgresql_call_anxs_postgresql`: Defaults to true. Whether to call
   [anxs.postgresql](https://galaxy.ansible.com/anxs/postgresql).
 * `pulp_database_config`: Defines how Pulp will talk to PostgreSQL. Defaults
-  to values for a single-machine Pulp instance.
+  to values for a single-machine Pulp instance. See `defaults/main.yml` for
+  specific values and syntax.
 
 Shared Variables:
 -----------------

@@ -26,6 +26,42 @@ Knowledge of [Ansible](https://www.ansible.com/) is not necessary for the
 [Vagrant](https://www.vagrantup.com/) installed, but will be very helpful for
 installations that go beyond the default configuration.
 
+User Installation
+-----------------
+
+These roles can be used against any managed node and are highly configurable.
+Knowledge of [ansible basics](https://docs.ansible.com/ansible/2.5/user_guide/intro_getting_started.html)
+will be helpful, but even if you are new to Ansible, this section will get you
+started, or you can try the Vagrant installations to bypass the Ansible boilerplate.
+
+First, you will need to configure ssh between your control node and your
+managed node. When you can ssh into the managed node without a password, you
+are ready to move to the next step.
+
+Next, add the managed node's hostname or ip address to `/etc/ansible/hosts`.
+
+It may be helpful to ensure that Ansible can communicate with the managed node.
+
+```
+ansible all -m ping -u <managed_node_username>
+```
+
+You should now be able to run the example playbook. The playbook uses `become`
+(root), so when prompted, you will need to provide the password for the managed
+node user.
+
+```
+ansible-galaxy install -r requirements.yml
+ansible-playbook user-sandbox.yml -u <managed_node_username> --ask-become-pass
+```
+
+To configure a custom install, you will need to set configuration variables. In
+the simplest case, they can be set in the playbook, which is done in our example
+playbook, `user-sandbox.yml`. See the ansible docs for more flexible
+alternatives.
+
+All configuration options are documented in the README of the roles that use them.
+
 
 Sandbox Quickstart
 ------------------
@@ -89,36 +125,6 @@ Create your Vagrantfile and use it.
 $ cp Vagrantfile.source.example Vagrantfile
 $ vagrant up
 ```
-
-User Installation
------------------
-
-These roles can be used against any managed node and are highly configurable.
-Knowledge of [ansible basics](https://docs.ansible.com/ansible/2.5/user_guide/intro_getting_started.html).
-will be helpful, but even if you are new to Ansible, this section will get you
-started.
-
-First, you will need to configure ssh between your control node and your
-managed node. When you can ssh into the managed node without a password, you
-are ready to move to the next step.
-
-Next, add the managed node's hostname or ip address to `/etc/ansible/hosts`.
-
-It may be helpful to ensure that Ansible can communicate with the managed node.
-
-```
-ansible all -m ping -u <managed_node_username>
-```
-
-You should now be able to run the example playbook. The playbook uses `become`
-(root), so when prompted, you will need to provide the password for the managed
-node user.
-
-```
-ansible-playbook user-sandbox.yml -u <managed_node_username> --ask-become-pass
-```
-
-For full configuration options, see the README of each of the roles.
 
 Development
 -----------

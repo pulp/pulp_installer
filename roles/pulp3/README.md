@@ -8,8 +8,7 @@ The default administrative user for the Pulp application is: 'admin'
 Role Variables:
 ---------------
 
-* `pulp_cache_dir`: Location of Pulp cache. Defaults to "/var/cache/pulp".
-* `pulp_config`: Defaults to '{}'. Configuration added to Pulp's Django settings.
+* `pulp_cache_dir`: Location of Pulp cache. Defaults to "/var/lib/pulp/tmp".
 * `pulp_config_dir`: Directory which will contain Pulp configuration files.
   Defaults to "/etc/pulp".
 * `pulp_default_admin_password`: Initial password for the Pulp admin. **Required**.
@@ -24,7 +23,7 @@ Role Variables:
   of each plugin. **Required**.
   * `source_dir`: Optional. Absolute path to the plugin source code. If present,
   plugin will be installed from source in editable mode.
-* `pulp_install_service_files`: Whether to create systemd service files for
+* `pulp_install_wsgi_service`: Whether to create systemd service files for
   pulp_wsgi. Defaults to "true".
 * `pulp_secret_key`: **Required**. Pulp's Django application `SECRET_KEY`.
 * `pulp_source_dir`: Optional. Absolute path to Pulp source code. If present, Pulp

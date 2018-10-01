@@ -3,13 +3,13 @@
 
 postgresql_databases:
     - name: '{{ pulp_database_config["default"]["NAME"] }}'
-      owner: '{{ pulp_database_config["default"]["NAME"] }}'
+      owner: '{{ pulp_database_config["default"]["USER"] }}'
 
 postgresql_users:
-    - name: '{{ pulp_database_config["default"]["NAME"] }}'
+    - name: '{{ pulp_database_config["default"]["USER"] }}'
 
 postgresql_user_privileges:
-    - name: '{{ pulp_database_config["default"]["NAME"] }}'
+    - name: '{{ pulp_database_config["default"]["USER"] }}'
       db: '{{ pulp_database_config["default"]["NAME"] }}'
       priv: ALL
       role_attr_flags: LOGIN

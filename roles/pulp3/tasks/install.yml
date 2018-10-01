@@ -59,7 +59,6 @@
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
       with_items:
-        - common
         - pulpcore
         - plugin
       when: pulp_source_dir is defined

@@ -28,4 +28,4 @@
         daemon_reload: true
       become: true
 
-  when: pulp_install_service_files
+  when: pulp_install_wsgi_service
