@@ -5,3 +5,4 @@ pulp_database_config:
     HOST: localhost
     ENGINE: django.db.backends.postgresql_psycopg2
     NAME: pulp
+    USER: pulp

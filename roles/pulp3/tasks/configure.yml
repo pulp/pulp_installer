@@ -11,10 +11,11 @@
 
   - name: Create configuration file for Pulp
     template:
-      src: server.yaml.j2
-      dest: '{{ pulp_config_dir }}/server.yaml'
+      src: settings.py.j2
+      dest: '{{ pulp_config_dir }}/settings.py'
       owner: root
       group: '{{ pulp_user }}'
       mode: 0640
+      force: no
 
   become: true

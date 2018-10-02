@@ -1,4 +1,1 @@
----
-- src: https://github.com/ANXS/postgresql
-  version: master
-  name: ANXS.postgresql
+../../requirements.yml

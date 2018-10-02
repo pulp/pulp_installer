@@ -3,17 +3,29 @@ pulp3-workers
 
 Install, configure, and set the state of pulp workers.
 
-This role accepts one optional variable, `pulp3_workers`. It's a dict with the
-following structure:
+Configurable Variables:
+-----------------------
 
-```yaml
-1:
-  state: started
-  enabled: true
-2:
-  state: started
-  enabled: true
-```
+* `pulp_workers`: Specify how many workers and configuration for each. Defaults to
+  2 workers which are started and enabled by systemd. See "defaults/main.yml" for an
+  example of the syntax.
 
-If the variable is set to this value, two workers will be created, both started
-and enabled.
+Shared variables:
+-----------------
+
+This role **is not tightly coupled** with the `pulp3-postgresql` role, but it does
+use some of the same variables. When used together, the values are inherited from
+the role. When not used together, these values are **required**.
+
+* `postgresql_version`
+
+This role **is tightly coupled** to the required `pulp3-redis` role, and inherits
+some of its variables.
+
+* `pulp_user`
+* `pulp_install_dir`
+
+Dependencies:
+-------------
+
+* `pulp3-redis`

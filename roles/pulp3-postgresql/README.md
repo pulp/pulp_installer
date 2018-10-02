@@ -10,19 +10,44 @@ More specifically, this role does the following:
 2. Install the package needed to talk to PostgreSQL from Python, if any.
 3. Create and run migrations for `pulp_app`.
 
-Variables:
+Role Variables:
+---------------
 
-* `pulp_postgresql_call_anxs_postgresql`: Optional, defaults to true. Whether to
-  call [anxs.postgresql](https://galaxy.ansible.com/anxs/postgresql).
-* `pulp_database_config`: Optional. Defines how Pulp will talk to PostgreSQL.
-* `pulp_config_dir`, `pulp_install_dir`, `pulp_user`: Optional. The meaning is
-  the same as for the `pulp3` role.
+* `pulp_postgresql_call_anxs_postgresql`: Defaults to true. Whether to call
+  [anxs.postgresql](https://galaxy.ansible.com/anxs/postgresql).
+* `pulp_database_config`: Defines how Pulp will talk to PostgreSQL. Defaults
+  to values for a single-machine Pulp instance. See `defaults/main.yml` for
+  specific values and syntax.
 
-This role depends on anxs.postgresql to install and configure the database. To
-customize PostgreSQL's configuration, set the variables accepted by that role,
-e.g. `postgresql_databases`.
+Shared Variables:
+-----------------
+
+This role **is tightly coupled** with the required the `pulp3` role and uses some of
+variables which are documented in that role:
+
+* `pulp_user`
+* `pulp_install_dir`
+* `pulp_install_plugins`
+* `pulp_default_admin_password`
+
+
+This role optionally depends on anxs.postgresql to install and configure the
+database. To customize PostgreSQL's configuration, set the variables accepted by that
+role. Default values for the anxs.postgresql role are set in `vars/main.yml`:
+
+* `postgresql_databases`
+* `postgresql_users`
+* `postgresql_user_privilages`
+* `postgresql_version`
+
+Operating Systems Variables:
+----------------------------
+
+Each currently supported operating system has a matching file in the "vars"
+directory.
 
 Dependencies:
+-------------
 
 * [anxs.postgresql](https://galaxy.ansible.com/anxs/postgresql), when
   `pulp_postgresql_call_anxs_postgresql` is true.

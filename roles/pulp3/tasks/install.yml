@@ -52,19 +52,35 @@
 
 - block:
 
-    - name: Install pulpcore
+    - name: Install pulpcore packages from source
       pip:
-        name: pulpcore
-        state: present
+        name: '{{ pulp_source_dir }}/{{ item }}'
+        editable: yes
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+      with_items:
+        - pulpcore
+        - plugin
+      when: pulp_source_dir is defined
 
-    - name: Install Pulp plugins
+
+    - name: Install Pulp plugins via PyPI
       pip:
-        name: '{{ pulp_install_plugins }}'
+        name: '{{ item }}'
         state: present
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+      with_items: '{{ pulp_install_plugins }}'
+      when: pulp_install_plugins[item].source_dir is undefined
+
+    - name: Install Pulp plugins from source
+      pip:
+        name: '{{ pulp_install_plugins[item].source_dir }}'
+        editable: yes
+        virtualenv: '{{ pulp_install_dir }}'
+        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+      with_items: '{{ pulp_install_plugins }}'
+      when: pulp_install_plugins[item].source_dir is defined
 
   become: true
   become_user: '{{ pulp_user }}'

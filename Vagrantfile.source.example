@@ -1,0 +1,73 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+VAGRANTFILE_API_VERSION = "2"
+
+# Synced folders are declared here,
+# host => guest
+VAGRANT_SYNCED_FOLDERS = {
+  # This code
+  '.' => '/vagrant',
+
+  # For access to sibling repos (e.g. pulp_rpm, pulp_docker, ...)
+  '..' => '/home/vagrant/devel',
+
+  # You can speed up package installs in subsequent "vagrant up" operations by making the dnf
+  # cache a synced folder. This is essentially what the vagrant-cachier plugin would do for us
+  # if it supported dnf, and unfortunately that project is in need of maintainers so this might
+  # be the best we can do for now. Note that you'll have to manually create the '.dnf-cache'
+  # directory in the same directory as this Vagrantfile for this to work.
+  '.dnf-cache' => '/var/cache/dnf'
+}
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "fedora/28-cloud-base"
+
+  # Comment out if you don't want Vagrant to add and remove entries from /etc/hosts for each VM.
+  # requires the vagrant-hostmanager plugin to be installed
+  if Vagrant.has_plugin?("vagrant-hostmanager")
+      config.hostmanager.enabled = true
+      config.hostmanager.manage_host = true
+  end
+  #
+  config.vm.provision "pulp_roles", type: 'ansible', run: "always" do |ansible|
+    ansible.galaxy_role_file = "requirements.yml"
+    ansible.playbook = "source-install.yml"
+      # ansible.verbose = "vvv"
+      # ansible.start_at_task = "ansible task name here"
+  end
+
+  # Create the "pulp3_dev" box
+  config.vm.define :pulp3_dev do |pulp3_dev|
+    pulp3_dev.vm.host_name = "dev.pulp3"
+
+    VAGRANT_SYNCED_FOLDERS.each do |host_path, guest_path|
+        # Comment this out if you use a different filesystem (like nfs)
+        # Requires the vagrant-sshfs plugin to be installed.
+        # Use SSHFS to share directories. The ``-o nonempty`` option is passed to allow
+        # mounts on non-empty directories.
+        pulp3_dev.vm.synced_folder host_path, guest_path, type: "sshfs", sshfs_opts_append: "-o nonempty"
+
+        # Uncomment to use NFS instead of SSHFS.
+        # pulp3_dev.vm.synced_folder host_path, guest_path, type: "nfs", nfs_version: 4, nfs_udp: false
+    end
+
+    pulp3_dev.vm.provider :libvirt do |domain, override|
+        domain.cpus = 4
+        # In some cases, the guest gets stuck at "Waiting for domain to get an IP address..." if
+        # the default cpu_mode, 'host-model', is used. Using 'host-passthrough' cpu_mode prevents
+        # VM migration between hosts with different CPUs. However, development environments are
+        # expected to live on a single host for the duration of their existence. Due to this known
+        # issue and our use case, the default cpu_mode is overridden.
+        domain.cpu_mode = "host-passthrough"
+        domain.graphics_type = "spice"
+        domain.memory = 2048
+        domain.video_type = "qxl"
+
+        # Uncomment this to expand the disk to the given size, in GB (default is usually 40)
+        # You'll also need to uncomment the provisioning step below that resizes the root partition
+        # do not set this to a size smaller than the base box, or you will be very sad
+        # domain.machine_virtual_size = 80
+    end
+  end
+end
