@@ -2,6 +2,8 @@
 - hosts: all
   vars:
     ansible_python_interpreter: "/usr/bin/python3"
+    pulp_secret_key: "save_password"
+    pulp_default_admin_password: password
     pulp_source_dir: "/home/vagrant/devel/pulp"
     pulp_install_plugins:
       # pulp-python:
