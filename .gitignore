@@ -2,3 +2,7 @@
 .tox
 **/*.pyc
 /roles/ANXS.postgresql
+
+# Ignores for Vagrant related items
+.vagrant/
+Vagrantfile
