@@ -1,8 +1,8 @@
 ---
 - hosts: all
   vars:
-    ansible_python_interpreter: "/usr/bin/python3"
     pulp_source_dir: "/home/vagrant/devel/pulp"
+    pulp_secret_key: "unsafe_default"
     pulp_install_plugins:
       # pulp-python:
       #   app_label: "pulp_python"
