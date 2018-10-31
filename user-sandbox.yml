@@ -4,7 +4,6 @@
     # https://docs.pulpproject.org/en/3.0/nightly/installation/configuration.html#secret-key
     pulp_secret_key: "unsafe_default"
     pulp_default_admin_password: password
-    ansible_python_interpreter: "/usr/bin/python3"  # for fedora 27/28 host
     pulp_install_plugins:
       # pulp-python:
       #   app_label: "pulp_python"

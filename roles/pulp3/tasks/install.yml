@@ -1,6 +1,12 @@
 ---
 - block:
 
+    - name: Install EPEL Release
+      package:
+        name: epel-release
+        state: present
+      when: ansible_distribution == 'CentOS'
+
     - name: Install prerequisites
       package:
         name: '{{ pulp_preq_packages }}'
@@ -63,24 +69,23 @@
         - plugin
       when: pulp_source_dir is defined
 
-
     - name: Install Pulp plugins via PyPI
       pip:
-        name: '{{ item }}'
+        name: '{{ item.key }}'
         state: present
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
-      with_items: '{{ pulp_install_plugins }}'
-      when: pulp_install_plugins[item].source_dir is undefined
+      with_dict: '{{ pulp_install_plugins }}'
+      when: pulp_install_plugins[item.key].source_dir is undefined
 
     - name: Install Pulp plugins from source
       pip:
-        name: '{{ pulp_install_plugins[item].source_dir }}'
+        name: '{{ item.value.source_dir }}'
         editable: yes
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
-      with_items: '{{ pulp_install_plugins }}'
-      when: pulp_install_plugins[item].source_dir is defined
+      with_dict: '{{ pulp_install_plugins }}'
+      when: pulp_install_plugins[item.key].source_dir is defined
 
   become: true
   become_user: '{{ pulp_user }}'
