@@ -22,6 +22,8 @@ Role Variables:
 Shared Variables:
 -----------------
 
+* `ansible_python_interpreter`: **Required**. Path to the Python interpreter.
+
 This role **is tightly coupled** with the required the `pulp3` role and uses some of
 variables which are documented in that role:
 

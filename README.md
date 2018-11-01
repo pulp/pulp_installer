@@ -26,6 +26,12 @@ Knowledge of [Ansible](https://www.ansible.com/) is not necessary for the
 [Vagrant](https://www.vagrantup.com/) installed, but will be very helpful for
 installations that go beyond the default configuration.
 
+Required Variables
+------------------
+
+Each role documents its own variables. Most have sane defaults, but a few are required.
+
+
 User Installation
 -----------------
 
