@@ -1,0 +1,22 @@
+---
+- name: 'Install podman'
+  package:
+    state: present
+    name: podman
+
+- name: 'Install pulp-core container service'
+  template:
+    src: pulp_core.service.j2
+    dest: /etc/systemd/system/pulp-core.service
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+
+- name: Start pulp-core.service
+  systemd:
+    name: pulp-core.service
+    state: restarted
+    enabled: true
+    daemon_reload: true
+  become: true

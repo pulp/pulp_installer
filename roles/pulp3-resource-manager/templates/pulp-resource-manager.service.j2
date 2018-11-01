@@ -1,6 +1,21 @@
 [Unit]
 Description=Pulp Resource Manager
 After=network-online.target
+{% if pulp_container_deployment %}
+Wants=syslog.service postgresql.service redis.service
+
+[Service]
+Restart=always
+RestartSec=30
+TimeoutStartSec=0
+TimeoutSec=300
+ExecStartPre=-/usr/bin/podman pull quay.io/carafe/pulp-core:{{ pulp_version }}
+ExecStartPre=-/usr/bin/podman rm "pulp-resource-manager-1"
+ExecStart=/usr/bin/podman run --name pulp-resource-manager-1 -e POSTGRES_SERVICE_HOST=localhost --net host -e REDIS_SERVICE_HOST=localhost -e REDIS_SERVICE_PORT=6379 -v /etc/pulp/settings.py:/etc/pulp/settings.py quay.io/carafe/pulp-core:{{ pulp_version }} /usr/bin/pulp-resource-manager
+ExecReload=-/usr/bin/podman stop "pulp-resource-manager-1"
+ExecReload=-/usr/bin/podman rm "pulp-resource-manager-1"
+ExecStop=-/usr/bin/podman stop "pulp-resource-manager-1"
+{% else %}
 Wants=network-online.target
 
 # This service will break if left running while PostgreSQL restarts.
@@ -15,6 +30,7 @@ RuntimeDirectory=pulp-resource-manager
 ExecStart={{ pulp_install_dir }}/bin/rq worker \
           -w pulpcore.tasking.worker.PulpWorker -n resource-manager@%%h \
           --pid=/var/run/pulp-resource-manager/resource-manager.pid
+{% endif %}
 
 [Install]
 WantedBy=multi-user.target

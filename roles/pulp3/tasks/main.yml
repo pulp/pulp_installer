@@ -12,3 +12,6 @@
 - import_tasks: install.yml
 - import_tasks: configure.yml
 - import_tasks: wsgi.yml
+
+- import_tasks: containers.yml
+  when: pulp_container_deployment == true

@@ -1,3 +1,23 @@
+{% if pulp_container_deployment %}
+[Unit]
+Description=Pulp Worker
+Wants=syslog.service postgresql.service redis.service
+
+[Service]
+Restart=always
+RestartSec=30
+TimeoutStartSec=0
+TimeoutSec=300
+ExecStartPre=-/usr/bin/podman pull quay.io/carafe/pulp-core:{{ pulp_version }}
+ExecStartPre=-/usr/bin/podman rm "pulp-worker-%i"
+ExecStart=/usr/bin/podman run --name pulp-worker-%i -e PULP_WORKER_NUMBER=%i -e POSTGRES_SERVICE_HOST=localhost --net host -e REDIS_SERVICE_HOST=localhost -e REDIS_SERVICE_PORT=6379 -v /etc/pulp/settings.py:/etc/pulp/settings.py -v /var/lib/pulp:/var/lib/pulp quay.io/carafe/pulp-core:{{ pulp_version }} /usr/bin/pulp-worker
+ExecReload=-/usr/bin/podman stop "pulp-worker-%i"
+ExecReload=-/usr/bin/podman rm "pulp-worker-%i"
+ExecStop=-/usr/bin/podman stop "pulp-worker-%i"
+
+[Install]
+WantedBy=multi-user.target
+{% else %}
 [Unit]
 Description=Pulp RQ Worker
 After=network-online.target
@@ -21,3 +41,4 @@ ExecStart={{ pulp_install_dir }}/bin/rq worker \
 
 [Install]
 WantedBy=multi-user.target
+{% endif %}

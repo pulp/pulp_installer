@@ -1,0 +1,16 @@
+---
+- hosts: all
+  become: true
+  vars:
+    pulp_secret_key: "{{ lookup('password', '/dev/null length=50 chars=ascii_letters') }}"
+    pulp_default_admin_password: password
+    pulp_install_wsgi_service: false
+    pulp_user: pulp
+    pulp_var_dir: '/var/lib/pulp'
+    pulp_wsgi_enabled: false
+    pulp_install_dir: false
+    pulp_container_deployment: true
+  roles:
+    - pulp3-postgresql
+    - pulp3-workers
+    - pulp3-resource-manager

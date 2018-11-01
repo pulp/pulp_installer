@@ -11,3 +11,5 @@ pulp_user_home: '/var/lib/pulp'
 pulp_wsgi_enabled: true
 pulp_wsgi_state: started
 pulp_pip_editable: yes
+pulp_container_deployment: false
+pulp_version: master

@@ -1,0 +1,19 @@
+[Unit]
+Description=Pulp Core
+Wants=syslog.service postgresql.service redis.service
+
+[Service]
+Restart=always
+TimeoutStartSec=0
+TimeoutSec=300
+ExecStartPre=-/usr/bin/podman pull quay.io/carafe/pulp-core:{{ pulp_version }}
+ExecStartPre=-/usr/bin/podman rm "pulp-core-1"
+ExecStart=/usr/bin/podman run --name pulp-core-1 -e POSTGRES_SERVICE_HOST=localhost --net host -v /etc/pulp/settings.py:/etc/pulp/settings.py -v /var/lib/pulp:/var/lib/pulp --publish 8000:8000 quay.io/carafe/pulp-core:{{ pulp_version }} /usr/bin/pulp-core
+ExecReload=-/usr/bin/podman stop "pulp-core-1"
+ExecReload=-/usr/bin/podman rm "pulp-core-1"
+ExecStop=-/usr/bin/podman stop "pulp-core-1"
+Restart=always
+RestartSec=30
+
+[Install]
+WantedBy=multi-user.target
