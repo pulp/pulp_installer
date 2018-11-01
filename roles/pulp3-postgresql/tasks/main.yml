@@ -34,10 +34,12 @@
     use_regex: true
     file_type: directory
   register: result
+  when: pulp_install_dir
 
 - name: Assert the pulpcore install dir was found
   assert:
     that: '{{ result.matched }} == 1'
+  when: pulp_install_dir
 
 - block:
 
@@ -88,3 +90,4 @@
 
   become: true
   become_user: '{{ pulp_user }}'
+  when: pulp_install_dir

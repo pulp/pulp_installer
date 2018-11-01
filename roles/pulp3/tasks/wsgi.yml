@@ -7,6 +7,7 @@
     virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
   become: true
   become_user: '{{ pulp_user }}'
+  when: pulp_install_dir
 
 - block:
 
