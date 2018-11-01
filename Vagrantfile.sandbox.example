@@ -16,6 +16,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "pulp_roles", type: 'ansible', run: "always" do |ansible|
     ansible.galaxy_role_file = "requirements.yml"
     ansible.playbook = "user-sandbox.yml"
+    ansible.extra_vars = {"ansible_python_interpreter": "/usr/bin/python3"}
     # ansible.verbose = "vvv"
   end
 

@@ -9,6 +9,8 @@ future, additional web servers such as Apache or LightTPD might be supported.
 Shared variables:
 -----------------
 
+* `ansible_python_interpreter`: **Required**. Path to the Python interpreter.
+
 This role is **not tightly coupled** to the `pulp3` role, but uses some of the same
 variables. When used in the same play, the values are inherited from the `pulp3`
 role.
