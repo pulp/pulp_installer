@@ -1,0 +1,55 @@
+---
+- name: Find site-packages directory
+  find:
+    paths: '{{ pulp_install_dir }}'
+    recurse: true
+    file_type: directory
+    patterns: site-packages
+  register: result
+
+- name: Assert one directory has been found
+  assert:
+    that: '{{ result.matched }} == 1'
+
+- name: Set fact referencing Pulp's static files directory
+  set_fact:
+    pulp_webserver_static_dir: '{{ result.files[0].path }}/rest_framework'
+
+- block:
+
+    - name: Install Apache
+      package:
+        name: httpd
+        state: present
+
+    - name: Install Apache configuration file
+      template:
+        src: pulp-vhost.conf.j2
+        dest: /etc/httpd/conf.d/pulp-vhost.conf
+
+    - name: Start and enable Apache
+      systemd:
+        name: httpd
+        state: restarted
+        enabled: true
+        daemon_reload: true
+
+    - name: Install firewalld
+      package:
+        name: firewalld
+        state: present
+
+    - name: Start and enable firewalld
+      systemd:
+        name: firewalld
+        state: started
+        enabled: true
+
+    - name: Accept connections on port 80
+      firewalld:
+        service: http
+        permanent: true
+        immediate: true
+        state: enabled
+
+  become: true
