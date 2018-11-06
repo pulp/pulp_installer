@@ -1,4 +1,4 @@
 ---
-- src: https://github.com/ANXS/postgresql
-  version: master
-  name: ANXS.postgresql
+- src: https://github.com/ehelms/ansible-role-postgresql
+  version: add-scl-support
+  name: geerlingguy.postgresql

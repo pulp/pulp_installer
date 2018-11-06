@@ -1,7 +1,7 @@
 /*.retry
 .tox
 **/*.pyc
-/roles/ANXS.postgresql
+/roles/geerlingguy.postgresql
 
 # Ignores for Vagrant related items
 .vagrant/

@@ -1,2 +1,2 @@
 ---
-pulp_psycopg_package: python3-psycopg2
+postgresql_python_library: python3-psycopg2
