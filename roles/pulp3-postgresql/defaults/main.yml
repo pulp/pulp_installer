@@ -1,8 +1,12 @@
 ---
+pulp_postgresql_host: localhost
+pulp_postgresql_database: pulp
+pulp_postgresql_user: pulp
+pulp_postgresql_password: pulp
 pulp_database_config:
   default:
-    HOST: localhost
+    HOST: "{{ pulp_postgresql_host }}"
     ENGINE: django.db.backends.postgresql_psycopg2
-    NAME: pulp
-    USER: pulp
-    PASSWORD: pulp
+    NAME: "{{ pulp_postgresql_database }}"
+    USER: "{{ pulp_postgresql_user }}"
+    PASSWORD: "{{ pulp_postgresql_password }}"
