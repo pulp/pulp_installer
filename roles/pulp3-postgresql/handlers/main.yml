@@ -1,8 +1,4 @@
 ---
-# This is a hack to workaround an inheritance problem with "become". These handlers
-# are from the ANXS.postgresql role, but despite running that role with become: true,
-# these handlers are not. We override them here with explicit "become: true", which
-# seems to clobber the ANXS version, and the permsissions all work out.
 - name: restart postgresql with service
   service:
     name: "{{ postgresql_service_name }}"

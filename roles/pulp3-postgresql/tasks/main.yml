@@ -6,17 +6,15 @@
 
 - block:
 
-    # See: https://github.com/ANXS/postgresql/pull/371
-    - name: Install psycopg package
+    - name: Install SCL package
       package:
-        name: '{{ pulp_psycopg_package }}'
+        name: 'centos-release-scl'
         state: present
+      when: ansible_distribution == 'CentOS'
 
-    # See: https://github.com/ANXS/postgresql/pull/376
     - name: Install and configure PostgreSQL
       import_role:
-        name: ANXS.postgresql
-      when: pulp_postgresql_call_anxs_postgresql
+        name: geerlingguy.postgresql
 
     - meta: flush_handlers
 

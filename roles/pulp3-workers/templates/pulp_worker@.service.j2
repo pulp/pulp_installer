@@ -4,8 +4,8 @@ After=network-online.target
 Wants=network-online.target
 
 # This service will break if left running while PostgreSQL restarts.
-BindsTo=postgresql-{{ postgresql_version}}.service
-After=postgresql-{{ postgresql_version}}.service
+BindsTo=postgresql.service
+After=postgresql.service
 
 [Service]
 EnvironmentFile=-/etc/default/pulp_workers

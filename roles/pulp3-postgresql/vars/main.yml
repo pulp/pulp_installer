@@ -1,17 +1,11 @@
 ---
-# Variables used by the ANXS Postgresql role
+# Variables used by the Geerlingguy Postgresql role
 
 postgresql_databases:
-    - name: '{{ pulp_database_config["default"]["NAME"] }}'
-      owner: '{{ pulp_database_config["default"]["USER"] }}'
+  - name: '{{ pulp_database_config["default"]["NAME"] }}'
 
 postgresql_users:
-    - name: '{{ pulp_database_config["default"]["USER"] }}'
-
-postgresql_user_privileges:
-    - name: '{{ pulp_database_config["default"]["USER"] }}'
-      db: '{{ pulp_database_config["default"]["NAME"] }}'
-      priv: ALL
-      role_attr_flags: LOGIN
-
-postgresql_version: '9.6'
+  - name: '{{ pulp_database_config["default"]["USER"] }}'
+    password: '{{ pulp_database_config["default"]["PASSWORD"] }}'
+    db: '{{ pulp_database_config["default"]["NAME"] }}'
+    priv: ALL

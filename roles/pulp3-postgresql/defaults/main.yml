@@ -1,8 +1,8 @@
 ---
-pulp_postgresql_call_anxs_postgresql: true
 pulp_database_config:
   default:
     HOST: localhost
     ENGINE: django.db.backends.postgresql_psycopg2
     NAME: pulp
     USER: pulp
+    PASSWORD: pulp
