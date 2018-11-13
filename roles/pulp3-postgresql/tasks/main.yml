@@ -18,6 +18,13 @@
         state: present
       when: ansible_distribution == 'Fedora'
 
+    - name: Set listen addresses
+      set_fact:
+        postgresql_global_config_options:
+          - option: listen_addresses
+            value: "*"
+      when: pulp_postgresql_host != 'localhost'
+
     - name: Install and configure PostgreSQL
       import_role:
         name: geerlingguy.postgresql
