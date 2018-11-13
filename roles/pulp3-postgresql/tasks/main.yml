@@ -12,6 +12,12 @@
         state: present
       when: ansible_distribution == 'CentOS'
 
+    - name: Install psycopg2 package
+      package:
+        name: 'python2-psycopg2'
+        state: present
+      when: ansible_distribution == 'Fedora'
+
     - name: Install and configure PostgreSQL
       import_role:
         name: geerlingguy.postgresql

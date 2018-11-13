@@ -58,7 +58,7 @@ node user.
 
 ```
 ansible-galaxy install -r requirements.yml
-ansible-playbook user-sandbox.yml -u <managed_node_username> --ask-become-pass
+ansible-playbook user-sandbox.yml -u <managed_node_username> --ask-become-pass -e ansible_python_interpreter=/usr/bin/python3
 ```
 
 To configure a custom install, you will need to set configuration variables. In
