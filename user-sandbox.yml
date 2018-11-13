@@ -2,6 +2,7 @@
 - hosts: all
   vars:
     # https://docs.pulpproject.org/en/3.0/nightly/installation/configuration.html#secret-key
+    pulp_postgresql_host: "{{ ansible_nodename }}"
     pulp_secret_key: "unsafe_default"
     pulp_default_admin_password: password
     pulp_install_plugins:
