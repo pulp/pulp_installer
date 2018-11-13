@@ -12,6 +12,8 @@
         state: present
       when: ansible_distribution == 'CentOS'
 
+      # Workaround geerlingguy issue
+      # https://github.com/geerlingguy/ansible-role-postgresql/issues/48
     - name: Install psycopg2 package
       package:
         name: 'python2-psycopg2'
