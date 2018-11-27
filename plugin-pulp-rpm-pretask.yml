@@ -1,0 +1,41 @@
+# https://pulp-rpm.readthedocs.io/en/latest/installation.html#install-createrepo-c-from-source
+---
+- block:
+
+    - name: Install pre-requisites for pulp-rpm installation
+      package: name={{ item }} state=present
+      loop:
+        - gcc
+        - make
+        - cmake
+        - bzip2-devel
+        - expat-devel
+        - file-devel
+        - glib2-devel
+        - libcurl-devel
+        - libxml2-devel
+        - python3-devel
+        - rpm-devel
+        - openssl-devel
+        - sqlite-devel
+        - xz-devel
+        - zlib-devel
+
+  become: true
+  become_user: root
+
+- block:
+
+    - name: Install createrepo_c for pulp-rpm plugin
+      pip:
+        name: '{{ item }}'
+        state: latest
+        virtualenv: '{{ pulp_install_dir }}'
+        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+      loop:
+        - pip
+        - scikit-build
+      when: "'pulp-rpm' in pulp_install_plugins"
+
+  become: true
+  become_user: '{{ pulp_user }}'

@@ -1,3 +1,7 @@
 DATABASES = {{ pulp_database_config | to_json }}
 
 SECRET_KEY = '{{ pulp_secret_key }}'
+
+{% if pulp_debug is defined %}
+DEBUG = True
+{% endif %}

@@ -106,6 +106,8 @@ can rerun the playbook with `vagrant provision`.
 Source Installation:
 --------------------
 
+### With vagrant:
+
 This section will provide a Vagrant machine with editable source installs of
 Pulp and the file plugin.
 
@@ -131,6 +133,23 @@ Create your Vagrantfile and use it.
 $ cp Vagrantfile.source.example Vagrantfile
 $ vagrant up
 ```
+
+### From git repositories:
+
+This playbook will install pulp and plugins by cloning directly from defined git repositories.
+
+First, you will need to configure ssh between your control node and your
+managed node. When you can ssh into the managed node without a password, you
+are ready to move to the next step.
+
+```
+ansible-galaxy install -r requirements.yml
+ansible-playbook -i <hostname-or-ip-address>, -u <managed_node_username> --ask-become-pass full-source-install.yml
+```
+
+To configure a custom install, for example, specifying custom git repositories or extra tasks for plugin installations, you will need to set configuration variables in the playbook, `full-source-install.yml`.
+
+Plugin specific pre install taks can be defined as in the example `plugin-pulp-rpm-pretask.yml`.
 
 Development
 -----------

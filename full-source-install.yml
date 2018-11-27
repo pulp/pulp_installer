@@ -1,0 +1,36 @@
+# ansible-playbook -i hostname-or-ip, -u root --ask-become-pass full-source-install.yml
+---
+- hosts: all
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+    pulp_source_dir: "/pulp_source/pulp"
+    pulp_git_repo: https://github.com/pulp/pulp.git
+    pulp_secret_key: "unsafe_default"
+    pulp_default_admin_password: admin
+    pulp_debug: true
+    pulp_install_plugins:
+      pulp-docker:
+        app_label: "pulp_docker"
+        source_dir: "/pulp_source/pulp_docker"
+        git_repo: https://github.com/pulp/pulp_docker.git
+      pulp-file:
+        app_label: "pulp_file"
+        source_dir: "/pulp_source/pulp_file"
+        git_repo: https://github.com/pulp/pulp_file.git
+      pulp-python:
+        app_label: "pulp_python"
+        source_dir: "/pulp_source/pulp_python"
+        git_repo: https://github.com/pulp/pulp_python.git
+      pulp-rpm:
+        app_label: "pulp_rpm"
+        source_dir: "/pulp_source/pulp_rpm"
+        git_repo: https://github.com/pulp/pulp_rpm.git
+        pre_task_file: plugin-pulp-rpm-pretask.yml
+  pre_tasks:
+    - name: Set up machine for full plugin source installs
+      include: full-source-pretask.yml
+  roles:
+    - pulp3-postgresql
+    - pulp3-workers
+    - pulp3-resource-manager
+    - pulp3-webserver

@@ -69,6 +69,13 @@
         - plugin
       when: pulp_source_dir is defined
 
+    - name: Include plugin specific pre tasks
+      include_tasks: "{{ plugin.value.pre_task_file }}"
+      with_dict: '{{ pulp_install_plugins }}'
+      when: pulp_install_plugins[plugin.key].pre_task_file is defined
+      loop_control:
+        loop_var: plugin
+
     - name: Install Pulp plugins via PyPI
       pip:
         name: '{{ item.key }}'

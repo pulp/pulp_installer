@@ -23,9 +23,16 @@ Role Variables:
   of each plugin. **Required**.
   * `source_dir`: Optional. Absolute path to the plugin source code. If present,
   plugin will be installed from source in editable mode.
+  * `pre_task_file`: Optional. Name of the task file to be executed before the
+  plugin is installed.
+  * `git_repo`: Optional. Used only with `full-source-install.yml` playbook,
+  when defined this git repo will be cloned to `source_dir`.
 * `pulp_install_wsgi_service`: Whether to create systemd service files for
   pulp_wsgi. Defaults to "true".
 * `pulp_secret_key`: **Required**. Pulp's Django application `SECRET_KEY`.
+* `pulp_debug`: Optional. Pulp's Django application `DEBUG` variable.
+* `pulp_git_repo`: Optional. Used only with `full-source-install.yml` playbook,
+  when defined this git repo will be cloned to `pulp_source_dir`.
 * `pulp_source_dir`: Optional. Absolute path to Pulp source code. If present, Pulp
   will be installed from source in editable mode.
 * `pulp_user`: User that owns and runs Pulp. Defaults to "pulp".

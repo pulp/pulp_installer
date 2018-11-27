@@ -1,0 +1,30 @@
+# NOTE:  Pip should be able to write to /pulp_source/* directories
+#        so 0777 permission is set for that reason.
+---
+- block:
+
+    - name: Install git
+      package: name=git state=present
+
+    - name: Create source folder
+      file: path=/pulp_source state=directory mode=0777
+
+    - name: Clone pulp source repository
+      git:
+        repo: '{{ pulp_git_repo }}'
+        dest: '{{ pulp_source_dir }}'
+        force: true
+      when: pulp_git_repo is defined
+
+    - name: Clone plugins source repositories
+      git:
+        repo: '{{ item.value.git_repo }}'
+        dest: '{{ item.value.source_dir }}'
+        force: true
+      with_dict: '{{ pulp_install_plugins }}'
+      when: pulp_install_plugins[item.key].git_repo is defined
+
+    - name: set permissions
+      shell: chmod -R 0777 /pulp_source/*
+
+  become: true
