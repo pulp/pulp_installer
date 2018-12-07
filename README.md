@@ -122,6 +122,7 @@ a single parent directory.
 ```
 $ git clone https://github.com/pulp/ansible-pulp3.git
 $ git clone https://github.com/pulp/pulp.git
+$ git clone https://github.com/pulp/pulpcore-plugin.git
 $ git clone https://github.com/pulp/pulp_file.git
 ```
 

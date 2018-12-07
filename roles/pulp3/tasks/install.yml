@@ -65,16 +65,21 @@
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
 
-    - name: Install pulpcore packages from source
+    - name: Install pulpcore package from source
       pip:
-        name: '{{ pulp_source_dir }}/{{ item }}'
+        name: '{{ pulp_source_dir }}'
         editable: yes
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
-      with_items:
-        - pulpcore
-        - plugin
       when: pulp_source_dir is defined
+
+    - name: Install pulpcore-plugin package from source
+      pip:
+        name: '{{ pulp_plugin_source_dir }}'
+        editable: yes
+        virtualenv: '{{ pulp_install_dir }}'
+        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+      when: pulp_plugin_source_dir is defined
 
     - name: Install Pulp plugins via PyPI
       pip:
