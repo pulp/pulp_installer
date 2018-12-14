@@ -10,3 +10,4 @@ pulp_user: pulp
 pulp_var_dir: '/var/lib/pulp'
 pulp_wsgi_enabled: true
 pulp_wsgi_state: started
+pulp_pip_editable: yes
