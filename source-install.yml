@@ -5,9 +5,9 @@
     pulp_source_dir: "/home/vagrant/devel/pulp"
     pulp_plugin_source_dir: "/home/vagrant/devel/pulpcore-plugin"
     pulp_secret_key: "unsafe_default"
-    pulp_user: "vagrant"
+    developer_user: "vagrant"
     pulp_create_user: false
-    pulp_user_home: "/home/vagrant"
+    developer_user_home: "/home/vagrant"
     pulp_default_admin_password: password
     pulp_install_plugins:
       # pulp-python:
@@ -21,8 +21,8 @@
     - name: Set up Vagrant machine for source installs
       include: vagrant-pretask.yml
   roles:
-    #- pulp3-postgresql
-    #- pulp3-workers
-    #- pulp3-resource-manager
-    #- pulp3-webserver
+    - pulp3-postgresql
+    - pulp3-workers
+    - pulp3-resource-manager
+    - pulp3-webserver
     - pulp3-devel
