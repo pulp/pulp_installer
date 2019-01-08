@@ -28,8 +28,8 @@
       user:
         name: '{{ pulp_user }}'
         shell: '{{ result.stdout.strip() }}'
-        home: '{{ pulp_var_dir }}'
         system: true
+      when: pulp_create_user == true
 
     - name: Create temp dir for Pulp
       file:

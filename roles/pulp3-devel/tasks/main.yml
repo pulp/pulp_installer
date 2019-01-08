@@ -1,0 +1,82 @@
+- block:
+
+  - name: Install several useful packages
+    package:
+      name:
+        - bash-completion
+        - dnf-utils
+        - dstat
+        - fd-find
+        - fedora-easy-karma
+        - fpaste
+        - fzf
+        - htop
+        - httpie
+        - iotop
+        - jnettop
+        - jq
+        - ncdu
+        - python-django-bash-completion
+        - python-ipdb
+        - python-rpdb
+        - python3-setuptools
+        - redhat-lsb-core
+        - ripgrep
+        - screen
+        - telnet
+        - tmux
+        - tree
+        - wget
+        - vim-enhanced
+      state: present
+    retries: "{{ package_retries }}"
+    register: result
+    until: result is succeeded
+
+  become: true
+
+- block:
+
+  - name: Create ~/.bashrc.d/
+    file:
+      path: "{{ pulp_user_home }}/.bashrc.d/"
+      state: directory
+
+  - name: Define developer aliases in ~/.bashrc.d/
+    template:
+      src: templates/alias.bashrc
+      dest: "{{ pulp_user_home }}/.bashrc.d/alias.bashrc"
+
+  - name: Source developer aliases in ~/.bashrc.d/
+    blockinfile:
+      path: "{{ pulp_user_home }}/.bashrc"
+      block: |
+        if [ -d ~/.bashrc.d ]; then
+          for file in ~/.bashrc.d/*; do
+            . "$file"
+          done
+        fi
+      marker: "# {mark} Ansible managed block: source bashrc.d/"
+      create: yes
+
+  become: true
+  become_user: "{{ pulp_user }}"
+  when: supplement_bashrc
+
+- block:
+
+  - name: Create ~/.vimrc if not already present
+    copy:
+      src: files/vimrc
+      dest: "{{ pulp_user_home }}/.vimrc"
+      force: no
+
+  - name: Create ~/.netrc if not already present
+    template:
+      src: templates/netrc.j2
+      dest: "{{ pulp_user_home }}/.netrc"
+      force: yes
+      mode: 0600
+
+  become: true
+  become_user: "{{ pulp_user }}"

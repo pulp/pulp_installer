@@ -6,6 +6,7 @@ pulp_default_admin_password: ''
 pulp_install_dir: '/usr/local/lib/pulp'
 pulp_install_plugins: {}
 pulp_install_wsgi_service: true
+pulp_create_user: true
 pulp_user: pulp
 pulp_var_dir: '/var/lib/pulp'
 pulp_wsgi_enabled: true
