@@ -1,0 +1,14 @@
+Welcome to the Pulp dev environment!
+
+Here are some tips:
+
+* Your code is all checked out inside of ``~/devel/``.
+* Several bash aliases have been installed. ``phelp`` will list them and what
+  they do.
+
+More information can be found at the `contributing guide`_ and you can ask
+questions in #pulp on Freenode IRC. Happy hacking, and thanks for your
+contribution!
+
+.. _contributing guide:
+    https://docs.pulpproject.org/en/3.0/nightly/contributing/index.html

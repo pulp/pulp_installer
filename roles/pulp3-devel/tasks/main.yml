@@ -1,0 +1,123 @@
+---
+- block:
+
+    - name: Install several useful packages
+      package:
+        name:
+          - bash-completion
+          - dnf-utils
+          - dstat
+          - fd-find
+          - fedora-easy-karma
+          - fpaste
+          - fzf
+          - git
+          - htop
+          - httpie
+          - iotop
+          - jnettop
+          - jq
+          - ncdu
+          - python-django-bash-completion
+          - python-ipdb
+          - python-rpdb
+          - python3-setuptools
+          - python3-virtualenvwrapper
+          - redhat-lsb-core
+          - ripgrep
+          - screen
+          - telnet
+          - tmux
+          - tree
+          - wget
+          - vim-enhanced
+        state: present
+      retries: "{{ package_retries }}"
+      register: result
+      until: result is succeeded
+
+  become: true
+
+- block:
+
+    - name: Install requirements for building docs
+      pip:
+        requirements: '{{ pulp_source_dir }}/doc_requirements.txt'
+        state: present
+        virtualenv: '{{ pulp_install_dir }}'
+        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+
+    - name: Install pulp-smash for testing locally
+      pip:
+        name: pulp-smash
+        virtualenv: '{{ pulp_install_dir }}'
+        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+
+  become: true
+  become_user: '{{ pulp_user }}'
+
+- block:
+
+    - name: Create ~/.bashrc.d/
+      file:
+        path: "{{ developer_user_home }}/.bashrc.d/"
+        state: directory
+
+    - name: Define developer aliases in ~/.bashrc.d/
+      template:
+        src: templates/alias.bashrc.j2
+        dest: "{{ developer_user_home }}/.bashrc.d/alias.bashrc"
+
+    - name: Source developer aliases in ~/.bashrc.d/
+      blockinfile:
+        path: "{{ developer_user_home }}/.bashrc"
+        block: |
+          if [ -d ~/.bashrc.d ]; then
+            for file in ~/.bashrc.d/*; do
+              . "$file"
+            done
+          fi
+        marker: "# {mark} Ansible managed block: source bashrc.d/"
+        create: yes
+
+    - name: Add Django supplemental bashrc
+      copy:
+        src: files/django.bashrc
+        dest: '{{ developer_user_home }}/.bashrc.d/django.bashrc'
+      when: supplement_bashrc
+
+    - name: Add virtualenv supplemental bashrc
+      template:
+        src: templates/venv.bashrc.j2
+        dest: '{{ developer_user_home }}/.bashrc.d/venv.bashrc'
+
+  become: true
+  become_user: "{{ developer_user }}"
+  when: supplement_bashrc
+
+- block:
+
+    - name: Create ~/.vimrc if not already present
+      copy:
+        src: files/vimrc
+        dest: "{{ developer_user_home }}/.vimrc"
+        force: no
+
+    - name: Create ~/.netrc if not already present
+      template:
+        src: templates/netrc.j2
+        dest: "{{ developer_user_home }}/.netrc"
+        force: yes
+        mode: 0600
+
+  become: true
+  become_user: "{{ developer_user }}"
+
+- block:
+
+    - name: Set the message of the day
+      copy:
+        src: motd
+        dest: /etc/motd
+
+  become: true
