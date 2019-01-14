@@ -19,3 +19,10 @@
       force: no
 
   become: true
+
+- name: Collect static content for docs and browsable API
+  command: '{{ pulp_install_dir }}/bin/pulp-manager collectstatic --noinput --link'
+  register: staticresult
+  changed_when: "staticresult.stdout is not search('\n0 static files')"
+  become: true
+  become_user: '{{ pulp_user }}'
