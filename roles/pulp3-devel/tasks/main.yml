@@ -8,8 +8,6 @@
           - dnf-utils
           - dstat
           - fd-find
-          - fedora-easy-karma
-          - fpaste
           - fzf
           - git
           - htop
@@ -19,18 +17,15 @@
           - jq
           - ncdu
           - python-django-bash-completion
-          - python-ipdb
-          - python-rpdb
           - python3-setuptools
           - python3-virtualenvwrapper
           - redhat-lsb-core
           - ripgrep
           - screen
-          - telnet
           - tmux
           - tree
-          - wget
           - vim-enhanced
+          - wget
         state: present
       retries: "{{ package_retries }}"
       register: result

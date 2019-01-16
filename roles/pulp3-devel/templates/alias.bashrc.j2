@@ -28,18 +28,9 @@ pstatus() {
 }
 _pstatus_help="Report the status of all pulp-related services"
 
-preset() {
-    echo "Due to its similarity to 'prestart', 'preset' has been renamed to 'pclean'."
-    echo "Please use 'pclean' instead, and remember to update any script that might be calling it."
-    sleep 3
-    pclean
-}
-# intentionally undocumented, only list pclean in help for this
-
 pclean() {
     workon pulp
     pulp-manager reset_db --noinput
-    pulp-manager migrate auth --noinput
     pulp-manager migrate
     pulp-manager reset-admin-password --password admin
 }
@@ -92,5 +83,3 @@ phelp() {
     setterm -default
 }
 _phelp_help="Print this help"
-
-alias phttp="http"
