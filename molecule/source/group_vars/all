@@ -1,0 +1,12 @@
+pulp_secret_key: secret
+pulp_default_admin_password: password
+
+pulp_source_dir: '/var/lib/pulp/devel/pulp'
+pulp_plugin_source_dir: "/var/lib/pulp/devel/pulpcore-plugin"
+pulp_install_plugins:
+  pulp-file:
+    app_label: "pulp_file"
+    source_dir: "/var/lib/pulp/devel/pulp_file"
+
+developer_user_home: /var/lib/pulp
+developer_user: pulp

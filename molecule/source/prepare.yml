@@ -1,0 +1,36 @@
+---
+
+- hosts: fedora-28
+  tasks:
+    - name: Install required packages
+      package:
+        name:
+          - git
+        state: present
+
+    - name: Clone pulp repository
+      git:
+        repo: 'https://github.com/pulp/pulp.git'
+        dest: '{{ pulp_source_dir }}'
+        update: yes
+
+    - name: Clone pulpcore-plugin repository
+      git:
+        repo: 'https://github.com/pulp/pulpcore-plugin.git'
+        dest: '{{ pulp_plugin_source_dir }}'
+        update: yes
+
+    - name: Clone pulp_file repository
+      git:
+        repo: 'https://github.com/pulp/pulp_file.git'
+        dest: '{{ item.value.source_dir }}'
+        update: yes
+      with_dict: '{{ pulp_install_plugins }}'
+
+    - name: Make devel directory world-writable
+      file:
+        path: /var/lib/pulp/
+        state: directory
+        mode: 0777
+        recurse: true
+      become: true

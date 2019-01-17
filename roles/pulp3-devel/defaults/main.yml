@@ -1,2 +1,3 @@
 ---
-pulp_user: pulp
+pulp_devel_package_retries: 5
+pulp_devel_supplement_bashrc: false

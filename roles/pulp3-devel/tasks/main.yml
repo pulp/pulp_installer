@@ -12,12 +12,11 @@
           - jnettop
           - jq
           - ncdu
-          - screen
           - tmux
           - tree
           - wget
         state: present
-      retries: "{{ package_retries }}"
+      retries: "{{ pulp_devel_package_retries }}"
       register: result
       until: result is succeeded
 
@@ -35,11 +34,10 @@
           - python-django-bash-completion
           - python3-setuptools
           - python3-virtualenvwrapper
-          - redhat-lsb-core
           - ripgrep
           - vim-enhanced
         state: present
-      retries: "{{ package_retries }}"
+      retries: "{{ pulp_devel_package_retries }}"
       register: result
       until: result is succeeded
       when: ansible_distribution == 'Fedora'
@@ -92,7 +90,7 @@
       copy:
         src: files/django.bashrc
         dest: '{{ developer_user_home }}/.bashrc.d/django.bashrc'
-      when: supplement_bashrc
+      when: pulp_devel_supplement_bashrc
 
     - name: Add virtualenv supplemental bashrc
       template:
@@ -101,7 +99,7 @@
 
   become: true
   become_user: "{{ developer_user }}"
-  when: supplement_bashrc
+  when: pulp_devel_supplement_bashrc
 
 - block:
 
@@ -120,7 +118,7 @@
 
   become: true
   become_user: "{{ developer_user }}"
-
+#
 - block:
 
     - name: Set the message of the day
