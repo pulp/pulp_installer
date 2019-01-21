@@ -5,12 +5,17 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "fedora/28-cloud-base"
+  # Get OS type for better docker support
+  require 'rbconfig'
+  os = RbConfig::CONFIG['host_os'].downcase
 
   # Comment out if you don't want Vagrant to add and remove entries from /etc/hosts for each VM.
   # requires the vagrant-hostmanager plugin to be installed
   if Vagrant.has_plugin?("vagrant-hostmanager")
+    if !os.include? 'darwin'
       config.hostmanager.enabled = true
       config.hostmanager.manage_host = true
+    end
   end
 
   config.vm.provision "pulp_roles", type: 'ansible', run: "always" do |ansible|
@@ -40,6 +45,29 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         # You'll also need to uncomment the provisioning step below that resizes the root partition
         # do not set this to a size smaller than the base box, or you will be very sad
         # domain.machine_virtual_size = 80
+    end
+
+    pulp3_sandbox.vm.provider :docker do |domain, override|
+
+        uid = Process.euid
+        gid = Process.egid
+        config.ssh.username = "vagrant"
+        config.ssh.password = "vagrant"
+
+        override.vm.box = nil
+        # Based on fedora official image, with vagrant's needs met:
+        # https://github.com/rohanpm/docker-fedora-vagrant
+        # plugins/providers/docker/action/login.rb
+        domain.build_dir = 'docker/'
+        domain.build_args = ["--build-arg=USER_EUID=#{uid}"]
+        unless os.include? "darwin" then
+            domain.build_args.push("--build-arg=USER_EGID=#{gid}")
+        end
+
+        domain.privileged = true
+        domain.remains_running = true
+        domain.has_ssh = true
+        domain.expose = [80, 443, 5432, 6379]
     end
   end
 end

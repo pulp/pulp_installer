@@ -9,3 +9,9 @@ postgresql_users:
     password: '{{ pulp_database_config["default"]["PASSWORD"] }}'
     db: '{{ pulp_database_config["default"]["NAME"] }}'
     priv: ALL
+
+postgresql_hba_entries:
+  - { type: local, database: all, user: postgres, auth_method: peer }
+  - { type: local, database: all, user: all, auth_method: peer }
+  - { type: host, database: all, user: all, address: '127.0.0.1/32', auth_method: md5 }
+  - { type: host, database: all, user: all, address: '172.17.0.0/16', auth_method: md5 }
