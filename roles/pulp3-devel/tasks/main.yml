@@ -1,14 +1,10 @@
 ---
 - block:
 
-    - name: Install several useful packages
+    - name: Install several useful packages (distro-agnostic)
       package:
         name:
-          - bash-completion
-          - dnf-utils
           - dstat
-          - fd-find
-          - fzf
           - git
           - htop
           - httpie
@@ -16,20 +12,37 @@
           - jnettop
           - jq
           - ncdu
-          - python-django-bash-completion
-          - python3-setuptools
-          - python3-virtualenvwrapper
-          - redhat-lsb-core
-          - ripgrep
           - screen
           - tmux
           - tree
-          - vim-enhanced
           - wget
         state: present
       retries: "{{ package_retries }}"
       register: result
       until: result is succeeded
+
+  become: true
+
+- block:
+
+    - name: Install several useful packages (Fedora-specific)
+      package:
+        name:
+          - bash-completion
+          - dnf-utils
+          - fd-find
+          - fzf
+          - python-django-bash-completion
+          - python3-setuptools
+          - python3-virtualenvwrapper
+          - redhat-lsb-core
+          - ripgrep
+          - vim-enhanced
+        state: present
+      retries: "{{ package_retries }}"
+      register: result
+      until: result is succeeded
+      when: ansible_distribution == 'Fedora'
 
   become: true
 
