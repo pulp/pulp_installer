@@ -58,6 +58,13 @@
 
 - block:
 
+    - name: Ensure pip is the latest version
+      pip:
+        name: pip
+        state: latest
+        virtualenv: '{{ pulp_install_dir }}'
+        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+
     - name: Install idna <2.8  # https://github.com/requests/requests/issues/4890
       pip:
         name: idna
