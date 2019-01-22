@@ -2,4 +2,3 @@
 pulp_preq_packages:
   - python36
   - python36-devel
-pulp_python_interpreter: /usr/bin/python36
