@@ -1,4 +1,0 @@
----
-pulp_content_app:
-  state: started
-  enabled: true

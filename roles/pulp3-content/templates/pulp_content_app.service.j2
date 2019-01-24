@@ -8,8 +8,6 @@ BindsTo=postgresql.service
 After=postgresql.service
 
 [Service]
-EnvironmentFile=-/etc/default/pulp_workers
-EnvironmentFile=-/etc/default/pulp_workers_%i
 Environment="DJANGO_SETTINGS_MODULE=pulpcore.app.settings"
 User={{ pulp_user }}
 WorkingDirectory=/var/run/pulp_content_app/
