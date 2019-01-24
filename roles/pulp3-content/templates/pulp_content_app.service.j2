@@ -1,0 +1,21 @@
+[Unit]
+Description=Pulp Content App
+After=network-online.target
+Wants=network-online.target
+
+# This service will break if left running while PostgreSQL restarts.
+BindsTo=postgresql.service
+After=postgresql.service
+
+[Service]
+Environment="DJANGO_SETTINGS_MODULE=pulpcore.app.settings"
+User={{ pulp_user }}
+WorkingDirectory=/var/run/pulp_content_app/
+RuntimeDirectory=pulp_content_app
+ExecStart={{ pulp_install_dir }}/bin/gunicorn pulpcore.content:server \
+          --bind 'localhost:8080' \
+          --worker-class 'aiohttp.GunicornWebWorker' \
+          -w 2
+
+[Install]
+WantedBy=multi-user.target

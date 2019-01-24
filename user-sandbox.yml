@@ -17,3 +17,4 @@
     - pulp3-workers
     - pulp3-resource-manager
     - pulp3-webserver
+    - pulp3-content
