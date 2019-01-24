@@ -15,7 +15,7 @@
     pulp_plugin_source_dir: "/home/vagrant/devel/pulpcore-plugin"
     pulp_secret_key: "unsafe_default"
     pulp_source_dir: "/home/vagrant/devel/pulp"
-    supplement_bashrc: true
+    pulp_devel_supplement_bashrc: true
   pre_tasks:
     - name: Set up Vagrant machine for source installs
       include: vagrant-pretask.yml
