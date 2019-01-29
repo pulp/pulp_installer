@@ -10,9 +10,10 @@ galaxy_info:
     - name: Fedora
       versions:
         - all
-    - name: Debian
-      versions:
-        - stretch
+  # Not supported yet because Debian ships with Python 3.5 (< 3.6 Pulp minimum version)
+  # - name: Debian
+  #   versions:
+  #     - stretch
   galaxy_tags:
     - pulp3
     - pulpcore

@@ -53,11 +53,24 @@
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
 
-    - name: Install pulp-smash for testing locally
+
+    - name: Install requirements for testing locally
       pip:
-        name: pulp-smash
+        requirements: '{{ pulp_source_dir }}/test_requirements.txt'
+        state: present
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+
+    - name: Install requirements for developer scripts
+      pip:
+        requirements: '{{ pulp_source_dir }}/dev_requirements.txt'
+        state: present
+        virtualenv: '{{ pulp_install_dir }}'
+        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+
+      retries: "{{ package_retries }}"
+      register: result
+      until: result is succeeded
 
   become: true
   become_user: '{{ pulp_user }}'
@@ -115,6 +128,17 @@
         dest: "{{ developer_user_home }}/.netrc"
         force: yes
         mode: 0600
+
+    - name: Create pulp-smash config directory if not already present
+      file:
+        path: "{{ developer_user_home }}/.config/pulp_smash/"
+        state: directory
+        recurse: yes
+
+    - name: Create pulp-smash config if not already present
+      copy:
+        src: files/settings.json
+        dest: "{{ developer_user_home }}/.config/pulp_smash/settings.json"
 
   become: true
   become_user: "{{ developer_user }}"

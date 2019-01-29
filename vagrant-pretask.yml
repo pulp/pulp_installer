@@ -1,5 +1,5 @@
 ---
-- name: Make user's home directory world-readable
+- name: (Vagrant) Make user's home directory world-readable
   file:
     path: "{{ ansible_env.HOME }}"
     state: directory

@@ -32,7 +32,7 @@ pclean() {
     workon pulp
     pulp-manager reset_db --noinput
     pulp-manager migrate
-    pulp-manager reset-admin-password --password admin
+    pulp-manager reset-admin-password --password {{ pulp_admin_default_password }}
 }
 _pclean_help="Restore pulp to a clean-installed state"
 # can get away with not resetting terminal settings here since it gets reset in phelp

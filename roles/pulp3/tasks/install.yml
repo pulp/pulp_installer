@@ -31,6 +31,7 @@
         shell: '{{ result.stdout.strip() }}'
         home: '{{ pulp_var_dir }}'
         system: true
+      when: developer_user is not defined
 
     - name: Create temp dir for Pulp
       file:

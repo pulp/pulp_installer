@@ -3,9 +3,9 @@
 
 postgresql_databases:
   - name: '{{ pulp_database_config["default"]["NAME"] }}'
+    owner: '{{ pulp_database_config["default"]["NAME"] }}'
 
 postgresql_users:
   - name: '{{ pulp_database_config["default"]["USER"] }}'
     password: '{{ pulp_database_config["default"]["PASSWORD"] }}'
-    db: '{{ pulp_database_config["default"]["NAME"] }}'
-    priv: ALL
+    role_attr_flags: CREATEDB
