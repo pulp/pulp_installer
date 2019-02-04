@@ -13,7 +13,7 @@ User={{ pulp_user }}
 WorkingDirectory=/var/run/pulp_content_app/
 RuntimeDirectory=pulp_content_app
 ExecStart={{ pulp_install_dir }}/bin/gunicorn pulpcore.content:server \
-          --bind 'localhost:8080' \
+          --bind '{{ pulp_content_host }}' \
           --worker-class 'aiohttp.GunicornWebWorker' \
           -w 2
 

@@ -1,3 +1,7 @@
 DATABASES = {{ pulp_database_config | to_json }}
 
 SECRET_KEY = '{{ pulp_secret_key }}'
+
+{% if pulp_content_host is defined %}
+CONTENT_HOST = '{{ pulp_content_host }}'
+{% endif %}
