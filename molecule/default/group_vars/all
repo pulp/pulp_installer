@@ -2,4 +2,4 @@ pulp_secret_key: secret
 pulp_default_admin_password: password
 pulp_install_plugins:
   pulp-file:
-    app_label: "pulp_file"
+    app_label: "file"
