@@ -1,0 +1,34 @@
+{
+  "hosts": [
+    {
+      "hostname": "localhost",
+      "roles": {
+        "api": {
+          "port": 8000,
+          "scheme": "http",
+          "service": "nginx",
+          "verify": false
+        },
+        "content": {
+          "port": 8080,
+          "scheme": "http",
+          "service": "pulp_content_app",
+          "verify": false
+        },
+        "pulp resource manager": {},
+        "pulp workers": {},
+        "redis": {},
+        "shell": {
+          "transport": "local"
+        }
+      }
+    }
+  ],
+  "pulp": {
+    "auth": [
+      "admin",
+      "password"
+    ],
+    "selinux enabled": false,
+    "version": "3"
+  }
