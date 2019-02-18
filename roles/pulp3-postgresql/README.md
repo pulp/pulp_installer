@@ -8,7 +8,7 @@ More specifically, this role does the following:
 1. Call the anxs/postgresql role if `pulp_postgresql_call_anxs_postgresql` is
    true. This role installs and configures PostgreSQL.
 2. Install the package needed to talk to PostgreSQL from Python, if any.
-3. Create and run migrations for `pulp_app`.
+3. Create and run migrations for `core`.
 
 Role Variables:
 ---------------
