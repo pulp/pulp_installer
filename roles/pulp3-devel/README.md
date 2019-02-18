@@ -23,4 +23,5 @@ below:
 package_retries: 5
 developer_user: vagrant
 developer_user_home: /home/vagrant
+pulp_default_admin_password: password
 ```
