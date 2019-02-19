@@ -1,9 +1,1 @@
----
-
-- hosts: fedora-28
-  roles:
-    - pulp3-postgresql
-    - pulp3-workers
-    - pulp3-resource-manager
-    - pulp3-webserver
-    - pulp3-devel
+../../example-source/playbook.yml
