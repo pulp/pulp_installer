@@ -12,7 +12,7 @@
         "content": {
           "port": 8080,
           "scheme": "http",
-          "service": "pulp_content_app",
+          "service": "pulp-content-app",
           "verify": false
         },
         "pulp resource manager": {},

@@ -24,7 +24,7 @@ Role Variables:
   * `source_dir`: Optional. Absolute path to the plugin source code. If present,
   plugin will be installed from source in editable mode.
 * `pulp_install_wsgi_service`: Whether to create systemd service files for
-  pulp_wsgi. Defaults to "true".
+  pulp-wsgi. Defaults to "true".
 * `pulp_secret_key`: **Required**. Pulp's Django application `SECRET_KEY`.
 * `pulp_source_dir`: Optional. Absolute path to Pulp source code. If present, Pulp
   will be installed from source in editable mode.
