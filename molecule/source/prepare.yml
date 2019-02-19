@@ -8,6 +8,12 @@
           - git
         state: present
 
+    - name: Create user {{ developer_user }}
+      user:
+        name: '{{ developer_user }}'
+        home: '{{ developer_user_home }}'
+      when: developer_user is defined
+
     - name: Clone pulp repository
       git:
         repo: 'https://github.com/pulp/pulp.git'
