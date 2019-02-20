@@ -77,6 +77,7 @@
       # This is a hack. Editable pip installs are always changed, which fails molecule's
       # idempotence test.
       changed_when: result.changed and not pulp_pip_editable
+      notify: Collect static content
 
     - name: Install pulpcore-plugin package from source
       pip:
@@ -89,6 +90,7 @@
       # This is a hack. Editable pip installs are always changed, which fails molecule's
       # idempotence test.
       changed_when: result.changed and not pulp_pip_editable
+      notify: Collect static content
 
     - name: Install Pulp plugins via PyPI
       pip:
@@ -98,6 +100,7 @@
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
       with_dict: '{{ pulp_install_plugins }}'
       when: pulp_install_plugins[item.key].source_dir is undefined
+      notify: Collect static content
 
     - name: Install Pulp plugins from source
       pip:
@@ -111,6 +114,7 @@
       # This is a hack. Editable pip installs are always changed, which fails molecule's
       # idempotence test.
       changed_when: result.changed and not pulp_pip_editable
+      notify: Collect static content
 
   become: true
   become_user: '{{ pulp_user }}'

@@ -5,3 +5,10 @@
     state: restarted
     daemon_reload: true
   become: true
+
+- name: Collect static content
+  command: '{{ pulp_install_dir }}/bin/pulp-manager collectstatic --noinput --link'
+  register: staticresult
+  changed_when: "staticresult.stdout is not search('\n0 static files')"
+  become: true
+  become_user: '{{ pulp_user }}'

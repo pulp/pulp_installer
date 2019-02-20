@@ -53,7 +53,6 @@
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
 
-
     - name: Install requirements for testing locally
       pip:
         requirements: '{{ pulp_source_dir }}/test_requirements.txt'
@@ -68,9 +67,10 @@
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
 
-      retries: "{{ package_retries }}"
+      retries: "{{ pulp_devel_package_retries }}"
       register: result
       until: result is succeeded
+      notify: Collect static content
 
   become: true
   become_user: '{{ pulp_user }}'
@@ -142,7 +142,7 @@
 
   become: true
   become_user: "{{ developer_user }}"
-#
+
 - block:
 
     - name: Set the message of the day
