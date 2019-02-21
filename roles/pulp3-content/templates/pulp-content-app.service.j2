@@ -1,5 +1,5 @@
 [Unit]
-Description=Pulp Resource Manager
+Description=Pulp Content App
 After=network-online.target
 Wants=network-online.target
 
@@ -10,11 +10,12 @@ After=postgresql.service
 [Service]
 Environment="DJANGO_SETTINGS_MODULE=pulpcore.app.settings"
 User={{ pulp_user }}
-WorkingDirectory=/var/run/pulp_resource_manager/
-RuntimeDirectory=pulp_resource_manager
-ExecStart={{ pulp_install_dir }}/bin/rq worker \
-          -w pulpcore.tasking.worker.PulpWorker -n resource_manager@%%h \
-          --pid=/var/run/pulp_resource_manager/resource_manager.pid
+WorkingDirectory=/var/run/pulp-content-app/
+RuntimeDirectory=pulp-content-app
+ExecStart={{ pulp_install_dir }}/bin/gunicorn pulpcore.content:server \
+          --bind '{{ pulp_content_host }}' \
+          --worker-class 'aiohttp.GunicornWebWorker' \
+          -w 2
 
 [Install]
 WantedBy=multi-user.target

@@ -1,7 +1,7 @@
 ---
-- name: Restart pulp_wsgi.service
+- name: Restart pulp-wsgi.service
   systemd:
-    name: pulp_wsgi.service
+    name: pulp-wsgi.service
     state: restarted
     daemon_reload: true
   become: true

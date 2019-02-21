@@ -2,6 +2,6 @@
 - name: Reload systemd and restart pulp content app
   systemd:
     daemon_reload: true
-    name: pulp_content_app.service
+    name: pulp-content-app.service
     state: restarted
   become: true
