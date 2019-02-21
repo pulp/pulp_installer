@@ -19,6 +19,12 @@ platforms:
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
     command: /usr/sbin/init
+  - name: fedora-29
+    image: fedora:29
+    privileged: True
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    command: /usr/sbin/init
 provisioner:
   name: ansible
   inventory:
