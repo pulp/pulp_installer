@@ -17,14 +17,14 @@ provisioner:
   name: ansible
   inventory:
     links:
-      group_vars: ./group_vars/
-      host_vars: ./host_vars/
+      host_vars: ../scenario_resources/host_vars/
   lint:
     name: ansible-lint
 scenario:
   name: source
   playbooks:
     prepare: prepare.yml
+
 verifier:
   name: inspec
   lint:
