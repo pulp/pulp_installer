@@ -4,6 +4,12 @@
   tags:
     - always
 
+- name: Add redis repository
+  apt_repository:
+    repo: ppa:chris-lea/redis-server
+  become: yes
+  when: ansible_distribution == 'Ubuntu'
+
 - block:
 
     - name: Install requirements
@@ -19,7 +25,7 @@
 
     - name: Start Redis
       systemd:
-        name: redis
+        name: "{{ pulp_redis_server_name }}"
         state: started
         enabled: yes
         daemon_reload: yes

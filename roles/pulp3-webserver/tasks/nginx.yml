@@ -1,4 +1,12 @@
 ---
+# installation of nginx on ubuntu doesn't do this automatically
+- name: Create nginx user
+  user:
+    name: nginx
+    system: true
+  when: ansible_distribution == 'Ubuntu'
+  become: yes
+
 - name: Find site-packages directory
   find:
     paths: '{{ pulp_install_dir }}'
