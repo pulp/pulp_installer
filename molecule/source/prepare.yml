@@ -15,7 +15,7 @@
 
     - name: Clone pulp repository
       git:
-        repo: 'https://github.com/pulp/pulp.git'
+        repo: 'https://github.com/pulp/pulpcore.git'
         dest: '{{ pulp_source_dir }}'
         update: yes
 
