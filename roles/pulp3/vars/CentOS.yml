@@ -1,9 +1,10 @@
 ---
-pulp_preq_packages:
+__pulp_preq_packages:
   - python36
   - python36-devel
   - python-setuptools
   - libselinux-python  # For ansible itself
   - python-psycopg2
   - python-contextlib2
-pulp_python_interpreter: /usr/bin/python36
+
+__pulp_python_interpreter: /usr/bin/python36

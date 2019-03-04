@@ -1,0 +1,15 @@
+---
+- name: Load OS specific variables
+  include_vars: '{{ ansible_distribution }}.yml'
+  tags:
+    - always
+
+- name: Define prerequisite packages.
+  set_fact:
+    pulp_preq_packages: "{{ __pulp_preq_packages| list }}"
+  when: pulp_preq_packages is not defined
+
+- name: Define python interpreter.
+  set_fact:
+    pulp_python_interpreter: "{{ __pulp_python_interpreter }}"
+  when: pulp_python_interpreter is not defined

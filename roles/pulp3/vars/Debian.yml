@@ -1,7 +1,7 @@
 ---
-pulp_preq_packages:
+__pulp_preq_packages:
   - python3
   - python3-venv
 
 # Pulp requires Python 3.6+.
-pulp_python_interpreter: /usr/bin/python3
+__pulp_python_interpreter: /usr/bin/python3
