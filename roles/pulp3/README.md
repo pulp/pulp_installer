@@ -37,6 +37,8 @@ Role Variables:
   the systemd module's "state" directive. Defaults to "started".
 * `pulp_wsgi_enabled` This variable can be configured with any of the states allowed
   by the systemd module's "enabled" directive. Defaults to "true."
+* `pulp_api_port` Set the port the API server is served from. Defaults to '8000'.
+* `pulp_api_host` Set the host the API server is served from. Defaults to 'localhost'.
 
 Shared Variables:
 -----------------

@@ -18,8 +18,8 @@
   ## Proxy rules
   ProxyRequests Off
   ProxyPreserveHost Off
-  ProxyPass /pulp/api http://localhost:8000/pulp/api
-  ProxyPassReverse /pulp/api http://localhost:8000/pulp/api
+  ProxyPass /pulp/api http://{{ pulp_api_host }}:{{ pulp_api_port }}/pulp/api
+  ProxyPassReverse /pulp/api http://{{ pulp_api_host }}:{{ pulp_api_port }}/pulp/api
 
   ## Server aliases
   ServerAlias pulp3
