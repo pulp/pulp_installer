@@ -20,6 +20,8 @@
   ProxyPreserveHost Off
   ProxyPass /pulp/api http://localhost:8000/pulp/api
   ProxyPassReverse /pulp/api http://localhost:8000/pulp/api
+  ProxyPass /pulp/content http://{{ pulp_content_host }}/pulp/content
+  ProxyPassReverse /pulp/content http://{{ pulp_content_host }}/pulp/content
 
   ## Server aliases
   ServerAlias pulp3

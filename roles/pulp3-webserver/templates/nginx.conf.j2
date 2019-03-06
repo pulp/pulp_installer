@@ -26,6 +26,11 @@ http {
          server 127.0.0.1:8000;
     }
 
+    upstream pulp-content {
+        # for a TCP configuration
+         server {{ pulp_content_host }};
+    }
+
     server {
         # Gunicorn docs suggest the use of the "deferred" directive on Linux.
         listen 80 default_server deferred;
