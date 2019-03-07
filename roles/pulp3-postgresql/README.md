@@ -13,11 +13,14 @@ More specifically, this role does the following:
 Role Variables:
 ---------------
 
-* `pulp_postgresql_call_anxs_postgresql`: Defaults to true. Whether to call
-  [anxs.postgresql](https://galaxy.ansible.com/anxs/postgresql).
+* `pulp_install_postgresql`: Defaults to true. Whether to install Postgresql.
 * `pulp_database_config`: Defines how Pulp will talk to PostgreSQL. Defaults
   to values for a single-machine Pulp instance. See `defaults/main.yml` for
   specific values and syntax.
+* `pulp_postgresql_host`: Host of the postgresql instance. Defaults to localhost.
+* `pulp_postgresql_database`: Name of the postgresql database, defaults to pulp.
+* `pulp_postgresql_user`: Postgresql user, (not linux user). Defaults to pulp
+* `pulp_postgresql_password`: Password for Postgresql user. Defaults to pulp
 
 Shared Variables:
 -----------------
