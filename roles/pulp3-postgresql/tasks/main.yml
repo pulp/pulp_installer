@@ -23,9 +23,11 @@
       import_role:
         name: geerlingguy.postgresql
 
-    - meta: flush_handlers
 
   become: true
+  when: pulp_install_postgresql
+
+- meta: flush_handlers
 
 - name: Get the exact pulpcore install dir
   find:

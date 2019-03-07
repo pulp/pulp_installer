@@ -1,4 +1,5 @@
 ---
+pulp_install_postgresql: true
 pulp_postgresql_host: localhost
 pulp_postgresql_database: pulp
 pulp_postgresql_user: pulp
