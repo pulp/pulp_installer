@@ -4,9 +4,12 @@ galaxy_info:
   description: Pulp Redis
   company: Red Hat
   min_ansible_version: 2.4
+  license: GPL-3.0
   platforms:
     - name: Fedora
       versions:
         - 28
-  license: GPL-3.0
+    - name: Centos
+      versions:
+        - 7
 dependencies: []
