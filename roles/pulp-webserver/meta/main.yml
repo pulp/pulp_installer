@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: Pulp
-  description: Pulp Resource Manager
+  description: Pulp Web Server
   company: Red Hat
   min_ansible_version: 2.4
   platforms:
@@ -9,7 +9,5 @@ galaxy_info:
       versions:
         - 28
   license: GPL-3.0
-
-# Depend on pulp3-redis for RQ.
 dependencies:
-  - role: pulp3-redis
+  - role: pulp

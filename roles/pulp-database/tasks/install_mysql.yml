@@ -1,3 +1,4 @@
 ---
-- fail:
+- name: MySQL/Maria install not implemented
+  fail:
     msg: "MySQL/Maria installation is not implented. Please install manually and set pulp_install_database to false."

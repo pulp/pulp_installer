@@ -1,4 +1,4 @@
-pulp3-resource-manager
+pulp-resource-manager
 =============
 
 Install, configure, and set the state of the pulp resouce manager.
@@ -16,13 +16,13 @@ Shared variables:
 
 * `ansible_python_interpreter`: **Required**. Path to the Python interpreter.
 
-This role **is not tightly coupled** with the `pulp3-postgresql` role, but it does
+This role **is not tightly coupled** with the `pulp-postgresql` role, but it does
 use some of the same variables. When used together, the values are inherited from
 the role. When not used together, these values are **required**.
 
 * `postgresql_version`
 
-This role **is tightly coupled** to the required `pulp3-redis` role, and inherits
+This role **is tightly coupled** to the required `pulp-redis` role, and inherits
 some of its variables.
 
 * `pulp_user`
@@ -31,4 +31,4 @@ some of its variables.
 Dependencies:
 -------------
 
-* `pulp3-redis`
+* `pulp-redis`

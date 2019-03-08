@@ -1,4 +1,4 @@
-pulp3-webserver
+pulp-webserver
 ===============
 
 Install, configure, start, and enable a web server.
@@ -11,10 +11,10 @@ Shared variables:
 
 * `ansible_python_interpreter`: **Required**. Path to the Python interpreter.
 
-This role is **not tightly coupled** to the `pulp3` role, but uses some of the same
-variables. When used in the same play, the values are inherited from the `pulp3`
+This role is **not tightly coupled** to the `pulp` role, but uses some of the same
+variables. When used in the same play, the values are inherited from the `pulp`
 role.
 
 * `pulp_install_dir`: Location of a virtual environment for Pulp and its Python
-  dependencies. **Required** if used in a separate play from the `pulp3` role. Value
-  must match the value used in the `pulp3` role.
+  dependencies. **Required** if used in a separate play from the `pulp` role. Value
+  must match the value used in the `pulp` role.

@@ -10,7 +10,7 @@ Example Usage
 ```yaml
 - hosts: all
   roles:
-    - pulp3-devel
+    - pulp-devel
 ```
 
 Variables
@@ -31,7 +31,7 @@ Shared variables:
 
 * `ansible_python_interpreter`: **Required**. Path to the Python interpreter.
 
-This role **is tightly coupled** with the `pulp3` role and it depends on some of the values set
+This role **is tightly coupled** with the `pulp` role and it depends on some of the values set
 used in that role.
 
 * `pulp_user`

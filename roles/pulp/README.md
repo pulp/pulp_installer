@@ -45,7 +45,7 @@ Shared Variables:
 
 * `ansible_python_interpreter`: **Required**. Path to the Python interpreter.
 
-This role is required by the `pulp3-postgresql` role and uses variables that
+This role is required by the `pulp-postgresql` role and uses variables that
 are defined and documented in that role:
 
 * `pulp_database_config`
