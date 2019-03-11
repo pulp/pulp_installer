@@ -6,3 +6,5 @@
     - pulp3-resource-manager
     - pulp3-webserver
     - pulp3-content
+  environment:
+    DJANGO_SETTINGS_MODULE: pulpcore.app.settings

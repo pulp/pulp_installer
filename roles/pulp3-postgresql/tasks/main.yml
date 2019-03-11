@@ -63,23 +63,23 @@
       when: pulp_install_plugins[item].source_dir is undefined
 
     - name: Create database migrations for plugins
-      command: '{{ pulp_install_dir }}/bin/pulp-manager makemigrations {{ pulp_install_plugins[item].app_label}}'
+      command: '{{ pulp_install_dir }}/bin/django-admin makemigrations {{ pulp_install_plugins[item].app_label}}'
       with_items: "{{ pulp_install_plugins }}"
       register: result
       changed_when: "'No changes detected in app' not in result.stdout"
 
     - name: Run database auth migrations
-      command: '{{ pulp_install_dir }}/bin/pulp-manager migrate auth --no-input'
+      command: '{{ pulp_install_dir }}/bin/django-admin migrate auth --no-input'
       register: migrate_auth
       changed_when: "'No migrations to apply' not in migrate_auth.stdout"
 
     - name: Run database migrations
-      command: '{{ pulp_install_dir }}/bin/pulp-manager migrate --no-input'
+      command: '{{ pulp_install_dir }}/bin/django-admin migrate --no-input'
       register: result
       changed_when: "'No migrations to apply' not in result.stdout"
 
     - name: Set the Pulp admin user's password
-      command: '{{ pulp_install_dir }}/bin/pulp-manager reset-admin-password --password {{ pulp_default_admin_password }}'
+      command: '{{ pulp_install_dir }}/bin/django-admin reset-admin-password --password {{ pulp_default_admin_password }}'
       no_log: true
       when: pulp_default_admin_password is defined and migrate_auth.changed
 
