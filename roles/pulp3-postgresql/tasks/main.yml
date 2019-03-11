@@ -62,11 +62,6 @@
       with_items: "{{ pulp_install_plugins }}"
       when: pulp_install_plugins[item].source_dir is undefined
 
-    - name: Create database migrations for core
-      command: '{{ pulp_install_dir }}/bin/pulp-manager makemigrations core'
-      register: result
-      changed_when: "'No changes detected in app' not in result.stdout"
-
     - name: Create database migrations for plugins
       command: '{{ pulp_install_dir }}/bin/pulp-manager makemigrations {{ pulp_install_plugins[item].app_label}}'
       with_items: "{{ pulp_install_plugins }}"
