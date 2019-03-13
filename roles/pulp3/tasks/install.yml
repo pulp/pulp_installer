@@ -80,7 +80,7 @@
         state: present
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
-      when: pulp_db_type == "mysql"
+      when: pulp_db_type == "mariadb"
 
     - name: Install pulpcore package from source
       pip:
