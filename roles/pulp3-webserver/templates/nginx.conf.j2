@@ -23,7 +23,7 @@ http {
 
     upstream pulp {
         # for a TCP configuration
-         server 127.0.0.1:8000;
+         server {{ pulp_api_host }}:{{ pulp_api_port }};
     }
 
     server {
