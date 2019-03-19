@@ -7,3 +7,5 @@
     - pulp3-webserver
     - pulp3-content
     - pulp3-devel
+  environment:
+    DJANGO_SETTINGS_MODULE: pulpcore.app.settings

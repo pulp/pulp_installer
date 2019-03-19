@@ -30,9 +30,9 @@ _pstatus_help="Report the status of all pulp-related services"
 
 pclean() {
     workon pulp
-    pulp-manager reset_db --noinput
-    pulp-manager migrate
-    pulp-manager reset-admin-password --password {{ pulp_default_admin_password }}
+    django-admin reset_db --noinput
+    django-admin migrate
+    django-admin reset-admin-password --password {{ pulp_default_admin_password }}
 }
 _pclean_help="Restore pulp to a clean-installed state"
 # can get away with not resetting terminal settings here since it gets reset in phelp
