@@ -1,7 +1,7 @@
 ---
 - hosts: all
   roles:
-    - pulp3-postgresql
+    - pulp3-database
     - pulp3-workers
     - pulp3-resource-manager
     - pulp3-webserver

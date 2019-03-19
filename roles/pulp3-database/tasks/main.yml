@@ -4,28 +4,15 @@
   tags:
     - always
 
-- block:
+- import_tasks: install_postgres.yml
+  when:
+    - pulp_install_db
+    - pulp_db_type == 'postgres'
 
-    - name: Install SCL package
-      package:
-        name: 'centos-release-scl'
-        state: present
-      when: ansible_distribution == 'CentOS'
-
-    - name: Set listen addresses
-      set_fact:
-        postgresql_global_config_options:
-          - option: listen_addresses
-            value: "*"
-      when: pulp_postgresql_host != 'localhost'
-
-    - name: Install and configure PostgreSQL
-      import_role:
-        name: geerlingguy.postgresql
-
-
-  become: true
-  when: pulp_install_postgresql
+- import_tasks: install_mysql.yml
+  when:
+    - pulp_install_db
+    - pulp_db_type == 'mysql'
 
 - meta: flush_handlers
 
