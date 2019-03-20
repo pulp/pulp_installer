@@ -28,11 +28,21 @@ pstatus() {
 }
 _pstatus_help="Report the status of all pulp-related services"
 
-pclean() {
+pdbreset() {
     workon pulp
+    pstop
     django-admin reset_db --noinput
     django-admin migrate
     django-admin reset-admin-password --password {{ pulp_default_admin_password }}
+}
+_pdbreset_help="Reset the Pulp database"
+# can get away with not resetting terminal settings here since it gets reset in phelp
+_pdbreset_help="$_dbreset_help - `setterm -foreground red -bold on`THIS DESTROYS YOUR PULP DATA"
+
+pclean() {
+    pdbreset
+    sudo rm -rf {{ pulp_user_home }}/*
+    django-admin collectstatic --noinput --link
 }
 _pclean_help="Restore pulp to a clean-installed state"
 # can get away with not resetting terminal settings here since it gets reset in phelp
