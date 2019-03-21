@@ -3,7 +3,7 @@ Pulp 3 Ansible installer
 
 The Pulp 3 Ansible installer consists of a collection of roles. Each role installs and configures a
 component of Pulp. The roles are not currently available on Ansible Galaxy; to run the Pulp 3
-Ansible installer, the [ansible-pulp3](https://github.com/pulp/ansible-pulp3) git repository must
+Ansible installer, the [ansible-pulp](https://github.com/pulp/ansible-pulp) git repository must
 be cloned.
 
 System Requirements
@@ -94,7 +94,7 @@ and so on.
    through the system package manager or into a virtualenv:
 
    ```bash
-   python3 -m venv ~/.venvs/ansible-pulp3
+   python3 -m venv ~/.venvs/ansible-pulp
    pip install --upgrade pip
    pip install tox
    ```
