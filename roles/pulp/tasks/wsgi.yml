@@ -10,22 +10,14 @@
 
 - block:
 
-    - name: Install pulp-wsgi service files
+    - name: Install pulp-api service files
       template:
-        src: pulp-wsgi.service.j2
-        dest: /etc/systemd/system/pulp-wsgi.service
+        src: pulp-api.service.j2
+        dest: /etc/systemd/system/pulp-api.service
         owner: root
         group: root
         mode: 0644
       become: true
-      notify: Restart pulp-wsgi.service
+      notify: Restart pulp-api.service
 
-    - name: Start pulp-wsgi.service
-      systemd:
-        name: pulp-wsgi.service
-        state: '{{ pulp_wsgi_state }}'
-        enabled: '{{ pulp_wsgi_enabled }}'
-        daemon_reload: true
-      become: true
-
-  when: pulp_install_wsgi_service
+  when: pulp_install_api_service

@@ -5,8 +5,8 @@ Wants=network-online.target
 
 [Service]
 User={{ pulp_user }}
-PIDFile=/run/pulp-wsgi.pid
-RuntimeDirectory=pulp-wsgi
+PIDFile=/run/pulp-api.pid
+RuntimeDirectory=pulp-api
 ExecStart={{ pulp_install_dir }}/bin/gunicorn pulpcore.app.wsgi:application \
           --bind '{{ pulp_api_host }}:{{ pulp_api_port }}'
 ProtectSystem=full
@@ -18,7 +18,7 @@ PrivateDevices=yes
 # not an absolute path. PIDFile is now used to ensure that PID files are laid
 # out in a standard way. If this directive had any other effects, it is better
 # to use the correct directive than to uncomment this.
-# WorkingDirectory=/var/run/pulp-wsgi/
+# WorkingDirectory=/var/run/pulp-api/
 
 [Install]
 WantedBy=multi-user.target
