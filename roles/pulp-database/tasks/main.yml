@@ -1,0 +1,74 @@
+---
+- name: Load OS specific variables
+  include_vars: '{{ ansible_distribution }}.yml'
+  tags:
+    - always
+
+- import_tasks: install_postgres.yml
+  when:
+    - pulp_install_db
+    - pulp_db_type == 'postgres'
+
+- import_tasks: install_mysql.yml
+  when:
+    - pulp_install_db
+    - pulp_db_type == 'mysql'
+
+- meta: flush_handlers
+
+- name: Get the exact pulpcore install dir
+  find:
+    paths: '{{ pulp_install_dir }}/lib/'
+    pattern: '^python.\..$'
+    use_regex: true
+    file_type: directory
+  register: result
+
+- name: Assert the pulpcore install dir was found
+  assert:
+    that: '{{ result.matched }} == 1'
+
+- block:
+
+    - name: Create the pulpcore migrations directory
+      file:
+        name: '{{ result.files[0].path }}/site-packages/pulpcore/app/migrations'
+        state: directory
+        owner: '{{ pulp_user }}'
+        group: '{{ pulp_user }}'
+        mode: 0700
+      when: pulp_source_dir is undefined
+
+    - name: Create the plugin migrations directories
+      file:
+        name: '{{ result.files[0].path }}/site-packages/{{ item }}/app/migrations'
+        state: directory
+        owner: '{{ pulp_user }}'
+        group: '{{ pulp_user }}'
+        mode: 0700
+      with_items: "{{ pulp_install_plugins }}"
+      when: pulp_install_plugins[item].source_dir is undefined
+
+    - name: Create database migrations for plugins
+      command: '{{ pulp_install_dir }}/bin/django-admin makemigrations {{ pulp_install_plugins[item].app_label }}'
+      with_items: "{{ pulp_install_plugins }}"
+      register: result
+      changed_when: "'No changes detected in app' not in result.stdout"
+
+    - name: Run database auth migrations
+      command: '{{ pulp_install_dir }}/bin/django-admin migrate auth --no-input'
+      register: migrate_auth
+      changed_when: "'No migrations to apply' not in migrate_auth.stdout"
+
+    - name: Run database migrations
+      command: '{{ pulp_install_dir }}/bin/django-admin migrate --no-input'
+      register: result
+      changed_when: "'No migrations to apply' not in result.stdout"
+
+    - name: Set the Pulp admin user's password
+      command: '{{ pulp_install_dir }}/bin/django-admin reset-admin-password --password {{ pulp_default_admin_password }}'
+      no_log: true
+      when: pulp_default_admin_password is defined and migrate_auth.changed
+
+  become: true
+  become_user: '{{ pulp_user }}'

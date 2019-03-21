@@ -1,0 +1,13 @@
+---
+galaxy_info:
+  author: Pulp
+  description: Pulp worker
+  company: Red Hat
+  min_ansible_version: 2.4
+  platforms:
+    - name: Fedora
+      versions:
+        - 28
+  license: GPL-3.0
+dependencies:
+  - pulp-redis

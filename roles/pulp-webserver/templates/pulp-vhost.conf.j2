@@ -1,0 +1,27 @@
+<VirtualHost *:80>
+  ServerName {{ ansible_nodename }}
+
+  ## Vhost docroot
+  DocumentRoot {{ pulp_webserver_static_dir }}
+
+  <Directory "{{ pulp_webserver_static_dir }}">
+    Options SymLinksIfOwnerMatch
+    AllowOverride None
+    Require all granted
+  </Directory>
+
+  ## Logging
+  ErrorLog "/var/log/httpd/pulp_error.log"
+  ServerSignature Off
+  CustomLog "/var/log/httpd/pulp_access.log" combined
+
+  ## Proxy rules
+  ProxyRequests Off
+  ProxyPreserveHost Off
+  ProxyPass /pulp/api http://{{ pulp_api_host }}:{{ pulp_api_port }}/pulp/api
+  ProxyPassReverse /pulp/api http://{{ pulp_api_host }}:{{ pulp_api_port }}/pulp/api
+
+  ## Server aliases
+  ServerAlias pulp
+
+</VirtualHost>
