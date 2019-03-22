@@ -48,6 +48,14 @@
         owner: '{{ pulp_user }}'
         group: '{{ pulp_user }}'
 
+    - name: Install packages needed for source install
+      package:
+        name:
+          - git
+        state: present
+      register: result
+      until: result is succeeded
+
   become: true
 
 - block:
