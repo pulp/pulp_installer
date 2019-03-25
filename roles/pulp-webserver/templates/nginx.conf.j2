@@ -2,8 +2,10 @@
 # TODO: Configure SSL certificates.
 # TODO: Maybe serve multiple `location`s, not just one.
 
+{% if ansible_os_family == "RedHat" %}
 # The "nginx" package on fedora creates this user and group.
 user nginx nginx;
+{% endif %}
 # Gunicorn docs suggest this value.
 worker_processes 1;
 events {

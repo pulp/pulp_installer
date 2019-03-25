@@ -24,6 +24,22 @@
 
 - block:
 
+    - name: Install several useful packages (Debian-specific)
+      package:
+        name:
+          - bash-completion
+          - fd-find
+          - fzf
+          - python3-setuptools
+          - virtualenvwrapper
+          - ripgrep
+          - vim
+        state: present
+      retries: "{{ pulp_devel_package_retries }}"
+      register: result
+      until: result is succeeded
+      when: ansible_distribution == 'Debian'
+
     - name: Install several useful packages (Fedora-specific)
       package:
         name:
@@ -109,6 +125,7 @@
       template:
         src: templates/venv.bashrc.j2
         dest: '{{ developer_user_home }}/.bashrc.d/venv.bashrc'
+      when: ansible_distribution == 'Fedora'
 
   become: true
   become_user: "{{ developer_user }}"
