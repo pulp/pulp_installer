@@ -1,7 +1,7 @@
 ---
-- name: Restart pulp-wsgi.service
+- name: Restart pulp-api.service
   systemd:
-    name: pulp-wsgi.service
+    name: pulp-api.service
     state: restarted
     daemon_reload: true
   become: true
@@ -12,3 +12,4 @@
   changed_when: "staticresult.stdout is not search('\n0 static files')"
   become: true
   become_user: '{{ pulp_user }}'
+  notify: Restart pulp-api.service

@@ -6,11 +6,9 @@ pulp_db_type: 'postgres'
 pulp_default_admin_password: ''
 pulp_install_dir: '/usr/local/lib/pulp'
 pulp_install_plugins: {}
-pulp_install_wsgi_service: true
+pulp_install_api_service: true
 pulp_user: pulp
 pulp_user_home: '/var/lib/pulp'
-pulp_wsgi_enabled: true
-pulp_wsgi_state: started
 pulp_pip_editable: yes
 pulp_api_host: localhost
 pulp_api_port: 8000

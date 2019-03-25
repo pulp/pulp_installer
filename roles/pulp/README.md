@@ -25,18 +25,14 @@ Role Variables:
   of each plugin. **Required**.
   * `source_dir`: Optional. Absolute path to the plugin source code. If present,
   plugin will be installed from source in editable mode.
-* `pulp_install_wsgi_service`: Whether to create systemd service files for
-  pulp-wsgi. Defaults to "true".
+* `pulp_install_api_service`: Whether to create systemd service files for
+  pulp-api. Defaults to "true".
 * `pulp_secret_key`: **Required**. Pulp's Django application `SECRET_KEY`.
 * `pulp_source_dir`: Optional. Absolute path to Pulp source code. If present, Pulp
   will be installed from source in editable mode.
 * `pulp_user`: User that owns and runs Pulp. Defaults to "pulp".
 * `pulp_var_dir`: This will be the home directory of the created `pulp_user`.
   Defaults to "/var/lib/pulp".
-* `pulp_wsgi_state`: This variable can be configured to any of the states allowed by
-  the systemd module's "state" directive. Defaults to "started".
-* `pulp_wsgi_enabled` This variable can be configured with any of the states allowed
-  by the systemd module's "enabled" directive. Defaults to "true."
 * `pulp_api_port` Set the port the API server is served from. Defaults to '8000'.
 * `pulp_api_host` Set the host the API server is served from. Defaults to 'localhost'.
 
