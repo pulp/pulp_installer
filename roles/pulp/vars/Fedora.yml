@@ -3,6 +3,7 @@ pulp_preq_packages:
   - python3
   - python3-devel
   - libselinux-python  # For ansible itself
+  - make               # For make docs
 
 # Pulp requires Python 3.6+.
 pulp_python_interpreter: /usr/bin/python3
