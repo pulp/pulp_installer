@@ -1,5 +1,5 @@
 ---
-- hosts: fedora-28
+- hosts: fedora-29
   tasks:
     - name: Install required packages
       package:

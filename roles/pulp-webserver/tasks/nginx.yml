@@ -53,6 +53,7 @@
         name: firewalld
         state: started
         enabled: true
+        daemon_reload: true
 
     - name: Accept connections on port 80
       firewalld:

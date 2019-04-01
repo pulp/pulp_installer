@@ -4,5 +4,5 @@
 #
 # https://github.com/geerlingguy/ansible-role-postgresql/compare/master...dralley:master
 - src: https://github.com/dralley/ansible-role-postgresql
-  version: master
+  version: test
   name: geerlingguy.postgresql

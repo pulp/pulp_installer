@@ -14,7 +14,7 @@ must have Python 3 and Ansible installed.
 
 The [managed node](https://docs.ansible.com/ansible/2.5/network/getting_started/basic_concepts.html#managed-nodes)
 must be one of these currently supported operating systems:
-* Fedora 28
+* Fedora 29
 * CentOS 7
 
 Variables
