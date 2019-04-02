@@ -1,6 +1,5 @@
 # Molecule managed
 
-
 FROM {{ item.image }}
 
 ENV container=docker
@@ -23,6 +22,7 @@ RUN if [[ "$(source /etc/os-release && echo "$ID")" == 'centos' ]]; then \
   yum install -y \
     bash \
     firewalld \
+    iptables \
     jemalloc \
     python \
     python2-dnf \
@@ -39,6 +39,7 @@ elif [[ "$(source /etc/os-release && echo "$ID")" == 'fedora' ]]; then \
   dnf --assumeyes install \
     bash \
     firewalld \
+    iptables \
     jemalloc \
     python3 \
     python3-dnf \

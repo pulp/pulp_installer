@@ -7,12 +7,12 @@ driver:
 lint:
   name: yamllint
 platforms:
-  - name: centos-7
-    image: centos:7
-    privileged: True
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
-    command: /usr/sbin/init
+  # - name: centos-7
+  #   image: centos:7
+  #   privileged: True
+  #   volumes:
+  #     - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  #   command: /usr/sbin/init
   - name: fedora-29
     image: fedora:29
     privileged: True
