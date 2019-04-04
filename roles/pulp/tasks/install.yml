@@ -12,6 +12,15 @@
         name: '{{ pulp_preq_packages }}'
         state: present
 
+    # Needed by psycopg2-binary from PyPI
+    - name: Install prerequisites (Fedora 30+ only)
+      package:
+        name: libxcrypt-compat
+        state: present
+      when:
+        - ansible_distribution == "Fedora"
+        - ansible_distribution_version|int >= 30
+
     - name: Disable SELinux (Pulp 3 is currently incompatible with SELinux)
       selinux:
         policy: targeted
