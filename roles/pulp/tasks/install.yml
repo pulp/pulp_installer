@@ -69,13 +69,6 @@
 
 - block:
 
-    - name: Install idna <2.8  # https://github.com/requests/requests/issues/4890
-      pip:
-        name: idna
-        version: 2.7
-        virtualenv: '{{ pulp_install_dir }}'
-        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
-
     - name: Install the psycopg python package
       pip:
         name: psycopg2-binary
