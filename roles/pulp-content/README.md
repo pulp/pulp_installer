@@ -8,7 +8,15 @@ Variables:
 
 * `pulp_content_host`: Host and port where Pulp content app is served. Defaults to `localhost:8080`
 
-This variable will be set as the value of `CONTENT_HOST` config in `{{pulp_config_dir}}/settings.py` as the base path to build content URLs and also is the value passed to the `--bind` parameter of the `pulpcore.content` gunicorn service.
+This variable will be set as the value of `CONTENT_HOST` config in `{{pulp_config_dir}}/settings.py` as the base path to build content URLs.
+
+Defaults to `localhost:8080`
+
+* `pulp_content_bind`: Interface and Port where Pulp Content `gunicorn` service will listen.
+
+This variable is the value used to render the `pulp-content-app.service.j2` template passing to the `--bind` parameter of the gunicorn service.
+
+Defaults to `0.0.0.0:8080`
 
 Shared variables:
 -----------------
