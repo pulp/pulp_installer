@@ -65,9 +65,34 @@
       register: result
       until: result is succeeded
 
+    - name: Install RPM prerequisities
+      package:
+        name: '{{ item }}'
+        state: present
+      with_items:
+        - createrepo_c
+        - python3-createrepo_c
+      when: "'pulp-rpm' in pulp_install_plugins"
+
   become: true
 
 - block:
+
+    # hack for allow use system wide site-packages
+    - name: Create virtualenv with access to system-wide site-packages
+      pip:
+        virtualenv: '{{ pulp_install_dir }}'
+        virtualenv_command: '{{ pulp_python_interpreter }} -m venv --system-site-packages'
+        name: pip
+        state: present
+      when: "'pulp-rpm' in pulp_install_plugins"
+
+    - name: Install idna <2.8  # https://github.com/requests/requests/issues/4890
+      pip:
+        name: idna
+        version: 2.7
+        virtualenv: '{{ pulp_install_dir }}'
+        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
 
     - name: Install the psycopg python package
       pip:
