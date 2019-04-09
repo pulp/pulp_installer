@@ -2,7 +2,7 @@
 # Upstream is slow to accept pull requests.
 # Still waiting on the original " Add Fedora support" pull request from ehelms.
 #
-# https://github.com/geerlingguy/ansible-role-postgresql/compare/master...mikedep333:F30
-- src: https://github.com/mikedep333/ansible-role-postgresql
-  version: F30
+# https://github.com/geerlingguy/ansible-role-postgresql/compare/master...dralley:master
+- src: https://github.com/dralley/ansible-role-postgresql
+  version: master
   name: geerlingguy.postgresql
