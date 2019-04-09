@@ -4,13 +4,13 @@
       "hostname": "localhost",
       "roles": {
         "api": {
-          "port": 8000,
+          "port": 24817,
           "scheme": "http",
           "service": "nginx",
           "verify": false
         },
         "content": {
-          "port": 8080,
+          "port": 24816,
           "scheme": "http",
           "service": "pulp-content-app",
           "verify": false
