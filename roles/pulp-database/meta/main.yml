@@ -9,7 +9,7 @@ galaxy_info:
   platforms:
     - name: Fedora
       versions:
-        - all
+        - 30
   # - name: Debian
   #   versions:
   #     - stretch

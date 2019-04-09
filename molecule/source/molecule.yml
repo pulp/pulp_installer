@@ -7,8 +7,8 @@ driver:
 lint:
   name: yamllint
 platforms:
-  - name: fedora-29
-    image: fedora:29
+  - name: fedora-30
+    image: fedora:30
     privileged: True
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro

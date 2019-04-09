@@ -7,5 +7,5 @@ galaxy_info:
   platforms:
     - name: Fedora
       versions:
-        - 29
+        - 30
   license: GPL-3.0
