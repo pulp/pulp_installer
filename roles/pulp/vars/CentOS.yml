@@ -6,4 +6,5 @@ pulp_preq_packages:
   - libselinux-python  # For ansible itself
   - python-psycopg2
   - python-contextlib2
+  - make               # For make docs
 pulp_python_interpreter: /usr/bin/python36
