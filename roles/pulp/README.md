@@ -33,7 +33,7 @@ Role Variables:
 * `pulp_user`: User that owns and runs Pulp. Defaults to "pulp".
 * `pulp_var_dir`: This will be the home directory of the created `pulp_user`.
   Defaults to "/var/lib/pulp".
-* `pulp_api_port` Set the port the API server is served from. Defaults to '8000'.
+* `pulp_api_port` Set the port the API server is served from. Defaults to '24817'.
 * `pulp_api_host` Set the host the API server is served from. Defaults to 'localhost'.
 
 Shared Variables:
