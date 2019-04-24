@@ -15,7 +15,8 @@ RuntimeDirectory=pulp-content-app
 ExecStart={{ pulp_install_dir }}/bin/gunicorn pulpcore.content:server \
           --bind '{{ pulp_content_bind }}' \
           --worker-class 'aiohttp.GunicornWebWorker' \
-          -w 2
+          -w 2 \
+          --access-logfile -
 
 [Install]
 WantedBy=multi-user.target
