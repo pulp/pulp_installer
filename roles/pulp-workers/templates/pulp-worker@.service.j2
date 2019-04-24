@@ -17,7 +17,8 @@ RuntimeDirectory=pulp-worker-%i
 ExecStart={{ pulp_install_dir }}/bin/rq worker \
           -w pulpcore.tasking.worker.PulpWorker \
           -n reserved-resource-worker-%i@%%h \
-          --pid=/var/run/pulp-worker-%i/reserved-resource-worker-%i.pid
+          --pid=/var/run/pulp-worker-%i/reserved-resource-worker-%i.pid \
+          -c 'pulpcore.rqconfig'
 
 [Install]
 WantedBy=multi-user.target
