@@ -35,6 +35,7 @@ Role Variables:
   Defaults to "/var/lib/pulp".
 * `pulp_api_port` Set the port the API server is served from. Defaults to '24817'.
 * `pulp_api_host` Set the host the API server is served from. Defaults to 'localhost'.
+* `pulp_use_system_wide_pkgs` Use python system-wide packages. Defaults to "false".
 
 Shared Variables:
 -----------------
