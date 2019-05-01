@@ -8,7 +8,8 @@ User={{ pulp_user }}
 PIDFile=/run/pulp-api.pid
 RuntimeDirectory=pulp-api
 ExecStart={{ pulp_install_dir }}/bin/gunicorn pulpcore.app.wsgi:application \
-          --bind '{{ pulp_api_host }}:{{ pulp_api_port }}'
+          --bind '{{ pulp_api_host }}:{{ pulp_api_port }}' \
+          --access-logfile -
 ProtectSystem=full
 PrivateTmp=yes
 PrivateDevices=yes
