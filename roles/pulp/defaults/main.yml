@@ -12,3 +12,4 @@ pulp_user_home: '/var/lib/pulp'
 pulp_pip_editable: yes
 pulp_api_host: localhost
 pulp_api_port: 24817
+pulp_use_system_wide_pkgs: false

@@ -69,6 +69,16 @@
 
 - block:
 
+    # Hack for use system-wide packages when enabled by user - Must be first usage of virtualenv
+    - name: Allow use system-wide packages
+      pip:
+        name: pip
+        state: present
+        virtualenv: '{{ pulp_install_dir }}'
+        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+        virtualenv_site_packages: yes
+      when: pulp_use_system_wide_pkgs
+
     - name: Install the psycopg python package
       pip:
         name: psycopg2-binary
