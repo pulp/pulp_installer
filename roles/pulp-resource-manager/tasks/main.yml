@@ -4,7 +4,7 @@
     - name: Install service files
       template:
         src: pulp-resource-manager.service.j2
-        dest: /usr/lib/systemd/system/pulp-resource-manager.service
+        dest: /lib/systemd/system/pulp-resource-manager.service
         owner: root
         group: root
         mode: 0644
