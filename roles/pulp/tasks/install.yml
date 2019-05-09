@@ -1,6 +1,11 @@
 ---
 - block:
 
+    - name: Update apt package index
+      apt:
+        update_cache: yes
+      when: ansible_distribution == 'Debian'
+
     - name: Install EPEL Release
       package:
         name: epel-release
@@ -147,3 +152,4 @@
 
   become: true
   become_user: '{{ pulp_user }}'
+...
