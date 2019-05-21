@@ -73,6 +73,17 @@
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
 
+    - name: Install requirements for building docs (plugins)
+      pip:
+        requirements: '{{ pulp_install_plugins[item.key].source_dir }}/doc_requirements.txt'
+        state: present
+        virtualenv: '{{ pulp_install_dir }}'
+        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+      with_dict: '{{ pulp_install_plugins }}'
+      when: pulp_install_plugins[item.key].source_dir is defined
+      # We do not know if this file exists in all plugins
+      failed_when: false
+
     - name: Install requirements for testing locally
       pip:
         requirements: '{{ pulp_requirements_dir }}/test_requirements.txt'
@@ -80,12 +91,34 @@
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
 
+    - name: Install requirements for testing locally (plugins)
+      pip:
+        requirements: '{{ pulp_install_plugins[item.key].source_dir }}/test_requirements.txt'
+        state: present
+        virtualenv: '{{ pulp_install_dir }}'
+        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+      with_dict: '{{ pulp_install_plugins }}'
+      when: pulp_install_plugins[item.key].source_dir is defined
+      # We do not know if this file exists in all plugins
+      failed_when: false
+
     - name: Install requirements for developer scripts
       pip:
         requirements: '{{ pulp_requirements_dir }}/dev_requirements.txt'
         state: present
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+
+    - name: Install requirements for developer scripts (plugins)
+      pip:
+        requirements: '{{ pulp_install_plugins[item.key].source_dir }}/dev_requirements.txt'
+        state: present
+        virtualenv: '{{ pulp_install_dir }}'
+        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+      with_dict: '{{ pulp_install_plugins }}'
+      when: pulp_install_plugins[item.key].source_dir is defined
+      # We do not know if this file exists in all plugins
+      failed_when: false
 
       retries: "{{ pulp_devel_package_retries }}"
       register: result
