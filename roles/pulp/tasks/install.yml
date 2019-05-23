@@ -5,6 +5,8 @@
       apt:
         update_cache: yes
       when: ansible_distribution == 'Debian'
+      # This is a lie, but necessary for Idempotence test
+      changed_when: False
 
     - name: Install EPEL Release
       package:
@@ -82,7 +84,7 @@
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
         virtualenv_site_packages: yes
-      when: pulp_use_system_wide_pkgs
+      when: pulp_use_system_wide_pkgs |bool
 
     - name: Install the psycopg python package
       pip:

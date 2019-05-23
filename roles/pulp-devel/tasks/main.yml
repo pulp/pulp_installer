@@ -133,7 +133,7 @@
 
   become: true
   become_user: "{{ developer_user }}"
-  when: pulp_devel_supplement_bashrc
+  when: pulp_devel_supplement_bashrc |bool
 
 - block:
 
