@@ -20,4 +20,4 @@
       become: true
       notify: Restart pulp-api.service
 
-  when: pulp_install_api_service
+  when: pulp_install_api_service |bool
