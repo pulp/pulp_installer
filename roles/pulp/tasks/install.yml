@@ -134,6 +134,7 @@
         state: present
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+        extra_args: "--install-option='--' --install-option='-DWITH_ZCHUNK:BOOL=OFF'"
       with_dict: '{{ pulp_install_plugins }}'
       when: pulp_install_plugins[item.key].source_dir is undefined
       notify: Collect static content
