@@ -62,6 +62,13 @@
         owner: '{{ pulp_user }}'
         group: '{{ pulp_user }}'
 
+    - name: create static dir
+      file:
+        path: '{{ pulp_user_home }}/static/'
+        state: directory
+        owner: '{{ pulp_user }}'
+        group: '{{ pulp_user }}'
+
     - name: Install packages needed for source install
       package:
         name:
