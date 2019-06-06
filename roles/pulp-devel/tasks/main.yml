@@ -20,6 +20,12 @@
       register: result
       until: result is succeeded
 
+    - name: Install Centos Specific Packages
+      package:
+        name:
+          - python-virtualenvwrapper
+      when: ansible_distribution == 'CentOS'
+
     - name: Install several useful packages (Debian-specific)
       package:
         name:
@@ -129,7 +135,8 @@
       template:
         src: templates/venv.bashrc.j2
         dest: '{{ developer_user_home }}/.bashrc.d/venv.bashrc'
-      when: ansible_distribution == 'Debian' or ansible_distribution == 'Fedora'
+      when: ansible_distribution != 'Ubuntu'
+
 
   become: true
   become_user: "{{ developer_user }}"

@@ -11,3 +11,6 @@ source /usr/bin/virtualenvwrapper-3.sh
 {% if ansible_distribution == 'Debian' %}
 export VIRTUALENVWRAPPER_HOOK_DIR=$HOME/.virtualenvs
 {% endif %}
+{% if ansible_distribution == 'CentOS' %}
+source /usr/bin/virtualenvwrapper.sh
+{% endif %}
