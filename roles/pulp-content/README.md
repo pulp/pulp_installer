@@ -6,17 +6,12 @@ Install, configure, and set the state of pulp content app.
 Variables:
 ----------
 
-* `pulp_content_host`: Host and port where Pulp content app is served. Defaults to `localhost:24816`
-
-This variable will be set as the value of `CONTENT_HOST` config in `{{pulp_config_dir}}/settings.py` as the base path to build content URLs.
-
-Defaults to `localhost:24816`
-
 * `pulp_content_bind`: Interface and Port where Pulp Content `gunicorn` service will listen.
 
-This variable is the value used to render the `pulp-content-app.service.j2` template passing to the `--bind` parameter of the gunicorn service.
+This variable is the value used to render the `pulp-content-app.service.j2` template passing to the
+`--bind` parameter of the gunicorn service.
 
-Defaults to `0.0.0.0:24816`
+Defaults to `127.0.0.1:24816`
 
 Shared variables:
 -----------------

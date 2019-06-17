@@ -37,6 +37,8 @@ Role Variables:
 * `pulp_api_host` Set the host the API server is served from. Defaults to 'localhost'.
 * `pulp_use_system_wide_pkgs` Use python system-wide packages. Defaults to "false".
 * `pulp_remote_user_environ_name` Optional. Set the `REMOTE_USER_ENVIRON_NAME` setting for Pulp.
+* `pulp_content_host`: Host and port where Pulp content app is served. Defaults to `127.0.0.1:24816`
+  This variable will be set as the value of `CONTENT_HOST` as the base path to build content URLs.
 
 Shared Variables:
 -----------------

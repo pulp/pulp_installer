@@ -1,3 +1,2 @@
 ---
-pulp_content_host: 'localhost:24816'
-pulp_content_bind: '0.0.0.0:24816'
+pulp_content_bind: '127.0.0.1:24816'
