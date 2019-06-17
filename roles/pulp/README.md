@@ -33,12 +33,15 @@ Role Variables:
 * `pulp_user`: User that owns and runs Pulp. Defaults to "pulp".
 * `pulp_var_dir`: This will be the home directory of the created `pulp_user`.
   Defaults to "/var/lib/pulp".
-* `pulp_api_port` Set the port the API server is served from. Defaults to '24817'.
-* `pulp_api_host` Set the host the API server is served from. Defaults to 'localhost'.
 * `pulp_use_system_wide_pkgs` Use python system-wide packages. Defaults to "false".
 * `pulp_remote_user_environ_name` Optional. Set the `REMOTE_USER_ENVIRON_NAME` setting for Pulp.
 * `pulp_content_host`: Host and port where Pulp content app is served. Defaults to `127.0.0.1:24816`
   This variable will be set as the value of `CONTENT_HOST` as the base path to build content URLs.
+* `pulp_api_bind` Interface and Port where Pulp Content `gunicorn` service will listen. Defaults to
+  '127.0.0.1:24817'. This variable is the value used to render the `pulp-api.service.j2` template
+  passing to the `--bind` parameter of the `gunicorn` service.
+
+
 
 Shared Variables:
 -----------------
