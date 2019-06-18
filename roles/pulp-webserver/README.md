@@ -3,8 +3,22 @@ pulp-webserver
 
 Install, configure, start, and enable a web server.
 
-Currently, the only web server that this role can install is Nginx. In the
-future, additional web servers such as Apache or LightTPD might be supported.
+Currently, Nginx and Apache are supported. They are configured as a reverse proxy to the pulp-api
+and pulp-content-app Gunicorn processes.
+
+
+Variables:
+----------
+
+* `pulp_content_port` Set the port the reverse proxy should connect to for the Content app. Defaults
+  to '24816'.
+* `pulp_content_host` Set the host the reverse proxy should connect to for the Content app. Defaults
+  to '127.0.0.1'.
+* `pulp_api_port` Set the port the reverse proxy should connect to for the API server. Defaults to
+  '24817'.
+* `pulp_api_host` Set the host the reverse proxy should connect to for the API server. Defaults to
+  '127.0.0.1'.
+
 
 Shared variables:
 -----------------
