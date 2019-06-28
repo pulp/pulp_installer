@@ -1,5 +1,5 @@
 pulp-workers
-=============
+============
 
 Install, configure, and set the state of pulp workers.
 

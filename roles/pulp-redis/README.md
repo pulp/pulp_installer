@@ -1,5 +1,5 @@
 pulp-redis
-===========
+==========
 
 Install and start Redis, and install RQ in the Pulp virtualenv.
 

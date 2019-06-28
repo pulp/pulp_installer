@@ -1,21 +1,26 @@
 ---
+
+- name: Set database defaults if not provided
+  set_fact:
+    pulp_settings: "{{ pulp_settings_db_defaults|combine(pulp_settings, recursive=True) }}"
+
 - block:
 
-  - name: Create configuration directory for Pulp
-    file:
-      path: '{{ pulp_config_dir }}'
-      state: directory
-      owner: root
-      group: '{{ pulp_user }}'
-      mode: 0750
+    - name: Create configuration directory for Pulp
+      file:
+        path: '{{ pulp_config_dir }}'
+        state: directory
+        owner: root
+        group: '{{ pulp_user }}'
+        mode: 0750
 
-  - name: Create configuration file for Pulp
-    template:
-      src: settings.py.j2
-      dest: '{{ pulp_config_dir }}/settings.py'
-      owner: root
-      group: '{{ pulp_user }}'
-      mode: 0640
-      force: no
+    - name: Create configuration file for Pulp
+      template:
+        src: settings.py.j2
+        dest: '{{ pulp_config_dir }}/settings.py'
+        owner: root
+        group: '{{ pulp_user }}'
+        mode: 0640
+        force: no
 
   become: true

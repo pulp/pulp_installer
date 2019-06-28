@@ -20,8 +20,9 @@ must be one of these currently supported operating systems:
 Variables
 ---------
 
-Each role documents all the variables that it uses in a separate README, and some variables are
-shared between multiple roles.
+**Each role documents all the variables that it uses in its own README**. Some variables are
+used by multiple roles. In that case, they are be documented in their primary role and mentioned in
+the `shared_variables` section the other roles.
 
 **Required Variables:**
 Most variables have sane defaults but a few are required. See ``example-use/group_vars/all`` for
