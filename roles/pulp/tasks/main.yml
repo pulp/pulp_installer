@@ -1,5 +1,8 @@
 ---
 
+- debug:
+    msg: '{{ pulp_settings }}'
+
 - name: Fail when pulp_secret_key is not set
   assert:
     that: pulp_settings.secret_key is defined
