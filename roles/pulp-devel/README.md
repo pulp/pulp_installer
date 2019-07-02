@@ -1,5 +1,5 @@
-Pulp3 Devel
-===========
+pulp-devel
+==========
 
 This role installs useful tools and adds some config files for a Pulp 3
 development environment.

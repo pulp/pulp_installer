@@ -1,5 +1,5 @@
-pulp3-database
-================
+pulp-database
+=============
 
 Optionally install a database, then configure for Pulp.
 
@@ -12,31 +12,29 @@ More specifically, this role does the following:
 Role Variables:
 ---------------
 
-* `pulp_database_config`: Defines how Pulp will talk to PostgreSQL. Default values are constructed
-*                         from the other variables defined here. See `defaults/main.yml`.
-* `pulp_db_host`: Host of the database instance. Defaults to localhost.
-* `pulp_db_name`: Name of the database, defaults to pulp.
-* `pulp_db_user`: Database user, should match linux user. Defaults to pulp
-* `pulp_db_password`: Password for Postgresql user. Defaults to pulp
-* `pulp_db_backend`: Django setting for db backend. for databasePassword for Postgresql user.
-                     Defaults to "django.db.backends.postgresql_psycopg2"
-* `pulp_install_db`: Defaults to true. Whether to install a database.
+* `pulp_settings_db_defaults`: This variable **should not be changed by users**, but serves as the
+    defaults. Users wishing to set their own values should use the user-facing variable
+    `pulp_settings.databases`. These settings define how Pulp will talk to the database, and
+    produces default settings for the external database installer role. Default values are defined
+    in `defaults/main.yml`. See [pulpcore
+    docs](https://docs.pulpproject.org/en/3.0/nightly/installation/configuration.html#databases) or
+    [Django docs](https://docs.djangoproject.com/en/2.1/ref/settings/#databases) for more
+    information.
 
 Shared Variables:
 -----------------
 
 * `ansible_python_interpreter`: **Required**. Path to the Python interpreter.
 
-This role **is tightly coupled** with the required the `pulp3` role and uses some of
+This role **is tightly coupled** with the required the `pulp` role and uses some of
 variables which are documented in that role:
 
+* `pulp_db_type`:
 * `pulp_user`
 * `pulp_install_dir`
 * `pulp_install_plugins`
 * `pulp_default_admin_password`
-
-
-This role optionally depends on other roles to install a database.
+* `pulp_settings`
 
 Operating Systems Variables:
 ----------------------------

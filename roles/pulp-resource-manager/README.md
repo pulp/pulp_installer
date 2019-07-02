@@ -1,5 +1,5 @@
 pulp-resource-manager
-=============
+=====================
 
 Install, configure, and set the state of the pulp resouce manager.
 

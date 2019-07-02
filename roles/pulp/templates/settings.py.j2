@@ -1,11 +1,3 @@
-DATABASES = {{ pulp_database_config | to_json }}
-
-SECRET_KEY = '{{ pulp_secret_key }}'
-
-{% if pulp_content_host is defined %}
-CONTENT_HOST = '{{ pulp_content_host }}'
-{% endif %}
-
-{% if pulp_remote_user_environ_name is defined %}
-REMOTE_USER_ENVIRON_NAME = '{{ pulp_remote_user_environ_name }}'
-{% endif %}
+{% for setting, value in pulp_settings.items() %}
+{{ setting | upper }} = {{ value | tojson }}
+{% endfor %}
