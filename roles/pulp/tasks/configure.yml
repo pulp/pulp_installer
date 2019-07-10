@@ -2,10 +2,9 @@
 
 - name: Set database defaults if not provided
   set_fact:
-    pulp_settings: "{{ pulp_settings_db_defaults|combine(pulp_settings, recursive=True) }}"
+    merged_pulp_settings: "{{ pulp_settings_db_defaults|combine(pulp_settings, recursive=True) }}"
 
 - block:
-
     - name: Create configuration directory for Pulp
       file:
         path: '{{ pulp_config_dir }}'

@@ -1,3 +1,3 @@
-{% for setting, value in pulp_settings.items() %}
+{% for setting, value in merged_pulp_settings.items() %}
 {{ setting | upper }} = {{ value | tojson }}
 {% endfor %}

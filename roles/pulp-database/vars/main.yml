@@ -2,10 +2,10 @@
 # Variables used by the Geerlingguy Postgresql role
 
 postgresql_databases:
-  - name: '{{ pulp_settings.databases.default.NAME }}'
-    owner: '{{ pulp_settings.databases.default.NAME }}'
+  - name: '{{ merged_pulp_settings.databases.default.NAME }}'
+    owner: '{{ merged_pulp_settings.databases.default.NAME }}'
 
 postgresql_users:
-  - name: '{{ pulp_settings.databases.default.USER }}'
-    password: '{{ pulp_settings.databases.default.PASSWORD }}'
+  - name: '{{ merged_pulp_settings.databases.default.USER }}'
+    password: '{{ merged_pulp_settings.databases.default.PASSWORD }}'
     role_attr_flags: CREATEDB
