@@ -11,7 +11,7 @@
         postgresql_global_config_options:
           - option: listen_addresses
             value: "*"
-      when: pulp_settings.databases.default.HOST != 'localhost'
+      when: merged_pulp_settings.databases.default.HOST != 'localhost'
 
     - name: Install and configure PostgreSQL
       import_role:
