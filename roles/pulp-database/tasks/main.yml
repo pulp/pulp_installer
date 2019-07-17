@@ -35,7 +35,7 @@
         name: '{{ result.files[0].path }}/site-packages/pulpcore/app/migrations'
         state: directory
         owner: '{{ pulp_user }}'
-        group: '{{ pulp_user }}'
+        group: '{{ pulp_group }}'
         mode: 0700
       when: pulp_source_dir is undefined
 
@@ -44,7 +44,7 @@
         name: '{{ result.files[0].path }}/site-packages/{{ item }}/app/migrations'
         state: directory
         owner: '{{ pulp_user }}'
-        group: '{{ pulp_user }}'
+        group: '{{ pulp_group }}'
         mode: 0700
       with_items: "{{ pulp_install_plugins }}"
       when: pulp_install_plugins[item].source_dir is undefined

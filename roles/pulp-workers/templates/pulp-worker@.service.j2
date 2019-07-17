@@ -8,6 +8,7 @@ EnvironmentFile=-/etc/default/pulp-workers
 EnvironmentFile=-/etc/default/pulp-workers-%i
 Environment="DJANGO_SETTINGS_MODULE=pulpcore.app.settings"
 User={{ pulp_user }}
+Group={{ pulp_group }}
 WorkingDirectory=/var/run/pulp-worker-%i/
 RuntimeDirectory=pulp-worker-%i
 ExecStart={{ pulp_install_dir }}/bin/rq worker \
