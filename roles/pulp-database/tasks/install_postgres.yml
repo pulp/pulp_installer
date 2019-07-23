@@ -16,4 +16,6 @@
     - name: Install and configure PostgreSQL
       import_role:
         name: geerlingguy.postgresql
+      vars:
+        postgresql_use_scl: True
   become: yes
