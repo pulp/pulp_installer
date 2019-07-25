@@ -6,6 +6,12 @@
         state: present
       when: ansible_distribution == 'CentOS'
 
+    - name: Install PostgreSQL SCL
+      package:
+        name: 'rh-postgresql96'
+        state: present
+      when: ansible_distribution == 'CentOS'
+
     - name: Set listen addresses
       set_fact:
         postgresql_global_config_options:

@@ -3,10 +3,6 @@ Description=Pulp RQ Worker
 After=network-online.target
 Wants=network-online.target
 
-# This service will break if left running while PostgreSQL restarts.
-BindsTo=postgresql.service
-After=postgresql.service
-
 [Service]
 EnvironmentFile=-/etc/default/pulp-workers
 EnvironmentFile=-/etc/default/pulp-workers-%i
@@ -19,6 +15,12 @@ ExecStart={{ pulp_install_dir }}/bin/rq worker \
           -n reserved-resource-worker-%i@%%h \
           --pid=/var/run/pulp-worker-%i/reserved-resource-worker-%i.pid \
           -c 'pulpcore.rqconfig'
+
+
+# This provides reconnect support for PostgreSQL and Redis. Without reconnect support, if either
+# is not available at startup or becomes disconnected, this process will die and not respawn.
+Restart=always
+RestartSec=3
 
 [Install]
 WantedBy=multi-user.target

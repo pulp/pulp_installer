@@ -14,6 +14,12 @@ ProtectSystem=full
 PrivateTmp=yes
 PrivateDevices=yes
 
+
+# This provides reconnect support for PostgreSQL and Redis. Without reconnect support, if either
+# is not available at startup or becomes disconnected, this process will die and not respawn.
+Restart=always
+RestartSec=3
+
 # This directive is set to an absolute path in other Pulp units. Using an
 # absolute path is an abuse of the directive, as it should be a relative path,
 # not an absolute path. PIDFile is now used to ensure that PID files are laid
