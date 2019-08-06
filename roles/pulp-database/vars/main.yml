@@ -3,7 +3,7 @@
 
 postgresql_databases:
   - name: '{{ merged_pulp_settings.databases.default.NAME }}'
-    owner: '{{ merged_pulp_settings.databases.default.USER }}'
+    owner: '{{ merged_pulp_settings.databases.default.NAME }}'
 
 postgresql_users:
   - name: '{{ merged_pulp_settings.databases.default.USER }}'
