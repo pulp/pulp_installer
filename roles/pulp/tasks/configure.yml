@@ -10,7 +10,7 @@
         path: '{{ pulp_config_dir }}'
         state: directory
         owner: root
-        group: '{{ pulp_user }}'
+        group: '{{ pulp_group }}'
         mode: 0750
 
     - name: Create configuration file for Pulp
@@ -18,7 +18,7 @@
         src: settings.py.j2
         dest: '{{ pulp_config_dir }}/settings.py'
         owner: root
-        group: '{{ pulp_user }}'
+        group: '{{ pulp_group }}'
         mode: 0640
         force: no
 

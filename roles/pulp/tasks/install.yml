@@ -41,20 +41,46 @@
       check_mode: False
       register: result
 
+    - name: Make sure {{ pulp_group }} group exists
+      group:
+        name: '{{ pulp_group }}'
+        gid: '{{ pulp_group_id }}'
+        state: present
+        system: true
+
     - name: Create user {{ pulp_user }}
       user:
         name: '{{ pulp_user }}'
+        uid: '{{ pulp_user_id }}'
         shell: '{{ result.stdout.strip() }}'
         home: '{{ pulp_user_home }}'
         system: true
       when: developer_user is not defined
+
+    - name: Add user {{ pulp_user }} to {{ pulp_group }} group
+      user:
+        name: '{{ pulp_user }}'
+        groups:
+          - '{{ pulp_group }}'
+        append: true
+
+    - name: Add user {{ developer_user }} to {{ pulp_group }} group
+      user:
+        name: '{{ developer_user }}'
+        groups:
+          - '{{ pulp_group }}'
+        append: true
+      when: developer_user is defined
+
+    - name: Reset ssh conn to allow user changes to affect when ssh user and pulp user are the same
+      meta: reset_connection
 
     - name: Create cache dir for Pulp
       file:
         path: '{{ pulp_cache_dir }}'
         state: directory
         owner: '{{ pulp_user }}'
-        group: '{{ pulp_user }}'
+        group: '{{ pulp_group }}'
         mode: 0775
 
     - name: Create pulp install dir
@@ -62,7 +88,7 @@
         path: '{{ pulp_install_dir }}'
         state: directory
         owner: '{{ pulp_user }}'
-        group: '{{ pulp_user }}'
+        group: '{{ pulp_group }}'
 
     - name: Install packages needed for source install
       package:

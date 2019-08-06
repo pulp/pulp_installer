@@ -8,6 +8,9 @@ pulp_install_dir: '/usr/local/lib/pulp'
 pulp_install_plugins: {}
 pulp_install_api_service: true
 pulp_user: pulp
+pulp_user_id:
+pulp_group: pulp
+pulp_group_id:
 pulp_user_home: '/var/lib/pulp'
 pulp_pip_editable: yes
 pulp_use_system_wide_pkgs: false
