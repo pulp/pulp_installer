@@ -23,9 +23,13 @@ http {
     # to build optimal hash types.
     types_hash_max_size 4096;
 
-    upstream pulp {
+    upstream pulp-api {
         # for a TCP configuration
          server {{ pulp_api_host }}:{{ pulp_api_port }};
+    }
+    upstream pulp-content {
+        # for a TCP configuration
+         server {{ pulp_content_host }}:{{ pulp_content_port }};
     }
 
     server {
@@ -42,6 +46,15 @@ http {
         # Path to Pulp's static files.
         root {{ pulp_webserver_static_dir }};
 
+        location /pulp/content {
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_set_header Host $http_host;
+            # we don't want nginx trying to do something clever with
+            # redirects, we set the Host: header above already.
+            proxy_redirect off;
+            proxy_pass http://pulp-content;
+        }
         location / {
             # checks for static file, if not found proxy to app
             try_files $uri @proxy_to_app;
@@ -54,7 +67,7 @@ http {
             # we don't want nginx trying to do something clever with
             # redirects, we set the Host: header above already.
             proxy_redirect off;
-            proxy_pass http://pulp;
+            proxy_pass http://pulp-api;
         }
     }
 }
