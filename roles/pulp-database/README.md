@@ -29,7 +29,6 @@ Shared Variables:
 This role **is tightly coupled** with the required the `pulp` role and uses some of
 variables which are documented in that role:
 
-* `pulp_db_type`:
 * `pulp_user`
 * `pulp_install_dir`
 * `pulp_install_plugins`

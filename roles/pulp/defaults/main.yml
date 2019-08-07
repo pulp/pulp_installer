@@ -2,7 +2,6 @@
 
 pulp_cache_dir: '/var/lib/pulp/tmp'
 pulp_config_dir: '/etc/pulp'
-pulp_db_type: 'postgres'
 pulp_default_admin_password: ''
 pulp_install_dir: '/usr/local/lib/pulp'
 pulp_install_plugins: {}

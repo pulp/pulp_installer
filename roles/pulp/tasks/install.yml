@@ -118,15 +118,6 @@
         state: present
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
-      when: pulp_db_type == "postgres"
-
-    - name: Install the mysqlclient python package
-      pip:
-        name: mysqlclient
-        state: present
-        virtualenv: '{{ pulp_install_dir }}'
-        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
-      when: pulp_db_type == "mariadb"
 
     - name: Install pulpcore package from source
       pip:
