@@ -23,12 +23,8 @@ http {
     # to build optimal hash types.
     types_hash_max_size 4096;
 
-    upstream pulp-api {
-        # for a TCP configuration
+    upstream pulp {
          server {{ pulp_api_host }}:{{ pulp_api_port }};
-    }
-    upstream pulp-content {
-        # for a TCP configuration
          server {{ pulp_content_host }}:{{ pulp_content_port }};
     }
 
@@ -46,15 +42,26 @@ http {
         # Path to Pulp's static files.
         root {{ pulp_webserver_static_dir }};
 
-        location /pulp/content {
+        location /pulp/content/ {
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
             proxy_set_header Host $http_host;
             # we don't want nginx trying to do something clever with
             # redirects, we set the Host: header above already.
             proxy_redirect off;
-            proxy_pass http://pulp-content;
+            proxy_pass http://{{ pulp_content_host }}:{{ pulp_content_port }};
         }
+
+        location /pulp/api/v3/ {
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+            proxy_set_header Host $http_host;
+            # we don't want nginx trying to do something clever with
+            # redirects, we set the Host: header above already.
+            proxy_redirect off;
+            proxy_pass http://{{ pulp_api_host }}:{{ pulp_api_port }};
+        }
+
         location / {
             # checks for static file, if not found proxy to app
             try_files $uri @proxy_to_app;
@@ -67,7 +74,12 @@ http {
             # we don't want nginx trying to do something clever with
             # redirects, we set the Host: header above already.
             proxy_redirect off;
-            proxy_pass http://pulp-api;
+            proxy_pass http://pulp;
+
+            # This routes to both the pulp-content-app and the pulp-api
+            # as if they are one service because both services allow for
+            # plugin writers to configure arbitrary url handlers.
+            proxy_next_upstream http_404;  # Try the other service upon 404
         }
     }
 }
