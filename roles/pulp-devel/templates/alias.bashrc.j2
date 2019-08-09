@@ -41,7 +41,7 @@ _pdbreset_help="$_dbreset_help - `setterm -foreground red -bold on`THIS DESTROYS
 
 pclean() {
     pdbreset
-    sudo rm -rf {{ pulp_user_home }}/*
+    sudo rm -rf {{ pulp_user_home }}/artifact
     django-admin collectstatic --noinput --link
 }
 _pclean_help="Restore pulp to a clean-installed state"
@@ -65,6 +65,26 @@ pjournal() {
 }
 _pjournal_help="Interact with the journal for pulp-related units
     pjournal takes optional journalctl args e.g. 'pjournal -r', runs pjournal -f by default"
+
+populate_pulp2() {
+    sudo systemctl stop httpd pulp_workers pulp_resource_manager pulp_celerybeat
+    mongo pulp_database --eval "db.dropDatabase()"
+    sudo rm -rf /var/lib/pulp/content
+    sudo rm -rf /var/lib/pulp/published
+    sudo -u apache pulp-manage-db;
+    sudo systemctl start httpd pulp_workers pulp_resource_manager pulp_celerybeat
+    pulp-admin login -u admin -p admin
+    pulp-admin iso repo create --feed https://repos.fedorapeople.org/pulp/pulp/fixtures/file/ --repo-id file
+    pulp-admin iso repo create --feed https://repos.fedorapeople.org/pulp/pulp/fixtures/file2/ --repo-id file2 --download-policy on_demand
+    pulp-admin iso repo create --feed https://repos.fedorapeople.org/pulp/pulp/fixtures/file-many/ --repo-id file-many --download-policy on_demand
+    pulp-admin iso repo create --feed https://repos.fedorapeople.org/pulp/pulp/fixtures/file-large/ --repo-id file-large
+    pulp-admin iso repo sync run --repo-id file &
+    pulp-admin iso repo sync run --repo-id file2 &
+    pulp-admin iso repo sync run --repo-id file-many &
+    pulp-admin iso repo sync run --repo-id file-large &
+}
+
+_populate_pulp2_help="Resets Pulp 2 and syncs 4 ISO repos."
 
 phelp() {
     # get a list of declared functions, filter out ones with leading underscores as "private"
