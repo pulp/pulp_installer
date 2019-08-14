@@ -126,7 +126,7 @@
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
 
-   - name: Install pulpcore package from source
+    - name: Install pulpcore package from source
       pip:
         name: '{{ pulp_source_dir }}'
         editable: '{{ pulp_pip_editable }}'
