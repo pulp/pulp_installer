@@ -20,6 +20,6 @@
         owner: root
         group: '{{ pulp_group }}'
         mode: 0640
-        force: no
+        force: yes
 
   become: true
