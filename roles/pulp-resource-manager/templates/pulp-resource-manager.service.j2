@@ -11,7 +11,8 @@ RuntimeDirectory=pulp-resource-manager
 ExecStart={{ pulp_install_dir }}/bin/rq worker \
           -w pulpcore.tasking.worker.PulpWorker -n resource-manager@%%h \
           --pid=/var/run/pulp-resource-manager/resource-manager.pid \
-          -c 'pulpcore.rqconfig'
+          -c 'pulpcore.rqconfig' \
+          --disable-job-desc-logging
 
 
 # This provides reconnect support for PostgreSQL and Redis. Without reconnect support, if either
