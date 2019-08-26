@@ -14,7 +14,7 @@
 
     - name: Install Redis
       package:
-        name: redis-server
+        name: "{{ pulp_redis_server_name }}"
         state: present
 
     - name: Start Redis
