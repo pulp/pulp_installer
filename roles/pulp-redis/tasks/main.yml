@@ -7,6 +7,7 @@
 - name: Add redis repository
   apt_repository:
     repo: ppa:chris-lea/redis-server
+    update_cache: yes
   become: yes
   when: ansible_distribution == 'Ubuntu'
 
