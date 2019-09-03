@@ -24,31 +24,6 @@
 
 - block:
 
-    - name: Create the pulpcore migrations directory
-      file:
-        name: '{{ result.files[0].path }}/site-packages/pulpcore/app/migrations'
-        state: directory
-        owner: '{{ pulp_user }}'
-        group: '{{ pulp_group }}'
-        mode: 0700
-      when: pulp_source_dir is undefined
-
-    - name: Create the plugin migrations directories
-      file:
-        name: '{{ result.files[0].path }}/site-packages/{{ item }}/app/migrations'
-        state: directory
-        owner: '{{ pulp_user }}'
-        group: '{{ pulp_group }}'
-        mode: 0700
-      with_items: "{{ pulp_install_plugins }}"
-      when: pulp_install_plugins[item].source_dir is undefined
-
-    - name: Create database migrations for plugins
-      command: '{{ pulp_install_dir }}/bin/django-admin makemigrations {{ pulp_install_plugins[item].app_label }}'
-      with_items: "{{ pulp_install_plugins }}"
-      register: result
-      changed_when: "'No changes detected in app' not in result.stdout"
-
     - name: Run database auth migrations
       command: '{{ pulp_install_dir }}/bin/django-admin migrate auth --no-input'
       register: migrate_auth
