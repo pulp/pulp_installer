@@ -18,9 +18,6 @@ Role Variables:
   Defaults to "{}", which will not install any plugins.
   * Dictionary Key: The pip installable plugin name. This is defined in each
   plugin's* `setup.py`. **Required**.
-  * `app_label`: Used to make migrations. This is defined in the
-  [PluginAppConfig](https://github.com/pulp/pulp_file/blob/76cc979e67fde128f78f3274697a4ea78f2269ec/pulp_file/app/__init__.py#L10)
-  of each plugin. **Required**.
   * `source_dir`: Optional. Absolute path to the plugin source code. If present,
   plugin will be installed from source in editable mode.
 * `pulp_install_api_service`: Whether to create systemd service files for
