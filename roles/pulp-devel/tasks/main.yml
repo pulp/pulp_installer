@@ -7,7 +7,6 @@
           - dstat
           - git
           - htop
-          - httpie
           - iotop
           - jnettop
           - jq
@@ -87,6 +86,15 @@
     - name: Install requirements for developer scripts
       pip:
         requirements: '{{ pulp_requirements_dir }}/dev_requirements.txt'
+        state: present
+        virtualenv: '{{ pulp_install_dir }}'
+        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+
+    - name: Install HTTPie and JWT authentication plugin
+      pip:
+        name:
+          - httpie
+          - httpie-jwt-auth
         state: present
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
