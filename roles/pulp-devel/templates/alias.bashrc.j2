@@ -113,3 +113,9 @@ phelp() {
     setterm -default
 }
 _phelp_help="Print this help"
+
+pyclean () {
+        find . -type f -name "*.py[co]" -delete
+        find . -type d -name "__pycache__" -delete
+}
+_pyclean_help="Cleanup extra python files"
