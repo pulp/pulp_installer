@@ -1,0 +1,19 @@
+[Unit]
+Description=Advanced key-value store
+After=network.target
+Documentation=http://redis.io/documentation, man:redis-server(1)
+
+[Service]
+Type=notify
+ExecStart=/usr/bin/redis-server /etc/redis/redis.conf --supervised systemd
+ExecStop=/bin/kill -s TERM $MAINPID
+User=redis
+Group=redis
+RuntimeDirectory=redis
+RuntimeDirectoryMode=0755
+
+LimitNOFILE=65535
+
+[Install]
+WantedBy=multi-user.target
+Alias=redis.service

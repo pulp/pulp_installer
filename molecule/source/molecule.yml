@@ -6,18 +6,26 @@ driver:
   name: docker
 lint:
   name: yamllint
+# This is ignored by molecule, but can be reused in yaml
+.platform_base: &platform_base
+  privileged: False
+  volumes:
+    - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  tmpfs:
+    - /tmp
+    - /run
+    - /run/lock
+  capabilities:
+    - NET_ADMIN
+    - NET_RAW
 platforms:
-  - name: debian-10
+  - <<: *platform_base
+    name: debian-10
     image: debian:buster
-    privileged: True
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
     command: /sbin/init
-  - name: fedora-28
-    image: fedora:28
-    privileged: True
-    volumes:
-      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  - <<: *platform_base
+    name: fedora-30
+    image: fedora:30
     command: /usr/sbin/init
 provisioner:
   name: ansible
