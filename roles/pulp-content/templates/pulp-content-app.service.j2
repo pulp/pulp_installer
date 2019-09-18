@@ -5,6 +5,7 @@ Wants=network-online.target
 
 [Service]
 Environment="DJANGO_SETTINGS_MODULE=pulpcore.app.settings"
+Environment="PATH={{ pulp_install_dir }}/bin:{{ ansible_env.PATH }}"
 User={{ pulp_user }}
 WorkingDirectory=/var/run/pulp-content-app/
 RuntimeDirectory=pulp-content-app
