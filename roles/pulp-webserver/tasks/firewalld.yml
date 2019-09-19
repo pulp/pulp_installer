@@ -1,6 +1,18 @@
 ---
 - block:
 
+    # Ansible molecule disables a bunch of services by modifying /usr/lib/system
+    # (it's not supposed to modify /usr though.)
+    # And also does yum update, which re-enables many, leaving the system in an
+    # inconsistent state.
+    # For EL 7.6 images upgraded to EL 7.7, we need this enabled for the
+    # firewalld ansible module to work.
+    - name: Start and enable dbus
+      systemd:
+        name: dbus
+        state: started
+        enabled: true
+
     - name: Install firewalld
       package:
         name: firewalld
