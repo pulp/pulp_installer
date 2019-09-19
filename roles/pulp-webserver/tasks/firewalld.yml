@@ -11,6 +11,14 @@
         name: firewalld
         state: started
         enabled: true
+      register: firewalld_service
+
+    # Workaround dbus ServiceUnknown error in firewalld module.
+    # Observed on CentOS 7.7, but is an issue in general.
+    # https://github.com/dw/mitogen/issues/570#issuecomment-475754758
+    - name: Reset connection
+      meta: reset_connection
+      when: firewalld_service.changed
 
     - name: Accept connections on port 80
       firewalld:
