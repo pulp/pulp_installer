@@ -35,3 +35,11 @@
       include_role:
         name: geerlingguy.postgresql
   become: yes
+
+- name: Enable debversion extension on pulp db
+  postgresql_ext:
+    name: debversion
+    db: "{{ item.name }}"
+  become: true
+  become_user: postgres
+  loop: "{{ postgresql_databases }}"
