@@ -1,8 +1,8 @@
 ---
 - name: Install service files
   template:
-    src: pulp-worker@.service.j2
-    dest: /lib/systemd/system/pulp-worker@.service
+    src: pulpcore-worker@.service.j2
+    dest: /lib/systemd/system/pulpcore-worker@.service
     owner: root
     group: root
     mode: 0644
@@ -12,7 +12,7 @@
 - name: Set states of pulp workers
   systemd:
     daemon_reload: true
-    name: pulp-worker@{{ item.key }}.service
+    name: pulpcore-worker@{{ item.key }}.service
     state: '{{ item.value.state }}'
     enabled: '{{ item.value.enabled }}'
   with_dict: '{{ pulp_workers }}'

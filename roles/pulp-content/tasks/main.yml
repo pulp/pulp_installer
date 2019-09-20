@@ -1,9 +1,9 @@
 ---
 - block:
-  - name: Install pulp-content-app service file
+  - name: Install pulpcore-content-app service file
     template:
-      src: pulp-content-app.service.j2
-      dest: /lib/systemd/system/pulp-content-app.service
+      src: pulpcore-content-app.service.j2
+      dest: /lib/systemd/system/pulpcore-content-app.service
       owner: root
       group: root
       mode: 0644
@@ -12,7 +12,7 @@
   - name: Set state of pulp content app
     systemd:
       daemon_reload: true
-      name: pulp-content-app.service
+      name: pulpcore-content-app.service
       state: started
       enabled: true
   become: true

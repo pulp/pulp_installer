@@ -3,8 +3,8 @@ pulp-webserver
 
 Install, configure, start, and enable a web server.
 
-Currently, Nginx and Apache are supported. They are configured as a reverse proxy to the pulp-api
-and pulp-content-app Gunicorn processes.
+Currently, Nginx and Apache are supported. They are configured as a reverse proxy to the pulpcore-api
+and pulpcore-content-app Gunicorn processes.
 
 
 Variables:

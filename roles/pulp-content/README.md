@@ -8,8 +8,8 @@ Variables:
 
 * `pulp_content_bind`: Interface and Port where Pulp Content `gunicorn` service will listen.
 
-This variable is the value used to render the `pulp-content-app.service.j2` template passing to the
-`--bind` parameter of the gunicorn service.
+This variable is the value used to render the `pulpcore-content-app.service.j2` template passing
+to the `--bind` parameter of the gunicorn service.
 
 Defaults to `127.0.0.1:24816`
 

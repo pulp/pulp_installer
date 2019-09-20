@@ -76,7 +76,7 @@ http {
             proxy_redirect off;
             proxy_pass http://pulp;
 
-            # This routes to both the pulp-content-app and the pulp-api
+            # This routes to both the pulpcore-content-app and the pulpcore-api
             # as if they are one service because both services allow for
             # plugin writers to configure arbitrary url handlers.
             proxy_next_upstream http_404;  # Try the other service upon 404

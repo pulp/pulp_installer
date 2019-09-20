@@ -7,8 +7,8 @@ Wants=network-online.target
 Environment="DJANGO_SETTINGS_MODULE=pulpcore.app.settings"
 Environment="PATH={{ pulp_install_dir }}/bin:{{ default_bin_path }}"
 User={{ pulp_user }}
-PIDFile=/run/pulp-api.pid
-RuntimeDirectory=pulp-api
+PIDFile=/run/pulpcore-api.pid
+RuntimeDirectory=pulpcore-api
 ExecStart={{ pulp_install_dir }}/bin/gunicorn pulpcore.app.wsgi:application \
           --bind '{{ pulp_api_bind }}' \
           --access-logfile -
@@ -27,7 +27,7 @@ RestartSec=3
 # not an absolute path. PIDFile is now used to ensure that PID files are laid
 # out in a standard way. If this directive had any other effects, it is better
 # to use the correct directive than to uncomment this.
-# WorkingDirectory=/var/run/pulp-api/
+# WorkingDirectory=/var/run/pulpcore-api/
 
 [Install]
 WantedBy=multi-user.target
