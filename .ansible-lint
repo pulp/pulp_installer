@@ -1,0 +1,4 @@
+# systemctl show-environment trips this, but it should only complain about
+# systemctl subcommands that actually manage services.
+skip_list:
+  - '303'
