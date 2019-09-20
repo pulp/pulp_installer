@@ -18,6 +18,7 @@ Variables:
   '24817'.
 * `pulp_api_host` Set the host the reverse proxy should connect to for the API server. Defaults to
   '127.0.0.1'.
+* `pulp_configure_firewalld` Install and configure firewalld. Defaults to 'true'.
 
 
 Shared variables:
