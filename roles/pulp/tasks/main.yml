@@ -9,6 +9,25 @@
   tags:
     - always
 
+# Note: We cannot use `systemd-path search-binaries-default` because
+# it wasn't added until systemd 239. Thus no CentOS 7 or Fedora 28
+# support, etc.
+- name: Enumerate default system PATH
+  # pipefail is not needed due to grep's rc, but it resolves ansible-lint 306
+  shell: |
+    set -o pipefail
+    systemctl show-environment | grep -E '^PATH='
+  args:
+    # Debian defaults to bourne, but it doesn't understand pipefail.
+    executable: /bin/bash
+  changed_when: false
+  register: systemd_show_env_path
+  check_mode: no
+
+- name: set the default system PATH as a fact
+  set_fact:
+    default_bin_path: "{{ systemd_show_env_path }}"
+
 - import_tasks: install.yml
 - import_tasks: configure.yml
 - import_tasks: wsgi.yml

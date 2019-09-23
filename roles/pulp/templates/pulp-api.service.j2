@@ -4,6 +4,8 @@ After=network-online.target
 Wants=network-online.target
 
 [Service]
+Environment="DJANGO_SETTINGS_MODULE=pulpcore.app.settings"
+Environment="PATH={{ pulp_install_dir }}/bin:{{ default_bin_path }}"
 User={{ pulp_user }}
 PIDFile=/run/pulp-api.pid
 RuntimeDirectory=pulp-api
