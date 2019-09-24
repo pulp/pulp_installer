@@ -16,7 +16,6 @@ The [managed node](https://docs.ansible.com/ansible/2.5/network/getting_started/
 must be one of these currently supported operating systems:
 * CentOS 7
 * Fedora 29 or later
-* Fedora 28 (deprecated)
 
 Variables
 ---------
