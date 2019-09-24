@@ -12,6 +12,12 @@
         state: present
       when: ansible_distribution == 'CentOS'
 
+    - name: Enable PostgreSQL SCL
+      template:
+        src: templates/postgresql_scl_profile.j2
+        dest: "{{ postgresql_profile_path }}"
+      when: ansible_distribution == 'CentOS'
+
     - name: Set listen addresses
       set_fact:
         postgresql_global_config_options:
