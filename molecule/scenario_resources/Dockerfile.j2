@@ -65,10 +65,15 @@ apt-get clean &&\
 rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* &&\
 systemctl enable firewalld
 {% elif item.name.startswith('fedora') %}
-RUN dnf makecache ;\
+RUN echo 'LANG="en_US.UTF-8"' > /etc/locale.conf ;\
+ENV LANG=en_US.UTF-8 ;\
+ENV LANGUAGE=en_US.UTF-8 ;\
+ENV LC_ALL=en_US.UTF-8 ;\
+ENV PYTHONUNBUFFERED=0 ;\
 dnf --assumeyes install \
   bash \
   firewalld \
+  glibc-langpack-en \
   iptables \
   jemalloc \
   python3 \
@@ -78,7 +83,7 @@ dnf --assumeyes install \
   sudo \
   which \
   ;\
-dnf clean all
+dnf clean all;
 {% endif %}
 
 # Disable requiretty.
