@@ -22,7 +22,7 @@
     executable: /bin/bash
   changed_when: false
   register: systemd_show_env_path
-  check_mode: no
+  check_mode: yes
 
 - name: set the default system PATH as a fact
   set_fact:
