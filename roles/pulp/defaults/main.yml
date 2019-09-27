@@ -14,3 +14,4 @@ pulp_user_home: '/var/lib/pulp'
 pulp_pip_editable: yes
 pulp_use_system_wide_pkgs: false
 pulp_api_bind: '127.0.0.1:24817'
+prereq_pip_packages: []

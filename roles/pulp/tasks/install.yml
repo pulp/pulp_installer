@@ -119,6 +119,14 @@
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
 
+    - name: Install the prereq_pip_packages
+      pip:
+        name: '{{ prereq_pip_packages }}'
+        state: present
+        virtualenv: '{{ pulp_install_dir }}'
+        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+      when: prereq_pip_packages | length > 0
+
     - name: Install pulpcore package from source
       pip:
         name: '{{ pulp_source_dir }}'

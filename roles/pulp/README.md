@@ -14,6 +14,9 @@ Role Variables:
 * `pulp_default_admin_password`: Initial password for the Pulp admin. **Required**.
 * `pulp_install_dir`: Location of a virtual environment for Pulp and its Python
   dependencies. Defaults to "/usr/local/lib/pulp".
+* `prereq_pip_packages`: Additional pip packages to install in the virtual
+  environment before installing pulp or its content plugins.
+  Defaults to an empty list, but plugin prerequisite roles may append to it.
 * `pulp_install_plugins`: A nested dictionary of plugin configuration options.
   Defaults to "{}", which will not install any plugins.
   * Dictionary Key: The pip installable plugin name. This is defined in each
