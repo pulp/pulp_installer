@@ -20,6 +20,6 @@ galaxy_info:
 dependencies:
   # We do not specify using the galaxy path so that devs can more easily
   # install their dev versions.
-  - role: pulp-rpm-prerequisites
+  - role: pulp.pulp-rpm-prerequisites
     when: ("'pulp-rpm' in pulp_install_plugins") or
           ("'pulp_rpm' in pulp_install_plugins")

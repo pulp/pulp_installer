@@ -6,3 +6,7 @@
 - src: https://github.com/dralley/ansible-role-postgresql
   version: master
   name: geerlingguy.postgresql
+
+- src: https://github.com/pulp/pulp-rpm-prerequisites
+  version: master
+  name: pulp.pulp-rpm-prerequisites
