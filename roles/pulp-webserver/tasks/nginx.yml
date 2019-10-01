@@ -23,6 +23,11 @@
   set_fact:
     pulp_webserver_static_dir: '{{ result.files[0].path }}/rest_framework'
 
+- name: Set default firewall
+  set_fact:
+    pulp_configure_firewall: 'firewalld'
+  when: pulp_configure_firewall == 'auto'
+
 - block:
 
     - name: Install Nginx
@@ -47,14 +52,14 @@
       package:
         name: firewalld
         state: present
-      when: pulp_configure_firewalld
+      when: pulp_configure_firewall == 'firewalld'
 
     - name: Start and enable firewalld
       systemd:
         name: firewalld
         state: started
         enabled: true
-      when: pulp_configure_firewalld
+      when: pulp_configure_firewall == 'firewalld'
 
     - name: Accept connections on port 80
       firewalld:
@@ -62,6 +67,6 @@
         permanent: true
         immediate: true
         state: enabled
-      when: pulp_configure_firewalld
+      when: pulp_configure_firewall == 'firewalld'
 
   become: true
