@@ -98,6 +98,17 @@
       register: result
       until: result is succeeded
 
+    # We are purposely running this before the venv is created, since
+    # if we are using system-wide packages, it could cause duplicate
+    # python packages to be installed.
+    # Note: We would do a static import like in pulp-database, but
+    # looping does not work with it, so we do a dynamic include.
+    - name: Include plugins prereq roles
+      include_role:
+        name: "{{ item.value.prereq_role }}"
+      with_dict: "{{ pulp_install_plugins }}"
+      when: item.value.prereq_role is defined
+
   become: true
 
 - block:

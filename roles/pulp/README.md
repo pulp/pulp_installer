@@ -14,15 +14,15 @@ Role Variables:
 * `pulp_default_admin_password`: Initial password for the Pulp admin. **Required**.
 * `pulp_install_dir`: Location of a virtual environment for Pulp and its Python
   dependencies. Defaults to "/usr/local/lib/pulp".
-* `prereq_pip_packages`: Additional pip packages to install in the virtual
-  environment before installing pulp or its content plugins.
-  Defaults to an empty list, but plugin prerequisite roles may append to it.
 * `pulp_install_plugins`: A nested dictionary of plugin configuration options.
   Defaults to "{}", which will not install any plugins.
   * Dictionary Key: The pip installable plugin name. This is defined in each
   plugin's* `setup.py`. **Required**.
   * `source_dir`: Optional. Absolute path to the plugin source code. If present,
   plugin will be installed from source in editable mode.
+  * `prereq_role`: Optional. Name of Ansible role to run immediately before the
+    venv is created. Needed because many plugins will have OS dependencies in C.
+    See `prereq_pip_packages` also.
 * `pulp_install_api_service`: Whether to create systemd service files for
   pulp-api. Defaults to "true".
 * `pulp_source_dir`: Optional. Absolute path to Pulp source code. If present, Pulp
@@ -51,6 +51,10 @@ Shared Variables:
 -----------------
 
 * `ansible_python_interpreter`: **Required**. Path to the Python interpreter.
+
+* `prereq_pip_packages`: Additional pip packages to install in the virtual
+  environment before installing pulp or its content plugins.
+  Defaults to an empty list, but a `prereq_role` may append to it.
 
 This role is required by the `pulp-database` role and uses some variables from it.
 
