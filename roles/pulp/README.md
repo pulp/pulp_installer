@@ -20,8 +20,9 @@ Role Variables:
   plugin's* `setup.py`. **Required**.
   * `source_dir`: Optional. Absolute path to the plugin source code. If present,
   plugin will be installed from source in editable mode.
-  * `prereq_role`: Optional. Name of Ansible role to run immediately before the
-    venv is created. Needed because many plugins will have OS dependencies in C.
+  * `prereq_role`: Optional. Name of (or folder path to) Ansible role to run
+    immediately before the venv is created. You will need to download it 1st (with
+    ansible-galaxy.) Needed because many plugins will have OS dependencies in C.
     See `prereq_pip_packages` also.
 * `pulp_install_api_service`: Whether to create systemd service files for
   pulp-api. Defaults to "true".
