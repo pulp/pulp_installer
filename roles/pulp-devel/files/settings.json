@@ -12,7 +12,7 @@
         "content": {
           "port": 24816,
           "scheme": "http",
-          "service": "pulpcore-content-app",
+          "service": "pulpcore-content",
           "verify": false
         },
         "pulp resource manager": {},
