@@ -46,6 +46,15 @@ Role Variables:
     docs](https://docs.pulpproject.org/en/3.0/nightly/installation/configuration.html#id2) for
     documentation on the possible values.
   * `pulp_settings.secret_key`: **Required**. Pulp's Django application `SECRET_KEY`.
+* `rhel7_optional_repo`: List of possible names for the rhel7 optional repo
+  to enable. Once the 1st name is enabled (or found to already be enabled),
+  no further names are attempted.
+  Defaults to  ["rhui-rhel-7-server-rhui-optional-rpms", "rhel-7-server-optional-rpms", "rhel-7-workstation-optional-rpms"]
+  Set to an empty list `[]` if you wish to disable trying to enable the repo,
+  such as if you manually add the optional repo via your own configuration or
+  subscription-manager/katello.
+  Also accepts a single string or empty string.
+  Only affects RHEL7 (RHEL8 no longer has an optional repo.)
 
 
 Shared Variables:
