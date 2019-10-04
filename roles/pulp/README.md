@@ -25,7 +25,7 @@ Role Variables:
     ansible-galaxy.) Needed because many plugins will have OS dependencies in C.
     See `prereq_pip_packages` also.
 * `pulp_install_api_service`: Whether to create systemd service files for
-  pulp-api. Defaults to "true".
+  pulpcore-api. Defaults to "true".
 * `pulp_source_dir`: Optional. Absolute path to Pulp source code. If present, Pulp
   will be installed from source in editable mode.
 * `pulp_user`: User that owns and runs Pulp. Defaults to "pulp".
@@ -38,7 +38,7 @@ Role Variables:
 * `pulp_remote_user_environ_name` Optional. Set the `REMOTE_USER_ENVIRON_NAME` setting for Pulp.
   This variable will be set as the value of `CONTENT_HOST` as the base path to build content URLs.
 * `pulp_api_bind` Interface and Port where Pulp Content `gunicorn` service will listen. Defaults to
-  '127.0.0.1:24817'. This variable is the value used to render the `pulp-api.service.j2` template
+  '127.0.0.1:24817'. This variable is the value used to render the `pulpcore-api.service.j2` template
   passing to the `--bind` parameter of the `gunicorn` service.
 * `pulp_settings`: A nested dictionary that is used to add custom values to the user's
     `setting.py`, which will override any default values set by pulpcore. The keys of this

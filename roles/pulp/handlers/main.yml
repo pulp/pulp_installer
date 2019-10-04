@@ -1,7 +1,7 @@
 ---
-- name: Restart pulp-api.service
+- name: Restart pulpcore-api.service
   systemd:
-    name: pulp-api.service
+    name: pulpcore-api.service
     enabled: true
     state: restarted
     daemon_reload: true
@@ -13,4 +13,4 @@
   changed_when: "staticresult.stdout is not search('\n0 static files')"
   become: true
   become_user: '{{ pulp_user }}'
-  notify: Restart pulp-api.service
+  notify: Restart pulpcore-api.service

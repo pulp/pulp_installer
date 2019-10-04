@@ -2,7 +2,7 @@
 - name: Reload systemd and restart pulp workers
   systemd:
     daemon_reload: true
-    name: pulp-worker@{{ item.key }}.service
+    name: pulpcore-worker@{{ item.key }}.service
     state: restarted
   with_dict: '{{ pulp_workers }}'
   become: true

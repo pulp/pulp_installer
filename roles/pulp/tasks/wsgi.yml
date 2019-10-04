@@ -10,14 +10,14 @@
 
 - block:
 
-    - name: Install pulp-api service files
+    - name: Install pulpcore-api service files
       template:
-        src: pulp-api.service.j2
-        dest: /lib/systemd/system/pulp-api.service
+        src: pulpcore-api.service.j2
+        dest: /lib/systemd/system/pulpcore-api.service
         owner: root
         group: root
         mode: 0644
       become: true
-      notify: Restart pulp-api.service
+      notify: Restart pulpcore-api.service
 
   when: pulp_install_api_service |bool
