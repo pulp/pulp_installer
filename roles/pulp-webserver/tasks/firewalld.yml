@@ -1,0 +1,22 @@
+---
+- block:
+
+    - name: Install firewalld
+      package:
+        name: firewalld
+        state: present
+
+    - name: Start and enable firewalld
+      systemd:
+        name: firewalld
+        state: started
+        enabled: true
+
+    - name: Accept connections on port 80
+      firewalld:
+        service: http
+        permanent: true
+        immediate: true
+        state: enabled
+
+  become: true

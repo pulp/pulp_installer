@@ -1,21 +1,17 @@
 # Molecule managed
 
+# This Dockerfile prepares the image for {{ item.image }} to be used in molecule tests for the
+# ansible-pulp role. The main process should be systemd, to mimic an installation where services
+# can be installed and controlled. Systemd seems to be able to detect that it is being run in a
+# container context, and starts very little services. There is no need to delete any files from
+# /{etc,lib}/systemd/*.
+
 FROM {{ item.image }}
 
 ENV container docker
 
-{% if item.name.startswith('centos') or item.name.startswith('fedora') %}
-RUN (cd /lib/systemd/system/sysinit.target.wants/; for i in *; do [ $i == systemd-tmpfiles-setup.service ] || rm -f $i; done); \
-rm -f /lib/systemd/system/multi-user.target.wants/*;\
-rm -f /etc/systemd/system/*.wants/*;\
-rm -f /lib/systemd/system/local-fs.target.wants/*; \
-rm -f /lib/systemd/system/sockets.target.wants/*udev*; \
-rm -f /lib/systemd/system/sockets.target.wants/*initctl*; \
-rm -f /lib/systemd/system/basic.target.wants/*;\
-rm -f /lib/systemd/system/anaconda.target.wants/*;
-{% endif %}
+{% if item.name.startswith('centos') -%}
 
-{% if item.name.startswith('centos') %}
 RUN yum install -y epel-release ;\
 yum makecache fast ;\
 yum update -y ;\
@@ -33,7 +29,8 @@ yum install -y \
   ;\
 sed -i 's/plugins=0/plugins=1/g' /etc/yum.conf ;\
 yum clean all
-{% elif item.name.startswith('debian') %}
+{% elif item.name.startswith('debian') -%}
+
 ENV LC_ALL C
 ENV DEBIAN_FRONTEND noninteractive
 
@@ -46,13 +43,6 @@ apt-get -y install \
   &&\
 rm /sbin/modprobe &&\
 ln -s /bin/true /sbin/modprobe &&\
-rm -f /lib/systemd/system/multi-user.target.wants/* \
-  /etc/systemd/system/*.wants/* \
-  /lib/systemd/system/local-fs.target.wants/* \
-  /lib/systemd/system/sockets.target.wants/*udev* \
-  /lib/systemd/system/sockets.target.wants/*initctl* \
-  /lib/systemd/system/sysinit.target.wants/systemd-tmpfiles-setup* \
-  /lib/systemd/system/systemd-update-utmp* &&\
 apt-get -y install \
   bash \
   firewalld \
@@ -64,13 +54,15 @@ apt-get -y install \
 apt-get clean &&\
 rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* &&\
 systemctl enable firewalld
-{% elif item.name.startswith('fedora') %}
+{% elif item.name.startswith('fedora') -%}
+
 RUN dnf makecache ;\
 dnf --assumeyes install \
   bash \
   firewalld \
   iptables \
   jemalloc \
+  glibc-langpack-en \
   python3 \
   python3-dnf \
   python3-firewall \
@@ -79,11 +71,12 @@ dnf --assumeyes install \
   which \
   ;\
 dnf clean all
-{% endif %}
+{%- endif %}
 
 # Disable requiretty.
 RUN sed -i -e 's/^\(Defaults\s*requiretty\)/#--- \1/'  /etc/sudoers
 
-VOLUME ["/sys/fs/cgroup", "/tmp", "/run"]
+# systemd uses this as a termination signal; we want to shutdown the containers nicely...
+STOPSIGNAL SIGRTMIN+3
 
 CMD ["{{ item.command }}"]

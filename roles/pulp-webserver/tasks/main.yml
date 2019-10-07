@@ -4,3 +4,6 @@
 
 - import_tasks: apache.yml
   when: pulp_webserver_server == 'apache'
+
+- import_tasks: firewalld.yml
+  when: pulp_configure_firewall in ['firewalld', 'auto']
