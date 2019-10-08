@@ -15,3 +15,10 @@ pulp_pip_editable: yes
 pulp_use_system_wide_pkgs: false
 pulp_api_bind: '127.0.0.1:24817'
 prereq_pip_packages: []
+rhel7_optional_repo:
+  - rhui-rhel-7-server-rhui-optional-rpms
+  - rhel-7-server-optional-rpms
+  - rhel-7-workstation-optional-rpms
+epel_release_packages:
+  - epel-release
+  - "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm"

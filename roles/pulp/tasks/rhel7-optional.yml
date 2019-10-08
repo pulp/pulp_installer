@@ -1,0 +1,18 @@
+---
+- name: Determine which in /etc/yum.repos.d/ has the repo
+  command: grep -l -E "^\[{{ item }}\]" /etc/yum.repos.d/*.repo -R
+  register: repo_file
+  changed_when: false
+  failed_when: false
+  check_mode: False
+
+- name: Enable the repo
+  ini_file:
+    path: "{{ repo_file.stdout }}"
+    section: "{{ item }}"
+    option: enabled
+    value: 1
+    no_extra_spaces: true
+  when: repo_file.rc == 0
+  register: optional_repo_enabled
+  become: true
