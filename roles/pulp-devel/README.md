@@ -36,4 +36,4 @@ used in that role.
 
 * `pulp_user`
 * `pulp_install_dir`
-* `pulp_source_dir`
+* `pulp_source_dir` (Note: Pip VCS URLs will not work with pulp-devel.)
