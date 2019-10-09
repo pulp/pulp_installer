@@ -1,1 +1,1 @@
-pulp_configure_firewall: none
+pulp_configure_firewall: firewalld
