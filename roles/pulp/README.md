@@ -19,14 +19,19 @@ Role Variables:
   plugin's* `setup.py`. **Required**.
   * `source_dir`: Optional. Absolute path to the plugin source code. If present,
   plugin will be installed from source in editable mode.
+  Also accepts a pip VCS URL, to (for example) install the master branch.
   * `prereq_role`: Optional. Name of (or folder path to) Ansible role to run
     immediately before the venv is created. You will need to download it 1st (with
     ansible-galaxy.) Needed because many plugins will have OS dependencies in C.
     See `prereq_pip_packages` also.
 * `pulp_install_api_service`: Whether to create systemd service files for
   pulpcore-api. Defaults to "true".
-* `pulp_source_dir`: Optional. Absolute path to Pulp source code. If present, Pulp
-  will be installed from source in editable mode.
+* `pulp_source_dir`: Optional. Absolute path to pulpcore source code. If
+  present, pulpcore will be installed from source in editable mode. Also accepts
+  a pip VCS URL, to (for example) install the master branch.
+* `pulp_plugin_source_dir`: Optional. Absolute path to pulpcore-plugin source
+  code. If present, pulpcore-plugin will be installed from source in editable
+  mode. Also accepts a pip VCS URL, to (for example) install the master branch.
 * `pulp_user`: User that owns and runs Pulp. Defaults to "pulp".
 * `pulp_user_id`: Integer value of uid for the `pulp_user`. Defaults to nothing and uid is assigned
   by the system.
