@@ -3,6 +3,7 @@ pulp_preq_packages:
   - python3
   - python3-devel
   - python3-libselinux  # For ansible itself
+  - python3-psycopg2    # Since geerlingguy.postgresql installs python2- on F29
   - make                # For make docs
 
 # Pulp requires Python 3.6+.
