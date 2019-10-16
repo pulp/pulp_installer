@@ -7,6 +7,7 @@ Wants=network-online.target
 EnvironmentFile=-/etc/default/pulp-workers
 EnvironmentFile=-/etc/default/pulp-workers-%i
 Environment="DJANGO_SETTINGS_MODULE=pulpcore.app.settings"
+Environment="PULP_SETTINGS={{ pulp_config_dir }}/settings.py"
 Environment="PATH={{ pulp_install_dir }}/bin:{{ default_bin_path }}"
 User={{ pulp_user }}
 Group={{ pulp_group }}
