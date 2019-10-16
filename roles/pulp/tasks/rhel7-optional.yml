@@ -1,6 +1,6 @@
 ---
 - name: Determine which in /etc/yum.repos.d/ has the repo
-  command: grep -l -E "^\[{{ item }}\]" /etc/yum.repos.d/*.repo -R
+  shell: grep -l -E "^\[{{ item }}\]" /etc/yum.repos.d/*.repo
   register: repo_file
   changed_when: false
   failed_when: false
