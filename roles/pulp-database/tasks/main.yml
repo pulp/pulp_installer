@@ -41,3 +41,5 @@
 
   become: true
   become_user: '{{ pulp_user }}'
+  environment:
+    PULP_SETTINGS: "{{ pulp_settings_file }}"

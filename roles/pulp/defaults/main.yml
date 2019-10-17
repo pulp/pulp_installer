@@ -2,6 +2,9 @@
 
 pulp_cache_dir: '/var/lib/pulp/tmp'
 pulp_config_dir: '/etc/pulp'
+# This var intentionally not advertised to users, because there is no
+# foreseeable need for them to change the filename, only pulp_config_dir.
+pulp_settings_file: '{{ pulp_config_dir }}/settings.py'
 pulp_default_admin_password: ''
 pulp_install_dir: '/usr/local/lib/pulp'
 pulp_install_plugins: {}

@@ -132,8 +132,8 @@
         create: yes
 
     - name: Add Django supplemental bashrc
-      copy:
-        src: files/django.bashrc
+      template:
+        src: templates/django.bashrc.j2
         dest: '{{ developer_user_home }}/.bashrc.d/django.bashrc'
       when: pulp_devel_supplement_bashrc
 

@@ -16,7 +16,7 @@
     - name: Create configuration file for Pulp
       template:
         src: settings.py.j2
-        dest: '{{ pulp_config_dir }}/settings.py'
+        dest: '{{ pulp_settings_file }}'
         owner: root
         group: '{{ pulp_group }}'
         mode: 0640
