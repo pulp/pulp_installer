@@ -14,3 +14,5 @@
   become: true
   become_user: '{{ pulp_user }}'
   notify: Restart pulpcore-api.service
+  environment:
+    PULP_SETTINGS: "{{ pulp_settings_file }}"
