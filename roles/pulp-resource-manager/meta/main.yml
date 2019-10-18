@@ -16,4 +16,5 @@ galaxy_info:
 
 # Depend on pulp-redis for RQ.
 dependencies:
-  - role: pulp-redis
+  - pulp
+  - pulp-redis

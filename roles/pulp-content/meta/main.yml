@@ -13,3 +13,5 @@ galaxy_info:
         - 29
         - 30
   license: GPL-3.0
+dependencies:
+  - pulp
