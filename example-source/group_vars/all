@@ -1,7 +1,6 @@
 ---
 pulp_default_admin_password: password
 pulp_source_dir: '/var/lib/pulp/devel/pulpcore'
-pulp_plugin_source_dir: "/var/lib/pulp/devel/pulpcore-plugin"
 pulp_install_plugins:
   pulp-file:
     source_dir: "/var/lib/pulp/devel/pulp_file"

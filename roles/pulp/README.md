@@ -29,9 +29,6 @@ Role Variables:
 * `pulp_source_dir`: Optional. Absolute path to pulpcore source code. If
   present, pulpcore will be installed from source in editable mode. Also accepts
   a pip VCS URL, to (for example) install the master branch.
-* `pulp_plugin_source_dir`: Optional. Absolute path to pulpcore-plugin source
-  code. If present, pulpcore-plugin will be installed from source in editable
-  mode. Also accepts a pip VCS URL, to (for example) install the master branch.
 * `pulp_user`: User that owns and runs Pulp. Defaults to "pulp".
 * `pulp_user_id`: Integer value of uid for the `pulp_user`. Defaults to nothing and uid is assigned
   by the system.
