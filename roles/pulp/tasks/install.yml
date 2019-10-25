@@ -83,6 +83,13 @@
           - '{{ pulp_group }}'
         append: true
 
+    - name: Add user {{ pulp_user }} to extra groups
+      user:
+        name: '{{ pulp_user }}'
+        groups: '{{ pulp_extra_groups }}'
+        append: true
+      when: pulp_extra_groups is defined
+
     - name: Add user {{ developer_user }} to {{ pulp_group }} group
       user:
         name: '{{ developer_user }}'

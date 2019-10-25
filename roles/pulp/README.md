@@ -38,6 +38,8 @@ Role Variables:
 * `pulp_group`: The group that the `pulp_user` belongs to. Defaults to `pulp`.
 * `pulp_group_id`: Integer value of gid for the `pulp_group`. Defaults to nothing and gid is
   assigned by the system.
+* `pulp_extra_groups`: Optional. A list of additional group names that the `pulp_user` should
+  be added to. This is site-specific and defaults to nothing.
 * `pulp_use_system_wide_pkgs` Use python system-wide packages. Defaults to "false".
 * `pulp_remote_user_environ_name` Optional. Set the `REMOTE_USER_ENVIRON_NAME` setting for Pulp.
   This variable will be set as the value of `CONTENT_HOST` as the base path to build content URLs.
