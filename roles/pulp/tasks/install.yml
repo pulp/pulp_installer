@@ -177,19 +177,6 @@
       changed_when: result.changed and not pulp_pip_editable
       notify: Collect static content
 
-    - name: Install pulpcore-plugin package from source
-      pip:
-        name: '{{ pulp_plugin_source_dir }}'
-        editable: '{{ pulp_pip_editable }}'
-        state: present
-        virtualenv: '{{ pulp_install_dir }}'
-        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
-      when: pulp_plugin_source_dir is defined
-      # This is a hack. Editable pip installs are always changed, which fails molecule's
-      # idempotence test.
-      changed_when: result.changed and not pulp_pip_editable
-      notify: Collect static content
-
     - name: Install Pulp plugins via PyPI
       pip:
         name: '{{ item.key }}'

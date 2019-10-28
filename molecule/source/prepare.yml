@@ -20,12 +20,6 @@
         dest: '{{ pulp_source_dir }}'
         update: yes
 
-    - name: Clone pulpcore-plugin repository
-      git:
-        repo: 'https://github.com/pulp/pulpcore-plugin.git'
-        dest: '{{ pulp_plugin_source_dir }}'
-        update: yes
-
     - name: Clone pulp_file repository
       git:
         repo: 'https://github.com/pulp/pulp_file.git'
