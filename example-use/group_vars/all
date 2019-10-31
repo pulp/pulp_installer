@@ -4,3 +4,4 @@ pulp_install_plugins:
   pulp-file: {}
 pulp_settings:
   secret_key: secret
+  content_origin: "http://{{ ansible_fqdn }}"
