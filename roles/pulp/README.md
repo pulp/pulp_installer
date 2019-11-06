@@ -48,6 +48,12 @@ Role Variables:
     dictionary are variable names, and the values can be nested. Please see [pulpcore configuration
     docs](https://docs.pulpproject.org/en/3.0/nightly/installation/configuration.html#id2) for
     documentation on the possible values.
+  * `pulp_settings.content_origin`: **Required**. The URL to the pulp-content
+    host that clients will access, and that will be appended to in HTTP
+    responses by multiple content plugins. Any load balancers / proxies (such
+    as those in the `pulp-webserver` role) normally should be specified instead
+    of the pulp content host itself. Syntax is
+    `(http|https)://(hostname|ip)[:port]`.
   * `pulp_settings.secret_key`: **Required**. Pulp's Django application `SECRET_KEY`.
 * `epel_release_packages`: List of strings (package names, URLs) to pass to
   `yum install` to ensure that "epel-release" is installed.
