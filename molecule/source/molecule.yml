@@ -24,8 +24,8 @@ platforms:
     image: debian:buster
     command: /sbin/init
   - <<: *platform_base
-    name: fedora-30
-    image: fedora:30
+    name: fedora-31
+    image: fedora:31
     command: /usr/sbin/init
 provisioner:
   name: ansible
