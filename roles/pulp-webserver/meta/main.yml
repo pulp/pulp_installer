@@ -10,8 +10,8 @@ galaxy_info:
         - Buster
     - name: Fedora
       versions:
-        - 29
         - 30
+        - 31
   license: GPL-3.0
 dependencies:
   - role: pulp

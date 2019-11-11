@@ -12,8 +12,8 @@ galaxy_info:
         - buster
     - name: Fedora
       versions:
-        - 29
         - 30
+        - 31
   galaxy_tags:
     - pulp
 dependencies:
