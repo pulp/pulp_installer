@@ -1,6 +1,4 @@
 ---
-postgresql_python_library: python-psycopg2
-
 # vars needed for 'rh-postgresql96' SCL
 postgresql_packages: rh-postgresql96
 postgresql_daemon: rh-postgresql96-postgresql

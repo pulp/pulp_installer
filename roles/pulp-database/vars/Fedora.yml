@@ -1,3 +1,1 @@
 ---
-# TODO: This var is now overriden within geerlingguy.postgresql instead.
-postgresql_python_library: python3-psycopg2
