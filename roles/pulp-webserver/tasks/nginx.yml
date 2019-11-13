@@ -7,22 +7,6 @@
   when: ansible_distribution == 'Ubuntu'
   become: yes
 
-- name: Find site-packages directory
-  find:
-    paths: '{{ pulp_install_dir }}'
-    recurse: true
-    file_type: directory
-    patterns: site-packages
-  register: result
-
-- name: Assert one directory has been found
-  assert:
-    that: '{{ result.matched }} == 1'
-
-- name: Set fact referencing Pulp's static files directory
-  set_fact:
-    pulp_webserver_static_dir: '{{ result.files[0].path }}/rest_framework'
-
 - block:
 
     - name: Install Nginx

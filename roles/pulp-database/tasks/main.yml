@@ -10,18 +10,6 @@
 
 - meta: flush_handlers
 
-- name: Get the exact pulpcore install dir
-  find:
-    paths: '{{ pulp_install_dir }}/lib/'
-    pattern: '^python.\..$'
-    use_regex: true
-    file_type: directory
-  register: result
-
-- name: Assert the pulpcore install dir was found
-  assert:
-    that: '{{ result.matched }} == 1'
-
 - block:
 
     - name: Run database auth migrations
