@@ -1,0 +1,27 @@
+---
+- block:
+
+    - name: Install pulpcore copr repository
+      yum_repository:
+        name: pulpcore
+        description: pulpcore
+        baseurl: https://copr-be.cloud.fedoraproject.org/results/evgeni/pulpcore/epel-{{ ansible_distribution_major_version }}-$basearch/
+        gpgcheck: false
+        enabled: true
+      when:
+        - (ansible_distribution == 'CentOS') or (ansible_distribution == 'RedHat')
+
+    - name: Install the psycopg python package
+      package:
+        name: python3-psycopg2
+        state: present
+
+    - name: Install Pulp plugins via packages
+      package:
+        name: 'python3-{{ item.key }}'
+        state: present
+      with_dict: '{{ pulp_install_plugins }}'
+      notify: Collect static content
+
+  become: true
+...

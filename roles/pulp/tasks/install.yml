@@ -129,63 +129,6 @@
 
   become: true
 
-- block:
-
-    # Hack for use system-wide packages when enabled by user - Must be first usage of virtualenv
-    - name: Allow use system-wide packages
-      pip:
-        name: pip
-        state: present
-        virtualenv: '{{ pulp_install_dir }}'
-        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
-        virtualenv_site_packages: yes
-      when: pulp_use_system_wide_pkgs |bool
-
-    - name: Install the prereq_pip_packages
-      pip:
-        name: '{{ prereq_pip_packages }}'
-        state: present
-        virtualenv: '{{ pulp_install_dir }}'
-        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
-      when: prereq_pip_packages | length > 0
-
-    - name: Install pulpcore package from source
-      pip:
-        name: '{{ pulp_source_dir }}'
-        editable: '{{ pulp_pip_editable }}'
-        state: present
-        virtualenv: '{{ pulp_install_dir }}'
-        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
-      when: pulp_source_dir is defined
-      # This is a hack. Editable pip installs are always changed, which fails molecule's
-      # idempotence test.
-      changed_when: result.changed and not pulp_pip_editable
-      notify: Collect static content
-
-    - name: Install Pulp plugins via PyPI
-      pip:
-        name: '{{ item.key }}'
-        state: present
-        virtualenv: '{{ pulp_install_dir }}'
-        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
-      with_dict: '{{ pulp_install_plugins }}'
-      when: pulp_install_plugins[item.key].source_dir is undefined
-      notify: Collect static content
-
-    - name: Install Pulp plugins from source
-      pip:
-        name: '{{ item.value.source_dir }}'
-        editable: '{{ pulp_pip_editable }}'
-        state: present
-        virtualenv: '{{ pulp_install_dir }}'
-        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
-      with_dict: '{{ pulp_install_plugins }}'
-      when: pulp_install_plugins[item.key].source_dir is defined
-      # This is a hack. Editable pip installs are always changed, which fails molecule's
-      # idempotence test.
-      changed_when: result.changed and not pulp_pip_editable
-      notify: Collect static content
-
-  become: true
-  become_user: '{{ pulp_user }}'
+- name: install pulp from {{ pulp_install_source }}
+  include_tasks: install_{{ pulp_install_source }}.yml
 ...

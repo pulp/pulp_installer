@@ -1,5 +1,5 @@
 ---
-- name: Install gunicorn
+- name: Install gunicorn via pip
   pip:
     name: gunicorn
     state: present
@@ -7,6 +7,14 @@
     virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
   become: true
   become_user: '{{ pulp_user }}'
+  when: pulp_install_source == 'pip'
+
+- name: Install gunicorn via packages
+  package:
+    name: python3-gunicorn
+    state: present
+  become: true
+  when: pulp_install_source == 'packages'
 
 - block:
 
