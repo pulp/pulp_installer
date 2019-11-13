@@ -26,6 +26,8 @@ Role Variables:
     See `prereq_pip_packages` also.
 * `pulp_install_api_service`: Whether to create systemd service files for
   pulpcore-api. Defaults to "true".
+* `pulp_install_source`: Whether to install from `pip` or `packages`.
+  Defaults to "pip". `pulp_install_dir` must be set to `/usr` for `packages` to work.
 * `pulp_source_dir`: Optional. Absolute path to pulpcore source code. If
   present, pulpcore will be installed from source in editable mode. Also accepts
   a pip VCS URL, to (for example) install the master branch.
