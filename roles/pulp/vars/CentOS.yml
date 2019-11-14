@@ -4,7 +4,8 @@ pulp_preq_packages:
   - python36-devel
   - python-setuptools
   - libselinux-python  # For ansible itself
-  - python-psycopg2
   - python-contextlib2
+  - postgresql-devel
+  - gcc                # For psycopg2
   - make               # For make docs
 pulp_python_interpreter: /usr/bin/python3.6
