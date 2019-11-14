@@ -25,11 +25,12 @@
         - epel_release_packages is not none
         - epel_release_packages | length > 0
         - ( ansible_loop.first ) or (epel.rc == 126)
-      failed_when:
-        - epel.rc not in [0,126]
-        - ( ansible_loop.last ) and (epel.rc == 126)
-      # Cast a single string as a list.
-      loop: "{{ lookup('vars', 'epel_release_packages', wantlist=True) }}"
+      failed_when: (epel.rc not in [0,126]) or
+                   (( ansible_loop.last ) and (epel.rc == 126))
+      # Cast a single string as a list so that the loop will work.
+      # This will also convert a list to a list with 1 list in it, so flatten it
+      # so that the yum task will only operate on 1 item at a time.
+      loop: "{{ lookup('vars', 'epel_release_packages', wantlist=True) | flatten }}"
       loop_control:
         extended: True
 
