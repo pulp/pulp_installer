@@ -1,1 +1,4 @@
-../../requirements.yml
+---
+- src: geerlingguy.postgresql
+
+- src: gzm55.smart_ssh_pipelining
