@@ -23,5 +23,7 @@ matrix:
 install:
   - pip install --upgrade pip
   - pip install tox
+  # Much easier than trying to use the travis_wait bash function in tox.
+  - wget -qO- https://github.com/crazy-max/travis-wait-enhanced/releases/download/v1.0.0/travis-wait-enhanced_1.0.0_linux_x86_64.tar.gz | sudo tar -C /usr/local/bin -zxvf - travis-wait-enhanced
 script:
-  - tox
+  - TRAVIS_WAIT="travis-wait-enhanced --timeout=20m --" tox
