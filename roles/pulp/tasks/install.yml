@@ -59,6 +59,8 @@
         state: present
         system: true
 
+    # If we do not create it here, but it is separate from developer_user,
+    # the following task would create it incorrectly with default settings.
     - name: Create user {{ pulp_user }}
       user:
         name: '{{ pulp_user }}'
@@ -66,14 +68,12 @@
         shell: '{{ result.stdout.strip() }}'
         home: '{{ pulp_user_home }}'
         system: true
-      when: developer_user is not defined
-
-    - name: Add user {{ pulp_user }} to {{ pulp_group }} group
-      user:
-        name: '{{ pulp_user }}'
         groups:
           - '{{ pulp_group }}'
         append: true
+      # The check implicitly does an or for this check:
+      # developer_user is not defined
+      when: pulp_user != developer_user|default('')
 
     - name: Add user {{ pulp_user }} to extra groups
       user:
