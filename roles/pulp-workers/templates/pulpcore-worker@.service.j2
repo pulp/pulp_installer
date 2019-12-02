@@ -15,7 +15,6 @@ WorkingDirectory=/var/run/pulpcore-worker-%i/
 RuntimeDirectory=pulpcore-worker-%i
 ExecStart={{ pulp_install_dir }}/bin/rq worker \
           -w pulpcore.tasking.worker.PulpWorker \
-          -n reserved-resource-worker-%i@%%h \
           --pid=/var/run/pulpcore-worker-%i/reserved-resource-worker-%i.pid \
           -c 'pulpcore.rqconfig' \
           --disable-job-desc-logging
