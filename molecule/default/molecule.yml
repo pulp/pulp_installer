@@ -36,6 +36,7 @@ provisioner:
   inventory:
     links:
       host_vars: ../scenario_resources/host_vars/
+      group_vars: ../scenario_resources/group_vars/
   lint:
     name: ansible-lint
 scenario:
