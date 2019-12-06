@@ -99,7 +99,7 @@
         state: directory
         owner: '{{ pulp_user }}'
         group: '{{ pulp_group }}'
-        mode: 0775
+        mode: "u+rwx,g+rwx,o+rx"
 
     - name: Create pulp install dir
       file:
@@ -107,6 +107,49 @@
         state: directory
         owner: '{{ pulp_user }}'
         group: '{{ pulp_group }}'
+
+    # If so, owner will be apache
+    - name: Check if we have Pulp 2 installed
+      stat:
+        path: "{{ pulp_user_home }}"
+      register: pulp_user_home_stat
+
+    - name: Fix permissions if Pulp 2 is already installed (https://pulp.plan.io/issues/5553#note-5)
+      block:
+        - name: Add user 'apache' to '{{ pulp_group }}' group if it exists
+          user:
+            name: apache
+            groups:
+              - '{{ pulp_group }}'
+            append: true
+
+        - name: Set permissions on '{{ pulp_user_home }}' if pulp2 is installed
+          file:
+            path: '{{ pulp_user_home }}'
+            state: directory
+            group: '{{ pulp_group }}'
+            # The uppercase X says "only make dirs executable, not files"
+            mode: "g+rwX"
+            recurse: true
+
+        - name: Find subdirs without setgid
+          command: "find {{ pulp_user_home }} -type d -perm -g-s"
+          changed_when: false
+          check_mode: false
+          register: dirs_needing_setgid
+
+        # We need dirs to have setgid so that newly generated files by Pulp 2
+        # have the pulp group rather than the apache group.
+        # But you cannot make chmod or the file module only do setgid for dirs
+        # and not files.
+        - name: Set setgid on the {{ pulp_user_home }} subdirs
+          file:
+            path: "{{ item }}"
+            mode: g+s
+          with_items: "{{ dirs_needing_setgid.stdout_lines }}"
+          when: dirs_needing_setgid.stdout | length > 0
+
+      when: pulp_user_home_stat.stat.pw_name == "apache"
 
     - name: Install packages needed for source install
       package:
