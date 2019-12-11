@@ -2,3 +2,6 @@
 # systemctl subcommands that actually manage services.
 skip_list:
   - '303'
+
+exclude_paths
+  - ./roles/geerlingguy.postgresql/
