@@ -66,13 +66,17 @@ pjournal() {
 _pjournal_help="Interact with the journal for pulp-related units
     pjournal takes optional journalctl args e.g. 'pjournal -r', runs pjournal -f by default"
 
-populate_pulp2() {
+reset_pulp2() {
     sudo systemctl stop httpd pulp_workers pulp_resource_manager pulp_celerybeat
     mongo pulp_database --eval "db.dropDatabase()"
     sudo rm -rf /var/lib/pulp/content
     sudo rm -rf /var/lib/pulp/published
     sudo -u apache pulp-manage-db;
     sudo systemctl start httpd pulp_workers pulp_resource_manager pulp_celerybeat
+}
+_reset_pulp2_help="Resets Pulp 2: drop the DB, remove content and publications from FS, restart services."
+
+populate_pulp2_iso() {
     pulp-admin login -u admin -p admin
     pulp-admin iso repo create --feed https://repos.fedorapeople.org/pulp/pulp/fixtures/file/ --repo-id file
     pulp-admin iso repo create --feed https://repos.fedorapeople.org/pulp/pulp/fixtures/file2/ --repo-id file2 --download-policy on_demand
@@ -84,7 +88,33 @@ populate_pulp2() {
     pulp-admin iso repo sync run --repo-id file-large &
 }
 
-_populate_pulp2_help="Resets Pulp 2 and syncs 4 ISO repos."
+_populate_pulp2_iso_help="Syncs 4 ISO repos."
+
+populate_pulp2_rpm() {
+    pulp-admin login -u admin -p admin
+    pulp-admin rpm repo create --feed https://repos.fedorapeople.org/pulp/pulp/fixtures/rpm-unsigned/ --repo-id rpm_unsigned --download-policy on_demand
+    pulp-admin rpm repo sync run --repo-id rpm_unsigned &
+}
+
+_populate_pulp2_rpm_help="Sync 1 RPM repo."
+
+populate_pulp2_docker() {
+    pulp-admin login -u admin -p admin
+    pulp-admin docker repo create --feed=https://registry-1.docker.io  --repo-id test-fixture-1 --upstream-name=pulp/test-fixture-1
+    pulp-admin docker repo sync run --repo-id test-fixture-1 &
+}
+
+_populate_pulp2_docker_help="Sync 1 Docker repo."
+
+
+_populate_pulp2() {
+    reset_pulp2()
+    populate_pulp2_iso()
+    populate_pulp2_rpm()
+    populate_pulp2_docker()
+}
+
+_populate_pulp2_help="Reset Pulp 2 and sync ISO, RPM, Docker repos."
 
 phelp() {
     # get a list of declared functions, filter out ones with leading underscores as "private"
