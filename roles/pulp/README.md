@@ -1,7 +1,7 @@
 Pulp
 ====
 
-Ansible role that installs Pulp 3 from PyPi or source and provides basic config.
+Ansible role that installs Pulp 3 from PyPi or source and provides config.
 
 The default administrative user for the Pulp application is: 'admin'
 
@@ -17,6 +17,9 @@ Role Variables:
   Defaults to "{}", which will not install any plugins.
   * Dictionary Key: The pip installable plugin name. This is defined in each
   plugin's* `setup.py`. **Required**.
+  * `update`: Whether to update/upgrade the plugin to the latest stable release from PyPI that is compatible with the version of pulpcore that is installed. (NEEDS TESTING TO MAKE SURE ONLY COMPATIBLE VERSIONS ARE INSTALLED. ansible-pulp installs/updates pulpcore 1st, then the plugins. pulpcore's version will be kept at whatever its current version is (via a pip "Constraints File") when ansible-pulp goes to install the plugins.)
+  * `version`: Optional. A specific version of the plugin to install from PyPI. Ignored if `source_dir` is set.
+  * `branch`: Optional: A specific branch of the plugin to install from PyPI (or update/upgrade to the latest release from, see `update`. An example value is "1.0". Ignored if `source_dir` or `version` is set.
   * `source_dir`: Optional. Absolute path to the plugin source code. If present,
   plugin will be installed from source in editable mode.
   Also accepts a pip VCS URL, to (for example) install the master branch.
@@ -26,9 +29,12 @@ Role Variables:
     See `prereq_pip_packages` also.
 * `pulp_install_api_service`: Whether to create systemd service files for
   pulpcore-api. Defaults to "true".
+* `pulp_update`: Whether to update/upgrade pulpcore to the latest stable release from PyPI. Only affects systems where Pulp is already installed. To limit this to micro (z-stream) updates, make sure to set `pulp_branch`. If `pulpcore_version` is set, or `pulp_source_dir` is set, this has no effect and is effectively always `true`. Setting it to "false" enables your Ansible play is idempotent if run in the future (once new pulpcore releases come out). Defaults to "false".
+* `pulp_branch`: Install a specific branch of pulpcore (or update/upgrade to the latest release from, see `pulp_update`). Has no default; the latest stable release from PyPI will be installed. It is recommended to set this if you re-run the ansible installer; when a new branch is released, some of your content plugins may not be compatible yet. An example value is "3.0". Ignored if `pulp_source_dir` or `pulp_version` is set.
+* `pulp_version`: Optional. A specific version of pulp to install from PyPI. Ignored if `pulp_source_dir` is set.
 * `pulp_source_dir`: Optional. Absolute path to pulpcore source code. If
   present, pulpcore will be installed from source in editable mode. Also accepts
-  a pip VCS URL, to (for example) install the master branch.
+  a pip VCS URL, to (for example) install the master branch, or an arbitrary commitish (tag, branch, commit, etc.)
 * `pulp_user`: User that owns and runs Pulp. Defaults to "pulp".
 * `pulp_user_id`: Integer value of uid for the `pulp_user`. Defaults to nothing and uid is assigned
   by the system.
@@ -74,7 +80,6 @@ Role Variables:
   subscription-manager/katello.
   Also accepts a single string or empty string.
   Only affects RHEL7 (RHEL8 no longer has an optional repo.)
-
 
 Shared Variables:
 -----------------
