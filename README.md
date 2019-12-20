@@ -6,6 +6,10 @@ component of Pulp. The roles are not currently available on Ansible Galaxy; to r
 Ansible installer, the [ansible-pulp](https://github.com/pulp/ansible-pulp) git repository must
 be cloned.
 
+Supported Pulp Versions
+-----------------------
+Pulpcore 3.0 and the current state of the master branch (3.1).
+
 System Requirements
 -------------------
 
