@@ -1,0 +1,20 @@
+---
+- hosts: all
+  pre_tasks:
+    # The version string below is the highest of all those in roles' metadata:
+    # "min_ansible_version". It needs to be kept manually up-to-date.
+    - name: Verify Ansible meets min required version
+      assert:
+        that: "ansible_version.full is version_compare('2.8', '>=')"
+        msg: >
+          "You must update Ansible to at least 2.8 to use this version of Pulp 3 Installer."
+
+    - name: Dynamically include prereq roles
+      include_role:
+        public: yes
+        name: "{{ roleinputvar }}"
+      loop: "{{ pulp_roles }}"
+      loop_control:
+        loop_var: roleinputvar
+  environment:
+    DJANGO_SETTINGS_MODULE: pulpcore.app.settings
