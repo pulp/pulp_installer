@@ -5,6 +5,15 @@ Ansible role that installs Pulp 3 from PyPi or source and provides config.
 
 The default administrative user for the Pulp application is: 'admin'
 
+Note on Plugin Compatibility with Pulpcore
+------------------------------------------
+
+Pulp 3 has a plugin architecture so that new content types, and new features, can be added by the larger community. However, both pulpcore & plugins are installed via pip, which has limited dependency resolution. Plugins release at their own lifecycles; the 2 stable branches of plugin pulp_juicy could depend on the current branch of pulpcore, while the 2 stable branches of pulp_sugary could depend on the current branch of pulpcore.
+
+In order to avoid breaking multiple plugins for the sake of 1 plugin, and to avoid breaking existing installs, updating a plugin will not cause pulpcore to be updated as dependency. Similarly, if a plugin were to be attempted to be updated to an incompatible version with pulpcore, the installer will fail & exit.
+
+Thus you, yourself, must research compatibility with pulpcore whether you are installing 1 plugin, or more than 1 plugin.
+
 Role Variables:
 ---------------
 * `pulp_cache_dir`: Location of Pulp cache. Defaults to "/var/lib/pulp/tmp".
@@ -17,9 +26,9 @@ Role Variables:
   Defaults to "{}", which will not install any plugins.
   * Dictionary Key: The pip installable plugin name. This is defined in each
   plugin's* `setup.py`. **Required**.
-  * `update`: Whether to update/upgrade the plugin to the latest stable release from PyPI that is compatible with the version of pulpcore that is installed. (NEEDS TESTING TO MAKE SURE ONLY COMPATIBLE VERSIONS ARE INSTALLED. ansible-pulp installs/updates pulpcore 1st, then the plugins. pulpcore's version will be kept at whatever its current version is (via a pip "Constraints File") when ansible-pulp goes to install the plugins.)
+  * `update`: Whether to update/upgrade the plugin to the latest stable release from PyPI. To limit this to micro (z-stream) updates, make sure to set `branch`. Note that if `pulp_branch` is set, but `branch` is either unset or set to branch that is incompatible with `pulp_branch`, ansible-pulp may fail (and exit the play) when it goes to update the plugin.
   * `version`: Optional. A specific version of the plugin to install from PyPI. Ignored if `source_dir` is set.
-  * `branch`: Optional: A specific branch of the plugin to install from PyPI (or update/upgrade to the latest release from, see `update`. An example value is "1.0". Ignored if `source_dir` or `version` is set.
+  * `branch`: Optional: A specific branch of the plugin to install from PyPI (or update/upgrade to the latest release from, see `update`. An example value is "1.0". Ignored if `source_dir` or `version` is set. You need to set this to a branch that is compatible with either `pulp_branch` or `pulp_version`, if they are set.
   * `source_dir`: Optional. Absolute path to the plugin source code. If present,
   plugin will be installed from source in editable mode.
   Also accepts a pip VCS URL, to (for example) install the master branch.
