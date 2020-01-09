@@ -116,6 +116,65 @@ In order to avoid breaking multiple plugins for the sake of 1 plugin, and to avo
 
 Thus you, yourself, must research plugin compatibility with pulpcore whether you are installing 1 plugin, or more than 1 plugin.
 
+Suggested Workflows for Pulpcore & Plugin Versioning:
+-----------------------------------------------------
+
+### Latest versions with minimal work:
+
+Initial install:
+
+1. Observe the latest branch of pulpcore (3.0).
+2. Confirm that all the latest stable releases of your desired plugins are compatibile with pulpcore 3.0, such as by reading their README.md.
+3. Do not set `pulp_branch`. Do not set `branch` under `pulp_install_plugins`.
+4. Run ansible-pulp.
+
+Updating your install:
+
+1. Check if `pulp_branch` has changed to a new stable branch in the latest version of the installer. This will happen whenever a new branch of `pulpcore` is released. Let's assume 3.0 is stil the latest, but there are new micro updates (like pulpcore 3.0.3 -> 3.0.4, and pulp_juicy 1.0.3 -> 1.0.4)
+2. Update ansible-pulp
+3. re-run the ansible-pulp with `update` set to `true` under `pulp_install_plugins`, and `pulp_update` set to `true`.
+
+Upgrading your install:
+
+1. Check if `pulp_branch` has changed to a new stable branch in the latest version of the installer. This will happen whenever a new branch of `pulpcore` is released. Let's assume 3.1 is released.
+2. Check if your plugins are compatible yet with pulpcore 3.1 yet. **Wait** for the plugins to be updated for compatibility if they are not updated yet before you attempt to update.
+3. If they are updated for compatibility:
+    1. Update ansible-pulp
+    2. re-run the ansible-pulp with `update` set to `true` under `pulp_install_plugins`, and `pulp_update` set to `true`.
+
+### Specifying your desired branch:
+
+Initial install:
+
+1. Observe the latest branch of pulpcore (3.0).
+2. Confirm that all the latest stable releases of your desired plugins are compatibile with pulpcore 3.0, such as by reading their README.md. If they are not all compatible, look into whether the older version is compatible. If not, try an even older version. Let's assume the newest version compatible with all is called `X.Y`.
+3. Set `pulp_branch` to `X.Y`. Set `branch` under each of the  `pulp_install_plugins` to their own compatible semantic minor branch versions `a.b`.
+4. Run ansible-pulp
+
+Updating your install:
+
+1. Check if `pulp_branch` has changed to a new stable branch in the latest version of the installer. This will happen whenever a new branch of `pulpcore` is released. Let's assume 3.0 is stil the latest, but there are new micro updates (like pulpcore 3.0.3 -> 3.0.4, and plugin pulp_juicy 1.0.3 -> 1.0.4)
+2. Update ansible-pulp
+3. re-run the ansible-pulp with `update` set to `true` under `pulp_install_plugins`, and `pulp_update` set to `true`.
+
+Upgrading your plugins, but not pulpcore:
+
+1. Check if `pulp_branch` has changed to a new stable branch in the latest version of the installer, and if new branches of the plugins have been released. This will happen whenever a new branch of `pulpcore` is released. Let's assume 3.0 is still the latest branch of pulpcore.
+2. Repeat step 2 from the initial install. Let's assume that , but pulp_juicy has gone to a new branch (pulp_juicy 1.0.3 -> 2.0.0) with major new features, while still being compatible with your pulpcore version (3.0).
+3.`Change pulp_install_plugins.pulp_juicy.branch` to `2.0`. This is its new current & perpetual value.
+4. set `pulp_install_plugins.pulp_juicy.update` to `true`; it will upgrade it. Set `pulp_update` to true as a precaution for the latest bugfixes  that the plugins may depend on.
+5. Update ansible-pulp
+6. Run ansible-pulp
+
+Upgrading your plugins, and pulpcore:
+
+1. Check if `pulp_branch` has changed to a new stable branch in the latest version of the installer, and if new branches of the plugins have been released. This will happen whenever a new branch of `pulpcore` is released. Let's assume 3.0 is still the latest branch of pulpcore.
+2. Repeat step 2 from the initial install. Let's assume that pulpcore is now on branch 3.1, and pulp_juicy has gone to a new minor branch (pulp_juicy 2.0.0 -> 3.0.0) for compatibility purposes with pulpcore version 3.1. All your other plugins have as well.
+3. set `pulp_install_plugins.pulp_juicy.update` to `true`; it will upgrade it. Set `update` for all your other `pulp_install_plugins` as well. Set `pulp_update` to true; it will upgrade pulpcore.
+4.`Change pulp_install_plugins.pulp_juicy.branch` to `2.0`. This is its new current & perpetual value. Repeat with the correct values you determined for `branch` for all the other `pulp_install_plugins`.
+5. Update ansible-pulp
+6. Run ansible-pulp
+
 License
 -------
 
