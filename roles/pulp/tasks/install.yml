@@ -192,6 +192,15 @@
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
       when: prereq_pip_packages | length > 0
 
+    - name: Install pulpcore package via PyPI
+      pip:
+        name: pulpcore
+        state: present
+        virtualenv: '{{ pulp_install_dir }}'
+        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+      when: pulp_source_dir is undefined
+      notify: Collect static content
+
     - name: Install pulpcore package from source
       pip:
         name: '{{ pulp_source_dir }}'
@@ -205,10 +214,25 @@
       changed_when: result.changed and not pulp_pip_editable
       notify: Collect static content
 
+    # We have to do this separate task, even though the pip module should
+    # register the installed version, because when tested (Ansible 2.9, with no
+    # changes applied), the registered result from "Install pulpcore package
+    # from source" left the version field "null".
+    - name: Obtain list of packages & versions in the venv
+      pip_package_info:
+        clients: "{{ pulp_install_dir }}/bin/pip"
+      register: pip_pkgs
+
+    - name: Create constraints file to lock the pulpcore version when plugins are installed
+      copy:
+        content: "pulpcore=={{ pip_pkgs.packages[pulp_install_dir + '/bin/pip'].pulpcore[0].version }}\n"
+        dest: "{{ pulp_install_dir }}/pip_constraints_for_plugins.txt"
+
     - name: Install Pulp plugins via PyPI
       pip:
         name: '{{ item.key }}'
         state: present
+        extra_args: "-c {{ pulp_install_dir }}/pip_constraints_for_plugins.txt"
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
       with_dict: '{{ pulp_install_plugins }}'
@@ -220,6 +244,7 @@
         name: '{{ item.value.source_dir }}'
         editable: '{{ pulp_pip_editable }}'
         state: present
+        extra_args: "-c {{ pulp_install_dir }}/pip_constraints_for_plugins.txt"
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
       with_dict: '{{ pulp_install_plugins }}'
