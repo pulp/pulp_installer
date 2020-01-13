@@ -195,24 +195,34 @@
     - name: Install pulpcore package via PyPI
       pip:
         name: pulpcore
-        state: present
+        # pulp_upgrade true/false -> ansible pip module latest/present ->
+        # pip command "install --upgrade"/"install"
+        state: "{{ pulp_upgrade | ternary('latest','present') }}"
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
       when: pulp_source_dir is undefined
-      notify: Collect static content
+      notify:
+        - Collect static content
+        - Restart all Pulp services
 
     - name: Install pulpcore package from source
       pip:
         name: '{{ pulp_source_dir }}'
         editable: '{{ pulp_pip_editable }}'
+        # For this task, `state` has no effect. It installs or upgrades/
+        # downgrades to the exact dir's or VCS URL's version regardless.
         state: present
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
       when: pulp_source_dir is defined
+      register: result
       # This is a hack. Editable pip installs are always changed, which fails molecule's
       # idempotence test.
+      # Unfortunately, this will prevent the handlers from being notified.
       changed_when: result.changed and not pulp_pip_editable
-      notify: Collect static content
+      notify:
+        - Collect static content
+        - Restart all Pulp services
 
     # We have to do this separate task, even though the pip module should
     # register the installed version, because when tested (Ansible 2.9, with no
@@ -231,28 +241,38 @@
     - name: Install Pulp plugins via PyPI
       pip:
         name: '{{ item.key }}'
-        state: present
+        # item.upgrade true/false -> ansible pip module latest/present ->
+        # pip command "install --upgrade"/"install"
+        state: "{{ item.upgrade | default(false) | ternary('latest','present','present') }}"
         extra_args: "-c {{ pulp_install_dir }}/pip_constraints_for_plugins.txt"
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
       with_dict: '{{ pulp_install_plugins }}'
       when: pulp_install_plugins[item.key].source_dir is undefined
-      notify: Collect static content
+      notify:
+        - Collect static content
+        - Restart all Pulp services
 
     - name: Install Pulp plugins from source
       pip:
         name: '{{ item.value.source_dir }}'
         editable: '{{ pulp_pip_editable }}'
+        # For this task, `state` has no effect. It installs or upgrades/
+        # downgrades to the exact dir's or VCS URL's version regardless.
         state: present
         extra_args: "-c {{ pulp_install_dir }}/pip_constraints_for_plugins.txt"
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
       with_dict: '{{ pulp_install_plugins }}'
       when: pulp_install_plugins[item.key].source_dir is defined
+      register: result
       # This is a hack. Editable pip installs are always changed, which fails molecule's
       # idempotence test.
+      # Unfortunately, this will prevent the handlers from being notified.
       changed_when: result.changed and not pulp_pip_editable
-      notify: Collect static content
+      notify:
+        - Collect static content
+        - Restart all Pulp services
 
   become: true
   become_user: '{{ pulp_user }}'
