@@ -1,0 +1,42 @@
+---
+- hosts:
+    - all
+  tasks:
+    - name: Install required packages
+      package:
+        name:
+          - git
+        state: present
+
+    - name: Create user {{ developer_user }}
+      user:
+        name: '{{ developer_user }}'
+        home: '{{ developer_user_home }}'
+      when: developer_user is defined
+
+    - name: Clone pulp repository
+      git:
+        repo: 'https://github.com/pulp/pulpcore.git'
+        dest: '{{ pulp_source_dir }}'
+        update: yes
+
+    - name: Clone pulp_file repository
+      git:
+        repo: 'https://github.com/pulp/pulp_file.git'
+        dest: '{{ item.value.source_dir }}'
+        update: yes
+      with_dict: '{{ pulp_install_plugins }}'
+
+    - name: Make devel directory world-writable
+      file:
+        path: /var/lib/pulp/
+        state: directory
+        mode: 0777
+        recurse: true
+      become: true
+
+    - name: Hot patch redis-server service for docker operation (Debian)
+      copy:
+        src: debian-redis-server.service
+        dest: /etc/systemd/system/redis-server.service
+      when: ansible_distribution == "Debian"
