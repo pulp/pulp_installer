@@ -3,7 +3,7 @@
 sudo: required
 # By default, Traivs provides Ubuntu 14.04 VMs. We specify a newer release so
 # that Python 3.7 can be used in testing.
-dist: xenial
+dist: bionic
 services:
   - docker
 
