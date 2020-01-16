@@ -87,7 +87,6 @@ populate_pulp2_iso() {
     pulp-admin iso repo sync run --repo-id file-many &
     pulp-admin iso repo sync run --repo-id file-large &
 }
-
 _populate_pulp2_iso_help="Syncs 4 ISO repos."
 
 populate_pulp2_rpm() {
@@ -95,7 +94,6 @@ populate_pulp2_rpm() {
     pulp-admin rpm repo create --feed https://repos.fedorapeople.org/pulp/pulp/fixtures/rpm-unsigned/ --repo-id rpm_unsigned --download-policy on_demand
     pulp-admin rpm repo sync run --repo-id rpm_unsigned &
 }
-
 _populate_pulp2_rpm_help="Sync 1 RPM repo."
 
 populate_pulp2_docker() {
@@ -103,17 +101,14 @@ populate_pulp2_docker() {
     pulp-admin docker repo create --feed=https://registry-1.docker.io  --repo-id test-fixture-1 --upstream-name=pulp/test-fixture-1
     pulp-admin docker repo sync run --repo-id test-fixture-1 &
 }
-
 _populate_pulp2_docker_help="Sync 1 Docker repo."
 
-
 _populate_pulp2() {
-    reset_pulp2()
-    populate_pulp2_iso()
-    populate_pulp2_rpm()
-    populate_pulp2_docker()
+    reset_pulp2
+    populate_pulp2_iso
+    populate_pulp2_rpm
+    populate_pulp2_docker
 }
-
 _populate_pulp2_help="Reset Pulp 2 and sync ISO, RPM, Docker repos."
 
 phelp() {
