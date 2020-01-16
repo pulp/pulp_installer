@@ -1,0 +1,16 @@
+---
+pulp_default_admin_password: password
+pulp_source_dir: '/var/lib/pulp/devel/pulpcore'
+pulp_upgrade: true
+# Needed to determine whether or not pulpcore was actually upgraded, to
+# trigger the handler.
+pulp_pip_editable: false
+pulp_install_plugins:
+  pulp-file:
+    upgrade: true
+    source_dir: "/var/lib/pulp/devel/pulp_file"
+developer_user_home: /var/lib/pulp
+developer_user: pulp
+pulp_settings:
+  secret_key: secret
+  content_origin: "http://{{ ansible_fqdn }}"

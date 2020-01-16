@@ -9,6 +9,7 @@ pulp_default_admin_password: ''
 pulp_install_dir: '/usr/local/lib/pulp'
 pulp_install_plugins: {}
 pulp_install_api_service: true
+pulp_upgrade: false
 pulp_user: pulp
 pulp_user_id:
 pulp_group: pulp

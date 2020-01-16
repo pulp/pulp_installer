@@ -7,6 +7,12 @@
     daemon_reload: true
   become: true
 
+# Workaround https://github.com/ansible/ansible/issues/34505
+# by not using include_tasks
+- name: Restart all Pulp services
+  include: handlers/restart_all_pulp.yml
+  static: no
+
 - name: Collect static content
   command: '{{ pulp_install_dir }}/bin/django-admin collectstatic --noinput --link'
   register: staticresult

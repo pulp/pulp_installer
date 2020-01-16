@@ -1,0 +1,51 @@
+---
+dependency:
+  name: galaxy
+  role-file: requirements.yml
+driver:
+  name: docker
+lint:
+  name: yamllint
+# This is ignored by molecule, but can be reused in yaml
+.platform_base: &platform_base
+  privileged: False
+  volumes:
+    - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  tmpfs:
+    - /tmp
+    - /run
+    - /run/lock
+  capabilities:
+    - NET_ADMIN
+    - NET_RAW
+platforms:
+  - <<: *platform_base
+    name: centos-7
+    # molecule often fails to pull, so we pull all images in .travis.yml
+    image: quay.io/pulp/pulp-ci-c7:3.0.0
+    command: /sbin/init
+    pre_build_image: true
+  - <<: *platform_base
+    name: debian-10
+    image: quay.io/pulp/pulp-ci-dbuster:3.0.0
+    command: /sbin/init
+    pre_build_image: true
+  - <<: *platform_base
+    name: fedora-31
+    image: quay.io/pulp/pulp-ci-f31:3.0.0
+    command: /usr/sbin/init
+    pre_build_image: true
+provisioner:
+  name: ansible
+  inventory:
+    links:
+      host_vars: ../scenario_resources/host_vars/
+  lint:
+    name: ansible-lint
+scenario:
+  name: default-upgrade
+verifier:
+  name: inspec
+  lint:
+    name: rubocop
+    enabled: false
