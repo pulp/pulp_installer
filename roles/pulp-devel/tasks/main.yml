@@ -143,6 +143,11 @@
         dest: '{{ developer_user_home }}/.bashrc.d/venv.bashrc'
       when: ansible_distribution != 'Ubuntu'
 
+    - name: Add fzf bashrc
+      copy:
+        src: files/fzf.bashrc
+        dest: '{{ developer_user_home }}/.bashrc.d/fzf.bashrc'
+      when: ansible_distribution == 'Fedora'
 
   become: true
   become_user: "{{ developer_user }}"
