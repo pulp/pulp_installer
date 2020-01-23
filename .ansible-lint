@@ -3,5 +3,5 @@
 skip_list:
   - '303'
 
-exclude_paths
+exclude_paths:
   - ./roles/geerlingguy.postgresql/
