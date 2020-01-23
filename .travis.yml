@@ -17,7 +17,9 @@ matrix:
     - python: 2.7
       env: TOXENV=py27
     - python: 3.6
-      env: TOXENV=py36
+      env: TOXENV=py36-default
+    - python: 3.6
+      env: TOXENV=py36-upgrade
     - python: 3.7
       env: TOXENV=py37
 before_install:
