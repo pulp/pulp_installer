@@ -1,4 +1,7 @@
 ---
+pulp_config_dir: "/etc/pulp"
+pulp_settings_file: "{{ pulp_config_dir }}/settings.py"
+pulp_group: pulp
 pulp_workers:
   1:
     state: started

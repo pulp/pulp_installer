@@ -1,5 +1,6 @@
 ---
 pulp_default_admin_password: password
+pulp_install_db: true
 pulp_roles:
   - pulp-database
   - pulp-workers

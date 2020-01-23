@@ -1,2 +1,6 @@
 ---
 pulp_content_bind: '127.0.0.1:24816'
+pulp_config_dir: "/etc/pulp"
+pulp_settings_file: "{{ pulp_config_dir }}/settings.py"
+pulp_install_dir: "/usr/local/lib/pulp"
+pulp_user: pulp

@@ -24,3 +24,5 @@ these values are **required**.
 
 * `pulp_user`
 * `pulp_install_dir`
+* `pulp_config_dir`
+* `pulp_settings_file`

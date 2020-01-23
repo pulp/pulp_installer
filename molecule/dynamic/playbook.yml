@@ -11,7 +11,6 @@
 
     - name: Dynamically include prereq roles
       include_role:
-        public: yes
         name: "{{ roleinputvar }}"
       loop: "{{ pulp_roles }}"
       loop_control:

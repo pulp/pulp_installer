@@ -1,3 +1,5 @@
 ---
 pulp_resource_manager_state: started
 pulp_resource_manager_enabled: true
+pulp_config_dir: "/etc/pulp"
+pulp_settings_file: "{{ pulp_config_dir }}/settings.py"
