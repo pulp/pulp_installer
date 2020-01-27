@@ -144,3 +144,34 @@ pyclean () {
         find . -type d -name "__pycache__" -delete
 }
 _pyclean_help="Cleanup extra python files"
+
+pbindings(){
+    CURRENT_DIR=$(pwd)
+
+    if [ -d $HOME/devel/pulp-openapi-generator ]
+    then
+        cd $HOME/devel/pulp-openapi-generator
+    else
+        cd $HOME/devel
+        git clone https://github.com/pulp/pulp-openapi-generator.git
+        cd pulp-openapi-generator
+    fi
+
+    sed -i 's/docker/podman/g' generate.sh
+    workon pulp
+
+    if [ $1 != 'pulpcore' ]
+    then
+        sudo ./generate.sh pulpcore $2
+        pip install ./pulpcore-client
+        sudo rm -rf pulpcore-client
+    fi
+
+    sudo ./generate.sh $@
+    pip install ./$1-client
+    sudo rm -rf $1-client
+
+    sed -i 's/podman/docker/g' generate.sh
+    cd $CURRENT_DIR
+}
+_pbindings_help="Install bindings"
