@@ -163,12 +163,40 @@ pbindings(){
     if [ $1 != 'pulpcore' ]
     then
         sudo ./generate.sh pulpcore $2
-        pip install ./pulpcore-client
+        case $2 in
+            python)
+                pip install ./pulpcore-client
+                ;;
+            ruby)
+                cd pulpcore-client
+                gem build pulpcore_client
+                GEM_FILE="$(ls | grep pulpcore_client-)"
+                gem install --both ./${GEM_FILE}
+                cd ..
+                ;;
+            *)
+                echo "Sorry, language not supported"
+                ;;
+        esac
         sudo rm -rf pulpcore-client
     fi
 
     sudo ./generate.sh $@
-    pip install ./$1-client
+    case $2 in
+        python)
+            pip install ./$1-client
+            ;;
+        ruby)
+            cd $1-client
+            gem build $1_client
+            GEM_FILE="$(ls | grep ${1}_client-)"
+            gem install --both ./${GEM_FILE}
+            cd ..
+            ;;
+        *)
+            echo "Sorry, language not supported"
+            ;;
+    esac
     sudo rm -rf $1-client
 
     sed -i 's/podman/docker/g' generate.sh

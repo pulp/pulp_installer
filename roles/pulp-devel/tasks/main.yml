@@ -15,6 +15,7 @@
           - tree
           - wget
           - gnupg
+          - rubygems
         state: present
       retries: "{{ pulp_devel_package_retries }}"
       register: result
@@ -25,6 +26,7 @@
         name:
           - python-virtualenvwrapper
           - podman
+          - ruby-devel
       when: ansible_distribution == 'CentOS'
 
     - name: Ensure podman apt key is present (Debian-specific)
@@ -53,6 +55,7 @@
           - vim
           - software-properties-common
           - podman
+          - ruby-dev
         state: present
       retries: "{{ pulp_devel_package_retries }}"
       register: result
@@ -79,6 +82,7 @@
           - ripgrep
           - vim-enhanced
           - podman
+          - ruby-devel
         state: present
       retries: "{{ pulp_devel_package_retries }}"
       register: result
