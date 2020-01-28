@@ -6,6 +6,15 @@ pulp_config_dir: '/etc/pulp'
 # foreseeable need for them to change the filename, only pulp_config_dir.
 pulp_settings_file: '{{ pulp_config_dir }}/settings.py'
 pulp_default_admin_password: ''
+# Users should not set this variable, instead using `pulp_settings.databases`
+pulp_settings_db_defaults:
+  databases:
+    default:
+      HOST: localhost
+      ENGINE: django.db.backends.postgresql_psycopg2
+      NAME: pulp
+      USER: pulp
+      PASSWORD: pulp
 pulp_install_dir: '/usr/local/lib/pulp'
 pulp_install_plugins: {}
 pulp_install_api_service: true

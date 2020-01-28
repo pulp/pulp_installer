@@ -27,6 +27,14 @@ some of its variables.
 * `pulp_user`
 * `pulp_install_dir`
 
+This role **is not tightly coupled** with the `pulp` role, but it does
+use some of the same variables. When used together, the values are inherited from
+the role. When not used together, these values are **required**.
+
+* `pulp_config_dir`
+* `pulp_settings_file`
+* `pulp_group`
+
 Dependencies:
 -------------
 

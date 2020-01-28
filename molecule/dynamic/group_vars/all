@@ -1,0 +1,14 @@
+---
+pulp_default_admin_password: password
+pulp_install_db: true
+pulp_roles:
+  - pulp-database
+  - pulp-workers
+  - pulp-resource-manager
+  - pulp-webserver
+  - pulp-content
+pulp_install_plugins:
+  pulp-file: {}
+pulp_settings:
+  secret_key: secret
+  content_origin: "http://{{ ansible_fqdn }}"
