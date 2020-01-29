@@ -37,6 +37,16 @@ provisioner:
     name: ansible-lint
 scenario:
   name: source
+  test_sequence:
+    - lint
+    - dependency
+    - syntax
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - side_effect
+    - verify
   playbooks:
     prepare: prepare.yml
 

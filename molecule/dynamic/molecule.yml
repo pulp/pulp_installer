@@ -41,6 +41,16 @@ provisioner:
     name: ansible-lint
 scenario:
   name: dynamic
+  test_sequence:
+    - lint
+    - dependency
+    - syntax
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - side_effect
+    - verify
 verifier:
   name: inspec
   lint:

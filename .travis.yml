@@ -15,17 +15,30 @@ language: python
 matrix:
   include:
     - python: 2.7
-      env: TOXENV=py27
+      env: TOXENV=py27-static
+    - python: 2.7
+      if: type = cron
+      env: TOXENV=py27-dynamic
+    - python: 2.7
+      if: type = cron
+      env: TOXENV=py27-upgrade
     - python: 3.6
-      env: TOXENV=py36-default
+      if: type = cron
+      env: TOXENV=py36-static
     - python: 3.6
+      env: TOXENV=py36-dynamic
+    - python: 3.6
+      if: type = cron
       env: TOXENV=py36-upgrade
     - python: 3.7
-      env: TOXENV=py37
+      if: type = cron
+      env: TOXENV=py37-static
+    - python: 3.7
+      if: type = cron
+      env: TOXENV=py37-dynamic
+    - python: 3.7
+      env: TOXENV=py37-upgrade
 before_install:
-  - docker pull quay.io/pulp/pulp-ci-c7:3.0.0
-  - docker pull quay.io/pulp/pulp-ci-dbuster:3.0.0
-  - docker pull quay.io/pulp/pulp-ci-f31:3.0.0
   - .travis/before_install.sh
   # Created template_config.yml with plugin_template,
   # and after that I removed manually travis files not related to validating commit
