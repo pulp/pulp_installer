@@ -182,7 +182,7 @@
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
         virtualenv_site_packages: yes
-      when: pulp_use_system_wide_pkgs |bool
+      when: pulp_use_system_wide_pkgs | bool
 
     - name: Install the prereq_pip_packages
       pip:
@@ -197,7 +197,11 @@
         name: pulpcore
         # pulp_upgrade true/false -> ansible pip module latest/present ->
         # pip command "install --upgrade"/"install"
-        state: "{{ pulp_upgrade | ternary('latest','present') }}"
+        # Commented out because:
+        # "version is incompatible with state=latest"
+        # But we still need to handle upgrading dependencies.
+        # state: "{{ pulp_upgrade | ternary('latest','present') }}"
+        version: '{{ pulp_version }}'
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
       when: pulp_source_dir is undefined
@@ -244,6 +248,9 @@
         # item.upgrade true/false -> ansible pip module latest/present ->
         # pip command "install --upgrade"/"install"
         state: "{{ item.upgrade | default(false) | ternary('latest','present','present') }}"
+        # TODO: Handle the fact that "version is incompatible with state=latest"
+        # through proper means, rather than just telling users not to set both.
+        version: '{{ item.value.version | default(omit) }}'
         extra_args: "-c {{ pulp_install_dir }}/pip_constraints_for_plugins.txt"
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
@@ -264,7 +271,7 @@
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
       with_dict: '{{ pulp_install_plugins }}'
-      when: pulp_install_plugins[item.key].source_dir is defined
+      when: item.value.source_dir is defined
       register: result
       # This is a hack. Editable pip installs are always changed, which fails molecule's
       # idempotence test.

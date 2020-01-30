@@ -17,7 +17,8 @@ Role Variables:
   Defaults to "{}", which will not install any plugins.
   * Dictionary Key: The pip installable plugin name. This is defined in each
   plugin's* `setup.py`. **Required**.
-  * `upgrade`: Whether to update/upgrade the plugin to the latest stable release from PyPI. Only affects systems where the plugin is already installed. If `source_dir` is set, this has no effect and is effectively always `true`. Note that if the latest stable release of the plugin is incompatible with pulpcore's version, ansible-pulp will fail (and exit the play) when it goes to upgrade the plugin. Defaults to "false".
+  * `version`: Specific release of the plugin to install from PyPI, or upgrade to (regardless of whether `upgrade` is set.) If `source_dir` is set, this has no effect. Note that if the spceified release of the plugin is incompatible with pulpcore's version, ansible-pulp will fail (and exit the play) when it goes to install or upgrade the plugin. Defaults to nothing.
+  * `upgrade`: Whether to update/upgrade the plugin to the latest stable release from PyPI. Only affects systems where the plugin is already installed. If `source_dir` is set, this has no effect and is effectively always `true`. Mutually exclusive with `version`. Note that if the latest stable release of the plugin is incompatible with pulpcore's version, ansible-pulp will fail (and exit the play) when it goes to upgrade the plugin. Defaults to "false".
   * `source_dir`: Optional. Absolute path to the plugin source code. If present,
   plugin will be installed from source in editable mode.
   Also accepts a pip VCS URL, to (for example) install the master branch.
@@ -27,8 +28,6 @@ Role Variables:
     See `prereq_pip_packages` also.
 * `pulp_install_api_service`: Whether to create systemd service files for
   pulpcore-api. Defaults to "true".
-* `pulp_upgrade`: Whether to update/upgrade pulpcore to the latest stable release from PyPI. Only affects systems where Pulp is already installed. If `pulp_source_dir` is set, this has no effect and is effectively always `true`. Defaults to "false".
-* `pulp_source_dir`: Optional. Absolute path to pulpcore source code. If
   present, pulpcore will be installed from source in editable mode. Also accepts
   a pip VCS URL, to (for example) install the master branch.
 * `pulp_user`: User that owns and runs Pulp. Defaults to "pulp".
@@ -100,7 +99,6 @@ directory.
 Idempotency:
 ------------
 This role is idempotent by default. It is dependent on these settings remaining `false`:
-* `pulp_upgrade`
 * Every `upgrade` under `pulp_install_plugins`
 
 License
