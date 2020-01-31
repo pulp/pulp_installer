@@ -247,7 +247,7 @@
         name: '{{ item.key }}'
         # item.upgrade true/false -> ansible pip module latest/present ->
         # pip command "install --upgrade"/"install"
-        state: "{{ item.upgrade | default(false) | ternary('latest','present','present') }}"
+        state: "{{ item.value.upgrade | default(false) | ternary('latest','present','present') }}"
         # TODO: Handle the fact that "version is incompatible with state=latest"
         # through proper means, rather than just telling users not to set both.
         version: '{{ item.value.version | default(omit) }}'
