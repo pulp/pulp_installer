@@ -18,7 +18,13 @@ pulp_settings_db_defaults:
 pulp_install_dir: '/usr/local/lib/pulp'
 pulp_install_plugins: {}
 pulp_install_api_service: true
+# Deprecated unused. Variables for dependency upgrades are TBD
 pulp_upgrade: false
+#  Intentionally not advertised to users. They should not set this unless
+#  they are confident that this version of ansible-pulp is compatible with
+#  pulp_version.
+#  Ignored if pulp_source_dir is set
+pulp_version: "3.0.1"
 pulp_user: pulp
 pulp_user_id:
 pulp_group: pulp
