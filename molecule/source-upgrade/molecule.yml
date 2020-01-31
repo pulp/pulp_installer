@@ -39,6 +39,20 @@ provisioner:
     name: ansible-lint
 scenario:
   name: source-upgrade
+  test_sequence:
+    - lint
+    - dependency
+    - syntax
+    - create
+    - prepare
+    - converge
+    # - idempotence
+    # pip installing from source always replaces the installed version, thus
+    # the task is always reports changed. During upgrades, we need the handlers
+    # to run on the pip install tasks, so we can't alter said tasks to never
+    # report changed. So let's just not run idempotency on this scenario.
+    - side_effect
+    - verify
   playbooks:
     prepare: prepare.yml
 verifier:

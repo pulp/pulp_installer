@@ -44,6 +44,16 @@ provisioner:
     name: ansible-lint
 scenario:
   name: default-upgrade
+  test_sequence:
+    - lint
+    - dependency
+    - syntax
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - side_effect
+    - verify
 verifier:
   name: inspec
   lint:
