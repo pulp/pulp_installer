@@ -18,6 +18,7 @@
         - pulp-resource-manager
         - pulp-webserver
         - pulp-content
+        - pulp-devel
       loop_control:
         loop_var: roleinputvar
   environment:
