@@ -4,7 +4,7 @@
   tags:
     - always
 
-- import_tasks: install_postgres.yml
+- include_tasks: install_postgres.yml
   when:
     - pulp_install_db |bool
 
