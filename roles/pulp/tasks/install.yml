@@ -175,13 +175,20 @@
 - block:
 
     # Hack for use system-wide packages when enabled by user - Must be first usage of virtualenv
-    - name: Allow use system-wide packages
+    - name: Create a venv with system-wide packages setting if the venv does not exist
       pip:
-        name: pip
+        name: pip  # specifying pip is a safe hack to create the venv, since pip is automatically in every new venv.
         state: present
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
         virtualenv_site_packages: yes
+      when: pulp_use_system_wide_pkgs | bool
+
+    - name: Update any existing venv to allow system-wide packages
+      lineinfile:
+        path: "{{ pulp_install_dir }}/pyvenv.cfg"
+        regexp: '^include-system-site-packages'
+        line: "include-system-site-packages = true"
       when: pulp_use_system_wide_pkgs | bool
 
     - name: Install the prereq_pip_packages
