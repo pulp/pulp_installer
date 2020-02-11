@@ -1,0 +1,52 @@
+---
+- block:
+  - name: Create ~/.bashrc.d/
+    file:
+      path: "{{ developer_user_home }}/.bashrc.d/"
+      state: directory
+
+  - name: Define developer aliases in ~/.bashrc.d/
+    template:
+      src: templates/alias.bashrc.j2
+      dest: "{{ developer_user_home }}/.bashrc.d/alias.bashrc"
+
+  - name: Source developer aliases in ~/.bashrc.d/
+    blockinfile:
+      path: "{{ developer_user_home }}/.bashrc"
+      block: |
+        if [ -d ~/.bashrc.d ]; then
+          for file in ~/.bashrc.d/*; do
+            . "$file"
+          done
+        fi
+      marker: "# {mark} Ansible managed block: source bashrc.d/"
+      create: yes
+
+  - name: Add Django supplemental bashrc
+    template:
+      src: templates/django.bashrc.j2
+      dest: '{{ developer_user_home }}/.bashrc.d/django.bashrc'
+
+  - name: Add virtualenv supplemental bashrc
+    template:
+      src: templates/venv.bashrc.j2
+      dest: '{{ developer_user_home }}/.bashrc.d/venv.bashrc'
+    when: ansible_distribution != 'Ubuntu'
+
+  - name: Install bindings requirements for testing locally
+    shell: >-
+      source {{ developer_user_home }}/.bashrc.d/alias.bashrc
+      && source {{ developer_user_home }}/.bashrc.d/venv.bashrc
+      && pbindings {{ item.key| replace("-", "_") }} python
+    args:
+      executable: /bin/bash
+    with_dict: "{{ pulp_install_plugins }}"
+
+  - name: Add fzf bashrc
+    copy:
+      src: files/fzf.bashrc
+      dest: '{{ developer_user_home }}/.bashrc.d/fzf.bashrc'
+    when: ansible_distribution == 'Fedora'
+
+  when: pulp_devel_supplement_bashrc |bool
+...

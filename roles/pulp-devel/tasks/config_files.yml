@@ -1,0 +1,25 @@
+---
+- name: Create ~/.vimrc if not already present
+  copy:
+    src: files/vimrc
+    dest: "{{ developer_user_home }}/.vimrc"
+    force: no
+
+- name: Create ~/.netrc if not already present
+  template:
+    src: templates/netrc.j2
+    dest: "{{ developer_user_home }}/.netrc"
+    force: yes
+    mode: 0600
+
+- name: Create pulp-smash config directory if not already present
+  file:
+    path: "{{ developer_user_home }}/.config/pulp_smash/"
+    state: directory
+    recurse: yes
+
+- name: Create pulp-smash config if not already present
+  copy:
+    src: files/settings.json
+    dest: "{{ developer_user_home }}/.config/pulp_smash/settings.json"
+...
