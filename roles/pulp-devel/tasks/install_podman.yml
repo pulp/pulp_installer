@@ -28,4 +28,20 @@
   args:
     creates: /etc/containers
   when: ansible_distribution == 'Debian'
+
+# Needed to allow non-root users to run podman containers on Debian
+- name: Enable unprivileged_userns_clone (Debian specific)
+  sysctl:
+    name: kernel.unprivileged_userns_clone
+    value: "1"
+  when:
+    - ansible_distribution == 'Debian'
+    - ansible_virtualization_type != 'docker'
+
+# Needed to allow non-root users to run podman containers on CentOS
+- name: Set max_user_namespaces (CentOS specific)
+  sysctl:
+    name: user.max_user_namespaces
+    value: "15000"
+  when: ansible_distribution == 'CentOS'
 ...

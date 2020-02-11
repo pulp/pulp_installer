@@ -145,6 +145,11 @@ pyclean () {
 }
 _pyclean_help="Cleanup extra python files"
 
+pfixtures () {
+    podman run --rm -p 8000:80 quay.io/pulp/pulp-fixtures:latest
+}
+_pfixtures_help="Run pulp-fixtures container in foreground"
+
 pbindings(){
     CURRENT_DIR=$(pwd)
 
@@ -162,7 +167,7 @@ pbindings(){
 
     if [ $1 != 'pulpcore' ]
     then
-        sudo ./generate.sh pulpcore $2
+        ./generate.sh pulpcore $2
         case $2 in
             python)
                 pip install ./pulpcore-client
@@ -178,10 +183,10 @@ pbindings(){
                 echo "Sorry, language not supported"
                 ;;
         esac
-        sudo rm -rf pulpcore-client
+        rm -rf pulpcore-client
     fi
 
-    sudo ./generate.sh $@
+    ./generate.sh $@
     case $2 in
         python)
             pip install ./$1-client
@@ -197,7 +202,7 @@ pbindings(){
             echo "Sorry, language not supported"
             ;;
     esac
-    sudo rm -rf $1-client
+    rm -rf $1-client
 
     sed -i 's/podman/docker/g' generate.sh
     cd $CURRENT_DIR
