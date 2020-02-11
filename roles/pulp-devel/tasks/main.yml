@@ -2,6 +2,9 @@
 - import_tasks: install_basic_packages.yml
   become: true
 
+- import_tasks: install_podman.yml
+  become: true
+
 - import_tasks: install_docs_requirements.yml
   become: true
   become_user: '{{ pulp_user }}'

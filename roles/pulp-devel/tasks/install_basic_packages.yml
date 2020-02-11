@@ -23,26 +23,11 @@
   package:
     name:
       - python-virtualenvwrapper
-      - podman
       - ruby-devel
   retries: "{{ pulp_devel_package_retries }}"
   register: result
   until: result is succeeded
   when: ansible_distribution == 'CentOS'
-
-- name: Ensure podman apt key is present (Debian-specific)
-  apt_key:
-    url: "https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable\
-    /{{ ansible_distribution }}_{{ ansible_distribution_version }}/Release.key"
-    state: present
-  when: ansible_distribution == 'Debian'
-
-- name: Ensure podman repository (Debian-specific)
-  apt_repository:
-    repo: "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable\
-    /{{ ansible_distribution }}_{{ ansible_distribution_version }}/ /"
-    filename: libcontainers
-  when: ansible_distribution == 'Debian'
 
 - name: Install several useful packages (Debian-specific)
   package:
@@ -55,19 +40,11 @@
       - ripgrep
       - vim
       - software-properties-common
-      - podman
       - ruby-dev
     state: present
   retries: "{{ pulp_devel_package_retries }}"
   register: result
   until: result is succeeded
-  when: ansible_distribution == 'Debian'
-
-- name: Adding podman registries (Debian-specific)
-  command: echo -e "[registries.search]\nregistries = ['docker.io', 'quay.io']" | tee /etc/containers/registries.conf
-  become: yes
-  args:
-    creates: /etc/containers
   when: ansible_distribution == 'Debian'
 
 - name: Install several useful packages (Fedora-specific)
@@ -82,7 +59,6 @@
       - python3-virtualenvwrapper
       - ripgrep
       - vim-enhanced
-      - podman
       - ruby-devel
     state: present
   retries: "{{ pulp_devel_package_retries }}"
