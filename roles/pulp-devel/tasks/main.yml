@@ -27,6 +27,9 @@
           - python-virtualenvwrapper
           - podman
           - ruby-devel
+      retries: "{{ pulp_devel_package_retries }}"
+      register: result
+      until: result is succeeded
       when: ansible_distribution == 'CentOS'
 
     - name: Ensure podman apt key is present (Debian-specific)
