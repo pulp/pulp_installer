@@ -65,10 +65,4 @@
   register: result
   until: result is succeeded
   when: ansible_distribution == 'Fedora'
-
-- name: "Add {{ pulp_user }} to systemd-journal group"
-  user:
-    name: "{{ pulp_user }}"
-    groups: systemd-journal
-    append: yes
 ...

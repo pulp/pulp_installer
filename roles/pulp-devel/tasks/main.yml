@@ -2,6 +2,13 @@
 - import_tasks: install_basic_packages.yml
   become: true
 
+- name: "Add {{ pulp_user }} to systemd-journal group"
+  user:
+    name: "{{ pulp_user }}"
+    groups: systemd-journal
+    append: yes
+  become: true
+
 - import_tasks: install_podman.yml
   become: true
 
