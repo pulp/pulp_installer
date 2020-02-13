@@ -1,0 +1,68 @@
+---
+- name: Install several useful packages (distro-agnostic)
+  package:
+    name:
+      - dstat
+      - git
+      - htop
+      - iotop
+      - jnettop
+      - jq
+      - ncdu
+      - tmux
+      - tree
+      - wget
+      - gnupg
+      - rubygems
+    state: present
+  retries: "{{ pulp_devel_package_retries }}"
+  register: result
+  until: result is succeeded
+
+- name: Install Centos Specific Packages
+  package:
+    name:
+      - python-virtualenvwrapper
+      - ruby-devel
+  retries: "{{ pulp_devel_package_retries }}"
+  register: result
+  until: result is succeeded
+  when: ansible_distribution == 'CentOS'
+
+- name: Install several useful packages (Debian-specific)
+  package:
+    name:
+      - bash-completion
+      - fd-find
+      - fzf
+      - python3-setuptools
+      - virtualenvwrapper
+      - ripgrep
+      - vim
+      - software-properties-common
+      - ruby-dev
+    state: present
+  retries: "{{ pulp_devel_package_retries }}"
+  register: result
+  until: result is succeeded
+  when: ansible_distribution == 'Debian'
+
+- name: Install several useful packages (Fedora-specific)
+  package:
+    name:
+      - bash-completion
+      - dnf-utils
+      - fd-find
+      - fzf
+      - python-django-bash-completion
+      - python3-setuptools
+      - python3-virtualenvwrapper
+      - ripgrep
+      - vim-enhanced
+      - ruby-devel
+    state: present
+  retries: "{{ pulp_devel_package_retries }}"
+  register: result
+  until: result is succeeded
+  when: ansible_distribution == 'Fedora'
+...
