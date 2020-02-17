@@ -1,0 +1,51 @@
+---
+name: Pulp CI
+on: [push, pull_request]
+jobs:
+  compact_test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["2.7", "3.6", "3.7"]
+    steps:
+      - uses: actions/checkout@v2
+      - run: |
+          git fetch --prune --unshallow
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install tox
+        run: |
+          pip install --upgrade pip
+          pip install tox requests
+      - name: Check commit message
+        if: github.event_name == 'pull_request'
+        env:
+          GITHUB_CONTEXT: ${{ github.event.pull_request.commits_url }}
+        run: |
+          for sha in $(curl $GITHUB_CONTEXT | jq '.[].sha' | sed 's/"//g')
+          do
+            python .github/validate_commit_message.py $sha
+            VALUE=$?
+            if [ "$VALUE" -gt 0 ]; then
+              exit $VALUE
+            fi
+          done
+        shell: bash
+      - name: Set tox env for python 27
+        if: matrix.python == '2.7'
+        run: echo "::set-env name=TOXENV::py27-static"
+      - name: Set tox env for python 36
+        if: matrix.python == '3.6'
+        run: echo "::set-env name=TOXENV::py36-dynamic"
+      - name: Set tox env for python 37
+        if: matrix.python == '3.7'
+        run: |
+          docker pull quay.io/pulp/pulp-ci-c7:3.0.0
+          docker pull quay.io/pulp/pulp-ci-dbuster:3.0.0
+          docker pull quay.io/pulp/pulp-ci-f31:3.0.0
+          echo "::set-env name=TOXENV::py37-upgrade"
+      - name: Run tox
+        run: tox

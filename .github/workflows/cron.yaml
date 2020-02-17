@@ -1,0 +1,44 @@
+---
+name: Cron jobs
+on:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron: '15 0 * * *'
+jobs:
+  full_test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["2.7", "3.6", "3.7"]
+        env:
+          - TEST_TYPE: static
+          - TEST_TYPE: dynamic
+          - TEST_TYPE: upgrade
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install tox
+        run: |
+          pip install --upgrade pip
+          pip install tox
+      - name: Set tox env for python 27
+        if: matrix.python == '2.7'
+        run: echo "::set-env name=TOXENV::py27-${{ matrix.env.TEST_TYPE }}"
+      - name: Set tox env for python 36
+        if: matrix.python == '3.6'
+        run: echo "::set-env name=TOXENV::py36-${{ matrix.env.TEST_TYPE }}"
+      - name: Set tox env for python 37
+        if: matrix.python == '3.7'
+        run: echo "::set-env name=TOXENV::py37-${{ matrix.env.TEST_TYPE }}"
+      - name: Pulling images for upgrade
+        if: matrix.env.TEST_TYPE == 'upgrade'
+        run: |
+          docker pull quay.io/pulp/pulp-ci-c7:3.0.0
+          docker pull quay.io/pulp/pulp-ci-dbuster:3.0.0
+          docker pull quay.io/pulp/pulp-ci-f31:3.0.0
+      - name: Run tox
+        run: tox
