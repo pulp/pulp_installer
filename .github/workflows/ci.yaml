@@ -47,5 +47,11 @@ jobs:
           docker pull quay.io/pulp/pulp-ci-dbuster:3.0.0
           docker pull quay.io/pulp/pulp-ci-f31:3.0.0
           echo "::set-env name=TOXENV::py37-upgrade"
+      - name: Fix broken dependency  # temporary pin until https://pulp.plan.io/issues/6169#note-2 is resolved
+        run: |
+          sudo add-apt-repository --yes ppa:rmescandon/yq
+          sudo apt update
+          sudo apt install yq -y
+          find ./molecule/*/group_vars/all -exec sh -c "yq w -i {} prereq_pip_packages[+] idna==2.8" \;
       - name: Run tox
         run: tox
