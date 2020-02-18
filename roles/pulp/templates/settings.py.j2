@@ -1,3 +1,9 @@
 {% for setting, value in merged_pulp_settings.items() %}
-{{ setting | upper }} = {{ value | string | capitalize if value | string in ["True", "False"] else value | to_json }}
+{% if value | string in ["True", "False"] %}
+{{ setting | upper }} = {{ value | string | capitalize }}
+{% elif value %}
+{{ setting | upper }} = {{ value | to_json }}
+{% else %}
+{{ setting | upper }} = {{ value }}
+{% endif %}
 {% endfor %}
