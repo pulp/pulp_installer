@@ -46,9 +46,11 @@ Role Variables:
   passing to the `--bind` parameter of the `gunicorn` service.
 * `pulp_settings`: A nested dictionary that is used to add custom values to the user's
     `setting.py`, which will override any default values set by pulpcore. The keys of this
-    dictionary are variable names, and the values can be nested. Please see [pulpcore configuration
+    dictionary are variable names, and the values should be expressed using the [Dynaconf syntax](
+    https://dynaconf.readthedocs.io/en/latest/guides/environment_variables.html#precedence-and-type-casting)
+    Please see [pulpcore configuration
     docs](https://docs.pulpproject.org/en/3.0/nightly/installation/configuration.html#id2) for
-    documentation on the possible values.
+    documentation on the possible variable names and their values.
   * `pulp_settings.content_origin`: **Required**. The URL to the pulp-content
     host that clients will access, and that will be appended to in HTTP
     responses by multiple content plugins. Any load balancers / proxies (such
