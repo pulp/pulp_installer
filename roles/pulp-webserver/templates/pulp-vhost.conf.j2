@@ -1,3 +1,6 @@
+Define pulp-content {{ pulp_content_host }}:{{ pulp_content_port }}
+Define pulp-api {{ pulp_api_host }}:{{ pulp_api_port }}
+
 <VirtualHost *:80>
   ServerName {{ ansible_nodename }}
 
@@ -18,12 +21,13 @@
   ## Proxy rules
   ProxyRequests Off
   ProxyPreserveHost Off
-  ProxyPass /pulp/api http://{{ pulp_api_host }}:{{ pulp_api_port }}/pulp/api
-  ProxyPassReverse /pulp/api http://{{ pulp_api_host }}:{{ pulp_api_port }}/pulp/api
-  ProxyPass /pulp/content http://{{ pulp_content_host }}:{{ pulp_content_port }}/pulp/content
-  ProxyPassReverse /pulp/content http://{{ pulp_content_host }}:{{ pulp_content_port }}/pulp/content
 
-  ## Server aliases
-  ServerAlias pulp
+  ProxyPass /pulp/api http://${pulp-api}/pulp/api
+  ProxyPassReverse /pulp/api http://${pulp-api}/pulp/api
+
+  ProxyPass /pulp/content http://${pulp-content}/pulp/content
+  ProxyPassReverse /pulp/content http://${pulp-content}/pulp/content
+
+  IncludeOptional pulp/*.conf
 
 </VirtualHost>

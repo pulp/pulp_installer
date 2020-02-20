@@ -23,9 +23,12 @@ http {
     # to build optimal hash types.
     types_hash_max_size 4096;
 
-    upstream pulp {
-         server {{ pulp_api_host }}:{{ pulp_api_port }};
+    upstream pulp-content {
          server {{ pulp_content_host }}:{{ pulp_content_port }};
+    }
+
+    upstream pulp-api {
+         server {{ pulp_api_host }}:{{ pulp_api_port }};
     }
 
     server {
@@ -62,24 +65,11 @@ http {
             proxy_pass http://{{ pulp_api_host }}:{{ pulp_api_port }};
         }
 
+        include conf.d/*;
+
         location / {
             # checks for static file, if not found proxy to app
-            try_files $uri @proxy_to_app;
-        }
-
-        location @proxy_to_app {
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-            proxy_set_header Host $http_host;
-            # we don't want nginx trying to do something clever with
-            # redirects, we set the Host: header above already.
-            proxy_redirect off;
-            proxy_pass http://pulp;
-
-            # This routes to both the pulpcore-content and the pulpcore-api
-            # as if they are one service because both services allow for
-            # plugin writers to configure arbitrary url handlers.
-            proxy_next_upstream http_404;  # Try the other service upon 404
+            try_files $uri =404;
         }
     }
 }
