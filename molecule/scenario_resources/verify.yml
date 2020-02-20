@@ -27,6 +27,8 @@
       package:
         name: "{{ inspec_download_source_dir }}/{{ inspec_package_name }}"
         state: latest
+      tags:
+        - skip_ansible_lint
 
     - name: Create Molecule directory for test files
       file:
@@ -43,12 +45,14 @@
     - name: Register test files
       shell: "ls {{ inspec_test_directory }}/test_*.rb"
       register: test_files
+      changed_when: false
 
     - name: Execute Inspec tests
       command: "{{ inspec_bin }} exec {{ item }}"
       register: test_results
       with_items: "{{ test_files.stdout_lines }}"
       ignore_errors: true
+      changed_when: true
 
     - name: Display details about the Inspec results
       debug:

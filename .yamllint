@@ -1,3 +1,4 @@
+---
 extends: default
 
 rules:
@@ -13,3 +14,7 @@ rules:
   brackets:
     min-spaces-inside-empty: 0
     max-spaces-inside-empty: 1
+
+ignore: |
+  .tox
+  .git
