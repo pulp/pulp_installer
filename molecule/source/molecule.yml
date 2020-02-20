@@ -4,8 +4,10 @@ dependency:
   role-file: requirements.yml
 driver:
   name: docker
-lint:
-  name: yamllint
+lint: |
+    yamllint .
+    ansible-lint
+    # rubocop
 # This is ignored by molecule, but can be reused in yaml
 .platform_base: &platform_base
   privileged: False
@@ -36,10 +38,7 @@ provisioner:
     links:
       host_vars: ../scenario_resources/host_vars/
       group_vars: ../scenario_resources/group_vars/
-  lint:
-    name: ansible-lint
 scenario:
-  name: source
   test_sequence:
     - lint
     - dependency
@@ -55,6 +54,3 @@ scenario:
 
 verifier:
   name: inspec
-  lint:
-    name: rubocop
-    enabled: false

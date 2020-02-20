@@ -4,4 +4,5 @@ skip_list:
   - '303'
 exclude_paths:
   - ./roles/geerlingguy.postgresql/
+  - ../../.ansible/roles/geerlingguy.postgresql/
   - ./.github/
