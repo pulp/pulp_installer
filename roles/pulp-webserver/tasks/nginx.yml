@@ -36,6 +36,13 @@
         dest: /etc/nginx/nginx.conf
       notify: reload nginx
 
+    - name: Create snippets symbolic link
+      file:
+        src: '{{ result.files[0].path }}/{{item.key}}/app/webserver_snippets/nginx.conf'
+        dest: '/etc/nginx/conf.d/{{ item.key }}'
+        state: link
+      with_dict: '{{ pulp_install_plugins }}'
+
     - name: Start and enable Nginx
       systemd:
         name: nginx
