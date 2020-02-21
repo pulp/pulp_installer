@@ -28,6 +28,34 @@
         dest: /etc/httpd/conf.d/pulp-vhost.conf
       notify: reload Apache
 
+    - name: Create directory for Pulp Apache snippets
+      file:
+        path: /etc/httpd/pulp
+        state: directory
+
+    - name: Check installed plugins for Apache snippets
+      script:
+        cmd: check_snippet.py {{ item.key | regex_replace("pulp-", "pulp_") | quote }} apache.conf
+      args:
+        executable: /usr/local/lib/pulp/bin/python
+      register: snippets
+      with_dict: '{{ pulp_install_plugins }}'
+      failed_when: false
+      changed_when: false
+
+    # FIXME: The ansible output here over the results is very ugly.
+    # It may be a lot cleaner if we were to use the command module,
+    # above and/or create a temporary data structure.
+    - name: Symlink Apache snippets
+      file:
+        src: "{{ item.stdout_lines | last }}"
+        # Note: item.item is pulp_install_plugins
+        dest: "/etc/httpd/pulp/{{ item.item.key | regex_replace('pulp-', 'pulp_') }}"
+        state: link
+      loop: '{{ snippets.results }}'
+      when: item.rc == 0
+      notify: reload Apache
+
     - name: Start and enable Apache
       systemd:
         name: "{{ pulp_webserver_apache_service }}"
