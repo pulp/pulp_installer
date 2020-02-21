@@ -36,6 +36,24 @@
         dest: /etc/nginx/nginx.conf
       notify: reload nginx
 
+    - name: Create nginx snippets for installed plugins
+      file:
+        src: '{{ pulp_install_dir }}/lib/python{{ ansible_python.version.major }}.{{ ansible_python.version.minor }}/site-packages/{{ item.key | regex_replace("pulp-", "pulp_") }}/app/webserver_snippets/nginx.conf'
+        dest: '/etc/nginx/conf.d/{{ item.key | regex_replace("pulp-", "pulp_") }}.conf'
+        state: link
+      with_dict: '{{ pulp_install_plugins }}'
+      when: item.value.source_dir is undefined
+      notify: reload nginx
+
+    - name: Create nginx snippets from source_dir
+      file:
+        src: '{{ item.value.source_dir }}/{{ item.key | regex_replace("pulp-", "pulp_") }}/app/webserver_snippets/nginx.conf'
+        dest: '/etc/nginx/conf.d/{{ item.key | regex_replace("pulp-", "pulp_") }}.conf'
+        state: link
+      with_dict: '{{ pulp_install_plugins }}'
+      when: item.value.source_dir is defined
+      notify: reload nginx
+
     - name: Start and enable Nginx
       systemd:
         name: nginx
