@@ -22,15 +22,28 @@
         name: "{{ pulp_webserver_apache_package }}"
         state: present
 
-    - name: Install Apache configuration file
+    - name: Install Apache vhost file
       template:
         src: pulp-vhost.conf.j2
-        dest: /etc/httpd/conf.d/pulp-vhost.conf
+        dest: "{{ pulp_webserver_apache_vhost_dir }}/pulp-vhost.conf"
+      notify: reload Apache
+
+    - name: Enable Apache vhost files and mod files
+      file:
+        src: "{{ item.src }}"
+        dest: "{{ item.dest }}"
+        state: link
+      loop:
+        - src: ../sites-available/pulp-vhost.conf
+          dest: /etc/apache2/sites-enabled/pulp-vhost.conf
+        - src: ../mods-available/proxy.load
+          dest: /etc/apache2/mods-enabled/proxy.load
+      when: ansible_os_family == "Debian"
       notify: reload Apache
 
     - name: Create directory for Pulp Apache snippets
       file:
-        path: /etc/httpd/pulp
+        path: "{{ pulp_webserver_apache_snippets_dir }}"
         state: directory
 
     - name: Check installed plugins for Apache snippets
@@ -50,7 +63,7 @@
       file:
         src: "{{ item.stdout_lines | last }}"
         # Note: item.item is pulp_install_plugins
-        dest: "/etc/httpd/pulp/{{ item.item.key | regex_replace('pulp-', 'pulp_') }}"
+        dest: "{{ pulp_webserver_apache_snippets_dir }}/{{ item.item.key | regex_replace('pulp-', 'pulp_') }}"
         state: link
       loop: '{{ snippets.results }}'
       when: item.rc == 0

@@ -14,9 +14,9 @@ Define pulp-api {{ pulp_api_host }}:{{ pulp_api_port }}
   </Directory>
 
   ## Logging
-  ErrorLog "/var/log/httpd/pulp_error.log"
+  ErrorLog "{{ pulp_webserver_apache_log_dir }}/pulp_error.log"
   ServerSignature Off
-  CustomLog "/var/log/httpd/pulp_access.log" combined
+  CustomLog "{{ pulp_webserver_apache_log_dir }}/pulp_access.log" combined
 
   ## Proxy rules
   ProxyRequests Off
