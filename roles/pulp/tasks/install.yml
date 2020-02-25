@@ -159,17 +159,6 @@
       register: result
       until: result is succeeded
 
-    # We are purposely running this before the venv is created, since
-    # if we are using system-wide packages, it could cause duplicate
-    # python packages to be installed.
-    # Note: We would do a static import like in pulp-database, but
-    # looping does not work with it, so we do a dynamic include.
-    - name: Include plugins prereq roles
-      include_role:
-        name: "{{ item.value.prereq_role }}"
-      with_dict: "{{ pulp_install_plugins }}"
-      when: item.value.prereq_role is defined
-
   become: true
 
 - block:
@@ -190,6 +179,51 @@
         regexp: '^include-system-site-packages'
         line: "include-system-site-packages = true"
       when: pulp_use_system_wide_pkgs | bool
+
+    - name: Create requirements.in file to check pulpcore/plugin compatibility
+      template:
+        src: requirements.in.j2
+        dest: "{{ pulp_install_dir }}/requirements.in"
+      when: pulp_source_dir is undefined
+
+    - name: Install pip-tools before running pip-comile to check version compatibility
+      pip:
+        name: pip-tools
+        state: present
+        virtualenv: '{{ pulp_install_dir }}'
+        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+
+    - name: Run pip-compile to check pulpcore/plugin compatibility
+      command: '{{ pulp_install_dir }}/bin/pip-compile'
+      args:
+        chdir: '{{ pulp_install_dir }}'
+      register: compatibility
+      ignore_errors: true
+      environment:
+        LC_ALL: en_US.UTF-8
+        LANG: en_US.UTF-8
+      changed_when: false
+
+    - name: Fail when pulpcore and plugin versions are not compatible.
+      fail:
+      when:
+        - '"Could not find a version that matches" in compatibility.stderr'
+
+  become: true
+  become_user: '{{ pulp_user }}'
+
+- block:
+    # Note: We would do a static import like in pulp-database, but
+    # looping does not work with it, so we do a dynamic include.
+    - name: Include plugins prereq roles
+      include_role:
+        name: "{{ item.value.prereq_role }}"
+      with_dict: "{{ pulp_install_plugins }}"
+      when: item.value.prereq_role is defined
+
+  become: true
+
+- block:
 
     - name: Install the prereq_pip_packages
       pip:
