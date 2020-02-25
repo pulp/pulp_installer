@@ -184,6 +184,13 @@
         virtualenv_site_packages: yes
       when: pulp_use_system_wide_pkgs | bool
 
+    - name: Upgrade to a recent edition of pip (supporting manylinux2014)
+      pip:
+        name: pip>=20.0
+        state: present
+        virtualenv: '{{ pulp_install_dir }}'
+        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+
     - name: Update any existing venv to allow system-wide packages
       lineinfile:
         path: "{{ pulp_install_dir }}/pyvenv.cfg"
