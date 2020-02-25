@@ -19,18 +19,19 @@
 
     - name: Install Apache
       package:
-        name: httpd
+        name: "{{ pulp_webserver_apache_package }}"
         state: present
 
     - name: Install Apache configuration file
       template:
         src: pulp-vhost.conf.j2
         dest: /etc/httpd/conf.d/pulp-vhost.conf
+      notify: reload Apache
 
     - name: Start and enable Apache
       systemd:
-        name: httpd
-        state: restarted
+        name: "{{ pulp_webserver_apache_service }}"
+        state: started
         enabled: true
         daemon_reload: true
 

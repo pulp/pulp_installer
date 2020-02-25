@@ -1,0 +1,3 @@
+---
+pulp_webserver_apache_package: apache2
+pulp_webserver_apache_service: apache2
