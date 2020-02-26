@@ -189,7 +189,7 @@
 
     - name: Create requirements.in file to check pulpcore/plugin compatibility
       template:
-        src: requirements.in.j2
+        src: templates/requirements.in.j2
         dest: "{{ pulp_install_dir }}/requirements.in"
       when: pulp_source_dir is undefined
 
@@ -205,16 +205,15 @@
       args:
         chdir: '{{ pulp_install_dir }}'
       register: compatibility
-      ignore_errors: true
       environment:
         LC_ALL: en_US.UTF-8
         LANG: en_US.UTF-8
       changed_when: false
-
-    - name: Fail when pulpcore and plugin versions are not compatible.
-      fail:
-      when:
-        - '"Could not find a version that matches" in compatibility.stderr'
+      when: pulp_source_dir is undefined
+      # Some plugins have deps that need to be installed for setup.py to load. When an error
+      # occurs due to those missing deps, we can ignore it. The version comparison occurs before
+      # that error is raised. We only care about that contain this string.
+      failed_when: '"Could not find a version" in compatibility.stderr'
 
   become: true
   become_user: '{{ pulp_user }}'
