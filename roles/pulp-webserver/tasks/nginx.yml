@@ -36,6 +36,29 @@
         dest: /etc/nginx/nginx.conf
       notify: reload nginx
 
+    - name: Check installed plugins for nginx snippets
+      script:
+        cmd: check_snippet.py {{ item.key | regex_replace("pulp-", "pulp_") | quote }} nginx.conf
+      args:
+        executable: /usr/local/lib/pulp/bin/python
+      register: snippets
+      with_dict: '{{ pulp_install_plugins }}'
+      failed_when: false
+      changed_when: false
+
+    # FIXME: The ansible output here over the results is very ugly.
+    # It may be a lot cleaner if we were to use the command module,
+    # above and/or create a temporary data structure.
+    - name: Symlink nginx snippets
+      file:
+        src: "{{ item.stdout_lines | last }}"
+        # Note: item.item is pulp_install_plugins
+        dest: "/etc/nginx/conf.d/{{ item.item.key | regex_replace('pulp-', 'pulp_') }}"
+        state: link
+      loop: '{{ snippets.results }}'
+      when: item.rc == 0
+      notify: reload nginx
+
     - name: Start and enable Nginx
       systemd:
         name: nginx

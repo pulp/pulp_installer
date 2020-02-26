@@ -5,3 +5,10 @@
     state: reloaded
     daemon_reload: true
   become: true
+
+- name: reload Apache
+  systemd:
+    name: "{{ pulp_webserver_apache_service }}"
+    state: reloaded
+    daemon_reload: true
+  become: true
