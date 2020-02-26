@@ -1,0 +1,5 @@
+pulpcore=={{ pulp_version }}
+{% for plugin, value in pulp_install_plugins.items() %}
+{{ plugin }}{% if value['version'] is defined and value['version']|length %}=={{ value['version'] }}{% endif %}
+
+{% endfor %}
