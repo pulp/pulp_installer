@@ -1,17 +1,24 @@
 ---
 galaxy_info:
-  author: Pulp
-  description: Pulp Web Server
+  author: Pulp Team
+  description: A role to setup a web server as a proxy for both Pulp 3's pulpcore-content & pulpcore-api services
+  issue_tracker_url: https://pulp.plan.io/projects/pulp/issues/new
+  license: GPL-2.0-or-later
   company: Red Hat
-  min_ansible_version: 2.4
+  min_ansible_version: 2.8
   platforms:
     - name: Debian
       versions:
-        - Buster
+        - buster
     - name: Fedora
       versions:
         - 30
         - 31
-  license: GPL-3.0
+    - name: EL
+      versions:
+        - 7
+  galaxy_tags:
+    - pulp
+    - pulpcore
 dependencies:
-  - role: pulp
+  - pulp

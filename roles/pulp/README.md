@@ -106,7 +106,7 @@ This role is idempotent by default. It is dependent on these settings remaining 
 License
 -------
 
-GPLv2
+GPLv2+
 
 Author Information
 ------------------

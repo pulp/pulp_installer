@@ -1,9 +1,11 @@
 ---
 galaxy_info:
-  author: Pulp
-  description: Pulp Redis
+  author: Pulp Team
+  description: A role to setup a redis service for use by Pulp 3
+  issue_tracker_url: https://pulp.plan.io/projects/pulp/issues/new
+  license: GPL-2.0-or-later
   company: Red Hat
-  min_ansible_version: 2.4
+  min_ansible_version: 2.8
   platforms:
     - name: Debian
       versions:
@@ -12,5 +14,10 @@ galaxy_info:
       versions:
         - 30
         - 31
-  license: GPL-3.0
+    - name: EL
+      versions:
+        - 7
+  galaxy_tags:
+    - pulp
+    - pulpcore
 dependencies: []
