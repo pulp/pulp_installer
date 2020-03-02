@@ -14,7 +14,9 @@ lint: |
   volumes:
     - /sys/fs/cgroup:/sys/fs/cgroup:ro
   tmpfs:
-    - /tmp
+    # Fixes issues accessing .so files under /tmp during pip builds.
+    # https://github.com/docker/compose/issues/1339
+    - /tmp:exec,mode=1777
     - /run
     - /run/lock
   capabilities:
