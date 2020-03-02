@@ -2,6 +2,7 @@
 .tox
 **/*.pyc
 /roles/geerlingguy.postgresql
+/roles/pulp.pulp_rpm_prerequisites
 
 # Ignores for Vagrant related items
 .vagrant/

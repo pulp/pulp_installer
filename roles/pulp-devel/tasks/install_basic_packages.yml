@@ -6,7 +6,6 @@
       - git
       - htop
       - iotop
-      - jnettop
       - jq
       - ncdu
       - tmux
@@ -20,16 +19,59 @@
   register: result
   until: result is succeeded
 
-- name: Install Centos Specific Packages
+- name: Install several useful packages (CentOS 7 specific)
   package:
     name:
       - nc
       - python-virtualenvwrapper
       - ruby-devel
+      - jnettop
+      - fd-find
+      - fzf
+    state: present
   retries: "{{ pulp_devel_package_retries }}"
   register: result
   until: result is succeeded
-  when: ansible_distribution == 'CentOS'
+  when:
+    - (ansible_distribution == 'CentOS') or (ansible_distribution == 'RedHat')
+    - ansible_distribution_major_version|int == 7
+
+- name: Install several useful packages (CentOS 8 specific)
+  package:
+    name:
+      - bash-completion
+      - dnf-utils
+      - nc
+      - python-django-bash-completion
+      - python3-setuptools
+      - vim-enhanced
+      - ruby-devel
+      # Until packaged for EPEL8
+      - "https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/\
+      28/Everything/x86_64/os/Packages/p/\
+      python3-virtualenvwrapper-4.8.2-4.fc28.noarch.rpm"
+      - "https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/\
+      28/Everything/x86_64/os/Packages/p/\
+      python3-virtualenv-clone-0.2.6-9.fc28.noarch.rpm"
+      - "https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/\
+      28/Everything/x86_64/os/Packages/p/\
+      python3-stevedore-1.25.0-2.fc28.noarch.rpm"
+    state: present
+  retries: "{{ pulp_devel_package_retries }}"
+  register: result
+  until: result is succeeded
+  when:
+    - (ansible_distribution == 'CentOS') or (ansible_distribution == 'RedHat')
+    - ansible_distribution_major_version|int == 8
+
+- name: Create virtualenvwrapper symlink
+  file:
+    src: /usr/bin/virtualenvwrapper-3.sh
+    dest: /usr/bin/virtualenvwrapper.sh
+    state: link
+  when:
+    - (ansible_distribution == 'CentOS') or (ansible_distribution == 'RedHat')
+    - ansible_distribution_major_version|int == 8
 
 - name: Install several useful packages (Debian-specific)
   package:
@@ -44,6 +86,7 @@
       - vim
       - software-properties-common
       - ruby-dev
+      - jnettop
     state: present
   retries: "{{ pulp_devel_package_retries }}"
   register: result
@@ -64,6 +107,7 @@
       - ripgrep
       - vim-enhanced
       - ruby-devel
+      - jnettop
     state: present
   retries: "{{ pulp_devel_package_retries }}"
   register: result

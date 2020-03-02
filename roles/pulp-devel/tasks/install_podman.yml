@@ -38,10 +38,12 @@
     - ansible_distribution == 'Debian'
     - ansible_virtualization_type != 'docker'
 
-# Needed to allow non-root users to run podman containers on CentOS
-- name: Set max_user_namespaces (CentOS specific)
+# Needed to allow non-root users to run podman containers on EL7
+- name: Set max_user_namespaces (EL7 specific)
   sysctl:
     name: user.max_user_namespaces
     value: "15000"
-  when: ansible_distribution == 'CentOS'
+  when:
+    - ansible_os_family == 'RedHat'
+    - ansible_distribution_major_version |int == 7
 ...

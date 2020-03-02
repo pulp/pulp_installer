@@ -1,0 +1,114 @@
+---
+# enable additional repos needed by Pulp
+
+# Break the loop once the first package name/URL in the list is found to be installed.
+# The yum module with the yum backend (which wraps the yum command) uses
+# rc=126 for package not found, or 0 for changed / already installed.
+# The dnf backend can have different strings for the package not being found,
+# and returns a generic rc of 1.
+# If the package cannot be downloaded for an https URL, no rc is present.
+# So let's just keep trying until success (rc 0).
+- name: Install EPEL Release
+  yum:
+    name: "{{ item }}"
+    state: present
+  register: epel
+  when:
+    - (ansible_distribution == 'CentOS') or (ansible_distribution == 'RedHat')
+    # Works for both strings and lists to make sure not empty
+    - epel_release_packages is defined
+    - epel_release_packages is not none
+    - epel_release_packages | length > 0
+    - ( ansible_loop.first ) or (epel.rc | default(1) != 0)
+  failed_when:
+    - ansible_loop.last
+    - epel.rc | default(1) != 0
+  # Cast a single string as a list so that the loop will work.
+  # This will also convert a list to a list with 1 list in it, so flatten it
+  # so that the yum task will only operate on 1 item at a time.
+  loop: "{{ lookup('vars', 'epel_release_packages', wantlist=True) | flatten }}"
+  loop_control:
+    extended: True
+  become: true
+
+# Try multiple possible names for the rhel7 optional repo until it is found.
+# The query ensures that a single string rather than a list of strings is valid.
+- name: Find and enable the first found name of the RHEL7 Optional repo
+  include_tasks: ambiguously-named-repo.yml
+  with_items: "{{ rhel7_optional_repo }}"
+  when:
+    - ansible_distribution == "RedHat"
+    - ansible_distribution_major_version|int == 7
+    # Works for both strings and lists to make sure not empty
+    - rhel7_optional_repo is not none
+    - rhel7_optional_repo | length > 0
+    # Prevents running again once completed.
+    - ambiguously_named_repo_enabled is not defined
+
+# Note: There are at least 3 needs for this repo:
+# 1. pulp-devel needs it for at least python-django-bash-completion
+# 2. pulp_rpm_prerequisites needs it for at least file-devel,
+#    gobject-introspection-devel libmodulemd-devel, & their deps.
+# 3. EPEL technically requires it. And it has more than just devel headers,
+#    even fuse-sshfs.
+#
+# Try multiple possible names for the rhel8+ CodeReady Linux Builder repo until
+# it is found.
+# The query ensures that a single string rather than a list of strings is valid.
+- name: Find and enable the first found name of the RHEL CodeReady Builder repo
+  include_tasks: ambiguously-named-repo.yml
+  with_items: "{{ pulp_rhel_codeready_repo }}"
+  when:
+    - ansible_distribution == "RedHat"
+    - ansible_distribution_major_version|int >= 8
+    # Works for both strings and lists to make sure not empty
+    - pulp_rhel_codeready_repo is not none
+    - pulp_rhel_codeready_repo | length > 0
+    # Prevents running again once completed.
+    - ambiguously_named_repo_enabled is not defined
+
+# Corresponds to the rhel8+ CodeReady Linux Builder repo
+# Foreman reminds you to wear a yellow hardhat when using power tools.
+- name: Enable the CentOS PowerTools repo
+  block:
+
+    - name: Determine which file in /etc/yum.repos.d/ has the CentOS PowerTools repo
+      shell: grep -l -E "^\[PowerTools\]" /etc/yum.repos.d/*.repo
+      register: repo_file
+      changed_when: false
+      failed_when: false
+      check_mode: False
+
+    - name: Enable the CentOS PowerTools repo
+      ini_file:
+        path: "{{ repo_file.stdout }}"
+        section: "PowerTools"
+        option: enabled
+        value: 1
+        no_extra_spaces: true
+      when: repo_file.rc == 0
+      become: true
+
+    # Note: We can safely assume there will be no file with it if we are not on
+    # CentOS Stream. The RPM centos-release-stream adds several .repo files like:
+    # CentOS-Stream-PowerTools.repo
+    - name: Determine which file in /etc/yum.repos.d/ has the CentOS Stream-PowerTools repo
+      shell: grep -l -E "^\[Stream-PowerTools\]" /etc/yum.repos.d/*.repo
+      register: repo_file
+      changed_when: false
+      failed_when: false
+      check_mode: False
+
+    - name: Enable the CentOS Stream-PowerTools PowerTools repo
+      ini_file:
+        path: "{{ repo_file.stdout }}"
+        section: "Stream-PowerTools"
+        option: enabled
+        value: 1
+        no_extra_spaces: true
+      when: repo_file.rc == 0
+      become: true
+
+  when:
+    - ansible_distribution == "CentOS"
+    - ansible_distribution_major_version|int >= 8

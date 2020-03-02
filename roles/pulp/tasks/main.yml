@@ -5,7 +5,16 @@
     that: pulp_settings.secret_key is defined
 
 - name: Load OS specific variables
-  include_vars: '{{ ansible_distribution }}.yml'
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files:
+        - '{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml'
+        - '{{ ansible_distribution }}.yml'
+        - '{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml'
+        - '{{ ansible_os_family }}.yml'
+      paths:
+        - 'vars'
   tags:
     - always
 
@@ -27,21 +36,7 @@
 - name: set the default system PATH as a fact
   set_fact:
     default_bin_path: "{{ systemd_show_env_path.stdout }}"
-
-
-# Try multiple possible names for the rhel7 optional repo until it is found.
-# The query ensures that a single string rather than a list of strings is valid.
-- include_tasks: rhel7-optional.yml
-  with_items: "{{ rhel7_optional_repo }}"
-  when:
-    - ansible_distribution == "RedHat"
-    - ansible_distribution_major_version|int == 7
-    # Works for both strings and lists to make sure not empty
-    - rhel7_optional_repo is not none
-    - rhel7_optional_repo | length > 0
-    # Prevents running again once completed.
-    - optional_repo_enabled is not defined
-
+- import_tasks: repos.yml
 - import_tasks: install.yml
 - import_tasks: configure.yml
 - import_tasks: wsgi.yml
