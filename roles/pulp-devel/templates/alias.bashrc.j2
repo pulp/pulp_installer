@@ -113,7 +113,7 @@ _populate_pulp2_help="Reset Pulp 2 and sync ISO, RPM, Docker repos."
 
 phelp() {
     # get a list of declared functions, filter out ones with leading underscores as "private"
-    funcs=$(declare -F | awk '{ print $3 }'| grep -v ^_)
+    funcs=$(declare -F | awk '{ print $3 }'| grep -v ^_ | grep -v fzf)
 
     # for each func, if a help string is defined, assume it's a pulp function and print its help
     # (this is bash introspection via variable variables)
