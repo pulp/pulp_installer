@@ -20,6 +20,13 @@
     virtualenv: '{{ pulp_install_dir }}'
     virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
 
+- name: Install requirements for S3 tests
+  pip:
+    name: django-storages[boto3]
+    state: present
+    virtualenv: '{{ pulp_install_dir }}'
+    virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+
 - name: Install HTTPie and JWT authentication plugin
   pip:
     name:

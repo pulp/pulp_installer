@@ -212,3 +212,45 @@ pbindings(){
     cd $CURRENT_DIR
 }
 _pbindings_help="Create and install bindings. Example usage: pbindings pulpcore python"
+
+pminio(){
+    if [ "$1" = 'stop' ]
+    then
+        sudo bash -c "sed -i '/AWS_ACCESS_KEY_ID/d' /etc/pulp/settings.py"
+        sudo bash -c "sed -i '/AWS_SECRET_ACCESS_KEY/d' /etc/pulp/settings.py"
+        sudo bash -c "sed -i '/AWS_STORAGE_BUCKET_NAME/d' /etc/pulp/settings.py"
+        sudo bash -c "sed -i '/AWS_DEFAULT_ACL/d' /etc/pulp/settings.py"
+        sudo bash -c "sed -i '/S3_USE_SIGV4/d' /etc/pulp/settings.py"
+        sudo bash -c "sed -i '/AWS_S3_SIGNATURE_VERSION/d' /etc/pulp/settings.py"
+        sudo bash -c "sed -i '/AWS_S3_ADDRESSING_STYLE/d' /etc/pulp/settings.py"
+        sudo bash -c "sed -i '/AWS_S3_REGION_NAME/d' /etc/pulp/settings.py"
+        sudo bash -c "sed -i '/DEFAULT_FILE_STORAGE/d' /etc/pulp/settings.py"
+        sudo bash -c "sed -i '/MEDIA_ROOT/d' /etc/pulp/settings.py"
+        sudo bash -c "sed -i '/AWS_S3_ENDPOINT_URL/d' /etc/pulp/settings.py"
+        podman stop pulp_minio
+    else
+        export MINIO_ACCESS_KEY=AKIAIT2Z5TDYPX3ARJBA
+        export MINIO_SECRET_KEY=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
+        podman run -d -p 9000:9000 --name pulp_minio -e MINIO_ACCESS_KEY=$MINIO_ACCESS_KEY -e MINIO_SECRET_KEY=$MINIO_SECRET_KEY minio/minio server /data
+        while ! nc -z localhost 9000; do echo 'Wait minio to startup...' && sleep 0.1; done;
+        mc config host add s3 http://localhost:9000 AKIAIT2Z5TDYPX3ARJBA fqRvjWaPU5o0fCqQuUWbj9Fainj2pVZtBCiDiieS --api S3v4
+        mc config host rm local
+        mc mb s3/pulp3 --region eu-central-1
+        workon pulp
+        echo "Declaring S3 environment variables..."
+        sudo bash -c "echo AWS_ACCESS_KEY_ID = \'$MINIO_ACCESS_KEY\' >> /etc/pulp/settings.py"
+        sudo bash -c "echo AWS_SECRET_ACCESS_KEY = \'$MINIO_SECRET_KEY\' >> /etc/pulp/settings.py"
+        sudo bash -c "echo AWS_STORAGE_BUCKET_NAME = \'pulp3\' >> /etc/pulp/settings.py"
+        sudo bash -c "echo AWS_DEFAULT_ACL = None >> /etc/pulp/settings.py"
+        sudo bash -c "echo S3_USE_SIGV4 = True >> /etc/pulp/settings.py"
+        sudo bash -c "echo AWS_S3_SIGNATURE_VERSION = \'s3v4\' >> /etc/pulp/settings.py"
+        sudo bash -c "echo AWS_S3_ADDRESSING_STYLE = \'path\' >> /etc/pulp/settings.py"
+        sudo bash -c "echo AWS_S3_REGION_NAME = \'eu-central-1\' >> /etc/pulp/settings.py"
+        sudo bash -c "echo DEFAULT_FILE_STORAGE = \'storages.backends.s3boto3.S3Boto3Storage\' >> /etc/pulp/settings.py"
+        sudo bash -c "echo MEDIA_ROOT = \'\' >> /etc/pulp/settings.py"
+        sudo bash -c "echo AWS_S3_ENDPOINT_URL = \'http:\/\/localhost:9000\' >> /etc/pulp/settings.py"
+        echo "The minio instance has been setup. It's recommended that you run 'pclean' now."
+    fi
+    _paction restart
+}
+_pminio_help="Switch to minio for S3 testing. For stopping it: pminio stop"
