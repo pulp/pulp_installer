@@ -28,6 +28,10 @@ platforms:
     image: centos:7
     command: /sbin/init
   - <<: *platform_base
+    name: centos-8
+    image: centos:8
+    command: /sbin/init
+  - <<: *platform_base
     name: debian-10
     image: debian:buster
     command: /sbin/init
