@@ -25,6 +25,9 @@ Define pulp-api {{ pulp_api_host }}:{{ pulp_api_port }}
   ProxyPass /pulp/api http://${pulp-api}/pulp/api
   ProxyPassReverse /pulp/api http://${pulp-api}/pulp/api
 
+  ProxyPass /auth/login/ http://${pulp-api}/auth/login/
+  ProxyPassReverse /auth/login/ http://${pulp-api}/auth/login/
+
   ProxyPass /pulp/content http://${pulp-content}/pulp/content
   ProxyPassReverse /pulp/content http://${pulp-content}/pulp/content
 
