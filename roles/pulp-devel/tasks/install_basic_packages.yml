@@ -12,6 +12,7 @@
       - tmux
       - tree
       - wget
+      - curl
       - gnupg
       - rubygems
     state: present
