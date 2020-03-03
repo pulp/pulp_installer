@@ -21,9 +21,9 @@
         version: master
         update: yes
 
-    - name: Clone pulp_file repository
+    - name: Clone pulp plugin repositories
       git:
-        repo: 'https://github.com/pulp/pulp_file.git'
+        repo: 'https://github.com/pulp/{{ item.key| replace("-", "_") }}.git'
         dest: '{{ item.value.source_dir }}'
         version: master
         update: yes
