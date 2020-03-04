@@ -16,17 +16,18 @@
   # pipefail is not needed due to grep's rc, but it resolves ansible-lint 306
   shell: |
     set -o pipefail
-    systemctl show-environment | grep -E '^PATH='
+    systemctl show-environment | grep -E '^PATH=' | sed 's/PATH=//g'
   args:
     # Debian defaults to bourne, but it doesn't understand pipefail.
     executable: /bin/bash
   changed_when: false
   register: systemd_show_env_path
-  check_mode: yes
+  check_mode: false
 
 - name: set the default system PATH as a fact
   set_fact:
-    default_bin_path: "{{ systemd_show_env_path }}"
+    default_bin_path: "{{ systemd_show_env_path.stdout }}"
+
 
 # Try multiple possible names for the rhel7 optional repo until it is found.
 # The query ensures that a single string rather than a list of strings is valid.
