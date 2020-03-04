@@ -45,6 +45,7 @@
       with_dict: '{{ pulp_install_plugins }}'
       failed_when: false
       changed_when: false
+      check_mode: false
 
     # FIXME: The ansible output here over the results is very ugly.
     # It may be a lot cleaner if we were to use the command module,
