@@ -23,6 +23,7 @@
 - name: Install Centos Specific Packages
   package:
     name:
+      - nc
       - python-virtualenvwrapper
       - ruby-devel
   retries: "{{ pulp_devel_package_retries }}"
@@ -36,6 +37,7 @@
       - bash-completion
       - fd-find
       - fzf
+      - netcat
       - python3-setuptools
       - virtualenvwrapper
       - ripgrep
@@ -55,6 +57,7 @@
       - dnf-utils
       - fd-find
       - fzf
+      - nc
       - python-django-bash-completion
       - python3-setuptools
       - python3-virtualenvwrapper
@@ -66,4 +69,11 @@
   register: result
   until: result is succeeded
   when: ansible_distribution == 'Fedora'
+
+- name: Install Minio Client
+  get_url:
+    url: https://dl.min.io/client/mc/release/linux-amd64/mc
+    dest: /usr/local/bin
+    owner: '{{ developer_user }}'
+    mode: 0750
 ...
