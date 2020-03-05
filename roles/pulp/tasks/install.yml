@@ -9,14 +9,16 @@
       changed_when: False
 
     # Break the loop once the first package name/URL in the list is found to be installed.
-    # The yum module (which wraps the yum command) uses rc=126 for package not
-    # found, or 0 for changed / already installed.
+    # The yum module with the yum backend (which wraps the yum command) uses
+    # rc=126 for package not found, or 0 for changed / already installed.
+    # The dnf backend can have different strings for the package not being found,
+    # and returns a generic rc of 1.
+    # If the package cannot be downloaded for an https URL, no rc is present.
+    # So let's just keep trying until success (rc 0).
     - name: Install EPEL Release
       yum:
         name: "{{ item }}"
         state: present
-        # dnf/yum4 registered results not implemented yet
-        use_backend: yum
       register: epel
       when:
         - (ansible_distribution == 'CentOS') or (ansible_distribution == 'RedHat')
@@ -24,9 +26,10 @@
         - epel_release_packages is defined
         - epel_release_packages is not none
         - epel_release_packages | length > 0
-        - ( ansible_loop.first ) or (epel.rc == 126)
-      failed_when: (epel.rc not in [0,126]) or
-                   (( ansible_loop.last ) and (epel.rc == 126))
+        - ( ansible_loop.first ) or (epel.rc | default(1) != 0)
+      failed_when:
+      - ansible_loop.last
+      - epel.rc != 0
       # Cast a single string as a list so that the loop will work.
       # This will also convert a list to a list with 1 list in it, so flatten it
       # so that the yum task will only operate on 1 item at a time.
