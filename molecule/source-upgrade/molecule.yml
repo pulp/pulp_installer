@@ -55,6 +55,7 @@ scenario:
     # the task is always reports changed. During upgrades, we need the handlers
     # to run on the pip install tasks, so we can't alter said tasks to never
     # report changed. So let's just not run idempotency on this scenario.
+    - check
     - side_effect
     - verify
   playbooks:
