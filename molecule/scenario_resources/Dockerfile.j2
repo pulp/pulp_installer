@@ -3,14 +3,8 @@
 # This Dockerfile prepares the image for {{ item.image }} to be used in molecule tests for the
 # ansible-pulp role. The main process should be systemd, to mimic an installation where services
 # can be installed and controlled. Systemd seems to be able to detect that it is being run in a
-# container context, and starts very few services. There is generally no need to delete any
-# files from /{etc,lib}/systemd/*. Exceptions though:
-#
-# /usr/lib/tmpfiles.d/postgresql.conf
-# Workaround geerlingguy.postgresql setting different perms on
-# /var/run/postgresql than Fedora & derivatives want.
-# A timer than runs 15 mins since boot makes little sense for a container
-# anyway. It's not a persistent system.
+# container context, and starts very little services. There is no need to delete any files from
+# /{etc,lib}/systemd/*.
 
 FROM {{ item.image }}
 
@@ -34,8 +28,7 @@ yum install -y \
   yum-plugin-ovl \
   ;\
 sed -i 's/plugins=0/plugins=1/g' /etc/yum.conf ;\
-yum clean all ;\
-echo 'd /var/run/postgresql 2775 postgres postgres -' >  /etc/tmpfiles.d/postgresql.conf
+yum clean all
 {% elif item.name.startswith('debian') -%}
 
 ENV LC_ALL C
@@ -79,8 +72,7 @@ dnf --assumeyes install \
   sudo \
   which \
   ;\
-dnf clean all ;\
-echo 'd /var/run/postgresql 2775 postgres postgres -' >  /etc/tmpfiles.d/postgresql.conf
+dnf clean all
 {%- endif %}
 
 # Disable requiretty.
