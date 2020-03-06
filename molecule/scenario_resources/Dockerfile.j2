@@ -10,7 +10,7 @@ FROM {{ item.image }}
 
 ENV container docker
 
-{% if item.name.startswith('centos') -%}
+{% if item.name.startswith('centos-7') -%}
 
 RUN yum install -y epel-release ;\
 yum makecache fast ;\
@@ -54,9 +54,15 @@ apt-get -y install \
 apt-get clean &&\
 rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* &&\
 systemctl enable firewalld
-{% elif item.name.startswith('fedora') -%}
+{% else -%}
+# fedora or centos-8
 
-RUN dnf makecache ;\
+# Pulp requires CentOS 8.2 or later. 8.2 is currently CentOS Stream.
+RUN grep -v "CentOS" /etc/redhat-release || dnf install -y centos-release-stream epel-release ;\
+dnf makecache ;\
+grep -v "CentOS Linux release 8.1." /etc/redhat-release || dnf update -y ;\
+grep -v "CentOS Linux release 8.1." /etc/redhat-release || dnf install -y centos-release-stream ;\
+dnf update -y ;\
 dnf --assumeyes install \
   bash \
   firewalld \
