@@ -26,8 +26,6 @@
       - python-virtualenvwrapper
       - ruby-devel
       - jnettop
-      - fd-find
-      - fzf
     state: present
   retries: "{{ pulp_devel_package_retries }}"
   register: result
