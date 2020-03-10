@@ -37,3 +37,27 @@ used in that role.
 * `pulp_user`
 * `pulp_install_dir`
 * `pulp_source_dir` (Note: Pip VCS URLs will not work with pulp-devel.)
+
+
+Aliases:
+-----------------
+
+This role provides the following aliases:
+
+* `phelp`: List all available aliases.
+* `pstart`: Start all pulp-related services
+* `pstop`: Stop all pulp-related services
+* `prestart`: Restart all pulp-related services
+* `pstatus`: Report the status of all pulp-related services
+* `pdbreset`: Reset the Pulp database - **THIS DESTROYS YOUR PULP DATA**
+* `pclean`: Restore pulp to a clean-installed state - **THIS DESTROYS YOUR PULP DATA**
+* `pjournal`: Interact with the journal for pulp-related unit
+* `reset_pulp2`: Resets Pulp 2 - drop the DB, remove content and publications from FS, restart services.
+* `populate_pulp2_iso`: Syncs 4 ISO repos.
+* `populate_pulp2_rpm`: Sync 1 RPM repo.
+* `populate_pulp2_docker`: Sync 1 Docker repo.
+* `populate_pulp2`: Reset Pulp 2 and sync ISO, RPM, Docker repos.
+* `pyclean`: Cleanup extra python files
+* `pfixtures`: Run pulp-fixtures container in foreground
+* `pbindings`: Create and install bindings. Example usage: `pbindings pulpcore python`
+* `pminio`: Switch to minio for S3 testing. For stopping it: `pminio stop`
