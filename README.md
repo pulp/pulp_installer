@@ -1,3 +1,4 @@
+![Pulp CI](https://github.com/pulp/ansible-pulp/workflows/Pulp%20CI/badge.svg)
 ![Cron jobs](https://github.com/pulp/ansible-pulp/workflows/Cron%20jobs/badge.svg)
 
 Pulp 3 Ansible installer
@@ -148,3 +149,17 @@ It is recommended that you do so with `pip` in a virtualenv.
    ```bash
    molecule converge --all
    ```
+
+Roles
+-------
+
+ansible-pulp is equipped with the following roles:
+
+- [pulp](/roles/pulp/README.md): installs Pulp 3 from PyPi or source and provides basic config.
+- [pulp-content](/roles/pulp-content/README.md): install, configure, and set the state of pulp content app.
+- [pulp-database](/roles/pulp-database/README.md): optionally install a database, then configure for Pulp.
+- [pulp-redis](/roles/pulp-redis/README.md): install and start Redis, and install RQ in the Pulp virtualenv.
+- [pulp-resource-manager](/roles/pulp-resource-manager/README.md): install, configure, and set the state of the pulp resouce manager.
+- [pulp-webserver](/roles/pulp-webserver/README.md): install, configure, start, and enable a web server.
+- [pulp-workers](/roles/pulp-workers/README.md): install, configure, and set the state of pulp workers.
+- [pulp-devel](/roles/pulp-devel/README.md): installs useful tools and adds some config files for a Pulp 3 development environment.
