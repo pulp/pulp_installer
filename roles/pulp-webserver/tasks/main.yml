@@ -13,6 +13,38 @@
   tags:
     - always
 
+- name: Create the /etc/ssl/private dir
+  file:
+    path: /etc/ssl/private
+    state: directory
+    mode: 0755
+
+- name: Create the /etc/ssl/csr dir
+  file:
+    path: /etc/ssl/csr
+    state: directory
+    mode: 0755
+
+- name: Generate an OpenSSL private key
+  openssl_privatekey:
+    path: /etc/ssl/private/pulp.pem
+
+- name: Generate an OpenSSL Certificate Signing Request
+  openssl_csr:
+    path: /etc/ssl/csr/pulp.csr
+    privatekey_path: /etc/ssl/private/pulp.pem
+    country_name: US
+    organization_name: Pulp
+    email_address: example@example.com
+    common_name: "{{ ansible_nodename }}"
+
+- name: Generate a Self Signed OpenSSL certificate
+  openssl_certificate:
+    path: /etc/ssl/certs/pulp.crt
+    privatekey_path: /etc/ssl/private/pulp.pem
+    csr_path: /etc/ssl/csr/pulp.csr
+    provider: selfsigned
+
 - import_tasks: nginx.yml
   when: pulp_webserver_server == 'nginx'
 

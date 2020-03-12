@@ -56,6 +56,12 @@ ProxyPass /pulp_ansible/galaxy http://${pulp-api}/pulp_ansible/galaxy
 ProxyPassReverse /pulp_ansible/galaxy http://${pulp-api}/pulp_ansible/galaxy
 ```
 
+SSL Configuration
+-----------------
+
+By default self-signed certificates are generated and both Nginx and Apache will serve TLS on port
+443.
+
 Shared variables:
 -----------------
 

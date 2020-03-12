@@ -34,3 +34,40 @@ Define pulp-api {{ pulp_api_host }}:{{ pulp_api_port }}
   IncludeOptional pulp/*.conf
 
 </VirtualHost>
+
+<VirtualHost *:443>
+  ServerName {{ ansible_nodename }}
+
+  SSLCertificateFile /etc/ssl/certs/pulp.crt
+  SSLCertificateKeyFile /etc/ssl/private/pulp.pem
+
+  ## Vhost docroot
+  DocumentRoot {{ pulp_webserver_static_dir }}
+
+  <Directory "{{ pulp_webserver_static_dir }}">
+    Options SymLinksIfOwnerMatch
+    AllowOverride None
+    Require all granted
+  </Directory>
+
+  ## Logging
+  ErrorLog "{{ pulp_webserver_apache_log_dir }}/pulp_error.log"
+  ServerSignature Off
+  CustomLog "{{ pulp_webserver_apache_log_dir }}/pulp_access.log" combined
+
+  ## Proxy rules
+  ProxyRequests Off
+  ProxyPreserveHost Off
+
+  ProxyPass /pulp/api http://${pulp-api}/pulp/api
+  ProxyPassReverse /pulp/api http://${pulp-api}/pulp/api
+
+  ProxyPass /auth/login/ http://${pulp-api}/auth/login/
+  ProxyPassReverse /auth/login/ http://${pulp-api}/auth/login/
+
+  ProxyPass /pulp/content http://${pulp-content}/pulp/content
+  ProxyPassReverse /pulp/content http://${pulp-content}/pulp/content
+
+  IncludeOptional pulp/*.conf
+
+</VirtualHost>

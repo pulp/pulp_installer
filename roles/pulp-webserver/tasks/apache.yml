@@ -22,6 +22,11 @@
         name: "{{ pulp_webserver_apache_package }}"
         state: present
 
+    - name: Install mod_ssl
+      package:
+        name: "mod_ssl"
+        state: present
+
     - name: Install Apache vhost file
       template:
         src: pulp-vhost.conf.j2
