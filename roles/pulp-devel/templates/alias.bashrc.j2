@@ -231,7 +231,7 @@ pminio(){
     else
         export MINIO_ACCESS_KEY=AKIAIT2Z5TDYPX3ARJBA
         export MINIO_SECRET_KEY=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
-        podman run -d -p 0.0.0.0:9000:9000 -e MINIO_ACCESS_KEY=$MINIO_ACCESS_KEY -e MINIO_SECRET_KEY=$MINIO_SECRET_KEY minio/minio server /data
+        podman run -d -p 0.0.0.0:9000:9000 --name pulp_minio -e MINIO_ACCESS_KEY=$MINIO_ACCESS_KEY -e MINIO_SECRET_KEY=$MINIO_SECRET_KEY minio/minio server /data
         while ! nc -z localhost 9000; do echo 'Wait minio to startup...' && sleep 0.1; done;
         mc config host add s3 http://localhost:9000 AKIAIT2Z5TDYPX3ARJBA fqRvjWaPU5o0fCqQuUWbj9Fainj2pVZtBCiDiieS --api S3v4
         mc config host rm local
