@@ -11,10 +11,6 @@
   assert:
     that: '{{ result.matched }} == 1'
 
-- name: Set fact referencing Pulp's static files directory
-  set_fact:
-    pulp_webserver_static_dir: '{{ result.files[0].path }}/rest_framework'
-
 - block:
 
     - name: Install Apache

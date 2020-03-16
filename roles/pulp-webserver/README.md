@@ -22,6 +22,10 @@ Variables:
   '127.0.0.1'.
 * `pulp_configure_firewall` Install and configure a firewall. Valid values are 'auto', 'firewalld',
   and 'none'. Defaults to 'auto' (which is the same as 'firewalld', but may change in the future).
+* `pulp_static_url` equivalent to `STATIC_URL` from `pulpcore` i.e. url pattern to use when referring to
+  static files located in `pulp_webserver_static_dir`.
+* `pulp_webserver_static_dir` equivalent to `STATIC_ROOT` from `pulpcore` i.e. absolute path where to find
+  static files.
 
 Plugin Webserver Configs:
 -------------------------
@@ -68,3 +72,5 @@ role.
 * `pulp_install_dir`: Location of a virtual environment for Pulp and its Python
   dependencies. **Required** if used in a separate play from the `pulp` role. Value
   must match the value used in the `pulp` role.
+
+* `pulp_user_home`: equivalent to `MEDIA_ROOT` from `pulpcore` i.e. absolute path for pulp user home.
