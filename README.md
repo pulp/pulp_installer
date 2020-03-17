@@ -9,9 +9,9 @@ component of Pulp. The roles are not currently available on Ansible Galaxy; to r
 Ansible installer, the [ansible-pulp](https://github.com/pulp/ansible-pulp) git repository must
 be cloned or downloaded.
 
-This version of the installer, 3.2.0, installs Pulp 3.2.0 specifically.
+This version of the installer, 3.2.1, installs Pulp 3.2.1 specifically.
 
-If run against an older version of Pulp 3, it will upgrade it to 3.2.0.
+If run against an older version of Pulp 3, it will upgrade it to 3.2.1.
 
 System Requirements
 -------------------
