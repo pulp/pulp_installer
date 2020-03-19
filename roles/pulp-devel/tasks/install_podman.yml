@@ -13,10 +13,12 @@
     filename: libcontainers
   when: ansible_distribution == 'Debian'
 
-- name: Install podman package
+- name: Install podman, buildah, and runc
   package:
     name:
       - podman
+      - buildah
+      - runc
     state: present
   retries: "{{ pulp_devel_package_retries }}"
   register: result
