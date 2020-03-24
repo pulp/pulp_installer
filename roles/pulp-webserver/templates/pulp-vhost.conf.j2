@@ -7,6 +7,7 @@ Define pulp-api {{ pulp_api_host }}:{{ pulp_api_port }}
   ## Vhost docroot
   DocumentRoot {{ pulp_webserver_static_dir }}
 
+  Alias "/{{ pulp_static_url | regex_replace('^\\/|\\/$', '') }}/" "{{ pulp_webserver_static_dir }}"
   <Directory "{{ pulp_webserver_static_dir }}">
     Options SymLinksIfOwnerMatch
     AllowOverride None
