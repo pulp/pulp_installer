@@ -14,6 +14,7 @@
       - curl
       - gnupg
       - rubygems
+      - npm
     state: present
   retries: "{{ pulp_devel_package_retries }}"
   register: result
