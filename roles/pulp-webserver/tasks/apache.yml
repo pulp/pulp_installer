@@ -44,7 +44,7 @@
 
     - name: Check installed plugins for Apache snippets
       script:
-        cmd: check_snippet.py {{ item.key | regex_replace("pulp-", "pulp_") | quote }} apache.conf
+        cmd: check_snippet.py {{ item.key | regex_replace("-", "_") | quote }} apache.conf
       args:
         executable: /usr/local/lib/pulp/bin/python
       register: snippets
@@ -60,7 +60,7 @@
       file:
         src: "{{ item.stdout_lines | last }}"
         # Note: item.item is pulp_install_plugins
-        dest: "{{ pulp_webserver_apache_snippets_dir }}/{{ item.item.key | regex_replace('pulp-', 'pulp_') }}"
+        dest: "{{ pulp_webserver_apache_snippets_dir }}/{{ item.item.key | regex_replace('-', '_') }}"
         state: link
       loop: '{{ snippets.results }}'
       when: item.rc == 0
