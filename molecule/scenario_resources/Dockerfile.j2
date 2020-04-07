@@ -1,7 +1,7 @@
 # Molecule managed
 
 # This Dockerfile prepares the image for {{ item.image }} to be used in molecule tests for the
-# ansible-pulp role. The main process should be systemd, to mimic an installation where services
+# pulp_installer role. The main process should be systemd, to mimic an installation where services
 # can be installed and controlled. Systemd seems to be able to detect that it is being run in a
 # container context, and starts very little services. There is no need to delete any files from
 # /{etc,lib}/systemd/*.

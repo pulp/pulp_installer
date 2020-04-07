@@ -1,11 +1,13 @@
-![Pulp CI](https://github.com/pulp/ansible-pulp/workflows/Pulp%20CI/badge.svg)
+![Pulp CI](https://github.com/pulp/pulp_installer/workflows/Pulp%20CI/badge.svg)
 
-Pulp 3 Ansible installer
+Pulp 3 Ansible Installer
 ========================
 
-The Pulp 3 Ansible installer consists of a collection of roles. Each role installs and configures a
+A collection of roles to install or upgrade Pulp 3. Can also reconfigure or add plugins to an existing install.
+
+The Pulp 3 Ansible Installer consists of a collection of roles. Each role installs and configures a
 component of Pulp. The roles are not currently available on Ansible Galaxy; to run the Pulp 3
-Ansible installer, the [ansible-pulp](https://github.com/pulp/ansible-pulp) git repository must
+Ansible installer, the [pulp_installer](https://github.com/pulp/pulp_installer) git repository must
 be cloned or downloaded.
 
 This version of the installer, 3.2.1, installs Pulp 3.2.1 specifically.
@@ -102,7 +104,7 @@ and so on.
    through the system package manager or into a virtualenv:
 
    ```bash
-   python3 -m venv ~/.venvs/ansible-pulp
+   python3 -m venv ~/.venvs/pulp_installer
    pip install --upgrade pip
    pip install tox
    ```
@@ -152,7 +154,7 @@ It is recommended that you do so with `pip` in a virtualenv.
 Roles
 -------
 
-ansible-pulp is equipped with the following roles:
+pulp_installer is equipped with the following roles:
 
 - [pulp](/roles/pulp/README.md): installs Pulp 3 from PyPi or source and provides basic config.
 - [pulp-content](/roles/pulp-content/README.md): install, configure, and set the state of pulp content app.

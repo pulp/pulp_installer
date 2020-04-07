@@ -21,7 +21,7 @@ pulp_install_api_service: true
 # Deprecated unused. Variables for dependency upgrades are TBD
 pulp_upgrade: false
 #  Intentionally not advertised to users. They should not set this unless
-#  they are confident that this version of ansible-pulp is compatible with
+#  they are confident that this version of pulp_installer is compatible with
 #  pulp_version.
 #  Ignored if pulp_source_dir is set
 pulp_version: "3.2.1"

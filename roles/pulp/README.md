@@ -18,8 +18,8 @@ Role Variables:
   Defaults to "{}", which will not install any plugins.
   * Dictionary Key: The pip installable plugin name. This is defined in each
   plugin's* `setup.py`. **Required**.
-  * `version`: Specific release of the plugin to install from PyPI, or upgrade to (regardless of whether `upgrade` is set.) If `source_dir` is set, this has no effect. Note that if the spceified release of the plugin is incompatible with pulpcore's version, ansible-pulp will fail (and exit the play) when it goes to install or upgrade the plugin. Defaults to nothing.
-  * `upgrade`: Whether to update/upgrade the plugin to the latest stable release from PyPI. Only affects systems where the plugin is already installed. If `source_dir` is set, this has no effect and is effectively always `true`. Mutually exclusive with `version`. Note that if the latest stable release of the plugin is incompatible with pulpcore's version, ansible-pulp will fail (and exit the play) when it goes to upgrade the plugin. Defaults to "false".
+  * `version`: Specific release of the plugin to install from PyPI, or upgrade to (regardless of whether `upgrade` is set.) If `source_dir` is set, this has no effect. Note that if the spceified release of the plugin is incompatible with pulpcore's version, pulp_installer will fail (and exit the play) when it goes to install or upgrade the plugin. Defaults to nothing.
+  * `upgrade`: Whether to update/upgrade the plugin to the latest stable release from PyPI. Only affects systems where the plugin is already installed. If `source_dir` is set, this has no effect and is effectively always `true`. Mutually exclusive with `version`. Note that if the latest stable release of the plugin is incompatible with pulpcore's version, pulp_installer will fail (and exit the play) when it goes to upgrade the plugin. Defaults to "false".
   * `source_dir`: Optional. Absolute path to the plugin source code. If present,
   plugin will be installed from source in editable mode.
   Also accepts a pip VCS URL, to (for example) install the master branch.
