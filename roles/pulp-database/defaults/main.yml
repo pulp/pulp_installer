@@ -13,5 +13,5 @@ pulp_settings_db_defaults:
 # Auto is more robust for us than auto_legacy (still the default as of 2.8)
 # because the geerlingguy.postgresql role, with RPM weak deps, installs
 # /usr/bin/python pointing to python2, on Fedora 30. This in turn breaks
-# running ansible-pulp a 2nd time, because F30 lacks python2-dnf.
+# running pulp_installer a 2nd time, because F30 lacks python2-dnf.
 ansible_python_interpreter: auto
