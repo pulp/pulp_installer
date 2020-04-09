@@ -46,7 +46,5 @@ jobs:
           docker pull quay.io/pulp/pulp-ci-dbuster:3.0.0
           docker pull quay.io/pulp/pulp-ci-f31:3.0.0
       - name: Run tox
-        run: tox
-      - name: Retry tox if it failed
-        if: failure()
-        run: tox
+        run: for i in 1 2; do tox && break || sleep 45; done
+        shell: bash
