@@ -32,6 +32,6 @@ Define pulp-api {{ pulp_api_host }}:{{ pulp_api_port }}
   ProxyPass /pulp/content http://${pulp-content}/pulp/content
   ProxyPassReverse /pulp/content http://${pulp-content}/pulp/content
 
-  IncludeOptional pulp/*.conf
+  IncludeOptional pulp/*
 
 </VirtualHost>

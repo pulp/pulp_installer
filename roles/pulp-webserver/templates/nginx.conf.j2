@@ -81,9 +81,5 @@ http {
 
         include conf.d/*;
 
-        location / {
-            # checks for static file, if not found proxy to app
-            try_files $uri =404;
-        }
     }
 }
