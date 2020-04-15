@@ -47,5 +47,8 @@ jobs:
           docker pull quay.io/pulp/pulp-ci-f31:3.0.0
           echo "::set-env name=TOXENV::py37-upgrade"
       - name: Run tox
-        run: for i in 1 2; do tox && break || sleep 45; done
+        run: |
+          tox && exit 0 || true
+          sleep 45
+          tox
         shell: bash
