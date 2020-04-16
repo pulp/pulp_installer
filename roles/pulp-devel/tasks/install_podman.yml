@@ -23,6 +23,9 @@
   retries: "{{ pulp_devel_package_retries }}"
   register: result
   until: result is succeeded
+  # Because of this error on CentOS Stream (pre-8.2):
+  # No available modular metadata for modular package 'criu-3.12-9.module_el8.1.0+293+ad8ef41f.x86_64', it cannot be installed on the system
+  ignore_errors: '{{ ansible_distribution_version == "8.1" }}'
 
 - name: Adding podman registries (Debian-specific)
   command: echo -e "[registries.search]\nregistries = ['docker.io', 'quay.io']" | tee /etc/containers/registries.conf
