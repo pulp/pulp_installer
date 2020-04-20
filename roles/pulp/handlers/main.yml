@@ -22,3 +22,4 @@
   notify: Restart pulpcore-api.service
   environment:
     PULP_SETTINGS: "{{ pulp_settings_file }}"
+    PULP_STATIC_ROOT: "{{ pulp_webserver_static_dir }}"
