@@ -16,6 +16,15 @@ pulp_settings_db_defaults:
       USER: pulp
       PASSWORD: pulp
 pulp_install_dir: '/usr/local/lib/pulp'
+# pulp_install_plugins has the following molecule (CI) only subfields:
+# item.value.git_repo: The git repo to clone from for source test scenarios.
+# item.value.git_commitish: The commitish (branch, tag) to checkout for source test scenarios.
+#
+# pulp_install_plugins has the following not advertised subfield because it is
+# only used for CI purposes currently, and the related logic (conflicts with
+# version) are not done yet:
+# item.value.pip_version_specifier: One of more pip version specifiers,
+#                                   separated by commas.
 pulp_install_plugins: {}
 pulp_install_api_service: true
 # Deprecated unused. Variables for dependency upgrades are TBD
@@ -44,3 +53,6 @@ rhel7_optional_repo:
 epel_release_packages:
   - epel-release
   - "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm"
+# molecule (CI) only variable, not set here because `molecule prepare`
+# does not read roles
+# pulp_git_commitish: master

@@ -1,8 +1,1 @@
----
-- hosts: all
-  tasks:
-    - name: Hot patch redis-server service for docker operation (Debian)
-      copy:
-        src: debian-redis-server.service
-        dest: /etc/systemd/system/redis-server.service
-      when: ansible_distribution == "Debian"
+../release-static/prepare.yml

@@ -18,14 +18,14 @@
       git:
         repo: 'https://github.com/pulp/pulpcore.git'
         dest: '{{ pulp_source_dir }}'
-        version: master
+        version: '{{ pulp_git_commitish | default("master") }}'
         update: yes
 
     - name: Clone pulp plugin repositories
       git:
         repo: '{{ item.value.git_repo | default( "https://github.com/pulp/" + item.key | replace("-", "_") ) }}'
         dest: '{{ item.value.source_dir }}'
-        version: master
+        version: '{{ item.value.git_commitish | default("master") }}'
         update: yes
       with_dict: '{{ pulp_install_plugins }}'
 

@@ -6,3 +6,10 @@ exclude_paths:
   - ./roles/geerlingguy.postgresql/
   - ../../.ansible/roles/geerlingguy.postgresql/
   - ./.github/
+  - ./molecule/default/roles/geerlingguy.postgresql
+  - ./molecule/release-static/roles/geerlingguy.postgresql
+  - ./molecule/release-dynamic/roles/geerlingguy.postgresql
+  - ./molecule/release-upgrade/roles/geerlingguy.postgresql
+  - ./molecule/source-static/roles/geerlingguy.postgresql
+  - ./molecule/source-dynamic/roles/geerlingguy.postgresql
+  - ./molecule/source-upgrade/roles/geerlingguy.postgresql

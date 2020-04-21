@@ -1,6 +1,8 @@
 ---
 pulp_default_admin_password: password
 pulp_source_dir: '/var/lib/pulp/devel/pulpcore'
+# We are setting these upgrade variables so that it will test
+# upgrading dependencies.
 pulp_upgrade: true
 # Needed to determine whether or not pulpcore was actually upgraded, to
 # trigger the handler.

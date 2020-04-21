@@ -265,7 +265,7 @@
 
     - name: Install Pulp plugins via PyPI
       pip:
-        name: '{{ item.key }}'
+        name: '{{ item.key }}{{ item.value.pip_version_specifier | default("") }}'
         # item.upgrade true/false -> ansible pip module latest/present ->
         # pip command "install --upgrade"/"install"
         state: "{{ item.value.upgrade | default(false) | ternary('latest','present','present') }}"
