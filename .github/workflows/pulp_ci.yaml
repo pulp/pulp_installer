@@ -16,10 +16,16 @@ jobs:
       fail-fast: false
       matrix:
         python: ["2.7", "3.6", "3.7"]
+        # TODO: Once we have more than 3x2, use separate variables
+        # This Travis syntax will probably work on GHA:
+        # https://docs.travis-ci.com/user/environment-variables/#defining-multiple-variables-per-item
         env:
-          - TEST_TYPE: static
-          - TEST_TYPE: dynamic
-          - TEST_TYPE: upgrade
+          - TEST_TYPE: release-dynamic
+          - TEST_TYPE: release-static
+          - TEST_TYPE: release-upgrade
+          - TEST_TYPE: source-dynamic
+          - TEST_TYPE: source-static
+          - TEST_TYPE: source-upgrade
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
@@ -40,7 +46,7 @@ jobs:
         if: matrix.python == '3.7'
         run: echo "::set-env name=TOXENV::py37-${{ matrix.env.TEST_TYPE }}"
       - name: Pulling images for upgrade
-        if: matrix.env.TEST_TYPE == 'upgrade'
+        if: matrix.env.TEST_TYPE == 'release-upgrade' || matrix.env.TEST_TYPE == 'source-upgrade'
         run: |
           docker pull quay.io/pulp/pulp-ci-c7:3.0.0
           docker pull quay.io/pulp/pulp-ci-dbuster:3.0.0
@@ -50,4 +56,6 @@ jobs:
           tox && exit 0 || true
           sleep 45
           tox
+        env:
+          TEST_TYPE: ${{ matrix.env.TEST_TYPE }}
         shell: bash

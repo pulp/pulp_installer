@@ -6,8 +6,27 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+      # For PRs, to save GHA resources, only run on 1 python version
       matrix:
-        python: ["2.7", "3.6", "3.7"]
+        include:
+          - env:
+              TEST_TYPE: release-static
+            python: "2.7"
+          - env:
+              TEST_TYPE: source-static
+            python: "2.7"
+          - env:
+              TEST_TYPE: release-dynamic
+            python: "3.6"
+          - env:
+              TEST_TYPE: source-dynamic
+            python: "3.6"
+          - env:
+              TEST_TYPE: release-upgrade
+            python: "3.7"
+          - env:
+              TEST_TYPE: source-upgrade
+            python: 3.7
     steps:
       - uses: actions/checkout@v2
       - run: |
@@ -35,20 +54,24 @@ jobs:
         shell: bash
       - name: Set tox env for python 27
         if: matrix.python == '2.7'
-        run: echo "::set-env name=TOXENV::py27-static"
+        run: echo "::set-env name=TOXENV::py27-${{ matrix.env.TEST_TYPE }}"
       - name: Set tox env for python 36
         if: matrix.python == '3.6'
-        run: echo "::set-env name=TOXENV::py36-dynamic"
+        run: echo "::set-env name=TOXENV::py36-${{ matrix.env.TEST_TYPE }}"
       - name: Set tox env for python 37
         if: matrix.python == '3.7'
+        run: echo "::set-env name=TOXENV::py37-${{ matrix.env.TEST_TYPE }}"
+      - name: Pulling images for upgrade
+        if: matrix.env.TEST_TYPE == 'release-upgrade' || matrix.env.TEST_TYPE == 'source-upgrade'
         run: |
           docker pull quay.io/pulp/pulp-ci-c7:3.0.0
           docker pull quay.io/pulp/pulp-ci-dbuster:3.0.0
           docker pull quay.io/pulp/pulp-ci-f31:3.0.0
-          echo "::set-env name=TOXENV::py37-upgrade"
       - name: Run tox
         run: |
           tox && exit 0 || true
           sleep 45
           tox
+        env:
+          TEST_TYPE: ${{ matrix.env.TEST_TYPE }}
         shell: bash
