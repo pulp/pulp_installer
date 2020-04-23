@@ -7,7 +7,6 @@ Define pulp-api {{ pulp_api_host }}:{{ pulp_api_port }}
   ## Vhost docroot
   DocumentRoot {{ pulp_webserver_static_dir }}
 
-  Alias "/{{ pulp_static_url | regex_replace('^\\/|\\/$', '') }}/" "{{ pulp_webserver_static_dir }}"
   <Directory "{{ pulp_webserver_static_dir }}">
     Options SymLinksIfOwnerMatch
     AllowOverride None
@@ -31,6 +30,10 @@ Define pulp-api {{ pulp_api_host }}:{{ pulp_api_port }}
 
   ProxyPass /pulp/content http://${pulp-content}/pulp/content
   ProxyPassReverse /pulp/content http://${pulp-content}/pulp/content
+
+  # static files are served through whitenoise - http://whitenoise.evans.io/en/stable/
+  ProxyPass /{{ pulp_static_url | regex_replace('^\\/|\\/$', '') }}/ http://${pulp-api}/{{ pulp_static_url | regex_replace('^\\/|\\/$', '') }}/
+  ProxyPassReverse /{{ pulp_static_url | regex_replace('^\\/|\\/$', '') }}/ http://${pulp-api}/{{ pulp_static_url | regex_replace('^\\/|\\/$', '') }}/
 
   IncludeOptional pulp/*.conf
 
