@@ -46,7 +46,9 @@ http {
         root {{ pulp_webserver_static_dir }};
 
         location /{{ pulp_static_url | regex_replace('^\\/|\\/$', '') }}/ {
-            alias {{ pulp_webserver_static_dir }};
+            # static files are served through whitenoise - http://whitenoise.evans.io/en/stable/
+            proxy_redirect off;
+            proxy_pass http://{{ pulp_api_host }}:{{ pulp_api_port }}{{ pulp_static_url }};
         }
 
         location /pulp/content/ {
