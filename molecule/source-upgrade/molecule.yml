@@ -61,4 +61,4 @@ scenario:
   playbooks:
     prepare: prepare.yml
 verifier:
-  name: inspec
+  name: ansible

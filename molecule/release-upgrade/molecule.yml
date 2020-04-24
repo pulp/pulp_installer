@@ -60,4 +60,4 @@ scenario:
     - side_effect
     - verify
 verifier:
-  name: inspec
+  name: ansible
