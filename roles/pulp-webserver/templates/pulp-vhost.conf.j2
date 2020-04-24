@@ -31,10 +31,10 @@ Define pulp-api {{ pulp_api_host }}:{{ pulp_api_port }}
   ProxyPass /pulp/content http://${pulp-content}/pulp/content
   ProxyPassReverse /pulp/content http://${pulp-content}/pulp/content
 
-  # static files are served through whitenoise - http://whitenoise.evans.io/en/stable/
-  ProxyPass /{{ pulp_static_url | regex_replace('^\\/|\\/$', '') }}/ http://${pulp-api}/{{ pulp_static_url | regex_replace('^\\/|\\/$', '') }}/
-  ProxyPassReverse /{{ pulp_static_url | regex_replace('^\\/|\\/$', '') }}/ http://${pulp-api}/{{ pulp_static_url | regex_replace('^\\/|\\/$', '') }}/
-
   IncludeOptional pulp/*.conf
+
+  # static files are served through whitenoise - http://whitenoise.evans.io/en/stable/
+  ProxyPass / http://${pulp-api}/
+  ProxyPassReverse / http://${pulp-api}/
 
 </VirtualHost>

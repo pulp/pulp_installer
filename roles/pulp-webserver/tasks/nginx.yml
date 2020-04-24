@@ -50,7 +50,7 @@
       file:
         src: "{{ item.stdout_lines | last }}"
         # Note: item.item is pulp_install_plugins
-        dest: "/etc/nginx/conf.d/{{ item.item.key | regex_replace('-', '_') }}"
+        dest: "/etc/nginx/conf.d/{{ item.item.key | regex_replace('-', '_') }}.conf"
         state: link
       loop: '{{ snippets.results }}'
       when: item.rc == 0
