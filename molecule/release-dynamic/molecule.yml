@@ -22,6 +22,9 @@ lint: |
   capabilities:
     - NET_ADMIN
     - NET_RAW
+    # Fixes pulpcore-api.service failing to start with its read-only mounting
+    - CAP_SYS_ADMIN
+    - CAP_SYS_CHROOT
 platforms:
   - <<: *platform_base
     name: centos-7
