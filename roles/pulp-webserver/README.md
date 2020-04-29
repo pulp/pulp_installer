@@ -22,8 +22,6 @@ Variables:
   '127.0.0.1'.
 * `pulp_configure_firewall` Install and configure a firewall. Valid values are 'auto', 'firewalld',
   and 'none'. Defaults to 'auto' (which is the same as 'firewalld', but may change in the future).
-* `pulp_webserver_static_dir` equivalent to `STATIC_ROOT` from `pulpcore` i.e. absolute path where to find
-  static files.
 
 Plugin Webserver Configs:
 -------------------------

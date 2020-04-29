@@ -4,15 +4,6 @@ Define pulp-api {{ pulp_api_host }}:{{ pulp_api_port }}
 <VirtualHost *:80>
   ServerName {{ ansible_nodename }}
 
-  ## Vhost docroot
-  DocumentRoot {{ pulp_webserver_static_dir }}
-
-  <Directory "{{ pulp_webserver_static_dir }}">
-    Options SymLinksIfOwnerMatch
-    AllowOverride None
-    Require all granted
-  </Directory>
-
   ## Logging
   ErrorLog "{{ pulp_webserver_apache_log_dir }}/pulp_error.log"
   ServerSignature Off
