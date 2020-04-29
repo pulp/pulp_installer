@@ -32,6 +32,26 @@
         dest: /etc/nginx/nginx.conf
       notify: reload nginx
 
+    - name: Find pulp obsolete symlinks
+      find:
+        paths: /etc/nginx/conf.d
+        file_type: link
+        patterns: "pulp*"
+      register: old_pulp_symlinks
+      tags: cleanup
+
+    - name: Remove pulp obsolete symlinks
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items: "{{ old_pulp_symlinks.files }}"
+      tags: cleanup
+
+    - name: Create directory for Pulp Nginx snippets
+      file:
+        path: "/etc/nginx/pulp/"
+        state: directory
+
     - name: Check installed plugins for nginx snippets
       script:
         cmd: check_snippet.py {{ item.key | regex_replace("-", "_") | quote }} nginx.conf
@@ -50,7 +70,7 @@
       file:
         src: "{{ item.stdout_lines | last }}"
         # Note: item.item is pulp_install_plugins
-        dest: "/etc/nginx/conf.d/{{ item.item.key | regex_replace('-', '_') }}.conf"
+        dest: "/etc/nginx/pulp/{{ item.item.key | regex_replace('-', '_') }}.conf"
         state: link
       loop: '{{ snippets.results }}'
       when: item.rc == 0
