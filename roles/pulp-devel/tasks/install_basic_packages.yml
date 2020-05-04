@@ -5,6 +5,7 @@
       - dstat
       - git
       - htop
+      - hub
       - iotop
       - jq
       - ncdu
