@@ -1,5 +1,6 @@
 ---
-- block:
+- name: General system changes before installation
+  block:
 
     - name: Update apt package index
       apt:
@@ -135,7 +136,8 @@
 
   become: true
 
-- block:
+- name: Prepare the virtualenv itself
+  block:
 
     # Hack for use system-wide packages when enabled by user - Must be first usage of virtualenv
     - name: Create a venv with system-wide packages setting if the venv does not exist
@@ -161,65 +163,48 @@
         line: "include-system-site-packages = true"
       when: pulp_use_system_wide_pkgs | bool
 
+  become: true
+  become_user: '{{ pulp_user }}'
+
+- name: pre-flight check for pulpcore/plugin version compatibility
+  block:
+
     - name: Create requirements.in file to check pulpcore/plugin compatibility
       template:
         src: templates/requirements.in.j2
         dest: "{{ pulp_install_dir }}/requirements.in"
-      when: pulp_source_dir is undefined
 
-    - name: Install pip-tools before running pip-compile to check version compatibility
+    - name: Install pip-tools, which provides pip-compile to check version compatibility
       pip:
         name: pip-tools
         state: present
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
 
-    - block:
+    # When there are no plugin prereqs roles
+    - name: Run pre-flight check once & only once
+      include_tasks: preflight_function.yml
+      when: pulp_install_plugins | dict2items | selectattr('value.prereq_role', 'defined') | list | count == 0
 
-        # pip-compile creates requirements.txt, but we need to create it for these
-        # use cases:
-        # 1. upgrades from pulp installs older than the pip-compile check
-        # 2. Users manually modifying their venv
-        #
-        # We need requirements.txt because it affects what happens when users
-        # specify "pulp-file" (for example) without any version or an upgrade;
-        # pip-compile behaves differently depending on whether or not pulp-file is
-        # already installed (attempt to install newest version, vs leave it be.)
-        - name: list currently installed packages for the pip-compile check
-          shell: '{{ pulp_install_dir }}/bin/pip freeze > {{ pulp_install_dir }}/requirements.txt'
-          changed_when: false
-
-        - name: Backup currently installed packages for any potential troubleshooting purposes
-          copy:
-            src: '{{ pulp_install_dir }}/requirements.txt'
-            dest: '{{ pulp_install_dir }}/requirements.txt.orig'
-            remote_src: true
-          changed_when: false
-
-        - name: Run pip-compile to check pulpcore/plugin compatibility
-          command: '{{ pulp_install_dir }}/bin/pip-compile
-{% for plugin, value in pulp_install_plugins.items() %}
-{% if value["upgrade"]|default(false, true) %} -P {{ plugin }} {% endif %}
-{% endfor %}'
-          args:
-            chdir: '{{ pulp_install_dir }}'
-          register: compatibility
-          when: pulp_source_dir is undefined
-          # Some plugins have deps that need to be installed for setup.py to load. When an error
-          # occurs due to those missing deps, we can ignore it. The version comparison occurs before
-          # that error is raised. We only care about that contain this string.
-          failed_when: '"Could not find a version" in compatibility.stderr'
-          changed_when: false
-
-      environment:
-        LC_ALL: en_US.UTF-8
-        LANG: en_US.UTF-8
-      when: pulp_source_dir is undefined
-
+  when: pulp_source_dir is undefined
   become: true
-  become_user: '{{ pulp_user }}'
 
-- block:
+- name: Run plugins prereq roles & related preflight checks
+  block:
+
+    # When there are plugin prereq roles
+    #
+    # Some plugins have deps that need to be installed for setup.py to load. When an error
+    # occurs due to those missing deps, the version comparison will not occur.
+    # So we will ignore all other errors this time. The version comparison occurs before
+    # that error is raised. We only care about that contain this string.
+    - name: Run preflight check that might need to be re-run later
+      include_tasks: preflight_function.yml
+      vars:
+        failed_condition: '"Could not find a version" in compatibility.stderr'
+      when:
+        - pulp_source_dir is undefined
+
     # Note: We would do a static import like in pulp-database, but
     # looping does not work with it, so we do a dynamic include.
     - name: Include plugins prereq roles
@@ -227,10 +212,24 @@
         name: "{{ item.value.prereq_role }}"
       with_dict: "{{ pulp_install_plugins }}"
       when: item.value.prereq_role is defined
+      register: prereq_roles
 
+    # No loop over pulp_install_plugins; let's run this only once.
+    # Also, this time it must succeed, a return code of 0.
+    - name: Re-run pre-flight check after plugin prereq roles
+      include_tasks: preflight_function.yml
+      # if it didn't succeed last time
+      when:
+        - pulp_source_dir is undefined
+        - compatibility is defined
+        - compatibility.rc != 0
+
+  # When there is at least 1 prereq role.
+  when: pulp_install_plugins | dict2items | selectattr('value.prereq_role', 'defined') | list | count > 0
   become: true
 
-- block:
+- name: Install Pulp via Pip
+  block:
 
     - name: Install the prereq_pip_packages
       pip:
