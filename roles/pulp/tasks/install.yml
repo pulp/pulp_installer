@@ -197,7 +197,10 @@
           changed_when: false
 
         - name: Run pip-compile to check pulpcore/plugin compatibility
-          command: '{{ pulp_install_dir }}/bin/pip-compile'
+          command: '{{ pulp_install_dir }}/bin/pip-compile
+{% for plugin, value in pulp_install_plugins.items() %}
+{% if value["upgrade"]|default(false, true) %} -P {{ plugin }} {% endif %}
+{% endfor %}'
           args:
             chdir: '{{ pulp_install_dir }}'
           register: compatibility
