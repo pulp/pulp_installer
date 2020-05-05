@@ -18,6 +18,13 @@
   tags:
     - always
 
+- name: Is this a supported version of CentOS
+  fail:
+    msg: Pulp Installer only supports CentOS 7.7 or higher.
+  when:
+    - ansible_distribution == 'CentOS'
+    - ansible_distribution_version|float < 7.7
+
 # Note: We cannot use `systemd-path search-binaries-default` because
 # it wasn't added until systemd 239. Thus no CentOS 7 or Fedora 28
 # support, etc.
