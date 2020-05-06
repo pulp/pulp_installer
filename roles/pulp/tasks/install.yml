@@ -169,6 +169,11 @@
 - name: pre-flight check for pulpcore/plugin version compatibility
   block:
 
+    - name: Obtain list of packages in the venv to see if any plugins are installed
+      pip_package_info:
+        clients: "{{ pulp_install_dir }}/bin/pip"
+      register: pip_pkgs
+
     - name: Create requirements.in file to check pulpcore/plugin compatibility
       template:
         src: templates/requirements.in.j2
@@ -184,7 +189,7 @@
     # When there are no plugin prereqs roles
     - name: Run pre-flight check once & only once
       include_tasks: preflight_function.yml
-      when: pulp_install_plugins | dict2items | selectattr('value.prereq_role', 'defined') | list | count == 0
+      when: pulp_install_plugins_normalized | dict2items | selectattr('value.prereq_role', 'defined') | list | count == 0
 
   when: pulp_source_dir is undefined
   become: true
@@ -210,11 +215,11 @@
     - name: Include plugins prereq roles
       include_role:
         name: "{{ item.value.prereq_role }}"
-      with_dict: "{{ pulp_install_plugins }}"
+      with_dict: "{{ pulp_install_plugins_normalized }}"
       when: item.value.prereq_role is defined
       register: prereq_roles
 
-    # No loop over pulp_install_plugins; let's run this only once.
+    # No loop over pulp_install_plugins_normalized; let's run this only once.
     # Also, this time it must succeed, a return code of 0.
     - name: Re-run pre-flight check after plugin prereq roles
       include_tasks: preflight_function.yml
@@ -225,7 +230,7 @@
         - compatibility.rc != 0
 
   # When there is at least 1 prereq role.
-  when: pulp_install_plugins | dict2items | selectattr('value.prereq_role', 'defined') | list | count > 0
+  when: pulp_install_plugins_normalized | dict2items | selectattr('value.prereq_role', 'defined') | list | count > 0
   become: true
 
 - name: Install Pulp via Pip
@@ -279,7 +284,7 @@
     # register the installed version, because when tested (Ansible 2.9, with no
     # changes applied), the registered result from "Install pulpcore package
     # from source" left the version field "null".
-    - name: Obtain list of packages & versions in the venv
+    - name: Obtain list of packages & versions in the venv after pulpcore install
       pip_package_info:
         clients: "{{ pulp_install_dir }}/bin/pip"
       register: pip_pkgs
@@ -301,8 +306,8 @@
         extra_args: "-c {{ pulp_install_dir }}/pip_constraints_for_plugins.txt"
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
-      with_dict: '{{ pulp_install_plugins }}'
-      when: pulp_install_plugins[item.key].source_dir is undefined
+      with_dict: '{{ pulp_install_plugins_normalized }}'
+      when: item.value.source_dir is undefined
       notify:
         - Collect static content
         - Restart all Pulp services
@@ -317,7 +322,7 @@
         extra_args: "-c {{ pulp_install_dir }}/pip_constraints_for_plugins.txt"
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
-      with_dict: '{{ pulp_install_plugins }}'
+      with_dict: '{{ pulp_install_plugins_normalized }}'
       when: item.value.source_dir is defined
       register: result
       # This is a hack. Editable pip installs are always changed, which fails molecule's

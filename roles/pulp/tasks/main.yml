@@ -4,6 +4,16 @@
   assert:
     that: pulp_settings.secret_key is defined
 
+- debug:
+    var: pulp_install_plugins
+    verbosity: 1
+- debug:
+    var: pulp_install_plugins_normalized_yml
+    verbosity: 1
+- debug:
+    var: pulp_install_plugins_normalized
+    verbosity: 1
+
 - name: Load OS specific variables
   include_vars: "{{ lookup('first_found', params) }}"
   vars:

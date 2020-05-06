@@ -1,5 +1,11 @@
 pulpcore=={{ pulp_version }}
-{% for plugin, value in pulp_install_plugins.items() %}
+{% for plugin, value in pulp_install_plugins_normalized.items() %}
 {{ plugin }}{% if value['version'] is defined and value['version']|length %}=={{ value['version'] }}{% endif %}
 
 {% endfor %}
+# Any plugins listed below were already installed but not specified in
+# pulp_install_plugins
+{% for plugin in pip_pkgs.packages[pulp_install_dir + '/bin/pip'].keys() %}
+{% if ("pulp-" in plugin or plugin in pulp_irregularly_named_plugins) and plugin not in pulp_install_plugins_normalized.keys() %}{{ plugin }}{% endif %}
+
+{%- endfor %}
