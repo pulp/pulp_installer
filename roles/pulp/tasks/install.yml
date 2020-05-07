@@ -224,6 +224,10 @@
     - name: Re-run pre-flight check after plugin prereq roles
       include_tasks: preflight_function.yml
       # if it didn't succeed last time
+      vars:
+        failed_condition: >
+          (compatibility.rc != 0) and
+          ("AttributeError: module \'setuptools.build_meta\' has no attribute \'__legacy__\'" not in compatibility.stderr)
       when:
         - pulp_source_dir is undefined
         - compatibility is defined
