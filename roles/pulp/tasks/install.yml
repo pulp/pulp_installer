@@ -187,7 +187,7 @@
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
 
     # When there are no plugin prereqs roles
-    - name: Run pre-flight check once & only once
+    - name: Run pre-flight check (no prereq roles)
       include_tasks: preflight_function.yml
       when: pulp_install_plugins_normalized | dict2items | selectattr('value.prereq_role', 'defined') | list | count == 0
 
@@ -203,7 +203,7 @@
     # occurs due to those missing deps, the version comparison will not occur.
     # So we will ignore all other errors this time. The version comparison occurs before
     # that error is raised. We only care about that contain this string.
-    - name: Run preflight check that might need to be re-run later
+    - name: Run preflight check before prereq roles
       include_tasks: preflight_function.yml
       vars:
         failed_condition: '"Could not find a version" in compatibility.stderr'

@@ -13,7 +13,7 @@
 # pip-compile behaves differently depending on whether or not pulp-file is
 # already installed (attempt to install newest version, vs leave it be.)
 - name: List currently installed packages for the pip-compile check
-  shell: '{{ pulp_install_dir }}/bin/pip freeze > {{ pulp_install_dir }}/requirements.txt'
+  shell: '{{ pulp_install_dir }}/bin/pip freeze --local > {{ pulp_install_dir }}/requirements.txt'
   changed_when: false
 
 - name: Backup currently installed packages for any potential troubleshooting purposes
