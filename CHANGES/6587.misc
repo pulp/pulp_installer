@@ -1,0 +1,1 @@
+Fixed pulp_installer molecule CI failing with python-sh 1.13.0
