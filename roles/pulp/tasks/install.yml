@@ -166,7 +166,7 @@
   become: true
   become_user: '{{ pulp_user }}'
 
-- name: pre-flight check for pulpcore/plugin version compatibility
+- name: Prepare for preflight checks
   block:
 
     - name: Obtain list of packages in the venv to see if any plugins are installed
@@ -186,56 +186,56 @@
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
 
-    # When there are no plugin prereqs roles
-    - name: Run pre-flight check (no prereq roles)
-      include_tasks: preflight_function.yml
-      when: pulp_install_plugins_normalized | dict2items | selectattr('value.prereq_role', 'defined') | list | count == 0
-
   when: pulp_source_dir is undefined
   become: true
 
-- name: Run plugins prereq roles & related preflight checks
-  block:
+# When there are no plugin prereqs roles
+- name: Run pre-flight check (no prereq roles)
+  include_tasks: preflight_function.yml
+  when:
+    - pulp_source_dir is undefined
+    - pulp_install_plugins_normalized | dict2items | selectattr('value.prereq_role', 'defined') | list | count == 0
 
-    # When there are plugin prereq roles
-    #
-    # Some plugins have deps that need to be installed for setup.py to load. When an error
-    # occurs due to those missing deps, the version comparison will not occur.
-    # So we will ignore all other errors this time. The version comparison occurs before
-    # that error is raised. We only care about that contain this string.
-    - name: Run preflight check before prereq roles
-      include_tasks: preflight_function.yml
-      vars:
-        failed_condition: '"Could not find a version" in compatibility.stderr'
-      when:
-        - pulp_source_dir is undefined
-
-    # Note: We would do a static import like in pulp-database, but
-    # looping does not work with it, so we do a dynamic include.
-    - name: Include plugins prereq roles
-      include_role:
-        name: "{{ item.value.prereq_role }}"
-      with_dict: "{{ pulp_install_plugins_normalized }}"
-      when: item.value.prereq_role is defined
-      register: prereq_roles
-
-    # No loop over pulp_install_plugins_normalized; let's run this only once.
-    # Also, this time it must succeed, a return code of 0.
-    - name: Re-run pre-flight check after plugin prereq roles
-      include_tasks: preflight_function.yml
-      # if it didn't succeed last time
-      vars:
-        failed_condition: >
-          (compatibility.rc != 0) and
-          ("AttributeError: module \'setuptools.build_meta\' has no attribute \'__legacy__\'" not in compatibility.stderr)
-      when:
-        - pulp_source_dir is undefined
-        - compatibility is defined
-        - compatibility.rc != 0
-
+# When there are plugin prereq roles
+# We are not using a block for these next few tasks; see preflight_function.yml
+#
+# Some plugins have deps that need to be installed for setup.py to load. When an error
+# occurs due to those missing deps, the version comparison will not occur.
+# So we will ignore all other errors this time. The version comparison occurs before
+# that error is raised. We only care about that contain this string.
+- name: Run preflight check before prereq roles
+  include_tasks: preflight_function.yml
+  vars:
+    failed_condition: '"Could not find a version" in compatibility.stderr'
   # When there is at least 1 prereq role.
-  when: pulp_install_plugins_normalized | dict2items | selectattr('value.prereq_role', 'defined') | list | count > 0
-  become: true
+  when:
+    - pulp_source_dir is undefined
+    - pulp_install_plugins_normalized | dict2items | selectattr('value.prereq_role', 'defined') | list | count > 0
+
+# Note: We would do a static import like in pulp-database, but
+# looping does not work with it, so we do a dynamic include.
+- name: Include plugins prereq roles
+  include_role:
+    name: "{{ item.value.prereq_role }}"
+  with_dict: "{{ pulp_install_plugins_normalized }}"
+  when:
+    - item.value.prereq_role is defined
+
+# No loop over pulp_install_plugins_normalized; let's run this only once.
+# Also, this time it must succeed, a return code of 0.
+- name: Re-run pre-flight check after plugin prereq roles
+  include_tasks: preflight_function.yml
+  vars:
+    failed_condition: >
+      (compatibility.rc != 0) and
+      ("AttributeError: module \'setuptools.build_meta\' has no attribute \'__legacy__\'" not in compatibility.stderr)
+  # if it didn't succeed last time
+  when:
+    - pulp_source_dir is undefined
+    - pulp_install_plugins_normalized | dict2items | selectattr('value.prereq_role', 'defined') | list | count > 0
+    - compatibility is defined
+    - compatibility.rc is defined
+    - compatibility.rc != 0
 
 - name: Install Pulp via Pip
   block:
