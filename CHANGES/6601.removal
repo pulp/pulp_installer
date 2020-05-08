@@ -1,2 +1,0 @@
-Removed the pulp_webserver_static_dir option.
-This fixes a bug where installations served content they should not.
