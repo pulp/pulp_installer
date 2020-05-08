@@ -191,7 +191,7 @@
   become_user: '{{ pulp_user }}'
 
 # When there are no plugin prereqs roles
-- name: Run pre-flight check (no prereq roles)
+- name: Run preflight check (no prereq roles)
   include_tasks: preflight_function.yml
   when:
     - pulp_source_dir is undefined
@@ -224,7 +224,7 @@
 
 # No loop over pulp_install_plugins_normalized; let's run this only once.
 # Also, this time it must succeed, a return code of 0.
-- name: Re-run pre-flight check after plugin prereq roles
+- name: Re-run preflight check after plugin prereq roles
   include_tasks: preflight_function.yml
   vars:
     failed_condition: >
