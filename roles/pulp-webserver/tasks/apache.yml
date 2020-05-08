@@ -48,7 +48,7 @@
       args:
         executable: /usr/local/lib/pulp/bin/python
       register: snippets
-      with_dict: '{{ pulp_install_plugins }}'
+      with_dict: '{{ pulp_install_plugins_normalized }}'
       failed_when: false
       changed_when: false
       check_mode: false
@@ -59,7 +59,7 @@
     - name: Symlink Apache snippets
       file:
         src: "{{ item.stdout_lines | last }}"
-        # Note: item.item is pulp_install_plugins
+        # Note: item.item is pulp_install_plugins_normalized
         dest: "{{ pulp_webserver_apache_snippets_dir }}/{{ item.item.key | regex_replace('-', '_') }}.conf"
         state: link
       loop: '{{ snippets.results }}'

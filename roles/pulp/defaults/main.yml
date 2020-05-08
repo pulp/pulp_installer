@@ -44,3 +44,9 @@ rhel7_optional_repo:
 epel_release_packages:
   - epel-release
   - "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_distribution_major_version }}.noarch.rpm"
+# The names of any pip packages that are plugins but do not begin with "pulp-"
+# These are specified regardless of whether or not the user is installing it.
+# We will advertise this to users once we feel there is a need for them to ever
+# set it, and even then we may just help them to append to a list.
+pulp_irregularly_named_plugins:
+  - galaxy-ng

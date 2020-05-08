@@ -1,0 +1,12 @@
+---
+# Intermediate var for pulp_install_plugins_normalized, based on this example;
+# https://gist.github.com/kcem/5ec90b97c08fafd0397f248e8c31b25b
+# With the to_json fix for Python2:
+# https://stackoverflow.com/questions/41521138/ansible-template-adds-u-to-array-in-template
+pulp_install_plugins_normalized_yml: |-
+  {% for key, value in pulp_install_plugins.items() %}
+  {{ key.replace('_', '-') }}: {{ value | to_json }}
+  {% endfor %}
+# A pulp_install_plugins but with the plugin names corrected:
+# pip/PyPI only uses dashes, not underscores.
+pulp_install_plugins_normalized: "{{ pulp_install_plugins_normalized_yml | from_yaml }}"

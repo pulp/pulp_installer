@@ -40,7 +40,7 @@
       && pbindings {{ item.key| replace("-", "_") }} python
     args:
       executable: /bin/bash
-    with_dict: "{{ pulp_install_plugins }}"
+    with_dict: "{{ pulp_install_plugins_normalized }}"
 
   - name: Add fzf bashrc
     copy:

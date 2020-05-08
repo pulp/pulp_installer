@@ -1,0 +1,49 @@
+---
+# preflight_function.yml: preflight check tasks that may need to be re-run,
+# with certain vars. Like a function in programming languages.
+#
+# vars: failed_condition (optional)
+#
+# Limitations: `include_tasks:` within a block seems to cause arbitrary skipped
+# tasks (problem with `when:`) and break ansible-lint.
+
+# pip-compile creates requirements.txt, but we need to create it for these
+# use cases:
+# 1. upgrades from pulp installs older than the pip-compile check
+# 2. Users manually modifying their venv
+#
+# We need requirements.txt because it affects what happens when users
+# specify "pulp-file" (for example) without any version or an upgrade;
+# pip-compile behaves differently depending on whether or not pulp-file is
+# already installed (attempt to install newest version, vs leave it be.)
+- name: List currently installed packages for the pip-compile check
+  shell: '{{ pulp_install_dir }}/bin/pip freeze --local > {{ pulp_install_dir }}/requirements.txt'
+  changed_when: false
+  become: true
+  become_user: '{{ pulp_user }}'
+
+- name: Backup currently installed packages for any potential troubleshooting purposes
+  copy:
+    src: '{{ pulp_install_dir }}/requirements.txt'
+    dest: '{{ pulp_install_dir }}/requirements.txt.orig'
+    remote_src: true
+    backup: true
+  changed_when: false
+  become: true
+  become_user: '{{ pulp_user }}'
+
+- name: Run pip-compile to check pulpcore/plugin compatibility
+  command: '{{ pulp_install_dir }}/bin/pip-compile
+{% for plugin, value in pulp_install_plugins_normalized.items() %}
+{% if value["upgrade"]|default(false, true) %} -P {{ plugin }} {% endif %}
+{% endfor %}'
+  args:
+    chdir: '{{ pulp_install_dir }}'
+  register: compatibility
+  environment:
+    LC_ALL: en_US.UTF-8
+    LANG: en_US.UTF-8
+  failed_when: '{{ failed_condition | default("compatibility.rc != 0") }}'
+  changed_when: false
+  become: true
+  become_user: '{{ pulp_user }}'
