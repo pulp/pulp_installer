@@ -188,6 +188,7 @@
 
   when: pulp_source_dir is undefined
   become: true
+  become_user: '{{ pulp_user }}'
 
 # When there are no plugin prereqs roles
 - name: Run pre-flight check (no prereq roles)

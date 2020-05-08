@@ -20,6 +20,7 @@
   shell: '{{ pulp_install_dir }}/bin/pip freeze --local > {{ pulp_install_dir }}/requirements.txt'
   changed_when: false
   become: true
+  become_user: '{{ pulp_user }}'
 
 - name: Backup currently installed packages for any potential troubleshooting purposes
   copy:
@@ -29,6 +30,7 @@
     backup: true
   changed_when: false
   become: true
+  become_user: '{{ pulp_user }}'
 
 - name: Run pip-compile to check pulpcore/plugin compatibility
   command: '{{ pulp_install_dir }}/bin/pip-compile
@@ -44,3 +46,4 @@
   failed_when: '{{ failed_condition | default("compatibility.rc != 0") }}'
   changed_when: false
   become: true
+  become_user: '{{ pulp_user }}'
