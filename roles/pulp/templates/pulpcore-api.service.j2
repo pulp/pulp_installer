@@ -12,6 +12,7 @@ PIDFile=/run/pulpcore-api.pid
 RuntimeDirectory=pulpcore-api
 ExecStart={{ pulp_install_dir }}/bin/gunicorn pulpcore.app.wsgi:application \
           --bind '{{ pulp_api_bind }}' \
+          --workers {{ pulp_api_workers }} \
           --access-logfile -
 ProtectSystem=full
 PrivateTmp=yes

@@ -45,6 +45,9 @@ Role Variables:
 * `pulp_api_bind` Interface and Port where Pulp Content `gunicorn` service will listen. Defaults to
   '127.0.0.1:24817'. This variable is the value used to render the `pulpcore-api.service.j2` template
   passing to the `--bind` parameter of the `gunicorn` service.
+* `pulp_api_workers`: Number of Pulp Content `gunicorn` processes for handling requests. Defaults to 1.
+  Used to render the `pulpcore-api.servie.j2` template, passing to the `--workers` parameter of the
+  gunicorn service.
 * `pulp_settings`: A nested dictionary that is used to add custom values to the user's
     `setting.py`, which will override any default values set by pulpcore. The keys of this
     dictionary are variable names, and the values should be expressed using the [Dynaconf syntax](
