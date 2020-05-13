@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: Pulp Team
-  description: A role to setup Pulp 3's worker service
+  description: A role to setup Pulp 3's Resource Manager service
   issue_tracker_url: https://pulp.plan.io/projects/pulp/issues/new
   license: GPL-2.0-or-later
   company: Red Hat
@@ -22,4 +22,4 @@ galaxy_info:
     - pulp
     - pulpcore
 dependencies:
-  - pulp-redis
+  - pulp_redis

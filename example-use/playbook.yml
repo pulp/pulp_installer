@@ -9,10 +9,10 @@
         msg: >
           "You must update Ansible to at least 2.8 to use this version of Pulp 3 Installer."
   roles:
-    - pulp-database
-    - pulp-workers
-    - pulp-resource-manager
-    - pulp-webserver
-    - pulp-content
+    - pulp_database
+    - pulp_workers
+    - pulp_resource_manager
+    - pulp_webserver
+    - pulp_content
   environment:
     DJANGO_SETTINGS_MODULE: pulpcore.app.settings

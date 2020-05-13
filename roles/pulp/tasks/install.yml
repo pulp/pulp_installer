@@ -213,7 +213,7 @@
     - pulp_source_dir is undefined
     - pulp_install_plugins_normalized | dict2items | selectattr('value.prereq_role', 'defined') | list | count > 0
 
-# Note: We would do a static import like in pulp-database, but
+# Note: We would do a static import like in pulp_database, but
 # looping does not work with it, so we do a dynamic include.
 - name: Include plugins prereq roles
   include_role:

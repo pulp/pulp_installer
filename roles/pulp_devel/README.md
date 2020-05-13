@@ -1,4 +1,4 @@
-pulp-devel
+pulp_devel
 ==========
 
 This role installs useful tools and adds some config files for a Pulp 3
@@ -10,7 +10,7 @@ Example Usage
 ```yaml
 - hosts: all
   roles:
-    - pulp-devel
+    - pulp_devel
 ```
 
 Variables
@@ -36,7 +36,7 @@ used in that role.
 
 * `pulp_user`
 * `pulp_install_dir`
-* `pulp_source_dir` (Note: Pip VCS URLs will not work with pulp-devel.)
+* `pulp_source_dir` (Note: Pip VCS URLs will not work with pulp_devel.)
 
 
 Aliases:

@@ -46,7 +46,7 @@
     - ambiguously_named_repo_enabled is not defined
 
 # Note: There are at least 3 needs for this repo:
-# 1. pulp-devel needs it for at least python-django-bash-completion
+# 1. pulp_devel needs it for at least python-django-bash-completion
 # 2. pulp_rpm_prerequisites needs it for at least file-devel,
 #    gobject-introspection-devel libmodulemd-devel, & their deps.
 # 3. EPEL technically requires it. And it has more than just devel headers,
