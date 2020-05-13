@@ -33,6 +33,7 @@ pulp_user_home: '/var/lib/pulp'
 pulp_pip_editable: yes
 pulp_use_system_wide_pkgs: false
 pulp_api_bind: '127.0.0.1:24817'
+pulp_api_workers: 1
 prereq_pip_packages: []
 pulp_rhel_codeready_repo:
   - codeready-builder-for-rhel-8-x86_64-rpms
