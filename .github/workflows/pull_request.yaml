@@ -2,7 +2,7 @@
 name: Pulp PR
 on: pull_request
 jobs:
-  compact_test:
+  test:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -74,4 +74,6 @@ jobs:
           tox
         env:
           TEST_TYPE: ${{ matrix.env.TEST_TYPE }}
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
         shell: bash
