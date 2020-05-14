@@ -9,3 +9,9 @@ pulp_workers:
   2:
     state: started
     enabled: true
+  3:
+    state: started
+    enabled: true
+  4:
+    state: started
+    enabled: true
