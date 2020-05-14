@@ -18,13 +18,17 @@ System Requirements
 -------------------
 
 The [control node](https://docs.ansible.com/ansible/2.5/network/getting_started/basic_concepts.html#control-node)
-must have Python 3 and Ansible installed.
+must have Python 3 and Ansible (>= 2.8) installed.
 
 The [managed node](https://docs.ansible.com/ansible/2.5/network/getting_started/basic_concepts.html#managed-nodes)
 must be one of these currently supported operating systems:
 * CentOS 7
-* Debian Buster
+* Debian Buster (needs `allow_world_readable_tmpfiles = True` in ansible.cfg)
 * Fedora 30 or later
+
+Ansibles Python interpreter must have the package installed:
+* psycopg2
+* firewall (if firewalld should be configured; you can disable that with `pulp_configure_firewall=false`)
 
 Variables
 ---------
