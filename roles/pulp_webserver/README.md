@@ -1,4 +1,4 @@
-pulp-webserver
+pulp_webserver
 ==============
 
 Install, configure, start, and enable a web server.

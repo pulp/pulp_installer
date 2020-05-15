@@ -55,10 +55,10 @@ Role Variables:
     Please see [pulpcore configuration
     docs](https://docs.pulpproject.org/en/3.0/nightly/installation/configuration.html#id2) for
     documentation on the possible variable names and their values.
-  * `pulp_settings.content_origin`: **Required**. The URL to the pulp-content
+  * `pulp_settings.content_origin`: **Required**. The URL to the pulp_content
     host that clients will access, and that will be appended to in HTTP
     responses by multiple content plugins. Any load balancers / proxies (such
-    as those in the `pulp-webserver` role) normally should be specified instead
+    as those in the `pulp_webserver` role) normally should be specified instead
     of the pulp content host itself. Syntax is
     `(http|https)://(hostname|ip)[:port]`.
   * `pulp_settings.secret_key`: **Required**. Pulp's Django application `SECRET_KEY`.
@@ -92,9 +92,9 @@ Shared Variables:
   environment before installing pulp or its content plugins.
   Defaults to an empty list, but a `prereq_role` may append to it.
 
-This role is required by the `pulp-database` role and uses some variables from it.
+This role is required by the `pulp_database` role and uses some variables from it.
 
-* `pulp_settings_db_defaults`: See pulp-database README.
+* `pulp_settings_db_defaults`: See pulp_database README.
 
 Operating System Variables:
 ---------------------------

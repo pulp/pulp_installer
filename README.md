@@ -161,10 +161,10 @@ Roles
 pulp_installer is equipped with the following roles:
 
 - [pulp](/roles/pulp/README.md): installs Pulp 3 from PyPi or source and provides basic config.
-- [pulp-content](/roles/pulp-content/README.md): install, configure, and set the state of pulp content app.
-- [pulp-database](/roles/pulp-database/README.md): optionally install a database, then configure for Pulp.
-- [pulp-redis](/roles/pulp-redis/README.md): install and start Redis, and install RQ in the Pulp virtualenv.
-- [pulp-resource-manager](/roles/pulp-resource-manager/README.md): install, configure, and set the state of the pulp resouce manager.
-- [pulp-webserver](/roles/pulp-webserver/README.md): install, configure, start, and enable a web server.
-- [pulp-workers](/roles/pulp-workers/README.md): install, configure, and set the state of pulp workers.
-- [pulp-devel](/roles/pulp-devel/README.md): installs useful tools and adds some config files for a Pulp 3 development environment.
+- [pulp_content](/roles/pulp_content/README.md): install, configure, and set the state of pulp content app.
+- [pulp_database](/roles/pulp_database/README.md): optionally install a database, then configure for Pulp.
+- [pulp_redis](/roles/pulp_redis/README.md): install and start Redis, and install RQ in the Pulp virtualenv.
+- [pulp_resource_manager](/roles/pulp_resource_manager/README.md): install, configure, and set the state of the pulp resouce manager.
+- [pulp_webserver](/roles/pulp_webserver/README.md): install, configure, start, and enable a web server.
+- [pulp_workers](/roles/pulp_workers/README.md): install, configure, and set the state of pulp workers.
+- [pulp_devel](/roles/pulp_devel/README.md): installs useful tools and adds some config files for a Pulp 3 development environment.

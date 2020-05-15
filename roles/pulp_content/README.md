@@ -1,4 +1,4 @@
-pulp-content
+pulp_content
 =============
 
 Install, configure, and set the state of pulp content app.

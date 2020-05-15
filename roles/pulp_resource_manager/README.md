@@ -1,14 +1,15 @@
-pulp-workers
-============
+pulp_resource_manager
+=====================
 
-Install, configure, and set the state of pulp workers.
+Install, configure, and set the state of the pulp resouce manager.
 
 Configurable Variables:
 -----------------------
 
-* `pulp_workers`: Specify how many workers and configuration for each. Defaults to
-  2 workers which are started and enabled by systemd. See "defaults/main.yml" for an
-  example of the syntax.
+* `pulp_resouce_manager_state`: This variable can be configured with any of the
+  states allowed by the systemd module's "state" directive. Defaults to "started."
+* `pulp_resouce_manager_enabled`: This variable can be configured with any of the
+  states allowed by the systemd module's "enabled" directive. Defaults to "true."
 
 Shared variables:
 -----------------
@@ -21,7 +22,7 @@ the role. When not used together, these values are **required**.
 
 * `postgresql_version`
 
-This role **is tightly coupled** to the required `pulp-redis` role, and inherits
+This role **is tightly coupled** to the required `pulp_redis` role, and inherits
 some of its variables.
 
 * `pulp_user`
@@ -33,9 +34,8 @@ the role. When not used together, these values are **required**.
 
 * `pulp_config_dir`
 * `pulp_settings_file`
-* `pulp_group`
 
 Dependencies:
 -------------
 
-* `pulp-redis`
+* `pulp_redis`

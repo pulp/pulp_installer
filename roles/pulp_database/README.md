@@ -1,4 +1,4 @@
-pulp-database
+pulp_database
 =============
 
 Optionally install a database, then configure for Pulp.

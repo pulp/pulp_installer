@@ -13,12 +13,12 @@
       include_role:
         name: "{{ roleinputvar }}"
       loop:
-        - pulp-database
-        - pulp-workers
-        - pulp-resource-manager
-        - pulp-webserver
-        - pulp-content
-        - pulp-devel
+        - pulp_database
+        - pulp_workers
+        - pulp_resource_manager
+        - pulp_webserver
+        - pulp_content
+        - pulp_devel
       loop_control:
         loop_var: roleinputvar
   environment:

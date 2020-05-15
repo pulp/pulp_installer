@@ -2,8 +2,8 @@
 # We cannot pass wildcards to the systemd module, so we have
 # this hack for our dynamic include_roles users.
 #
-# The handlers will be flushed during pulp-database, before
-# pulp-workers is called. But said users' ansible does not know
+# The handlers will be flushed during pulp_database, before
+# pulp_workers is called. But said users' ansible does not know
 # the number of pulp-workers yet.
 #
 # Later one, the Pulp services *should* be refactored into a
