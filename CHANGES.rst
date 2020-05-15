@@ -13,6 +13,27 @@ Changelog
 
 .. towncrier release notes start
 
+3.3.1-1 (2020-05-15)
+==================
+
+
+Bugfixes
+--------
+
+- Enforce new lines when listing plugins on requirements.in
+  `#6697 <https://pulp.plan.io/issues/6697>`_
+
+
+Improved Documentation
+----------------------
+
+- Documented system requirements for ansible when using the installer.
+  `#6725 <https://pulp.plan.io/issues/6725>`_
+
+
+----
+
+
 3.3.1 (2020-05-08)
 ==================
 
