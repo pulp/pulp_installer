@@ -76,7 +76,7 @@ http {
 
         # The default client_max_body_size is 1m. Clients uploading
         # files larger than this will need to chunk said files.
-        client_max_body_size {{ pulp_client_max_body_size }};
+        client_max_body_size 3G;
 
         # Gunicorn docs suggest this value.
         keepalive_timeout 5;
