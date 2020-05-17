@@ -38,7 +38,7 @@ used by multiple roles. In that case, they are be documented in their primary ro
 the `shared_variables` section the other roles.
 
 **Required Variables:**
-Most variables have sane defaults but a few are required. See ``example-use/group_vars/all`` for
+Most variables have sane defaults but a few are required. See ``playbooks/example-use/group_vars/all`` for
 the minimal set of required variables.
 
 
@@ -76,7 +76,7 @@ Some of the roles used in the playbook use root privalages on the managed node, 
 you will need to provide the password for the managed node user.
 
 ```
-ansible-playbook example-use/playbook.yml -u <managed_node_username> --ask-become-pass
+ansible-playbook playbooks/example-use/playbook.yml -u <managed_node_username> --ask-become-pass
 ```
 
 To configure a custom install, you will need to set configuration variables. In the simplest case,
