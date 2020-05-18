@@ -1,0 +1,14 @@
+site_name: Pulp Installer
+repo_url: https://github.com/pulp/pulp_installer
+theme: readthedocs
+nav:
+  - Home: index.md
+  - Roles:
+      - Pulp: roles/pulp.md
+      - Pulp Content: roles/pulp_content.md
+      - Pulp Database: roles/pulp_database.md
+      - Pulp Devel: roles/pulp_devel.md
+      - Pulp Redis: roles/pulp_redis.md
+      - Pulp Resource Manager: roles/pulp_resource_manager.md
+      - Pulp Webserver: roles/pulp_webserver.md
+      - Pulp Workers: roles/pulp_workers.md
