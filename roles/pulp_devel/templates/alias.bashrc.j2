@@ -150,7 +150,7 @@ pfixtures () {
     jq "setpath([\"custom\",\"fixtures_origin\"]; \"http://localhost:8000/fixtures/\")" > /tmp/temp_pfixtures.json
     cat /tmp/temp_pfixtures.json > ~/.config/pulp_smash/settings.json
     rm /tmp/temp_pfixtures.json
-    podman run -d --rm -p 8000:80 quay.io/pulp/pulp-fixtures:latest
+    sudo podman run -d --rm -p 8000:80 quay.io/pulp/pulp-fixtures:latest
 }
 _pfixtures_help="Run pulp-fixtures container in foreground"
 
@@ -166,7 +166,7 @@ pbindings(){
         cd pulp-openapi-generator
     fi
 
-    sed -i 's/docker/podman/g' generate.sh
+    sed -i 's/docker/sudo podman/g' generate.sh
     workon pulp
 
     if [ $1 != 'pulpcore' ]
@@ -208,7 +208,7 @@ pbindings(){
     esac
     rm -rf $1-client
 
-    sed -i 's/podman/docker/g' generate.sh
+    sed -i 's/sudo podman/docker/g' generate.sh
     cd $CURRENT_DIR
 }
 _pbindings_help="Create and install bindings. Example usage: pbindings pulpcore python"
@@ -227,11 +227,11 @@ pminio(){
         sudo bash -c "sed -i '/DEFAULT_FILE_STORAGE/d' /etc/pulp/settings.py"
         sudo bash -c "sed -i '/MEDIA_ROOT/d' /etc/pulp/settings.py"
         sudo bash -c "sed -i '/AWS_S3_ENDPOINT_URL/d' /etc/pulp/settings.py"
-        podman stop pulp_minio && podman rm pulp_minio
+        sudo podman stop pulp_minio && sudo podman rm pulp_minio
     else
         export MINIO_ACCESS_KEY=AKIAIT2Z5TDYPX3ARJBA
         export MINIO_SECRET_KEY=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
-        podman run -d -p 0.0.0.0:9000:9000 --name pulp_minio -e MINIO_ACCESS_KEY=$MINIO_ACCESS_KEY -e MINIO_SECRET_KEY=$MINIO_SECRET_KEY minio/minio server /data
+        sudo podman run -d -p 0.0.0.0:9000:9000 --name pulp_minio -e MINIO_ACCESS_KEY=$MINIO_ACCESS_KEY -e MINIO_SECRET_KEY=$MINIO_SECRET_KEY minio/minio server /data
         while ! nc -z localhost 9000; do echo 'Wait minio to startup...' && sleep 0.1; done;
         mc config host add s3 http://localhost:9000 AKIAIT2Z5TDYPX3ARJBA fqRvjWaPU5o0fCqQuUWbj9Fainj2pVZtBCiDiieS --api S3v4
         mc config host rm local
