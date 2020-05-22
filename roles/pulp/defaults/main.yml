@@ -38,6 +38,7 @@ prereq_pip_packages: []
 pulp_rhel_codeready_repo:
   - codeready-builder-for-rhel-8-x86_64-rpms
   - rhui-codeready-builder-for-rhel-8-rhui-rpms
+  - codeready-builder-for-rhel-8-rhui-rpms
 rhel7_optional_repo:
   - rhui-rhel-7-server-rhui-optional-rpms
   - rhel-7-server-optional-rpms
