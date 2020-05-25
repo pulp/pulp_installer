@@ -1,4 +1,8 @@
 site_name: Pulp Installer
+site_description: Pipelines for Generating and Releasing Documentation
+site_author: Pulp Team
+site_url: https://pulp-installer.readthedocs.io/
+repo_name: pulp/pulp_installer
 repo_url: https://github.com/pulp/pulp_installer
 theme: readthedocs
 nav:
@@ -12,3 +16,6 @@ nav:
       - Pulp Resource Manager: roles/pulp_resource_manager.md
       - Pulp Webserver: roles/pulp_webserver.md
       - Pulp Workers: roles/pulp_workers.md
+markdown_extensions:
+    - pymdownx.superfences
+

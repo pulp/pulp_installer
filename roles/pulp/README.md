@@ -7,6 +7,32 @@ The default administrative user for the Pulp application is: 'admin'
 
 Role Variables:
 ---------------
+* `pulp_install_plugins`: A nested dictionary of plugin configuration options.
+  Defaults to "{}", which will not install any plugins.
+    * *Dictionary Key*: The pip installable plugin name. This is defined in each plugin's `setup.py`. **Required**.
+    * `version`: Specific release of the plugin to install from PyPI. If `source_dir` is set, this has no effect. Note that if the specified release of the plugin is incompatible with pulpcore's version, pulp_installer will fail (and exit the play) when it goes to install or upgrade the plugin. Defaults to nothing.
+    * `version` and `upgrade` **cannot be used together**. Even though a command like `pip install --upgrade pulp-file=0.3.0` is valid, the ansible pip module refuses to let you specify version and `state=latest` (`state=latest` maps to `pip --upgrade`, and to our upgrade: true).
+    * `upgrade`: Whether to update/upgrade the plugin to the latest stable release from PyPI. Only affects systems where the plugin is already installed. If `source_dir` is set, this has no effect and is effectively always `true`. Mutually exclusive with `version`. Note that if the latest stable release of the plugin is incompatible with pulpcore's version, pulp_installer will fail (and exit the play) when it goes to upgrade the plugin. Defaults to "false".
+    * `source_dir`: Optional. Absolute path to the plugin source code. If present,
+  plugin will be installed from source in editable mode.
+  Also accepts a pip VCS URL, to (for example) install the master branch.
+    * `prereq_role`: Optional. Name of (or folder path to) Ansible role to run
+    immediately before the venv is created. You will need to download it 1st (with
+    ansible-galaxy.) Needed because many plugins will have OS dependencies in C.
+    See `prereq_pip_packages` also.
+    * **Example**:
+    ```yaml
+    pulp_install_plugins:
+      pulp-zero: {}
+      pulp-one: # plugin name (pulp-ansible, pulp-container, pulp-rpm, ...)
+        version: "1.0.1" # specific release (pulp-file-0.3.0)
+      pulp-two:
+        upgrade: true # upgrade to the latest stable release from PyPI
+      pulp-three:
+        source_dir: "/var/lib/pulp/pulp_three" # path to the plugin source code
+      pulp-four:
+        prereq_role: "pulp.pulp_three_role" # role to run immediately before the venv is created
+    ```
 * `pulp_cache_dir`: Location of Pulp cache. Defaults to "/var/lib/pulp/tmp".
 * `pulp_config_dir`: Directory which will contain Pulp configuration files.
   Defaults to "/etc/pulp".
@@ -14,19 +40,6 @@ Role Variables:
 * `pulp_install_dir`: Location of a virtual environment for Pulp and its Python
   dependencies. Defaults to "/usr/local/lib/pulp".
 * `pulp_user_home`: equivalent to `MEDIA_ROOT` from `pulpcore` i.e. absolute path for pulp user home.
-* `pulp_install_plugins`: A nested dictionary of plugin configuration options.
-  Defaults to "{}", which will not install any plugins.
-  * Dictionary Key: The pip installable plugin name. This is defined in each
-  plugin's* `setup.py`. **Required**.
-  * `version`: Specific release of the plugin to install from PyPI, or upgrade to (regardless of whether `upgrade` is set.) If `source_dir` is set, this has no effect. Note that if the spceified release of the plugin is incompatible with pulpcore's version, pulp_installer will fail (and exit the play) when it goes to install or upgrade the plugin. Defaults to nothing.
-  * `upgrade`: Whether to update/upgrade the plugin to the latest stable release from PyPI. Only affects systems where the plugin is already installed. If `source_dir` is set, this has no effect and is effectively always `true`. Mutually exclusive with `version`. Note that if the latest stable release of the plugin is incompatible with pulpcore's version, pulp_installer will fail (and exit the play) when it goes to upgrade the plugin. Defaults to "false".
-  * `source_dir`: Optional. Absolute path to the plugin source code. If present,
-  plugin will be installed from source in editable mode.
-  Also accepts a pip VCS URL, to (for example) install the master branch.
-  * `prereq_role`: Optional. Name of (or folder path to) Ansible role to run
-    immediately before the venv is created. You will need to download it 1st (with
-    ansible-galaxy.) Needed because many plugins will have OS dependencies in C.
-    See `prereq_pip_packages` also.
 * `pulp_install_api_service`: Whether to create systemd service files for
   pulpcore-api. Defaults to "true".
   present, pulpcore will be installed from source in editable mode. Also accepts
