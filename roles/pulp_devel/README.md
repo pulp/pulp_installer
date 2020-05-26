@@ -38,6 +38,11 @@ used in that role.
 * `pulp_install_dir`
 * `pulp_source_dir` (Note: Pip VCS URLs will not work with pulp_devel.)
 
+This role **is tightly coupled** with the `pulp_workers` role and it depends on some of the values set
+used in that role.
+
+* `pulp_workers`
+
 
 Aliases:
 -----------------

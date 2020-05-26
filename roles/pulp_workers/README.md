@@ -6,9 +6,7 @@ Install, configure, and set the state of pulp workers.
 Configurable Variables:
 -----------------------
 
-* `pulp_workers`: Specify how many workers and configuration for each. Defaults to
-  2 workers which are started and enabled by systemd. See "defaults/main.yml" for an
-  example of the syntax.
+* `pulp_workers`: Specify how many workers. Defaults to 2 workers.
 
 Shared variables:
 -----------------
