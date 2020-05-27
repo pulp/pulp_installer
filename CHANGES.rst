@@ -13,6 +13,50 @@ Changelog
 
 .. towncrier release notes start
 
+3.4.0 (2020-05-27)
+==================
+
+
+Features
+--------
+
+- Make gunicorn --workers parameter configurable
+  `#6727 <https://pulp.plan.io/issues/6727>`_
+
+
+Bugfixes
+--------
+
+- Enforce new lines when listing plugins on requirements.in
+  `#6697 <https://pulp.plan.io/issues/6697>`_
+- Fixed CodeReady repo name for RHEL8 AWS installations
+  `#6805 <https://pulp.plan.io/issues/6805>`_
+
+
+Improved Documentation
+----------------------
+
+- Document the conflict between `version` and `upgrade` when configuring plugins
+  `#6669 <https://pulp.plan.io/issues/6669>`_
+- Documented system requirements for ansible when using the installer.
+  `#6725 <https://pulp.plan.io/issues/6725>`_
+
+
+Deprecations and Removals
+-------------------------
+
+- Fitting directories into collection structure
+  `#6458 <https://pulp.plan.io/issues/6458>`_
+- Renaming roles to use underscores rather than dashes
+  `#6663 <https://pulp.plan.io/issues/6663>`_
+- Replaced `pulp_workers` dictionary variable with the `pulp_workers` integer variable.
+  `pulp_workers` is now simply the number of workers.
+  `#6774 <https://pulp.plan.io/issues/6774>`_
+
+
+----
+
+
 3.3.1 (2020-05-08)
 ==================
 
