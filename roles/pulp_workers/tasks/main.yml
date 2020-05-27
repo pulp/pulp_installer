@@ -12,8 +12,8 @@
 - name: Set states of pulp workers
   systemd:
     daemon_reload: true
-    name: pulpcore-worker@{{ item.key }}.service
-    state: '{{ item.value.state }}'
-    enabled: '{{ item.value.enabled }}'
-  with_dict: '{{ pulp_workers }}'
+    name: pulpcore-worker@{{ item }}.service
+    state: started
+    enabled: true
+  with_sequence: 'start=1 count={{ pulp_workers }}'
   become: true

@@ -2,3 +2,4 @@
 pulp_requirements_dir: "{{ pulp_source_dir }}"
 pulp_devel_package_retries: 5
 pulp_devel_supplement_bashrc: false
+pulp_workers: 2

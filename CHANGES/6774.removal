@@ -1,0 +1,2 @@
+Replaced `pulp_workers` dictionary variable with the `pulp_workers` integer variable.
+`pulp_workers` is now simply the number of workers.
