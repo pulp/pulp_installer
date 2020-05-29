@@ -1,5 +1,5 @@
 site_name: Pulp Installer
-site_description: Pipelines for Generating and Releasing Documentation
+site_description: Pulp 3 Ansible Installer
 site_author: Pulp Team
 site_url: https://pulp-installer.readthedocs.io/
 repo_name: pulp/pulp_installer
@@ -7,6 +7,7 @@ repo_url: https://github.com/pulp/pulp_installer
 theme: readthedocs
 nav:
   - Home: index.md
+  - contributing.md
   - Roles:
       - Pulp: roles/pulp.md
       - Pulp Content: roles/pulp_content.md

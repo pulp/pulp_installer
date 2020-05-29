@@ -41,7 +41,7 @@ the minimal set of required variables.
 
 
 Ansible Boilerplate
------------------
+-------------------
 
 These roles can be used against any managed node and are highly configurable.  Knowledge of
 [ansible basics](https://docs.ansible.com/ansible/2.5/user_guide/intro_getting_started.html) will
@@ -80,81 +80,8 @@ ansible-playbook playbooks/example-use/playbook.yml -u <managed_node_username> -
 To configure a custom install, you will need to set configuration variables. In the simplest case,
 they can be set in the playbook. See the ansible docs for more flexible idiomatic alternatives.
 
-
-Testing
--------
-
-The tests can be run as they are on travis with **tox**, or they can run with various options using
-**molecule** directly.
-
-**Requirements:**
-Install Docker, and add yourself to the group that is authorized to
-administer containers, and log out and back in to make the permissions change
-take effect. The authorized group is typically the "docker" group:
-
-```bash
-gpasswd --add "$(whoami)" docker
-```
-
-**NOTE:** Docker containers can differ from bare-metal or VM OS installs.
-They can have different packages installed, they can run different kernels,
-and so on.
-
-**Using Tox:**
-
-1. Install [tox](https://tox.readthedocs.io/en/latest/). This can be done
-   through the system package manager or into a virtualenv:
-
-   ```bash
-   python3 -m venv ~/.venvs/pulp_installer
-   pip install --upgrade pip
-   pip install tox
-   ```
-2. Install at least one of the Python interpreters listed in tox.ini. These are
-   currently Python 2.7 and 3.6.
-   **WARNING:** Anyone added to the docker group is root equivalent. More
-   information [here](https://github.com/docker/docker/issues/9976) and
-   [here](https://docs.docker.com/engine/security/security/).
-
-4. Run `tox`. If you only have a subset of the supported Python interpreters
-   available, specify which environments to exercise:
-
-   ```bash
-   tox -e py36
-   ```
-
-**Using Molecule:**
-
-1. Install [molecule](https://molecule.readthedocs.io/en/latest/),
-[molecule-inspec](https://github.com/ansible-community/molecule-inspec),
-and [ansible-lint](https://docs.ansible.com/ansible-lint/).
-
-
-It is recommended that you do so with `pip` in a virtualenv.
-2. Run molecule commands.
-
-   Test all scenarios on all hosts.
-   ```bash
-   molecule test --all
-   ```
-
-   Test a specific scenario.
-   ```bash
-   molecule test --scenario-name source
-   ```
-
-   Use debug for increased verbosity.
-   ```bash
-   molecule --debug test --all
-   ```
-
-   Create and provision, but don't run tests or destroy.
-   ```bash
-   molecule converge --all
-   ```
-
 Roles
--------
+-----
 
 pulp_installer is equipped with the following roles:
 
