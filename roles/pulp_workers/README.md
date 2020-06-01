@@ -3,13 +3,13 @@ pulp_workers
 
 Install, configure, and set the state of pulp workers.
 
-Configurable Variables:
------------------------
+Configurable Variables
+----------------------
 
 * `pulp_workers`: Specify how many workers. Defaults to 2 workers.
 
-Shared variables:
------------------
+Shared variables
+----------------
 
 * `ansible_python_interpreter`: **Required**. Path to the Python interpreter.
 
@@ -33,7 +33,7 @@ the role. When not used together, these values are **required**.
 * `pulp_settings_file`
 * `pulp_group`
 
-Dependencies:
--------------
+Dependencies
+------------
 
 * `pulp_redis`

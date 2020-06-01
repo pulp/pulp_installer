@@ -9,8 +9,8 @@ More specifically, this role does the following:
 2. Install the Python bindings to interact with the specified database.
 3. Create and run migrations.
 
-Role Variables:
----------------
+Role Variables
+--------------
 
 * `pulp_settings_db_defaults`: This variable **should not be changed by users**, but serves as the
     defaults. Users wishing to set their own values should use the user-facing variable
@@ -21,8 +21,8 @@ Role Variables:
     [Django docs](https://docs.djangoproject.com/en/2.1/ref/settings/#databases) for more
     information.
 
-Shared Variables:
------------------
+Shared Variables
+----------------
 
 * `ansible_python_interpreter`: **Required**. Path to the Python interpreter.
   This role sets the default to "auto", which is now more robust than
@@ -37,8 +37,8 @@ variables which are documented in that role:
 * `pulp_default_admin_password`
 * `pulp_settings`
 
-Operating Systems Variables:
-----------------------------
+Operating Systems Variables
+---------------------------
 
 Each currently supported operating system has a matching file in the "vars"
 directory.

@@ -1,19 +1,19 @@
 ---
 pulp_default_admin_password: password
 pulp_install_plugins:
-  # pulp-ansible: {}
   # galaxy-ng: {}
+  # pulp-ansible: {}
   # pulp-certguard: {}
+  # pulp-container: {}
   # pulp-cookbook: {}
   # pulp-deb: {}
-  # pulp-container: {}
+  pulp-file: {}
   # pulp-gem: {}
   # pulp-maven: {}
   # pulp-npm: {}
   # pulp-python: {}
   # pulp-rpm:
   #   prereq_role: "pulp.pulp_rpm_prerequisites" # RPM needs a prereq_role: https://galaxy.ansible.com/pulp/pulp_rpm_prerequisites
-  pulp-file: {}
 pulp_settings:
   secret_key: secret
   content_origin: "http://{{ ansible_fqdn }}"

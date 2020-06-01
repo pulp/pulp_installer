@@ -3,8 +3,8 @@ pulp_content
 
 Install, configure, and set the state of pulp content app.
 
-Variables:
-----------
+Variables
+---------
 
 * `pulp_content_bind`: Interface and Port where Pulp Content `gunicorn` service will listen.
 
@@ -13,8 +13,8 @@ to the `--bind` parameter of the gunicorn service.
 
 Defaults to `127.0.0.1:24816`
 
-Shared variables:
------------------
+Shared variables
+----------------
 
 * `ansible_python_interpreter`: **Required**. Path to the Python interpreter.
 
