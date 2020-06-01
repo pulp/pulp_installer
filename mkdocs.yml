@@ -7,6 +7,7 @@ repo_url: https://github.com/pulp/pulp_installer
 theme: readthedocs
 nav:
   - Home: index.md
+  - Getting started: quickstart.md
   - contributing.md
   - Roles:
       - Pulp: roles/pulp.md
@@ -19,4 +20,3 @@ nav:
       - Pulp Workers: roles/pulp_workers.md
 markdown_extensions:
     - pymdownx.superfences
-

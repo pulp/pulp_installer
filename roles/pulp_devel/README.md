@@ -26,8 +26,8 @@ developer_user_home: /home/vagrant
 pulp_default_admin_password: password
 ```
 
-Shared variables:
------------------
+Shared variables
+----------------
 
 * `ansible_python_interpreter`: **Required**. Path to the Python interpreter.
 
@@ -44,8 +44,8 @@ used in that role.
 * `pulp_workers`
 
 
-Aliases:
------------------
+Aliases
+-------
 
 This role provides the following aliases:
 

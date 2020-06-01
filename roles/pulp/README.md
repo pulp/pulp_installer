@@ -5,8 +5,8 @@ Ansible role that installs Pulp 3 from PyPi or source and provides basic config.
 
 The default administrative user for the Pulp application is: 'admin'
 
-Role Variables:
----------------
+Role Variables
+--------------
 * `pulp_install_plugins`: A nested dictionary of plugin configuration options.
   Defaults to "{}", which will not install any plugins.
     * *Dictionary Key*: The pip installable plugin name. This is defined in each plugin's `setup.py`. **Required**.
@@ -96,8 +96,8 @@ Role Variables:
   Only affects RHEL7 (RHEL8 no longer has an optional repo.)
 
 
-Shared Variables:
------------------
+Shared Variables
+----------------
 
 * `ansible_python_interpreter`: **Required**. Path to the Python interpreter.
 
@@ -109,14 +109,14 @@ This role is required by the `pulp_database` role and uses some variables from i
 
 * `pulp_settings_db_defaults`: See pulp_database README.
 
-Operating System Variables:
----------------------------
+Operating System Variables
+--------------------------
 
 Each currently supported operating system has a matching file in the "vars"
 directory.
 
-Idempotency:
-------------
+Idempotency
+-----------
 This role is idempotent by default. It is dependent on these settings remaining `false`:
 * Every `upgrade` under `pulp_install_plugins`
 

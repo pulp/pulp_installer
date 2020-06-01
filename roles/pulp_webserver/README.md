@@ -7,8 +7,8 @@ Currently, Nginx and Apache are supported. They are configured as a reverse prox
 and pulpcore-content Gunicorn processes.
 
 
-Variables:
-----------
+Variables
+---------
 
 * `pulp_webserver_server` Set the webserver Pulp should use to reverse proxy with. Defaults to
   'nginx'.
@@ -23,8 +23,8 @@ Variables:
 * `pulp_configure_firewall` Install and configure a firewall. Valid values are 'auto', 'firewalld',
   and 'none'. Defaults to 'auto' (which is the same as 'firewalld', but may change in the future).
 
-Plugin Webserver Configs:
--------------------------
+Plugin Webserver Configs
+------------------------
 
 The installer symlinks config fragments from plugin Python packages to either nginx or apache during
 installation. These fragments typically provide additional url routing to either the Pulp API or
@@ -56,8 +56,8 @@ ProxyPass /pulp_ansible/galaxy http://${pulp-api}/pulp_ansible/galaxy
 ProxyPassReverse /pulp_ansible/galaxy http://${pulp-api}/pulp_ansible/galaxy
 ```
 
-Shared variables:
------------------
+Shared variables
+----------------
 
 * `ansible_python_interpreter`: **Required**. Path to the Python interpreter.
 

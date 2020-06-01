@@ -2,18 +2,20 @@
 pulp_default_admin_password: password
 pulp_source_dir: '/var/lib/pulp/devel/pulpcore'
 pulp_install_plugins:
-  # pulp-ansible:
-  #   source_dir: "/var/lib/pulp/devel/pulp_ansible"
   # galaxy-ng:
   #   source_dir: "/var/lib/pulp/devel/galaxy_ng"
+  # pulp-ansible:
+  #   source_dir: "/var/lib/pulp/devel/pulp_ansible"
   # pulp-certguard:
   #   source_dir: "/var/lib/pulp/devel/pulp-certguard"
+  # pulp-container:
+  #   source_dir: "/var/lib/pulp/devel/pulp_container"
   # pulp-cookbook:
   #   source_dir: "/var/lib/pulp/devel/pulp_cookbook"
   # pulp-deb:
   #   source_dir: "/var/lib/pulp/devel/pulp_deb"
-  # pulp-container:
-  #   source_dir: "/var/lib/pulp/devel/pulp_container"
+  pulp-file:
+    source_dir: "/var/lib/pulp/devel/pulp_file"
   # pulp-gem:
   #   source_dir: "/var/lib/pulp/devel/pulp_gem"
   # pulp-maven:
@@ -25,8 +27,6 @@ pulp_install_plugins:
   # pulp-rpm:
   #   source_dir: "/var/lib/pulp/devel/pulp_rpm"
   #   prereq_role: "pulp.pulp_rpm_prerequisites" # RPM needs a prereq_role: https://github.com/pulp/pulp_rpm_prerequisites
-  pulp-file:
-    source_dir: "/var/lib/pulp/devel/pulp_file"
 developer_user_home: /var/lib/pulp
 developer_user: pulp
 pulp_settings:

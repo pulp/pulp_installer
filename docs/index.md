@@ -31,7 +31,7 @@ Ansibles Python interpreter must have the package installed:
 Variables
 ---------
 
-**Each role documents all the variables that it uses in its own README**. Some variables are
+**Each role documents all the variables that it uses**. Some variables are
 used by multiple roles. In that case, they are be documented in their primary role and mentioned in
 the `shared_variables` section the other roles.
 
@@ -59,37 +59,16 @@ It may be helpful to ensure that Ansible can communicate with the managed node.
 ansible all -m ping -u <managed_node_username>
 ```
 
-Using the example playbook
---------------------------
-
-The playbook has external requirements which should be installed from ansible-galaxy.
-
-```
-ansible-galaxy install -r requirements.yml
-```
-
-You should now be able to run the example playbook.
-
-Some of the roles used in the playbook use root privalages on the managed node, so when prompted,
-you will need to provide the password for the managed node user.
-
-```
-ansible-playbook playbooks/example-use/playbook.yml -u <managed_node_username> --ask-become-pass
-```
-
-To configure a custom install, you will need to set configuration variables. In the simplest case,
-they can be set in the playbook. See the ansible docs for more flexible idiomatic alternatives.
-
 Roles
 -----
 
 pulp_installer is equipped with the following roles:
 
-- [pulp](/roles/pulp/README.md): installs Pulp 3 from PyPi or source and provides basic config.
-- [pulp_content](/roles/pulp_content/README.md): install, configure, and set the state of pulp content app.
-- [pulp_database](/roles/pulp_database/README.md): optionally install a database, then configure for Pulp.
-- [pulp_redis](/roles/pulp_redis/README.md): install and start Redis, and install RQ in the Pulp virtualenv.
-- [pulp_resource_manager](/roles/pulp_resource_manager/README.md): install, configure, and set the state of the pulp resouce manager.
-- [pulp_webserver](/roles/pulp_webserver/README.md): install, configure, start, and enable a web server.
-- [pulp_workers](/roles/pulp_workers/README.md): install, configure, and set the state of pulp workers.
-- [pulp_devel](/roles/pulp_devel/README.md): installs useful tools and adds some config files for a Pulp 3 development environment.
+- [pulp](roles/pulp/): installs Pulp 3 from PyPi or source and provides basic config.
+- [pulp_content](roles/pulp_content): install, configure, and set the state of pulp content app.
+- [pulp_database](roles/pulp_database): optionally install a database, then configure for Pulp.
+- [pulp_redis](roles/pulp_redis): install and start Redis, and install RQ in the Pulp virtualenv.
+- [pulp_resource_manager](roles/pulp_resource_manager): install, configure, and set the state of the pulp resouce manager.
+- [pulp_webserver](roles/pulp_webserver): install, configure, start, and enable a web server.
+- [pulp_workers](roles/pulp_workers): install, configure, and set the state of pulp workers.
+- [pulp_devel](roles/pulp_devel): installs useful tools and adds some config files for a Pulp 3 development environment.

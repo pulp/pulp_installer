@@ -3,8 +3,8 @@ pulp_redis
 
 Install and start Redis, and install RQ in the Pulp virtualenv.
 
-Shared Variables:
------------------
+Shared Variables
+----------------
 
 * `ansible_python_interpreter`: **Required**. Path to the Python interpreter.
 
@@ -17,8 +17,8 @@ role. When not used together, this role provides identical defaults.
   dependencies. Defaults to "/usr/local/lib/pulp".
 
 
-Operating Systems Variables:
-----------------------------
+Operating Systems Variables
+---------------------------
 
 Each currently supported operating system has a matching file in the "vars"
 directory.

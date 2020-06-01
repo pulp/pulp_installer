@@ -3,16 +3,16 @@ pulp_resource_manager
 
 Install, configure, and set the state of the pulp resouce manager.
 
-Configurable Variables:
------------------------
+Configurable Variables
+----------------------
 
 * `pulp_resouce_manager_state`: This variable can be configured with any of the
   states allowed by the systemd module's "state" directive. Defaults to "started."
 * `pulp_resouce_manager_enabled`: This variable can be configured with any of the
   states allowed by the systemd module's "enabled" directive. Defaults to "true."
 
-Shared variables:
------------------
+Shared variables
+----------------
 
 * `ansible_python_interpreter`: **Required**. Path to the Python interpreter.
 
@@ -35,7 +35,7 @@ the role. When not used together, these values are **required**.
 * `pulp_config_dir`
 * `pulp_settings_file`
 
-Dependencies:
--------------
+Dependencies
+------------
 
 * `pulp_redis`
