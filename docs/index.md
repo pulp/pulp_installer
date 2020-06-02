@@ -59,6 +59,81 @@ It may be helpful to ensure that Ansible can communicate with the managed node.
 ansible all -m ping -u <managed_node_username>
 ```
 
+Note on Plugin Version Compatibility with Pulpcore
+--------------------------------------------------
+
+Pulp 3 has a plugin architecture so that new content types, and new features, can be added by the
+larger community. However, both pulpcore & plugins are installed via pip, which has limited
+dependency resolution. Plugins release at their own lifecycles. Thus in the worst case scenario, the
+2 stable branches of plugin pulp_juicy could depend on the current branch of pulpcore, while the 2
+stable branches of pulp_sugary could depend on an older branch of pulpcore.
+
+In order to avoid breaking multiple plugins for the sake of 1 plugin, and to avoid breaking existing
+installs, upgrading a plugin will not cause pulpcore to be updated as dependency. Similarly, if a
+plugin were to be attempted to be updated to an incompatible version with pulpcore, the installer
+will fail & exit. The installer does a compatibility check early in the installation to prevent Pulp
+from being installed/upgraded to an incompatible state.
+
+Thus you, yourself, must research plugin compatibility with the pulpcore version whether you are
+installing 1 plugin, or more than 1 plugin.
+
+Recommended Workflows for Pulpcore & Plugin Versioning
+-----------------------------------------------------
+
+### Latest Version with Minimal Work:
+
+Initial install:
+
+1. Make sure you are running the latest version of the installer, which installs the latest version
+   of pulpcore (3.4.0).
+1. Confirm that all the latest stable releases of your desired plugins are compatible with pulpcore
+   3.4.0, such as by reading the release announcement email thread for pulpcore 3.4.0, reading the
+plugins README, or as a last resort, reading their setup.py.
+1. Run pulp_installer.
+
+Upgrading your install:
+
+1. Observe what the latest version of pulp_installer is, and what version of pulpcore it installed
+   (3.4.0).
+1. Confirm that all the latest stable releases of **currently installed** plugins are compatible
+   with pulpcore 3.4.0, such as by reading the release announcement email thread for pulpcore 3.4.0,
+reading the plugins README, or as a last resort, reading their setup.py.
+1. If they are not all compatible yet, hold off & **wait** for the plugins to be updated for
+   compatibility.
+1. Upgrade pulp_installer to the latest version.
+1. re-run the pulp_installer with `upgrade` set to `true` for each plugin under
+   `pulp_install_plugins`
+
+### Specifying Exact Versions with Reproducibility
+
+Initial install:
+
+1. Observe the latest branch of pulp_installer, and what version of pulpcore it installs (3.4.0).
+1. Confirm that all the latest stable releases of your desired plugins are compatible with pulpcore
+   3.4.0, such as by reading the release announcement email thread for pulpcore 3.4.0, reading the
+plugins README, or as a last resort, reading their setup.py.
+1. If they are not all compatible yet, try the last version of the installer that installs pulpcore
+   3.3.z . Then confirm that there exist stable releases of your desired plugins that are compatible
+with pulpcore 3.3.z. If there are none, try pulpcore 3.2.z, and repeate.
+1. Once a compatible pulpcore version is found, specify `version` for each plugin under
+   `pulp_install_plugins`.
+1. Run pulp_installer
+
+Upgrading your install:
+
+1. Observe what the latest version of pulp_installer is, and what version of pulpcore it installed
+   (3.4.0). (Even if there is no update, you can still upgrade your plugins.)
+1. Confirm that all the latest stable releases of **currently installed** plugins are compatible
+   with pulpcore 3.4.0, such as by reading the release announcement email thread for pulpcore 3.4.0,
+reading the plugins README, or as a last resort, reading their setup.py.
+1. If they are not all compatible yet, try the last version of the installer that installs pulpcore
+   3.3.z . Then confirm that there exist stable releases of your desired plugins that are compatible
+with pulpcore 3.3.z. If there are none, try pulpcore 3.2.z, and repeat.
+1. Once a compatible pulpcore version is found, **revise** `version` for each plugin under
+   `pulp_install_plugins`. Do not specify `upgrade` as well.
+1. Upgrade pulp_installer to the latest version (if there is a new version.)
+1. Run pulp_installer
+
 Roles
 -----
 
