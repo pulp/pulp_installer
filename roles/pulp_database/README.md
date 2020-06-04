@@ -33,7 +33,6 @@ variables which are documented in that role:
 
 * `pulp_user`
 * `pulp_install_dir`
-* `pulp_install_plugins`
 * `pulp_default_admin_password`
 * `pulp_settings`
 

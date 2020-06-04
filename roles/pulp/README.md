@@ -22,6 +22,7 @@ Role Variables
     See `prereq_pip_packages` also.
     * **Example**:
     ```yaml
+    pulp_install_source: pip
     pulp_install_plugins:
       pulp-zero: {}
       pulp-one: # plugin name (pulp-ansible, pulp-container, pulp-rpm, ...)
@@ -33,6 +34,8 @@ Role Variables
       pulp-four:
         prereq_role: "pulp.pulp_three_role" # role to run immediately before the venv is created
     ```
+* `pulp_install_api_service`: Whether to create systemd service files for
+  pulpcore-api. Defaults to "true".
 * `pulp_cache_dir`: Location of Pulp cache. Defaults to "/var/lib/pulp/tmp".
 * `pulp_config_dir`: Directory which will contain Pulp configuration files.
   Defaults to "/etc/pulp".
@@ -42,6 +45,7 @@ Role Variables
 * `pulp_user_home`: equivalent to `MEDIA_ROOT` from `pulpcore` i.e. absolute path for pulp user home.
 * `pulp_install_api_service`: Whether to create systemd service files for
   pulpcore-api. Defaults to "true".
+* `pulp_source_dir`: Optional. Absolute path to pulpcore source code. If
   present, pulpcore will be installed from source in editable mode. Also accepts
   a pip VCS URL, to (for example) install the master branch.
 * `pulp_user`: User that owns and runs Pulp. Defaults to "pulp".
@@ -95,6 +99,52 @@ Role Variables
   Also accepts a single string or empty string.
   Only affects RHEL7 (RHEL8 no longer has an optional repo.)
 
+Role Variables if installing from RPMs
+--------------------------------------
+Normally, Pulp is installed from Python pip packages (from PyPI.) pulp_installer can install Pulp from
+RPM packages instead if this variable is set. Other distro packaging formats may work as well:
+
+* `pulp_install_source`: Whether to install from "pip" (PyPI, python packages) or the Linux distro's
+  (RPM) "packages".
+  Defaults to "pip".
+
+If it is set to "packages", the following variables are used, or behave *differently* from above:
+* `pulp_install_plugins`: A nested dictionary of plugin configuration options.
+  Defaults to "{}", which will not install any plugins.
+    * *Dictionary Key*: The plugin name. **Required**.
+    * `pkg_name`: If this is left undefined, each Linux distro package will be installed by the name `pulp_pkg_name_prefix`
+    with the Dictionary Key appended to it. `pulp_pkg_name_prefix` defaults to "python3-", so if the Dictionary key is, "pulp-file",
+    the package `python3-pulp-file` will be installed. This variable overrides the entire package name.
+    * **Example**:
+    ```yaml
+    pulp_install_source: packages
+    pulp_install_plugins:
+      pulp-zero: {} # Effectively python3-pulp-zero
+      pulp-one: {}
+        pkg_name: python3-pulp-one-ng
+      pulp-two:
+        pkg_name: pulp_two_underscores
+    ```
+* `pulp_install_dir`: Location of the filesystem prefix where package installed python programs
+  (gunicorn & rq) are looked for on the filesystem.  Defaults to "/usr" (such as for "/usr/bin/gunicorn").
+* pulp_django_admin_paths: A list of possible filepaths to the `django-admin`
+  command. The first one found will be used for pulp_installer's
+  internal usage. See `defaults/main.yml` for default values.
+* pulp_pkg_name_prefix: The beginning of the Linux distro (RPM) package names for pulp, that is
+  appended to in order to install "pulpcore" and the plugins. Defaults to "python3-".
+* pulp_pkg_pulpcore_name: The entire name of the Linux distro (RPM) package for pulpcore.
+  Defaults to: "python3-pulpcore"
+* pulp_pkg_repo: yum/dnf package repo to add to the system before installing Pulp
+  Consists simply of the URL to the repo. Defaults to nothing. Does not support any other repo
+  type yet.
+* pulp_pkg_undeclared_deps: Additional Linux distro (RPM) packages to install before installing pulpcore.
+  See `defaults/main.yml` for default values.
+* pulp_pkg_upgrade_all: Whether to upgrade all Pulp Linux distro (RPM) packages (including the `pulp_pkg_undeclared_deps`
+  packages.)
+* pulp_upgraded_manually: Set this to `true` if you updated/upgraded Pulp manually beforehand,
+  without using the installer. (e.g., you ran `yum update` and your Pulp installation is broken. Re-running the
+  installer will fix it.)
+  Defaults to `false`.
 
 Shared Variables
 ----------------
@@ -121,6 +171,7 @@ Idempotency
 -----------
 This role is idempotent by default. It is dependent on these settings remaining `false`:
 * Every `upgrade` under `pulp_install_plugins`
+* pulp_upgraded_manually
 
 License
 -------

@@ -112,3 +112,14 @@
   when:
     - ansible_distribution == "CentOS"
     - ansible_distribution_major_version|int >= 8
+
+- name: Add pulpcore RPM repositories
+  yum_repository:
+    name: pulpcore
+    description: pulpcore
+    baseurl: "{{ pulp_pkg_repo }}"
+    gpgcheck: false
+    enabled: true
+  when:
+    - ansible_os_family == "RedHat"
+    - pulp_pkg_repo is not none

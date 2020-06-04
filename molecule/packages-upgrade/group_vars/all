@@ -1,0 +1,11 @@
+---
+pulp_default_admin_password: password
+pulp_upgrade: true
+pulp_install_source: packages
+pulp_install_plugins:
+  pulp-file:
+pulp_settings:
+  secret_key: secret
+  content_origin: "http://{{ ansible_fqdn }}"
+pulp_pkg_repo: "https://fedorapeople.org/groups/katello/releases/yum/nightly/pulpcore/el{{ ansible_distribution_major_version }}/x86_64/"
+pulp_pkg_upgrade_all: true

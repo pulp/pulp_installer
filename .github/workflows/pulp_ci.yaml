@@ -15,8 +15,8 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python: ["2.7", "3.6", "3.7"]
-        # TODO: Once we have more than 3x2, use separate variables
+        python: ["2.7", "3.6", "3.7", "3.8"]
+        # TODO: Once we have more than 3x3, use separate variables
         # This Travis syntax will probably work on GHA:
         # https://docs.travis-ci.com/user/environment-variables/#defining-multiple-variables-per-item
         env:
@@ -26,6 +26,9 @@ jobs:
           - TEST_TYPE: source-dynamic
           - TEST_TYPE: source-static
           - TEST_TYPE: source-upgrade
+          - TEST_TYPE: packages-static
+          - TEST_TYPE: packages-dynamic
+          - TEST_TYPE: packages-upgrade
     steps:
       - uses: actions/checkout@v2
       - name: Set up Python
@@ -45,12 +48,20 @@ jobs:
       - name: Set tox env for python 37
         if: matrix.python == '3.7'
         run: echo "::set-env name=TOXENV::py37-${{ matrix.env.TEST_TYPE }}"
-      - name: Pulling images for upgrade
+      - name: Set tox env for python 38
+        if: matrix.python == '3.8'
+        run: echo "::set-env name=TOXENV::py38-${{ matrix.env.TEST_TYPE }}"
+      - name: Pulling images for PyPI upgrades
         if: matrix.env.TEST_TYPE == 'release-upgrade' || matrix.env.TEST_TYPE == 'source-upgrade'
         run: |
           docker pull quay.io/pulp/pulp-ci-c7:3.0.0
           docker pull quay.io/pulp/pulp-ci-dbuster:3.0.0
           docker pull quay.io/pulp/pulp-ci-f31:3.0.0
+      - name: Pulling images for distro packages upgrades
+        if: matrix.env.TEST_TYPE == 'packages-upgrade'
+        run: |
+          docker pull quay.io/pulp/pulp-ci-pkgs-c7:3.3.1
+          docker pull quay.io/pulp/pulp-ci-pkgs-c8:3.3.1
       - name: Run tox
         run: |
           tox && exit 0 || true

@@ -7,6 +7,8 @@ jobs:
     strategy:
       fail-fast: false
       # For PRs, to save GHA resources, only run on 1 python version
+      # Also, have the pip modes focus on as many different python
+      # versions as possible, package mode can be just 1 version.
       matrix:
         include:
           - env:
@@ -22,11 +24,20 @@ jobs:
               TEST_TYPE: source-dynamic
             python: "3.6"
           - env:
-              TEST_TYPE: release-upgrade
+              TEST_TYPE: packages-static
             python: "3.7"
           - env:
+              TEST_TYPE: packages-dynamic
+            python: "3.7"
+          - env:
+              TEST_TYPE: packages-upgrade
+            python: "3.7"
+          - env:
+              TEST_TYPE: release-upgrade
+            python: "3.8"
+          - env:
               TEST_TYPE: source-upgrade
-            python: 3.7
+            python: "3.8"
     steps:
       - uses: actions/checkout@v2
       - run: |
@@ -61,12 +72,20 @@ jobs:
       - name: Set tox env for python 37
         if: matrix.python == '3.7'
         run: echo "::set-env name=TOXENV::py37-${{ matrix.env.TEST_TYPE }}"
-      - name: Pulling images for upgrade
+      - name: Set tox env for python 38
+        if: matrix.python == '3.8'
+        run: echo "::set-env name=TOXENV::py38-${{ matrix.env.TEST_TYPE }}"
+      - name: Pulling images for PyPI upgrades
         if: matrix.env.TEST_TYPE == 'release-upgrade' || matrix.env.TEST_TYPE == 'source-upgrade'
         run: |
           docker pull quay.io/pulp/pulp-ci-c7:3.0.0
           docker pull quay.io/pulp/pulp-ci-dbuster:3.0.0
           docker pull quay.io/pulp/pulp-ci-f31:3.0.0
+      - name: Pulling images for distro packages upgrades
+        if: matrix.env.TEST_TYPE == 'packages-upgrade'
+        run: |
+          docker pull quay.io/pulp/pulp-ci-pkgs-c7:3.3.1
+          docker pull quay.io/pulp/pulp-ci-pkgs-c8:3.3.1
       - name: Run tox
         run: |
           tox && exit 0 || true

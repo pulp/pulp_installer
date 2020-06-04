@@ -14,7 +14,7 @@
   static: no
 
 - name: Collect static content
-  command: '{{ pulp_install_dir }}/bin/django-admin collectstatic --noinput --link'
+  command: "{{ pulp_django_admin_path }} collectstatic --noinput --link"
   register: staticresult
   changed_when: "staticresult.stdout is not search('\n0 static files')"
   become: true
