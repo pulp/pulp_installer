@@ -109,6 +109,8 @@ This role is required by the `pulp_database` role and uses some variables from i
 
 * `pulp_settings_db_defaults`: See pulp_database README.
 
+* `pulp_ld_library_path`: An optional LD_LIBRARY_PATH environment variable for the pulpcore-api systemd process
+
 Operating System Variables
 --------------------------
 
