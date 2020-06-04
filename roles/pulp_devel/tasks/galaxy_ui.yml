@@ -1,0 +1,70 @@
+---
+- name: Install NPM (distro-agnostic)
+  package:
+    name: npm
+    state: present
+  retries: "{{ pulp_devel_package_retries }}"
+  register: result
+  until: result is succeeded
+
+- name: Check if UI is installed
+  stat:
+    path: '{{ developer_user_home }}/devel/ansible-hub-ui'
+  register: is_hub_installed
+
+- name: UI from devel path
+  set_fact:
+    hub_ui_path: '{{ is_hub_installed.stat.path }}'
+  when: is_hub_installed.stat.exists
+
+- name: UI from git
+  set_fact:
+    hub_ui_path: '{{ pulp_user_home }}/ansible-hub-ui'
+  when: not is_hub_installed.stat.exists
+
+- block:
+
+  - name: Cloning Ansible Hub UI
+    git:
+      repo: 'https://github.com/ansible/ansible-hub-ui.git'
+      dest: '{{ hub_ui_path }}'
+      force: yes
+      version: master
+      update: yes
+    register: ansible_hub_ui_git
+    when: not is_hub_installed.stat.exists
+
+    tags:
+      - molecule-idempotence-notest
+
+  - name: Install packages based on package.json
+    npm:
+      path: '{{ hub_ui_path }}'
+
+  - name: Building Ansible Hub UI
+    command: npm run build-standalone
+    args:
+      chdir: '{{ hub_ui_path }}'
+    when:
+      - is_hub_installed.stat.exists or ansible_hub_ui_git is defined
+      - is_hub_installed.stat.exists or ansible_hub_ui_git.changed
+
+  become: yes
+  become_user: '{{ pulp_user }}'
+
+- name: Creates static dir
+  file:
+    path: '{{ pulp_user_home }}/assets'
+    owner: '{{ pulp_user }}'
+    group: '{{ pulp_group }}'
+    state: directory
+    mode: '0775'
+
+- name: Copying Ansible Hub UI to static dir
+  copy:
+    src: '{{ hub_ui_path }}/dist/'
+    dest: '{{ pulp_user_home }}/assets/galaxy_ng'
+    remote_src: yes
+    owner: '{{ pulp_user }}'
+    group: '{{ pulp_group }}'
+    mode: '0775'

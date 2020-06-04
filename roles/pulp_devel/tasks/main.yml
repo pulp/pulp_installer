@@ -1,4 +1,8 @@
 ---
+- import_tasks: galaxy_ui.yml
+  when: pulp_install_plugins['galaxy-ng'] is defined
+  become: true
+
 - import_tasks: install_basic_packages.yml
   become: true
 
