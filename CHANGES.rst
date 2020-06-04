@@ -13,6 +13,35 @@ Changelog
 
 .. towncrier release notes start
 
+3.4.1 (2020-06-03)
+==================
+
+
+Bugfixes
+--------
+
+- Ensure that pip-tools is at least 5.2.0, so that the pre-flight (compatibility) check does not error on the attribute "editable".
+  `#6864 <https://pulp.plan.io/issues/6864>`_
+
+
+Improved Documentation
+----------------------
+
+- Document how to install from galaxy
+  `#6836 <https://pulp.plan.io/issues/6836>`_
+- Replaced root README.md with a short README.md pointing users to the docs site
+  `#6843 <https://pulp.plan.io/issues/6843>`_
+- Added a contributing guide, and moved testing out of the home page to it.
+  `#6862 <https://pulp.plan.io/issues/6862>`_
+- Added a documentation section on Recommended Versioning Workflows
+  `#6874 <https://pulp.plan.io/issues/6874>`_
+- Document how to file an issue
+  `#6879 <https://pulp.plan.io/issues/6879>`_
+
+
+----
+
+
 3.4.0 (2020-05-27)
 ==================
 
