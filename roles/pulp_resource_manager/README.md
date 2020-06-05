@@ -34,6 +34,7 @@ the role. When not used together, these values are **required**.
 
 * `pulp_config_dir`
 * `pulp_settings_file`
+* `pulp_ld_library_path`: An optional LD_LIBRARY_PATH environment variable for the pulpcore-resource-manager systemd process
 
 Dependencies
 ------------
