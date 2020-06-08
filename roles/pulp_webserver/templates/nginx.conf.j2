@@ -1,4 +1,3 @@
-# TODO: Support IPv6.
 # TODO: Configure SSL certificates.
 # TODO: Maybe serve multiple `location`s, not just one.
 
@@ -34,6 +33,7 @@ http {
     server {
         # Gunicorn docs suggest the use of the "deferred" directive on Linux.
         listen 80 default_server deferred;
+        listen [::]:80 default_server deferred;
         server_name $hostname;
 
         # The default client_max_body_size is 1m. Clients uploading
