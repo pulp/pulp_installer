@@ -3,6 +3,12 @@ pulp_redis
 
 Install and start Redis, and install RQ in the Pulp virtualenv.
 
+Role Variables
+--------------
+
+* `pulp_redis_bind`: Interface and Port where Redis service will listen. One can specify a unix
+   path (ie. 'unix:/var/run/redis/redis.sock'). Defaults to `127.0.0.1:6379`
+
 Shared Variables
 ----------------
 

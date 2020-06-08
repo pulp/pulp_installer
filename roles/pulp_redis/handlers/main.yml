@@ -1,0 +1,6 @@
+---
+- name: restart redis
+  systemd:
+    name: "{{ pulp_redis_server_name }}"
+    state: restarted
+    daemon_reload: true

@@ -32,6 +32,14 @@
         name: redis
         state: present
 
+    - name: Configure Redis to listen on Unix Domain Socket
+      include_tasks: configure_uds.yml
+      when: "pulp_redis_bind.startswith('unix:')"
+
+    - name: Configure Redis to listen on TCP socket
+      include_tasks: configure_tcp.yml
+      when: "not pulp_redis_bind.startswith('unix:')"
+
     - name: Start Redis
       systemd:
         name: "{{ pulp_redis_server_name }}"

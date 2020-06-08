@@ -1,0 +1,17 @@
+---
+- name: Set pulp_redis_host and pulp_redis_port fact
+  set_fact:
+    pulp_redis_host: '{{ pulp_redis_bind.split(":")[0] }}'
+    pulp_redis_port: '{{ pulp_redis_bind.split(":")[1] }}'
+
+- name: Ensure Redis will listen on the specified TCP socket
+  lineinfile:
+    path: '{{ pulp_redis_conf_file }}'
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+  loop:
+    - regexp: '^port '
+      line: 'port {{ pulp_redis_port }}'
+    - regexp: '^bind '
+      line: 'bind {{ pulp_redis_host }}'
+  notify: restart redis
