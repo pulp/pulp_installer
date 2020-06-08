@@ -1,5 +1,5 @@
-Define pulp-content {{ pulp_content_host }}:{{ pulp_content_port }}
-Define pulp-api {{ pulp_api_host }}:{{ pulp_api_port }}
+Define pulp-content {{ pulp_content_bind }}
+Define pulp-api {{ pulp_api_bind }}
 
 <VirtualHost *:80>
   ServerName {{ ansible_nodename }}

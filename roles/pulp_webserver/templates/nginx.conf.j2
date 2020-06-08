@@ -23,11 +23,11 @@ http {
     types_hash_max_size 4096;
 
     upstream pulp-content {
-         server {{ pulp_content_host }}:{{ pulp_content_port }};
+        server {{ pulp_content_bind }};
     }
 
     upstream pulp-api {
-         server {{ pulp_api_host }}:{{ pulp_api_port }};
+        server {{ pulp_api_bind }};
     }
 
     server {

@@ -12,14 +12,6 @@ Variables
 
 * `pulp_webserver_server` Set the webserver Pulp should use to reverse proxy with. Defaults to
   'nginx'.
-* `pulp_content_port` Set the port the reverse proxy should connect to for the Content app. Defaults
-  to '24816'.
-* `pulp_content_host` Set the host the reverse proxy should connect to for the Content app. Defaults
-  to '127.0.0.1'.
-* `pulp_api_port` Set the port the reverse proxy should connect to for the API server. Defaults to
-  '24817'.
-* `pulp_api_host` Set the host the reverse proxy should connect to for the API server. Defaults to
-  '127.0.0.1'.
 * `pulp_configure_firewall` Install and configure a firewall. Valid values are 'auto', 'firewalld',
   and 'none'. Defaults to 'auto' (which is the same as 'firewalld', but may change in the future).
 
@@ -73,3 +65,7 @@ role.
   to look for and use.
 
 * `pulp_user_home`: equivalent to `MEDIA_ROOT` from `pulpcore` i.e. absolute path for pulp user home.
+* `pulp_content_bind` Set the host the reverse proxy should connect to for the Content app. Defaults
+  to '127.0.0.1:24816'.
+* `pulp_api_bind` Set the host the reverse proxy should connect to for the API server. Defaults
+  to '127.0.0.1:24817'.
