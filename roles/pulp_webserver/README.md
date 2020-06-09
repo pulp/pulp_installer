@@ -6,6 +6,9 @@ Install, configure, start, and enable a web server.
 Currently, Nginx and Apache are supported. They are configured as a reverse proxy to the pulpcore-api
 and pulpcore-content Gunicorn processes.
 
+By default TLS will be enabled (with self-signed certificates if none are provided). An automatic
+redirect from http to https will take place.
+
 
 Variables
 ---------
@@ -14,6 +17,15 @@ Variables
   'nginx'.
 * `pulp_configure_firewall` Install and configure a firewall. Valid values are 'auto', 'firewalld',
   and 'none'. Defaults to 'auto' (which is the same as 'firewalld', but may change in the future).
+* `pulp_webserver_disable_https`: Whether or not HTTPS should be disabled. Defaults to `false`.
+* `pulp_webserver_tls_folder`: Path where to generate or drop the certificates. Defaults to
+  `pulp_config_dir`.
+* `pulp_webserver_httpd_servername`: Servername to use when deploying httpd. Defaults to
+  `ansible_nodename`.
+* `pulp_webserver_ssl_cert`: Relative or absolute path to the TLS certificate one wants to
+   import.
+* `pulp_webserver_ssl_key`: Relative or absolute path to the TLS key one wants to
+   import.
 
 Plugin Webserver Configs
 ------------------------

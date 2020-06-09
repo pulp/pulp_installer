@@ -4,3 +4,6 @@ pulp_webserver_apache_service: apache2
 pulp_webserver_apache_vhost_dir: /etc/apache2/sites-available
 pulp_webserver_apache_snippets_dir: /etc/apache2/pulp
 pulp_webserver_apache_log_dir: /var/log/apache2
+pulp_webserver_trusted_root_certificates_path: /usr/local/share/ca-certificates/
+pulp_webserver_trusted_root_certificates_update_bin: update-ca-certificates
+pulp_webserver_python_cryptography: python3-cryptography

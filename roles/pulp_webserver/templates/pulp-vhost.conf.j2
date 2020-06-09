@@ -1,8 +1,9 @@
 Define pulp-content {{ pulp_content_bind }}
 Define pulp-api {{ pulp_api_bind }}
 
+{% if pulp_webserver_disable_https | bool %}
 <VirtualHost *:80>
-  ServerName {{ ansible_nodename }}
+  ServerName {{ pulp_webserver_httpd_servername }}
 
   ## Logging
   ErrorLog "{{ pulp_webserver_apache_log_dir }}/pulp_error.log"
@@ -29,3 +30,50 @@ Define pulp-api {{ pulp_api_bind }}
   ProxyPassReverse / http://${pulp-api}/
 
 </VirtualHost>
+{% else %}
+<VirtualHost *:80>
+  ServerName {{ pulp_webserver_httpd_servername }}
+  Redirect permanent / https://{{ pulp_webserver_httpd_servername }}/
+</VirtualHost>
+
+<VirtualHost *:443>
+  ServerName {{ pulp_webserver_httpd_servername }}
+
+  ## TLS Configuration
+  SSLEngine On
+  SSLCertificateFile {{ pulp_webserver_tls_folder }}/pulp_webserver.crt
+  SSLCertificateKeyFile {{ pulp_webserver_tls_folder }}/pulp_webserver.key
+  SSLProtocol TLSv1.2
+  SSLCipherSuite ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256
+  SSLHonorCipherOrder on
+
+{% if pulp_webserver_ssl_cert is defined %}
+  # HSTS (15768000 seconds = 6 months)
+  Header always set Strict-Transport-Security "max-age=15768000;; includeSubDomains; preload"
+{% endif %}
+
+  ## Logging
+  ErrorLog "{{ pulp_webserver_apache_log_dir }}/pulp_error.log"
+  ServerSignature Off
+  CustomLog "{{ pulp_webserver_apache_log_dir }}/pulp_access.log" combined
+
+  ## Proxy rules
+  ProxyRequests Off
+  ProxyPreserveHost Off
+
+  ProxyPass /pulp/api http://${pulp-api}/pulp/api
+  ProxyPassReverse /pulp/api http://${pulp-api}/pulp/api
+
+  ProxyPass /auth/login/ http://${pulp-api}/auth/login/
+  ProxyPassReverse /auth/login/ http://${pulp-api}/auth/login/
+
+  ProxyPass /pulp/content http://${pulp-content}/pulp/content
+  ProxyPassReverse /pulp/content http://${pulp-content}/pulp/content
+
+  IncludeOptional pulp/*.conf
+
+  # static files are served through whitenoise - http://whitenoise.evans.io/en/stable/
+  ProxyPass / http://${pulp-api}/
+  ProxyPassReverse / http://${pulp-api}/
+</VirtualHost>
+{% endif %}
