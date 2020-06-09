@@ -59,7 +59,7 @@ vim install.yml
   vars:
     pulp_settings:
       secret_key: << YOUR SECRET HERE >>
-      content_origin: "http://{{ ansible_fqdn }}"
+      content_origin: "https://{{ ansible_fqdn }}"
     pulp_default_admin_password: << YOUR PASSWORD HERE >>
     pulp_install_plugins:
       # galaxy-ng: {}

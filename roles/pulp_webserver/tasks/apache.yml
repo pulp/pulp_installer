@@ -10,7 +10,7 @@
       template:
         src: pulp-vhost.conf.j2
         dest: "{{ pulp_webserver_apache_vhost_dir }}/pulp-vhost.conf"
-      notify: reload Apache
+      notify: reload apache
 
     - name: Enable Apache vhost files and mod files
       file:
@@ -23,7 +23,7 @@
         - src: ../mods-available/proxy.load
           dest: /etc/apache2/mods-enabled/proxy.load
       when: ansible_os_family == "Debian"
-      notify: reload Apache
+      notify: reload apache
 
     - name: Create directory for Pulp Apache snippets
       file:
@@ -41,7 +41,7 @@
         state: link
       loop: '{{ snippets.results }}'
       when: item.rc == 0
-      notify: reload Apache
+      notify: reload apache
 
     - name: Start and enable Apache
       systemd:

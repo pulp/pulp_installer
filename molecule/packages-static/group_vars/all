@@ -6,5 +6,5 @@ pulp_install_plugins:
   pulp-file:
 pulp_settings:
   secret_key: secret
-  content_origin: "http://{{ ansible_fqdn }}"
+  content_origin: "https://{{ ansible_fqdn }}"
 pulp_pkg_repo: "https://fedorapeople.org/groups/katello/releases/yum/nightly/pulpcore/el{{ ansible_distribution_major_version }}/x86_64/"

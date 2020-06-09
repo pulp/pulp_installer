@@ -49,7 +49,7 @@ Here's an example playbook for using pulp_services in pulp_installer. It assumes
         pulp_default_admin_password: << YOUR PASSWORD FOR THE PULP APPLICATION HERE >>
         pulp_settings:
           secret_key: << YOUR SECRET HERE >>
-          content_origin: "http://webserver1.fqdn"
+          content_origin: "https://webserver1.fqdn"
           redis_host: redis1
           redis_port: 6380
           redis_password: << YOUR REDIS PASSWORD HERE >>

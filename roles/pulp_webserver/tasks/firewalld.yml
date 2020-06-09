@@ -19,4 +19,12 @@
         immediate: true
         state: enabled
 
+    - name: Accept connections on port 443
+      firewalld:
+        service: https
+        permanent: true
+        immediate: true
+        state: enabled
+      when: not pulp_webserver_disable_https | bool
+
   become: true
