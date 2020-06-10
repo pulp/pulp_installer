@@ -1,9 +1,5 @@
 ---
 
-- name: Fail when pulp_secret_key is not set
-  assert:
-    that: pulp_settings.secret_key is defined
-
 - debug:
     var: pulp_install_plugins
     verbosity: 1
@@ -13,6 +9,27 @@
 - debug:
     var: pulp_install_plugins_normalized
     verbosity: 1
+
+- name: Check if required variables are set
+  assert:
+    that:
+      # This check runs it through jinja2 templating twice: built-in
+      # "that:" (like when:), and then the {{ }}
+      # It converts from item, to the string like pulp_default_admin_password ,
+      # to the value of pulp_default_admin_password .
+      - "{{ item }} | default('', true) | length > 0"
+    fail_msg: >
+      {{ item }} is undefined, null, an empty string, or an empty dictionary "{}" . Please
+      set it in your variables
+      (e.g. pulp_installer/playbooks/example-use/group_vars/all)
+      and run pulp_installer again.
+      See https://pulp-installer.readthedocs.io/en/latest/ or
+      pulp_installer/roles/pulp/README.md for more info.
+  loop:
+    - pulp_default_admin_password
+    - pulp_settings.content_origin
+    - pulp_settings.secret_key
+    - pulp_install_plugins
 
 - name: Load OS specific variables
   include_vars: "{{ lookup('first_found', params) }}"

@@ -1,0 +1,2 @@
+Fix documentation about certain variables being required, and error early with clear error messages
+if they are unset or set to empty strings.
