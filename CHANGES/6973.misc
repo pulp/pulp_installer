@@ -1,0 +1,1 @@
+Do not run db migration several time if deploying a cluster scenario.

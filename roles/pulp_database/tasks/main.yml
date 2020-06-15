@@ -48,6 +48,7 @@
       no_log: true
       when: pulp_default_admin_password is defined and migrate_auth.changed
 
+  run_once: true
   become: true
   become_user: '{{ pulp_user }}'
   environment:
