@@ -56,10 +56,11 @@
       script:
         cmd: check_snippet.py {{ item.key | regex_replace("-", "_") | quote }} nginx.conf
       args:
-        executable: /usr/local/lib/pulp/bin/python
+        executable: "{{ pulp_install_dir }}/bin/python"
       register: snippets
       with_dict: '{{ pulp_install_plugins_normalized }}'
-      failed_when: false
+      failed_when: >
+        snippets.stderr is search("env: 'python': No such file or directory")
       changed_when: false
       check_mode: false
 
