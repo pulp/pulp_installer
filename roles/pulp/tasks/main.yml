@@ -53,7 +53,20 @@
 - name: set the default system PATH as a fact
   set_fact:
     default_bin_path: "{{ systemd_show_env_path.stdout }}"
+
 - import_tasks: repos.yml
 - import_tasks: install.yml
+
+# This task is after install.yml since it gets installed then.
+- name: Find and use the first found possible path to django-admin
+  include_tasks: find_django_admin.yml
+  with_items: "{{ pulp_django_admin_paths }}"
+  when:
+    # Works for both strings and lists to make sure not empty
+    - pulp_django_admin_paths is not none
+    - pulp_django_admin_paths | length > 0
+    # Prevents running again once completed.
+    - pulp_django_admin_path is not defined
+
 - import_tasks: configure.yml
 - import_tasks: wsgi.yml

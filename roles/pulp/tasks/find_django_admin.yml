@@ -1,0 +1,10 @@
+---
+- name: "check if {{ item }} exists"
+  stat:
+    path: "{{ item }}"
+  register: path
+
+- name: "Set {{ item }} to be used if it exists"
+  set_fact:
+    pulp_django_admin_path: "{{ item }}"
+  when: path.stat.exists

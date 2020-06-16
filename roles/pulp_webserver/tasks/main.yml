@@ -13,11 +13,24 @@
   tags:
     - always
 
-- import_tasks: nginx.yml
-  when: pulp_webserver_server == 'nginx'
+- debug:
+    msg: >
+      {{ (pulp_install_source == "packages") | ternary(pulp_python_interpreter, pulp_install_dir ~ "/bin/python") }}
+    verbosity: 1
 
-- import_tasks: apache.yml
-  when: pulp_webserver_server == 'apache'
+- name: "Check installed plugins for {{ pulp_webserver_server }} snippets"
+  script:
+    cmd: check_snippet.py {{ item.key | regex_replace("-", "_") | quote }} {{ pulp_webserver_server }}.conf
+  args:
+    executable: '{{ (pulp_install_source == "packages") | ternary(pulp_python_interpreter, pulp_install_dir ~ "/bin/python") }}'
+  register: snippets
+  with_dict: '{{ pulp_install_plugins_normalized }}'
+  failed_when: >
+    snippets.stderr is search("env: 'python': No such file or directory")
+  changed_when: false
+  check_mode: false
+
+- import_tasks: "{{ pulp_webserver_server }}.yml"
 
 - import_tasks: firewalld.yml
   when: pulp_configure_firewall in ['firewalld', 'auto']

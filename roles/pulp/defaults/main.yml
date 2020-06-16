@@ -15,7 +15,8 @@ pulp_settings_db_defaults:
       NAME: pulp
       USER: pulp
       PASSWORD: pulp
-pulp_install_dir: '/usr/local/lib/pulp'
+pulp_install_source: pip
+pulp_install_dir: '{{ (pulp_install_source == "packages") | ternary("/usr", "/usr/local/lib/pulp") }}'
 pulp_install_plugins: {}
 pulp_install_api_service: true
 # Deprecated unused. Variables for dependency upgrades are TBD
@@ -53,3 +54,16 @@ epel_release_packages:
 # set it, and even then we may just help them to append to a list.
 pulp_irregularly_named_plugins:
   - galaxy-ng
+pulp_django_admin_paths:
+  - "{{ pulp_install_dir }}/bin/django-admin"
+  - "{{ pulp_install_dir }}/bin/python3-django-admin"
+pulp_pkg_name_prefix: "python3-"
+pulp_pkg_pulpcore_name: "{{ pulp_pkg_name_prefix }}pulpcore"
+pulp_pkg_repo:
+pulp_pkg_undeclared_deps:
+  - python3-psycopg2
+  - pulpcore-selinux
+  - python3-djangorestframework
+  - python3-djangorestframework-queryfields
+pulp_pkg_upgrade_all: false
+pulp_upgraded_manually: false

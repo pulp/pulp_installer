@@ -1,16 +1,4 @@
 ---
-- name: Find site-packages directory
-  find:
-    paths: '{{ pulp_install_dir }}'
-    recurse: true
-    file_type: directory
-    patterns: site-packages
-  register: result
-
-- name: Assert one directory has been found
-  assert:
-    that: '{{ result.matched }} == 1'
-
 - block:
 
     - name: Install Apache
@@ -41,18 +29,6 @@
       file:
         path: "{{ pulp_webserver_apache_snippets_dir }}"
         state: directory
-
-    - name: Check installed plugins for Apache snippets
-      script:
-        cmd: check_snippet.py {{ item.key | regex_replace("-", "_") | quote }} apache.conf
-      args:
-        executable: "{{ pulp_install_dir }}/bin/python"
-      register: snippets
-      with_dict: '{{ pulp_install_plugins_normalized }}'
-      failed_when: >
-        snippets.stderr is search("env: 'python': No such file or directory")
-      changed_when: false
-      check_mode: false
 
     # FIXME: The ansible output here over the results is very ugly.
     # It may be a lot cleaner if we were to use the command module,

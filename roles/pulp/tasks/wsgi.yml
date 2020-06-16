@@ -1,13 +1,4 @@
 ---
-- name: Install gunicorn
-  pip:
-    name: gunicorn
-    state: present
-    virtualenv: '{{ pulp_install_dir }}'
-    virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
-  become: true
-  become_user: '{{ pulp_user }}'
-
 - block:
 
     - name: Install pulpcore-api service files

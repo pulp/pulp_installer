@@ -19,32 +19,20 @@
 
 - meta: flush_handlers
 
-- name: Get the exact pulpcore install dir
-  find:
-    paths: '{{ pulp_install_dir }}/lib/'
-    pattern: '^python.\..$'
-    use_regex: true
-    file_type: directory
-  register: result
-
-- name: Assert the pulpcore install dir was found
-  assert:
-    that: '{{ result.matched }} == 1'
-
 - block:
 
     - name: Run database auth migrations
-      command: '{{ pulp_install_dir }}/bin/django-admin migrate auth --no-input'
+      command: '{{ pulp_django_admin_path }} migrate auth --no-input'
       register: migrate_auth
       changed_when: "'No migrations to apply' not in migrate_auth.stdout"
 
     - name: Run database migrations
-      command: '{{ pulp_install_dir }}/bin/django-admin migrate --no-input'
+      command: '{{ pulp_django_admin_path }} migrate --no-input'
       register: result
       changed_when: "'No migrations to apply' not in result.stdout"
 
     - name: Set the Pulp admin user's password
-      command: '{{ pulp_install_dir }}/bin/django-admin reset-admin-password --password {{ pulp_default_admin_password }}'
+      command: '{{ pulp_django_admin_path }} reset-admin-password --password {{ pulp_default_admin_password }}'
       no_log: true
       when: pulp_default_admin_password is defined and migrate_auth.changed
 

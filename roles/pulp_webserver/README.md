@@ -68,5 +68,8 @@ role.
 * `pulp_install_dir`: Location of a virtual environment for Pulp and its Python
   dependencies. **Required** if used in a separate play from the `pulp` role. Value
   must match the value used in the `pulp` role.
+* `pulp_install_plugins` (technically `pulp_install_plugins_normalized`). The list
+  of plugins to install is used to inform pulp_webserver which webserver snippets
+  to look for and use.
 
 * `pulp_user_home`: equivalent to `MEDIA_ROOT` from `pulpcore` i.e. absolute path for pulp user home.
