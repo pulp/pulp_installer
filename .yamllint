@@ -18,3 +18,5 @@ rules:
 ignore: |
   .tox
   .git
+  roles/geerlingguy.postgresql
+  roles/ansible-role-postgresql

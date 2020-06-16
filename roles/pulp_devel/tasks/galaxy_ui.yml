@@ -24,30 +24,29 @@
 
 - block:
 
-  - name: Cloning Ansible Hub UI
-    git:
-      repo: 'https://github.com/ansible/ansible-hub-ui.git'
-      dest: '{{ hub_ui_path }}'
-      force: yes
-      version: master
-      update: yes
-    register: ansible_hub_ui_git
-    when: not is_hub_installed.stat.exists
+    - name: Cloning Ansible Hub UI
+      git:
+        repo: 'https://github.com/ansible/ansible-hub-ui.git'
+        dest: '{{ hub_ui_path }}'
+        force: yes
+        version: master
+        update: yes
+      register: ansible_hub_ui_git
+      when: not is_hub_installed.stat.exists
+      tags:
+        - molecule-idempotence-notest
 
-    tags:
-      - molecule-idempotence-notest
+    - name: Install packages based on package.json
+      npm:
+        path: '{{ hub_ui_path }}'
 
-  - name: Install packages based on package.json
-    npm:
-      path: '{{ hub_ui_path }}'
-
-  - name: Building Ansible Hub UI
-    command: npm run build-standalone
-    args:
-      chdir: '{{ hub_ui_path }}'
-    when:
-      - is_hub_installed.stat.exists or ansible_hub_ui_git is defined
-      - is_hub_installed.stat.exists or ansible_hub_ui_git.changed
+    - name: Building Ansible Hub UI
+      command: npm run build-standalone
+      args:
+        chdir: '{{ hub_ui_path }}'
+      when:
+        - is_hub_installed.stat.exists or ansible_hub_ui_git is defined
+        - is_hub_installed.stat.exists or ansible_hub_ui_git.changed
 
   become: yes
   become_user: '{{ pulp_user }}'

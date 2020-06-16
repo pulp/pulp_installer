@@ -1,3 +1,4 @@
+---
 site_name: Pulp Installer
 site_description: Pulp 3 Ansible Installer
 site_author: Pulp Team
@@ -19,4 +20,4 @@ nav:
       - Pulp Webserver: roles/pulp_webserver.md
       - Pulp Workers: roles/pulp_workers.md
 markdown_extensions:
-    - pymdownx.superfences
+  - pymdownx.superfences
