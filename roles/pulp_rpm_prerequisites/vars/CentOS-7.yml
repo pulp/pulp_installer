@@ -1,0 +1,43 @@
+---
+# vars file for pulp_rpm_prerequisites on CentOS
+ansible_python_interpreter: /usr/bin/python
+
+packages:
+  # epel-release must be 1st so that multiple packages can install from it
+  # later.
+  # And if we switch to yum or dnf, it must be a separate task, or different
+  # looping mechanism.
+  - gcc
+  - make
+  - cairo-gobject-devel
+  - cmake
+  - bzip2-devel
+  - expat-devel
+  - file-devel
+  - glib2-devel
+  - gobject-introspection-devel
+  - libcurl-devel
+  - libmodulemd2-devel
+  - libxml2-devel
+  - ninja-build
+  - openssl-devel
+  - pycairo-devel
+  - python36-devel
+  - rpm-devel
+  - sqlite-devel
+  - xz-devel
+  - zchunk-devel
+  - zlib-devel
+
+# These packages must be explicitly installed during the pulp role, after the
+# venv is created. Otherwise, older versions of pip that lack PEP517/PEP518
+# support cannot use them to build createrepo_c or libcomps.
+#
+# Also note that the following replacement values do not work:
+# - pip>=19<20
+# - setuptools>=40.8<41
+# Due to this issue:
+# https://github.com/pypa/setuptools/issues/1694#issuecomment-466010982
+rpm_prereq_pip_packages:
+  - scikit-build
+  - nose

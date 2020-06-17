@@ -1,1 +1,1 @@
-../../playbooks/example-use/group_vars/
+../release-static/group_vars/

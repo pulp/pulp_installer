@@ -24,8 +24,8 @@ pulp_install_plugins:
   #   source_dir: "/var/lib/pulp/devel/pulp_npm"
   # pulp-python:
   #   source_dir: "/var/lib/pulp/devel/pulp_python"
-  # pulp-rpm:
-  #   source_dir: "/var/lib/pulp/devel/pulp_rpm"
+  pulp-rpm:
+    source_dir: "/var/lib/pulp/devel/pulp_rpm"
 developer_user_home: /var/lib/pulp
 developer_user: pulp
 pulp_settings:

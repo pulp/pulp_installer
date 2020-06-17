@@ -1,0 +1,60 @@
+---
+# tasks file for pulp_rpm_prerequisites
+
+- name: Load OS specific variables
+  include_vars: "{{ lookup('first_found', params) }}"
+  vars:
+    params:
+      files:
+        - '{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml'
+        - '{{ ansible_distribution }}.yml'
+        - '{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml'
+        - '{{ ansible_os_family }}.yml'
+      paths:
+        - 'vars'
+  tags:
+    - always
+
+- name: Add libmodulemd repo for Ubuntu
+  apt_repository:
+    repo: ppa:directhex/mock-dnf
+  when:
+    - ansible_distribution == "Ubuntu"
+  become: true
+
+# Much faster than the package module at installing multiple packages
+- name: Install requested RPM packages
+  yum:
+    name: '{{ item }}'
+    state: present
+  with_items: '{{ packages }}'
+  become: true
+  when: ansible_pkg_mgr in ["yum","dnf"]
+
+- name: Install requested non-RPM packages
+  package:
+    name: '{{ item }}'
+    state: present
+  with_items: '{{ packages }}'
+  become: true
+  when: ansible_pkg_mgr not in ["yum","dnf"]
+
+- name: Fail if we do not have prereq_pip_packages
+  fail:
+    msg:
+      - 'Error: The variable prereq_pip_packages is not defined from the pulp role.'
+      - 'You are probably running this role individually, or dynamically w/ include_role.'
+      - 'See README.md on how to set pulp_install_plugins to run it within the "pulp" role.'
+      - 'This role has completed everything else successfully. If you wish to continue,'
+      - 'you will need to pip install these packages manually:'
+      - '{{ rpm_prereq_pip_packages }}'
+  when:
+    - rpm_prereq_pip_packages is defined
+    - prereq_pip_packages is not defined
+
+- name: Merge rpm_prereq_pip_packages into prereq_pip_packages
+  set_fact:
+    prereq_pip_packages: "{{ prereq_pip_packages + rpm_prereq_pip_packages }}"
+  when:
+    - rpm_prereq_pip_packages is defined
+    - prereq_pip_packages is defined

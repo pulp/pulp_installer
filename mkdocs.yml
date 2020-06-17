@@ -19,5 +19,7 @@ nav:
       - Pulp Resource Manager: roles/pulp_resource_manager.md
       - Pulp Webserver: roles/pulp_webserver.md
       - Pulp Workers: roles/pulp_workers.md
+  - Prereq Roles:
+      - Pulp RPM prerequisites: prereq_roles/pulp_rpm_prerequisites.md
 markdown_extensions:
   - pymdownx.superfences

@@ -17,11 +17,6 @@ which should be installed from ansible-galaxy.
 ansible-galaxy install geerlingguy.postgresql
 ```
 
-**NOTE:** Some plugins may require a prereq role, which is the case of `pulp_rpm`:
-```
-ansible-galaxy install pulp.pulp_rpm_prerequisites
-```
-
 Installation
 ------------
 The recommended installation is from ansible-galaxy:
@@ -87,8 +82,7 @@ vim install.yml
       # pulp-maven: {}
       # pulp-npm: {}
       # pulp-python: {}
-      pulp-rpm:
-        prereq_role: "pulp.pulp_rpm_prerequisites" # RPM plugin needs a prereq_role: https://galaxy.ansible.com/pulp/pulp_rpm_prerequisites
+      pulp-rpm: {}
     roles:
       - pulp.pulp_installer.pulp_database
       - pulp.pulp_installer.pulp_workers
@@ -98,11 +92,7 @@ vim install.yml
     environment:
     DJANGO_SETTINGS_MODULE: pulpcore.app.settings
 ```
-4 - Installing `pulp_rpm` prereq role:
-```
-ansible-galaxy install pulp.pulp_rpm_prerequisites
-```
-5 - Running the playbook:
+4 - Running the playbook:
 ```
 ansible-playbook install.yml -u <managed_node_username> --ask-become-pass
 ```

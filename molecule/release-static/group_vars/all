@@ -12,7 +12,7 @@ pulp_install_plugins:
   # pulp-maven: {}
   # pulp-npm: {}
   # pulp-python: {}
-  # pulp-rpm: {}
+  pulp-rpm: {}
 pulp_settings:
   secret_key: secret
   content_origin: "http://{{ ansible_fqdn }}"

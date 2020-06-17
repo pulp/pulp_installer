@@ -1,0 +1,6 @@
+ansible_python_interpreter: /usr/bin/python3
+pulp_install_plugins:
+  pulp-file:
+    upgrade: true
+  # pulp-rpm:
+  #   upgrade: true

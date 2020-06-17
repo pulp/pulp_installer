@@ -54,9 +54,9 @@ jobs:
       - name: Pulling images for PyPI upgrades
         if: matrix.env.TEST_TYPE == 'release-upgrade' || matrix.env.TEST_TYPE == 'source-upgrade'
         run: |
-          docker pull quay.io/pulp/pulp-ci-c7:3.0.0
           docker pull quay.io/pulp/pulp-ci-dbuster:3.0.0
-          docker pull quay.io/pulp/pulp-ci-f31:3.0.0
+          docker pull quay.io/pulp/pulp_rpm-ci-f31:3.1.0
+          docker pull quay.io/pulp/pulp_rpm-ci-c7:3.1.0
       - name: Pulling images for distro packages upgrades
         if: matrix.env.TEST_TYPE == 'packages-upgrade'
         run: |

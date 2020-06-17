@@ -4,6 +4,8 @@ pulp_upgrade: true
 pulp_install_plugins:
   pulp-file:
     upgrade: true
+  pulp-rpm:
+    upgrade: true
 pulp_settings:
   secret_key: secret
   content_origin: "http://{{ ansible_fqdn }}"
