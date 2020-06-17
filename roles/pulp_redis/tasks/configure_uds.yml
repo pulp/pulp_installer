@@ -1,0 +1,24 @@
+---
+- name: Configure pulp_redis_socket_file fact
+  set_fact:
+    pulp_redis_socket_file: '{{ pulp_redis_bind | replace("unix:", "") }}'
+
+- name: Ensure pulp is part of group redis
+  user:
+    name: '{{ pulp_user }}'
+    groups: redis
+    append: true
+
+- name: Ensure Redis will not listen on a TCP socket
+  lineinfile:
+    path: '{{ pulp_redis_conf_file }}'
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+  loop:
+    - regexp: '^port '
+      line: 'port 0'
+    - regexp: '^unixsocket '
+      line: 'unixsocket {{ pulp_redis_socket_file }}'
+    - regexp: '^unixsocketperm '
+      line: 'unixsocketperm 775'
+  notify: restart redis
