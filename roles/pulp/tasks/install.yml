@@ -14,12 +14,6 @@
         name: '{{ pulp_preq_packages }}'
         state: present
 
-    - name: Disable SELinux (Pulp 3 is currently incompatible with SELinux)
-      selinux:
-        policy: targeted
-        state: permissive
-      when: ansible_os_family == 'RedHat'
-
     # Become root so as to search paths like /usr/sbin.
     - name: Find the nologin executable
       command: which nologin

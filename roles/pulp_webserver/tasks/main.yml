@@ -32,5 +32,15 @@
 
 - import_tasks: "{{ pulp_webserver_server }}.yml"
 
+- name: Set httpd_can_network_connect flag on and keep it persistent across reboots
+  seboolean:
+    name: httpd_can_network_connect
+    state: true
+    persistent: true
+  when:
+    - ansible_os_family == 'RedHat'
+    - ansible_selinux.status == 'enabled'
+    - not (pulp_api_bind.startswith('unix:') and pulp_content_bind.startswith('unix:'))
+
 - import_tasks: firewalld.yml
   when: pulp_configure_firewall in ['firewalld', 'auto']
