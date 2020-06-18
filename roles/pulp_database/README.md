@@ -32,7 +32,6 @@ This role **is tightly coupled** with the required the `pulp` role and uses some
 variables which are documented in that role:
 
 * `pulp_user`
-* `pulp_install_dir`
 * `pulp_default_admin_password`
 * `pulp_settings`
 
