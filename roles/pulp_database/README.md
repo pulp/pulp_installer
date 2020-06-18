@@ -28,7 +28,7 @@ Shared Variables
   This role sets the default to "auto", which is now more robust than
   "auto_legacy" on Ansible 2.8.
 
-This role **is tightly coupled** with the required the `pulp` role and uses some of
+This role **is tightly coupled** with the required the `pulp_common` role and uses some of
 variables which are documented in that role:
 
 * `pulp_user`

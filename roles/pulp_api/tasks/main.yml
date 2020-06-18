@@ -1,4 +1,5 @@
 ---
+# tasks file for pulp_api
 - block:
 
     - name: Install pulpcore-api service files
@@ -10,5 +11,13 @@
         mode: 0644
       become: true
       notify: Restart pulpcore-api.service
+
+    - name: Set the pulpcore-api service state
+      systemd:
+        name: pulpcore-api.service
+        state: started
+        enabled: true
+        daemon_reload: true
+      become: true
 
   when: pulp_install_api_service |bool

@@ -17,9 +17,9 @@ Shared Variables
 
 * `ansible_python_interpreter`: **Required**. Path to the Python interpreter.
 
-This role is **not tightly coupled** to the `pulp` role, but uses some of the same
-variables. When used in the same play, the values are inherited from the `pulp`
-role. When not used together, this role provides identical defaults.
+This role is **not tightly coupled** to the `pulp_common` role, but uses some of the same
+variables. When used in the same play, the values are inherited from the role.
+When not used together, this role provides identical defaults.
 
 * `pulp_user`: User that owns and runs Redis. Defaults to "pulp".
 

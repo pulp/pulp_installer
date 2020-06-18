@@ -9,16 +9,17 @@
         msg: >
           "You must update Ansible to at least 2.8 to use this version of Pulp 3 Installer."
   tasks:
-    - name: Dynamically include prereq roles
+    - name: Dynamically include individual roles
       include_role:
         name: "{{ roleinputvar }}"
       loop:
-        - pulp_redis
         - pulp_database
-        - pulp_workers
-        - pulp_resource_manager
-        - pulp_webserver
+        - pulp_redis
+        - pulp_api
         - pulp_content
+        - pulp_resource_manager
+        - pulp_workers
+        - pulp_webserver
       loop_control:
         loop_var: roleinputvar
   environment:

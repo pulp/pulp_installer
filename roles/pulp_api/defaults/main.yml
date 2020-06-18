@@ -1,0 +1,8 @@
+---
+# defaults file for pulp_api
+pulp_api_bind: '127.0.0.1:24817'
+pulp_api_workers: 1
+pulp_config_dir: "/etc/pulp"
+pulp_install_dir: '/usr/local/lib/pulp'
+pulp_settings_file: "{{ pulp_config_dir }}/settings.py"
+pulp_user: pulp

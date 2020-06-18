@@ -1,7 +1,7 @@
-Pulp
-====
+Pulp Common
+===========
 
-Ansible role that installs Pulp 3 from PyPi or source and provides basic config.
+Ansible role that installs shared components of the Pulp 3 services from PyPi or source and provides basic config.
 
 The default administrative user for the Pulp application is: 'admin'
 
@@ -46,8 +46,6 @@ Role Variables
       pulp-four:
         prereq_role: "pulp.pulp_four_role" # role to run immediately before the venv is created
     ```
-* `pulp_install_api_service`: Whether to create systemd service files for
-  pulpcore-api. Defaults to "true".
 * `pulp_cache_dir`: Location of Pulp cache. Defaults to "/var/lib/pulp/tmp".
 * `pulp_config_dir`: Directory which will contain Pulp configuration files.
   Defaults to "/etc/pulp".
@@ -55,8 +53,6 @@ Role Variables
 * `pulp_install_dir`: Location of a virtual environment for Pulp and its Python
   dependencies. Defaults to "/usr/local/lib/pulp".
 * `pulp_user_home`: equivalent to `MEDIA_ROOT` from `pulpcore` i.e. absolute path for pulp user home.
-* `pulp_install_api_service`: Whether to create systemd service files for
-  pulpcore-api. Defaults to "true".
 * `pulp_source_dir`: Optional. Absolute path to pulpcore source code. If
   present, pulpcore will be installed from source in editable mode. Also accepts
   a pip VCS URL, to (for example) install the master branch.
@@ -71,12 +67,6 @@ Role Variables
 * `pulp_use_system_wide_pkgs` Use python system-wide packages. Defaults to "false".
 * `pulp_remote_user_environ_name` Optional. Set the `REMOTE_USER_ENVIRON_NAME` setting for Pulp.
   This variable will be set as the value of `CONTENT_HOST` as the base path to build content URLs.
-* `pulp_api_bind` Interface and Port where Pulp Content `gunicorn` service will listen. Defaults to
-  '127.0.0.1:24817'. This variable is the value used to render the `pulpcore-api.service.j2` template
-  passing to the `--bind` parameter of the `gunicorn` service.
-* `pulp_api_workers`: Number of Pulp Content `gunicorn` processes for handling requests. Defaults to 1.
-  Used to render the `pulpcore-api.servie.j2` template, passing to the `--workers` parameter of the
-  gunicorn service.
 * `pulp_settings`: A nested dictionary that is used to add custom values to the user's
     `setting.py`, which will override any default values set by pulpcore. The keys of this
     dictionary are variable names, and the values should be expressed using the [Dynaconf syntax](
@@ -169,8 +159,6 @@ Shared Variables
 This role is required by the `pulp_database` role and uses some variables from it.
 
 * `pulp_settings_db_defaults`: See pulp_database README.
-
-* `pulp_ld_library_path`: An optional LD_LIBRARY_PATH environment variable for the pulpcore-api systemd process
 
 Operating System Variables
 --------------------------

@@ -26,7 +26,7 @@
       # require it.
       with_dict: '{{ pulp_install_plugins }}'
       when:
-      - item.value.pkg_name is undefined
+        - item.value.pkg_name is undefined
       notify:
         - Collect static content
         - Restart all Pulp services
@@ -37,7 +37,7 @@
         state: present
       with_dict: '{{ pulp_install_plugins }}'
       when:
-      - item.value.pkg_name is defined
+        - item.value.pkg_name is defined
       notify:
         - Collect static content
         - Restart all Pulp services

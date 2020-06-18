@@ -86,4 +86,3 @@
     - pulp_django_admin_path is not defined
 
 - import_tasks: configure.yml
-- import_tasks: wsgi.yml

@@ -11,7 +11,8 @@ nav:
   - Getting started: quickstart.md
   - contributing.md
   - Roles:
-      - Pulp: roles/pulp.md
+      - Pulp Common: roles/pulp_common.md
+      - Pulp API: roles/pulp_api.md
       - Pulp Content: roles/pulp_content.md
       - Pulp Database: roles/pulp_database.md
       - Pulp Devel: roles/pulp_devel.md
