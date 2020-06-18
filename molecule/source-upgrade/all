@@ -4,6 +4,8 @@ pulp_source_dir: '/var/lib/pulp/devel/pulpcore'
 pulp_install_plugins:
   pulp-file:
     source_dir: "/var/lib/pulp/devel/pulp_file"
+  pulp-rpm:
+    source_dir: "/var/lib/pulp/devel/pulp_rpm"
 developer_user_home: /var/lib/pulp
 developer_user: pulp
 pulp_settings:
