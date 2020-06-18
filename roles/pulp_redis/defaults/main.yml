@@ -2,3 +2,4 @@
 pulp_install_dir: '/usr/local/lib/pulp'
 pulp_user: pulp
 pulp_redis_bind: '127.0.0.1:6379'
+pulp_redis_package_name: redis

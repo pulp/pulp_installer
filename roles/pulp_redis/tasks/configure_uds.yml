@@ -11,7 +11,7 @@
 
 - name: Ensure Redis will not listen on a TCP socket
   lineinfile:
-    path: '{{ pulp_redis_conf_file }}'
+    path: '{{ pulp_redis_conf_file | default(_pulp_redis_conf_file) }}'
     regexp: '{{ item.regexp }}'
     line: '{{ item.line }}'
   loop:

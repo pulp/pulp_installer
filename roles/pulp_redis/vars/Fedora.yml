@@ -3,5 +3,5 @@ pulp_preq_packages:
   - python3
   - python3-devel
 
-pulp_redis_server_name: redis
-pulp_redis_conf_file: '/etc/redis.conf'
+_pulp_redis_server_name: redis
+_pulp_redis_conf_file: '/etc/redis.conf'

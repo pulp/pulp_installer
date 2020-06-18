@@ -8,6 +8,9 @@ Role Variables
 
 * `pulp_redis_bind`: Interface and Port where Redis service will listen. One can specify a unix
    path (ie. 'unix:/var/run/redis/redis.sock'). Defaults to `127.0.0.1:6379`
+* `pulp_redis_package_name`: Name of the redis package server to install. Defaults to: `redis`
+* `pulp_redis_server_name`: Name of the redis server service to run. Defaults to: OS specific
+* `pulp_redis_conf_file`: Path to the redis server configuration file. Defaults to: os specific
 
 Shared Variables
 ----------------
