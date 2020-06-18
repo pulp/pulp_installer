@@ -1,0 +1,2 @@
+Removed `pulp_redis` dependency from `pulp_workers` and `pulp_resource_manager`.
+Users need to adjust their playbook to run the `pulp_redis` role.
