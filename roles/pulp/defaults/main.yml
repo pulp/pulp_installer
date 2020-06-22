@@ -5,7 +5,6 @@ pulp_config_dir: '/etc/pulp'
 # This var intentionally not advertised to users, because there is no
 # foreseeable need for them to change the filename, only pulp_config_dir.
 pulp_settings_file: '{{ pulp_config_dir }}/settings.py'
-pulp_default_admin_password: ''
 # Users should not set this variable, instead using `pulp_settings.databases`
 pulp_settings_db_defaults:
   databases:
@@ -17,7 +16,6 @@ pulp_settings_db_defaults:
       PASSWORD: pulp
 pulp_install_source: pip
 pulp_install_dir: '{{ (pulp_install_source == "packages") | ternary("/usr", "/usr/local/lib/pulp") }}'
-pulp_install_plugins: {}
 pulp_install_api_service: true
 # Deprecated unused. Variables for dependency upgrades are TBD
 pulp_upgrade: false

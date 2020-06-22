@@ -78,7 +78,7 @@ Thus you, yourself, must research plugin compatibility with the pulpcore version
 installing 1 plugin, or more than 1 plugin.
 
 Recommended Workflows for Pulpcore & Plugin Versioning
------------------------------------------------------
+------------------------------------------------------
 
 ### Latest Version with Minimal Work:
 

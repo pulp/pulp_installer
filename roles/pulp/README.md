@@ -7,12 +7,24 @@ The default administrative user for the Pulp application is: 'admin'
 
 Role Variables
 --------------
-* `pulp_install_plugins`: A nested dictionary of plugin configuration options.
-  Defaults to "{}", which will not install any plugins.
-    * *Dictionary Key*: The pip installable plugin name. This is defined in each plugin's `setup.py`. **Required**.
-    * `version`: Specific release of the plugin to install from PyPI. If `source_dir` is set, this has no effect. Note that if the specified release of the plugin is incompatible with pulpcore's version, pulp_installer will fail (and exit the play) when it goes to install or upgrade the plugin. Defaults to nothing.
-    * `version` and `upgrade` **cannot be used together**. Even though a command like `pip install --upgrade pulp-file=0.3.0` is valid, the ansible pip module refuses to let you specify version and `state=latest` (`state=latest` maps to `pip --upgrade`, and to our upgrade: true).
-    * `upgrade`: Whether to update/upgrade the plugin to the latest stable release from PyPI. Only affects systems where the plugin is already installed. If `source_dir` is set, this has no effect and is effectively always `true`. Mutually exclusive with `version`. Note that if the latest stable release of the plugin is incompatible with pulpcore's version, pulp_installer will fail (and exit the play) when it goes to upgrade the plugin. Defaults to "false".
+* `pulp_install_plugins`: **Required** A nested dictionary of plugins to install & their
+  installation options.
+    * *Dictionary Key*: **Required**. The pip installable plugin name. This is defined in each
+    plugin's `setup.py`.
+    * `version`: Specific release of the plugin to install from PyPI initially, or to upgrade to.
+    If `source_dir` is set, this has no effect. Note that if the specified release of the plugin is
+    incompatible with pulpcore's version, pulp_installer will fail (and exit the play) before it
+    tries to install or upgrade the plugin. Defaults to nothing, which means the latest release from
+    PyPI will be installed initially, and no upgrades will be performed unless `upgrade` is set.
+    * `version` and `upgrade` **cannot be used together**. Even though a command like `pip install
+    --upgrade pulp-file=0.3.0` is valid, the ansible pip module refuses to let you specify version
+    and `state=latest` (`state=latest` maps to `pip --upgrade`, and to our upgrade: true).
+    * `upgrade`: Whether to update/upgrade the plugin to the latest stable release from PyPI.
+    Only affects systems where the plugin is already installed. If `source_dir` is set,
+    this has no effect and is effectively always `true`. Mutually exclusive with `version`.
+    Note that if the latest stable release of the plugin is incompatible with pulpcore's version,
+    pulp_installer will fail (and exit the play) when it goes to upgrade the plugin.
+    Defaults to "false".
     * `source_dir`: Optional. Absolute path to the plugin source code. If present,
   plugin will be installed from source in editable mode.
   Also accepts a pip VCS URL, to (for example) install the master branch.
@@ -32,7 +44,7 @@ Role Variables
       pulp-three:
         source_dir: "/var/lib/pulp/pulp_three" # path to the plugin source code
       pulp-four:
-        prereq_role: "pulp.pulp_three_role" # role to run immediately before the venv is created
+        prereq_role: "pulp.pulp_four_role" # role to run immediately before the venv is created
     ```
 * `pulp_install_api_service`: Whether to create systemd service files for
   pulpcore-api. Defaults to "true".
@@ -109,9 +121,8 @@ RPM packages instead if this variable is set. Other distro packaging formats may
   Defaults to "pip".
 
 If it is set to "packages", the following variables are used, or behave *differently* from above:
-* `pulp_install_plugins`: A nested dictionary of plugin configuration options.
-  Defaults to "{}", which will not install any plugins.
-    * *Dictionary Key*: The plugin name. **Required**.
+* `pulp_install_plugins`: **Required** A nested dictionary of plugins to install & their installation options.
+    * *Dictionary Key*: **Required**. The plugin name.
     * `pkg_name`: If this is left undefined, each Linux distro package will be installed by the name `pulp_pkg_name_prefix`
     with the Dictionary Key appended to it. `pulp_pkg_name_prefix` defaults to "python3-", so if the Dictionary key is, "pulp-file",
     the package `python3-pulp-file` will be installed. This variable overrides the entire package name.

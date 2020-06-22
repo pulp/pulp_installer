@@ -16,11 +16,16 @@ Example Usage
 Variables
 ---------
 
-The variables that this role uses, along with their default values, are listed
-below:
+The variables that this role uses are listed below:
 
+The following variables have a default value:
 ```yaml
 pulp_devel_package_retries: 5
+```
+
+The following variables have no default value, and we recommend the following
+for development purposes on vagrant (as part of [pulplift](https://github.com/pulp/pulplift).)
+```yaml
 developer_user: vagrant
 developer_user_home: /home/vagrant
 pulp_default_admin_password: password
