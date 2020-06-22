@@ -1,12 +1,4 @@
 ---
-- name: Restart pulpcore-api.service
-  systemd:
-    name: pulpcore-api.service
-    enabled: true
-    state: restarted
-    daemon_reload: true
-  become: true
-
 # Workaround https://github.com/ansible/ansible/issues/34505
 # by not using include_tasks
 - name: Restart all Pulp services
@@ -19,6 +11,14 @@
   changed_when: "staticresult.stdout is not search('\n0 static files')"
   become: true
   become_user: '{{ pulp_user }}'
-  notify: Restart pulpcore-api.service
+  # Not needed currently because every task that calls "Collect static content"
+  # also calls "Restart all Pulp services".
+  #
+  # And pulpcore-api is installed later on in the role order.
+  #
+  # However, restarting pulpcore-api is necessary for collectstatic to
+  # work; whitenoise cannot see the files unless pulpcore-api is restarted.
+  #
+  # notify: Restart pulpcore-api.service
   environment:
     PULP_SETTINGS: "{{ pulp_settings_file }}"

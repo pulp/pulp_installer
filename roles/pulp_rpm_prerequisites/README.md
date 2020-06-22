@@ -22,13 +22,9 @@ Here's an example playbook for using pulp_rpm_prerequisites as part of pulp_inst
         pulp_settings:
           secret_key: secret
         pulp_install_plugins:
-          pulp-rpm: {}
+          pulp-rpm: {} #no need to set subvar prereq_role for pulp_rpm specifically
       roles:
-        - pulp_database
-        - pulp_workers
-        - pulp_resource_manager
-        - pulp_webserver
-        - pulp_content
+        - pulp_all_services
       environment:
         DJANGO_SETTINGS_MODULE: pulpcore.app.settings
 

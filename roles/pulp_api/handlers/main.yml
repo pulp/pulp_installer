@@ -1,0 +1,9 @@
+---
+# handlers file for pulp_api
+- name: Restart pulpcore-api.service
+  systemd:
+    name: pulpcore-api.service
+    enabled: true
+    state: restarted
+    daemon_reload: true
+  become: true

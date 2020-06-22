@@ -84,11 +84,7 @@ vim install.yml
       # pulp-python: {}
       pulp-rpm: {}
     roles:
-      - pulp.pulp_installer.pulp_database
-      - pulp.pulp_installer.pulp_workers
-      - pulp.pulp_installer.pulp_resource_manager
-      - pulp.pulp_installer.pulp_webserver
-      - pulp.pulp_installer.pulp_content
+      - pulp.pulp_installer.pulp_all_services
     environment:
     DJANGO_SETTINGS_MODULE: pulpcore.app.settings
 ```

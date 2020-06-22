@@ -53,17 +53,14 @@ Shared variables
 
 * `ansible_python_interpreter`: **Required**. Path to the Python interpreter.
 
-This role is **not tightly coupled** to the `pulp` role, but uses some of the same
-variables. When used in the same play, the values are inherited from the `pulp`
-role.
+This role **is tightly coupled** to the required `pulp_common` role, and inherits
+some of its variables.
 
 * `pulp_install_dir`: Location of a virtual environment for Pulp and its Python
-  dependencies. **Required** if used in a separate play from the `pulp` role. Value
-  must match the value used in the `pulp` role.
+  dependencies.
 * `pulp_install_plugins` (technically `pulp_install_plugins_normalized`). The list
   of plugins to install is used to inform pulp_webserver which webserver snippets
   to look for and use.
-
 * `pulp_user_home`: equivalent to `MEDIA_ROOT` from `pulpcore` i.e. absolute path for pulp user home.
 * `pulp_content_bind` Set the host the reverse proxy should connect to for the Content app. Defaults
   to '127.0.0.1:24816'.

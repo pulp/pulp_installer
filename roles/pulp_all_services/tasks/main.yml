@@ -1,0 +1,5 @@
+---
+# tasks file for pulp_all_services
+
+# This role simply uses dependencies at this time.
+# meta/main.yml
