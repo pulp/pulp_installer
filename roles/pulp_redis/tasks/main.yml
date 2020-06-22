@@ -28,8 +28,17 @@
 
     - name: Install Redis
       package:
-        name: redis
+        name: '{{ pulp_redis_package_name }}'
         state: present
+
+    - name: Enable Redis SCL
+      template:
+        src: templates/redis_scl_profile.j2
+        dest: "/etc/profile.d/redis.sh"
+      when:
+        - ansible_os_family == 'RedHat'
+        - ansible_distribution_major_version|int == 7
+        - pulp_redis_package_name.startswith('rh-')
 
     - name: Configure Redis to listen on Unix Domain Socket
       include_tasks: configure_uds.yml
@@ -41,7 +50,7 @@
 
     - name: Start Redis
       systemd:
-        name: "{{ pulp_redis_server_name }}"
+        name: "{{ pulp_redis_server_name | default(_pulp_redis_server_name) }}"
         state: started
         enabled: yes
         daemon_reload: yes
