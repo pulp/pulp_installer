@@ -23,9 +23,8 @@
 
     - name: Install requirements
       package:
-        name: "{{ item }}"
+        name: "{{ pulp_preq_packages }}"
         state: present
-      with_items: "{{ pulp_preq_packages }}"
 
     - name: Install Redis
       package:

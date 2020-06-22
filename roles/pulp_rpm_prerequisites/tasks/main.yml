@@ -22,22 +22,11 @@
     - ansible_distribution == "Ubuntu"
   become: true
 
-# Much faster than the package module at installing multiple packages
-- name: Install requested RPM packages
-  yum:
-    name: '{{ item }}'
-    state: present
-  with_items: '{{ packages }}'
-  become: true
-  when: ansible_pkg_mgr in ["yum","dnf"]
-
 - name: Install requested non-RPM packages
   package:
-    name: '{{ item }}'
+    name: '{{ packages }}'
     state: present
-  with_items: '{{ packages }}'
   become: true
-  when: ansible_pkg_mgr not in ["yum","dnf"]
 
 - name: Fail if we do not have prereq_pip_packages
   fail:
