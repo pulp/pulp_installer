@@ -11,6 +11,7 @@ Environment="PATH={{ pulp_install_dir }}/bin:{{ default_bin_path }}"
 Environment="LD_LIBRARY_PATH={{ pulp_ld_library_path }}"
 {% endif %}
 User={{ pulp_user }}
+Group={{ pulp_group }}
 PIDFile=/run/pulpcore-api.pid
 RuntimeDirectory=pulpcore-api
 ExecStart={{ pulp_install_dir }}/bin/gunicorn pulpcore.app.wsgi:application \

@@ -11,6 +11,7 @@ Environment="PATH={{ pulp_install_dir }}/bin:{{ default_bin_path }}"
 Environment="LD_LIBRARY_PATH={{ pulp_ld_library_path }}"
 {% endif %}
 User={{ pulp_user }}
+Group={{ pulp_group }}
 WorkingDirectory=/var/run/pulpcore-resource-manager/
 RuntimeDirectory=pulpcore-resource-manager
 ExecStart={{ pulp_install_dir }}/bin/rq worker \

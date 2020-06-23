@@ -1,0 +1,3 @@
+Ensure `pulpcore-api`, `pulpcore-content` and `pulpcore-resource-manager` are started with
+group `{{ pulp_group }}`. Note: People will need to chgrp `{{ pulp_group }}` already existing
+path that are not created/managed by systemd; `/var/lib/pulp`.
