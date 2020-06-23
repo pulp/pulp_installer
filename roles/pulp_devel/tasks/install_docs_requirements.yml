@@ -1,24 +1,27 @@
 ---
 - name: Install requirements for building docs
   pip:
-    requirements: '{{ pulp_requirements_dir }}/doc_requirements.txt'
+    requirements: '{{ pulp_source_dir }}/doc_requirements.txt'
     state: present
     virtualenv: '{{ pulp_install_dir }}'
     virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+  when: pulp_source_dir is defined
 
 - name: Install requirements for testing locally
   pip:
-    requirements: '{{ pulp_requirements_dir }}/test_requirements.txt'
+    requirements: '{{ pulp_source_dir }}/test_requirements.txt'
     state: present
     virtualenv: '{{ pulp_install_dir }}'
     virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+  when: pulp_source_dir is defined
 
 - name: Install requirements for developer scripts
   pip:
-    requirements: '{{ pulp_requirements_dir }}/dev_requirements.txt'
+    requirements: '{{ pulp_source_dir }}/dev_requirements.txt'
     state: present
     virtualenv: '{{ pulp_install_dir }}'
     virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+  when: pulp_source_dir is defined
 
 - name: Install requirements for S3 tests
   pip:

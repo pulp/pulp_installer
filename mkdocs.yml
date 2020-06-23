@@ -10,6 +10,7 @@ nav:
   - Home: index.md
   - Getting started: quickstart.md
   - contributing.md
+  - Changelog: CHANGES.md
   - Roles:
       - Pulp Common: roles/pulp_common.md
       - Pulp API: roles/pulp_api.md
