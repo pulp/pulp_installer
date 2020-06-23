@@ -37,6 +37,7 @@
     name: httpd_can_network_connect
     state: true
     persistent: true
+  become: true
   when:
     - ansible_os_family == 'RedHat'
     - ansible_selinux.status == 'enabled'
