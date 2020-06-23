@@ -1,1 +1,0 @@
-Removed pulp-redis dependency from pulp_workers and pulp_resource_manager
