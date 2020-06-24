@@ -142,7 +142,8 @@ pulp_installer is equipped with the following roles:
 - [pulp_common](roles/pulp_common): installs shared components of the Pulp 3 services from PyPi or source and provides basic config
 - [pulp_api](roles/pulp_api): install, configure, and set the state of pulp API service
 - [pulp_content](roles/pulp_content): install, configure, and set the state of pulp content app.
-- [pulp_database](roles/pulp_database): optionally install a database, then configure for Pulp.
+- [pulp_database](roles/pulp_database): install a suitable database server for Pulp 3
+- [pulp_database_config](roles/pulp_database_config): configure the database for Pulp 3
 - [pulp_redis](roles/pulp_redis): install and start Redis, and install RQ in the Pulp virtualenv.
 - [pulp_resource_manager](roles/pulp_resource_manager): install, configure, and set the state of the pulp resouce manager.
 - [pulp_webserver](roles/pulp_webserver): install, configure, start, and enable a web server.

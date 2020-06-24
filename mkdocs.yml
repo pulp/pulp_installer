@@ -16,6 +16,7 @@ nav:
       - Pulp API: roles/pulp_api.md
       - Pulp Content: roles/pulp_content.md
       - Pulp Database: roles/pulp_database.md
+      - Pulp Database Configuration: roles/pulp_database_config.md
       - Pulp Devel: roles/pulp_devel.md
       - Pulp Redis: roles/pulp_redis.md
       - Pulp Resource Manager: roles/pulp_resource_manager.md

@@ -13,31 +13,8 @@
   tags:
     - always
 
+- name: Set database defaults if not provided
+  set_fact:
+    merged_pulp_settings: "{{ pulp_settings_db_defaults|combine(pulp_settings, recursive=True) }}"
+
 - include_tasks: install_postgres.yml
-  when:
-    - pulp_install_db |bool
-
-- meta: flush_handlers
-
-- block:
-
-    - name: Run database auth migrations
-      command: '{{ pulp_django_admin_path }} migrate auth --no-input'
-      register: migrate_auth
-      changed_when: "'No migrations to apply' not in migrate_auth.stdout"
-
-    - name: Run database migrations
-      command: '{{ pulp_django_admin_path }} migrate --no-input'
-      register: result
-      changed_when: "'No migrations to apply' not in result.stdout"
-
-    - name: Set the Pulp admin user's password
-      command: '{{ pulp_django_admin_path }} reset-admin-password --password {{ pulp_default_admin_password }}'
-      no_log: true
-      when: pulp_default_admin_password is defined and migrate_auth.changed
-
-  run_once: true
-  become: true
-  become_user: '{{ pulp_user }}'
-  environment:
-    PULP_SETTINGS: "{{ pulp_settings_file }}"

@@ -49,7 +49,6 @@ Role Variables
 * `pulp_cache_dir`: Location of Pulp cache. Defaults to "/var/lib/pulp/tmp".
 * `pulp_config_dir`: Directory which will contain Pulp configuration files.
   Defaults to "/etc/pulp".
-* `pulp_default_admin_password`: Initial password for the Pulp admin. **Required**.
 * `pulp_install_dir`: Location of a virtual environment for Pulp and its Python
   dependencies. Defaults to "/usr/local/lib/pulp".
 * `pulp_user_home`: equivalent to `MEDIA_ROOT` from `pulpcore` i.e. absolute path for pulp user home.

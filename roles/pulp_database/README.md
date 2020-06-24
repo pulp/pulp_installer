@@ -1,13 +1,16 @@
 pulp_database
 =============
 
-Optionally install a database, then configure for Pulp.
+Install a suitable database server for Pulp.
 
 More specifically, this role does the following:
 
-1. Call the external role to install a database if `pulp_install_db` is true.
-2. Install the Python bindings to interact with the specified database.
-3. Create and run migrations.
+1. Install and enable the appropriate SCL (EL7)
+2. Call the external role to install a PostgreSQL database server.
+3. Install the Python bindings to interact with the specified database via
+   the role.
+4. Configures the PostgreSQL database to listen on all addresses if the
+   database is running on separate server.
 
 Role Variables
 --------------
@@ -28,11 +31,10 @@ Shared Variables
   This role sets the default to "auto", which is now more robust than
   "auto_legacy" on Ansible 2.8.
 
-This role **is tightly coupled** with the required the `pulp_common` role and uses some of
-variables which are documented in that role:
+This role is **not tightly coupled** to the `pulp_common` role, but uses some of the same
+variables. When used in the same play, the values are inherited from the role.
+When not used together, this role provides identical defaults.
 
-* `pulp_user`
-* `pulp_default_admin_password`
 * `pulp_settings`
 
 Operating Systems Variables

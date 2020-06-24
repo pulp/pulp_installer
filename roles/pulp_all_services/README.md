@@ -12,6 +12,7 @@ Currently, all it does is depend on the required roles, which are
 subject to change over time:
   - pulp_database
   - pulp_redis
+  - pulp_database_config
   - pulp_api
   - pulp_content
   - pulp_resource_manager
