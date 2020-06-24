@@ -63,3 +63,6 @@ pulp_pkg_undeclared_deps:
   - python3-djangorestframework-queryfields
 pulp_pkg_upgrade_all: false
 pulp_upgraded_manually: false
+# For Enterprise Linux distros, set the desired SELinux state.
+# Set to one of the following values: 'enforcing', 'disabled', 'permissive'
+pulp_selinux_mode: 'enforcing'

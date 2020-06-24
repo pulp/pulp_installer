@@ -100,6 +100,9 @@ Role Variables
   subscription-manager/katello.
   Also accepts a single string or empty string.
   Only affects RHEL7 (RHEL8 no longer has an optional repo.)
+* pulp_selinux_mode: For Enterprise Linux distros, set the desired SELinux state.
+  Set to one of the following values: `enforcing`, `disabled`, `permissive`.
+  Defaults to `enforcing`.
 
 Role Variables if installing from RPMs
 --------------------------------------

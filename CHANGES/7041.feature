@@ -1,0 +1,1 @@
+Make disabling SELinux optional
