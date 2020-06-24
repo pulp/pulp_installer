@@ -8,8 +8,8 @@ pulp_install_plugins:
   #   source_dir: "/var/lib/pulp/devel/pulp_ansible"
   # pulp-certguard:
   #   source_dir: "/var/lib/pulp/devel/pulp-certguard"
-  # pulp-container:
-  #   source_dir: "/var/lib/pulp/devel/pulp_container"
+  pulp-container:
+    source_dir: "/var/lib/pulp/devel/pulp_container"
   # pulp-cookbook:
   #   source_dir: "/var/lib/pulp/devel/pulp_cookbook"
   # pulp-deb:
