@@ -63,3 +63,8 @@ pulp_pkg_undeclared_deps:
   - python3-djangorestframework-queryfields
 pulp_pkg_upgrade_all: false
 pulp_upgraded_manually: false
+
+# Unadvertised because we do not want to maintain this feature anymore after
+# the installer adds support for installing the SElinux policies.
+# Useful for testing the policies in the meantime.
+pulp_disable_selinux: true
