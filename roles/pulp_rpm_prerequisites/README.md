@@ -18,9 +18,10 @@ Here's an example playbook for using pulp_rpm_prerequisites as part of pulp_inst
     ---
     - hosts: all
       vars:
-        pulp_default_admin_password: password
+        pulp_default_admin_password: << YOUR PASSWORD HERE >>
         pulp_settings:
-          secret_key: secret
+          secret_key: << YOUR SECRET HERE >>
+          content_origin: "http://{{ ansible_fqdn }}"
         pulp_install_plugins:
           pulp-rpm: {} #no need to set subvar prereq_role for pulp_rpm specifically
       roles:
