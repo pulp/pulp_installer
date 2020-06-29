@@ -30,7 +30,7 @@
   changed_when: false
   check_mode: false
 
-- import_tasks: "{{ pulp_webserver_server }}.yml"
+- include_tasks: "{{ pulp_webserver_server }}.yml"
 
 - name: Set httpd_can_network_connect flag on and keep it persistent across reboots
   seboolean:
