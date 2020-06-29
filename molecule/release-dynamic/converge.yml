@@ -15,6 +15,7 @@
       loop:
         - pulp_database
         - pulp_redis
+        - pulp_database_config
         - pulp_api
         - pulp_content
         - pulp_resource_manager

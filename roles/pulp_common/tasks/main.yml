@@ -26,7 +26,6 @@
       See https://pulp-installer.readthedocs.io/en/latest/ or
       pulp_installer/roles/pulp/README.md for more info.
   loop:
-    - pulp_default_admin_password
     - pulp_settings.content_origin
     - pulp_settings.secret_key
     - pulp_install_plugins

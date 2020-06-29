@@ -1,0 +1,43 @@
+---
+- name: Check if required variables are set
+  assert:
+    that:
+      # This check runs it through jinja2 templating twice: built-in
+      # "that:" (like when:), and then the {{ }}
+      # It converts from item, to the string like pulp_default_admin_password ,
+      # to the value of pulp_default_admin_password .
+      - "{{ item }} | default('', true) | length > 0"
+    fail_msg: >
+      {{ item }} is undefined, null, or an empty string. Please
+      set it in your variables
+      (e.g. pulp_installer/playbooks/example-use/group_vars/all)
+      and run pulp_installer again.
+      See https://pulp-installer.readthedocs.io/en/latest/ or
+      pulp_installer/roles/pulp/README.md for more info.
+  loop:
+    - pulp_default_admin_password
+
+- meta: flush_handlers
+
+- block:
+
+    - name: Run database auth migrations
+      command: '{{ pulp_django_admin_path }} migrate auth --no-input'
+      register: migrate_auth
+      changed_when: "'No migrations to apply' not in migrate_auth.stdout"
+
+    - name: Run database migrations
+      command: '{{ pulp_django_admin_path }} migrate --no-input'
+      register: result
+      changed_when: "'No migrations to apply' not in result.stdout"
+
+    - name: Set the Pulp admin user's password
+      command: '{{ pulp_django_admin_path }} reset-admin-password --password {{ pulp_default_admin_password }}'
+      no_log: true
+      when: pulp_default_admin_password is defined and migrate_auth.changed
+
+  run_once: true
+  become: true
+  become_user: '{{ pulp_user }}'
+  environment:
+    PULP_SETTINGS: "{{ pulp_settings_file }}"

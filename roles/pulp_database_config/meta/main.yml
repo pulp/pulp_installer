@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: Pulp Team
-  description: A role to install a suitable database server for Pulp 3
+  description: A role to configure the database for Pulp 3
   issue_tracker_url: https://pulp.plan.io/projects/pulp/issues/new
   license: GPL-2.0-or-later
   company: Red Hat
@@ -21,4 +21,5 @@ galaxy_info:
   galaxy_tags:
     - pulp
     - pulpcore
-dependencies: []
+dependencies:
+  - pulp_common

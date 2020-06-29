@@ -1,0 +1,4 @@
+`pulp_database`, which is now separate from `pulp_database_config`, no longer
+understands the variable `pulp_install_db`. Installing the postgres database
+server is now controlled by whether or not `pulp_database` is in the role list,
+and `pulp_database_config` must be in the list.

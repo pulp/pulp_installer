@@ -49,6 +49,12 @@ use some of the same variables. When not used together, these values are **requi
 
 * `pulp_workers`
 
+This role **is not tightly coupled** with the `pulp_database_config` role,
+but it does use some of the same variables. When not used together, these values
+are **required**.
+
+* `pulp_default_admin_password`
+
 
 Aliases
 -------
