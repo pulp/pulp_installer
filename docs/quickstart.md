@@ -1,21 +1,12 @@
 Getting started
 ===============
 
-Pulp 3 Ansible installer is a collection of roles to install or upgrade Pulp 3 hosted on galaxy:
+The Pulp 3 Ansible installer is a collection of roles to install or upgrade Pulp 3 hosted on galaxy:
 [https://galaxy.ansible.com/pulp/pulp_installer](https://galaxy.ansible.com/pulp/pulp_installer)
 
-Some plugins may require a prereq role, if so, you can find the prereq roles under pulp user here:
+Some plugins require a prerequisite role. You can find information about prerequisite roles that you require in the **Roles** area of the Pulp page on Ansible Galaxy:
 [https://galaxy.ansible.com/pulp](https://galaxy.ansible.com/pulp)
 
-
-Requirements
-------------
-The collection requires [geerlingguy.postgresql](https://galaxy.ansible.com/geerlingguy/postgresql) role,
-which should be installed from ansible-galaxy.
-
-```
-ansible-galaxy install geerlingguy.postgresql
-```
 
 Installation
 ------------
@@ -37,26 +28,26 @@ ansible-playbook playbooks/example-use/playbook.yml -u <managed_node_username> -
 
 <script id="asciicast-335159" src="https://asciinema.org/a/335159.js" async data-autoplay="true" data-speed="2"></script>
 
-To configure a custom install, you will need to set configuration variables. In the simplest case,
-they can be set in the playbook. See the ansible docs for more flexible idiomatic alternatives.
+To configure a custom installation, you will need to set configuration variables. In the simplest case,
+they can be set in the playbook. See the Ansible docs for more flexible idiomatic alternatives.
 
 
-My first playbook
+Example Playbook for Installing Plugins
 -----------------
 As an example, we are going to write a playbook for installing `pulp_container` and `pulp_rpm`.
 You can learn more about the variables on the [roles section](https://pulp-installer.readthedocs.io/en/latest/roles/pulp/#role-variables)
 
-1 -  Installing pulp_installer collection:
+1 -  Install the `pulp_installer` collection:
 ```
 ansible-galaxy collection install pulp.pulp_installer
 ```
 
-2 -  Installing geerlingguy.postgresql role:
+2 -  Install the `geerlingguy.postgresql` role:
 ```
 ansible-galaxy install geerlingguy.postgresql
 ```
 
-3 - Writing the playbook (Example of playbook below):
+3 - Write the following playbook:
 ```
 vim install.yml
 ```
@@ -88,7 +79,7 @@ vim install.yml
     environment:
     DJANGO_SETTINGS_MODULE: pulpcore.app.settings
 ```
-4 - Running the playbook:
+4 - Run the playbook:
 ```
 ansible-playbook install.yml -u <managed_node_username> --ask-become-pass
 ```
