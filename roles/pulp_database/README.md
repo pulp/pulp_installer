@@ -20,7 +20,7 @@ Role Variables
     `pulp_settings.databases`. These settings define how Pulp will talk to the database, and
     produces default settings for the external database installer role. Default values are defined
     in `defaults/main.yml`. See [pulpcore
-    docs](https://docs.pulpproject.org/en/3.0/nightly/installation/configuration.html#databases) or
+    docs](https://docs.pulpproject.org/en/master/nightly/installation/configuration.html#databases) or
     [Django docs](https://docs.djangoproject.com/en/2.1/ref/settings/#databases) for more
     information.
 
