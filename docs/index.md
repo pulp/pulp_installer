@@ -153,3 +153,14 @@ Roles
 - [pulp_webserver](roles/pulp_webserver): install, configure, start, and enable a web server.
 - [pulp_workers](roles/pulp_workers): install, configure, and set the state of pulp workers.
 - [pulp_devel](roles/pulp_devel): installs useful tools and adds some config files for a Pulp 3 development environment.
+
+pulp_installer also is equipped with these prereq roles that perform additional tasks to install specific plugins:
+
+- [pulp_rpm_prerequisites](/prereq_roles/pulp_rpm_prerequisites): installs prerequisites for pulp-rpm plugin use
+
+pulp_installer also provides the following meta roles, which depend on a set of other roles. These provide
+the convenience of writing playbooks that specify one role, rather than a list of roles that often changes.
+
+- [pulp_all_services](meta_roles/pulp_all_services/): A role to install all Pulp services (first-party & third-party) on a single host.
+- [pulp_services](meta_roles/pulp_services/): A role to install & configure Pulp's
+  first-party services (including the state of the Pulp database) on a single host.
