@@ -1,0 +1,2 @@
+Fix issue whereby for certain users, the firewall may not be configured.
+Also fix an issue whereby for certain pulp_devel role users, the Galaxy NG WebUI may not be built.

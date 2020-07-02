@@ -1,7 +1,10 @@
 ---
-- import_tasks: galaxy_ui.yml
+- name: include_tasks to build Galaxy WebUI if galaxy-ng is among the plugins
+  include_tasks:
+    file: galaxy_ui.yml
+    apply:
+      become: true
   when: pulp_install_plugins_normalized['galaxy-ng'] is defined
-  become: true
 
 - import_tasks: install_basic_packages.yml
   become: true
