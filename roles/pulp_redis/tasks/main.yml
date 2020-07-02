@@ -21,11 +21,6 @@
 
 - block:
 
-    - name: Install requirements
-      package:
-        name: "{{ pulp_preq_packages }}"
-        state: present
-
     - name: Install Redis
       package:
         name: '{{ pulp_redis_package_name }}'
