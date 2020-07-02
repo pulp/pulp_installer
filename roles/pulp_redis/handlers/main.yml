@@ -4,3 +4,4 @@
     name: "{{ pulp_redis_server_name | default(_pulp_redis_server_name) }}"
     state: restarted
     daemon_reload: true
+  become: true

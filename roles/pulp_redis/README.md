@@ -1,7 +1,7 @@
 pulp_redis
 ==========
 
-Install and start Redis, and install RQ in the Pulp virtualenv.
+Install and start Redis.
 
 Role Variables
 --------------
