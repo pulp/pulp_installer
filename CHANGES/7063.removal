@@ -1,0 +1,2 @@
+Removed the task to add a redis PPA on all Ubuntu releases.
+Existing Ubuntu Pulp installations will still have the PPA enabled.
