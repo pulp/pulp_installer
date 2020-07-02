@@ -43,5 +43,5 @@
     - ansible_selinux.status == 'enabled'
     - not (pulp_api_bind.startswith('unix:') and pulp_content_bind.startswith('unix:'))
 
-- import_tasks: firewalld.yml
+- include_tasks: firewalld.yml
   when: pulp_configure_firewall in ['firewalld', 'auto']
