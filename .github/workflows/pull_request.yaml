@@ -6,38 +6,46 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      # For PRs, to save GHA resources, only run on 1 python version
-      # Also, have the pip modes focus on as many different python
-      # versions as possible, package mode can be just 1 version.
+      # Testing different python versions because of
+      # https://pulp.plan.io/issues/5768#note-17
       matrix:
         include:
-          - env:
-              TEST_TYPE: release-static
+          - test_type: release-static
+            ansible: "2.8"
             python: "2.7"
-          - env:
-              TEST_TYPE: source-static
+            toxpy: "27"
+          - test_type: source-static
+            ansible: "2.8"
+            python: "3.6"
+            toxpy: "36"
+          - test_type: packages-static
+            ansible: "2.9"
+            python: "3.7"
+            toxpy: "37"
+          - test_type: release-dynamic
+            ansible: "2.9"
+            python: "3.8"
+            toxpy: "38"
+          - test_type: source-dynamic
+            ansible: "2.8"
+            python: "3.8"
+            toxpy: "38"
+          - test_type: packages-dynamic
+            ansible: "2.8"
+            python: "3.7"
+            toxpy: "37"
+          - test_type: release-upgrade
+            ansible: "2.8"
+            python: "3.6"
+            toxpy: "36"
+          - test_type: source-upgrade
+            ansible: "2.9"
             python: "2.7"
-          - env:
-              TEST_TYPE: release-dynamic
+            toxpy: "27"
+          - test_type: packages-upgrade
+            ansible: "2.9"
             python: "3.6"
-          - env:
-              TEST_TYPE: source-dynamic
-            python: "3.6"
-          - env:
-              TEST_TYPE: packages-static
-            python: "3.7"
-          - env:
-              TEST_TYPE: packages-dynamic
-            python: "3.7"
-          - env:
-              TEST_TYPE: packages-upgrade
-            python: "3.7"
-          - env:
-              TEST_TYPE: release-upgrade
-            python: "3.8"
-          - env:
-              TEST_TYPE: source-upgrade
-            python: "3.8"
+            toxpy: "36"
     steps:
       - uses: actions/checkout@v2.3.1
       - run: |
@@ -63,33 +71,20 @@ jobs:
             fi
           done
         shell: bash
-      - name: Set tox env for python 27
-        if: matrix.python == '2.7'
-        run: echo "::set-env name=TOXENV::py27-${{ matrix.env.TEST_TYPE }}"
-      - name: Set tox env for python 36
-        if: matrix.python == '3.6'
-        run: echo "::set-env name=TOXENV::py36-${{ matrix.env.TEST_TYPE }}"
-      - name: Set tox env for python 37
-        if: matrix.python == '3.7'
-        run: echo "::set-env name=TOXENV::py37-${{ matrix.env.TEST_TYPE }}"
-      - name: Set tox env for python 38
-        if: matrix.python == '3.8'
-        run: echo "::set-env name=TOXENV::py38-${{ matrix.env.TEST_TYPE }}"
       - name: Pulling images for PyPI upgrades
-        if: matrix.env.TEST_TYPE == 'release-upgrade' || matrix.env.TEST_TYPE == 'source-upgrade'
+        if: matrix.test_type == 'release-upgrade' || matrix.test_type == 'source-upgrade'
         run: |
           docker pull quay.io/pulp/pulp-ci-dbuster:3.0.0
           docker pull quay.io/pulp/pulp_rpm-ci-f31:3.1.0
           docker pull quay.io/pulp/pulp_rpm-ci-c7:3.1.0
       - name: Pulling images for distro packages upgrades
-        if: matrix.env.TEST_TYPE == 'packages-upgrade'
+        if: matrix.test_type == 'packages-upgrade'
         run: |
           docker pull quay.io/pulp/pulp-ci-pkgs-c7:3.3.1
           docker pull quay.io/pulp/pulp-ci-pkgs-c8:3.3.1
       - name: Run tox
-        run: tox
+        run: tox -e "py${{ matrix.toxpy }}-ansible${{ matrix.ansible }}-${{ matrix.test_type }}"
         env:
-          TEST_TYPE: ${{ matrix.env.TEST_TYPE }}
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
         shell: bash
