@@ -52,17 +52,13 @@ jobs:
           sudo apt update
           sudo apt install yq -y
       - name: Enable/Disable pulp-rpm tests
-        env:
-          DISABLE_PULP_RPM_TEST: ${{ secrets.DISABLE_PULP_RPM_TEST }}
         run: |
-          if [[ "$DISABLE_PULP_RPM_TEST" == 'true' ]]; then
-            find ./molecule/*/group_vars/all -exec sh -c "yq d -i {} pulp_install_plugins.pulp-rpm" \;
-            find ./molecule/*/group_vars/all -exec sh -c "echo; echo {}; cat {}" \;
-            docker pull quay.io/pulp/pulp-ci-c7:3.0.0
-            docker pull quay.io/pulp/pulp-ci-f31:3.0.0
-            find ./molecule/*/molecule.yml -exec sed -i 's/pulp_rpm-ci-c7:3.1.0/pulp-ci-c7:3.0.0/g' {} \;
-            find ./molecule/*/molecule.yml -exec sed -i 's/pulp_rpm-ci-f31:3.1.0/pulp-ci-f31:3.0.0/g' {} \;
-          fi
+          find ./molecule/*/group_vars/all -exec sh -c "yq d -i {} pulp_install_plugins.pulp-rpm" \;
+          find ./molecule/*/group_vars/all -exec sh -c "echo; echo {}; cat {}" \;
+          docker pull quay.io/pulp/pulp-ci-c7:3.0.0
+          docker pull quay.io/pulp/pulp-ci-f31:3.0.0
+          find ./molecule/*/molecule.yml -exec sed -i 's/pulp_rpm-ci-c7:3.1.0/pulp-ci-c7:3.0.0/g' {} \;
+          find ./molecule/*/molecule.yml -exec sed -i 's/pulp_rpm-ci-f31:3.1.0/pulp-ci-f31:3.0.0/g' {} \;
         shell: bash
       - name: Install tox
         run: |
