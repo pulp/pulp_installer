@@ -1,1 +1,0 @@
-Fix webserver snippets not being installed when pulp_install_dir is changed from the default value.

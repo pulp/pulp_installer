@@ -23,7 +23,7 @@ pulp_upgrade: false
 #  they are confident that this version of pulp_installer is compatible with
 #  pulp_version.
 #  Ignored if pulp_source_dir is set
-pulp_version: "3.4.1"
+pulp_version: "3.5.0"
 pulp_user: pulp
 pulp_user_id:
 pulp_group: pulp
