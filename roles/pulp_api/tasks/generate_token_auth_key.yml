@@ -1,0 +1,21 @@
+---
+- name: Look for token authentication key
+  stat:
+    path: "{{ __pulp_common_pulp_pki_dir }}/token_private_key.pem"
+    get_attributes: false
+    get_checksum: false
+    get_mime: false
+  become: true
+  become_user: "{{ pulp_user }}"
+  register: __pulp_token_auth_key
+
+- name: Generate token authentication private key
+  openssl_privatekey:
+    path: "{{ __pulp_common_pulp_pki_dir }}/token_private_key.pem"
+    type: ECC
+    curve: secp256r1
+    owner: "{{ pulp_user }}"
+    group: "{{ pulp_group }}"
+  become: true
+  become_user: "{{ pulp_user }}"
+  when: not __pulp_token_auth_key.stat.exists
