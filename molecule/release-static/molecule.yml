@@ -22,28 +22,26 @@ lint: |
   capabilities:
     - NET_ADMIN
     - NET_RAW
+  pre_build_image: true
 platforms:
   - <<: *platform_base
-    name: centos-7
-    image: centos:7
-    command: /sbin/init
-  - <<: *platform_base
     name: centos-8
-    image: centos:8
+    image: pulp/molecule_centos8
     command: /sbin/init
   - <<: *platform_base
     name: debian-10
-    image: debian:buster
+    image: pulp/molecule_debian10
     command: /sbin/init
   - <<: *platform_base
     name: fedora-31
-    image: fedora:31
+    image: pulp/molecule_fedora31
     command: /usr/sbin/init
 provisioner:
   name: ansible
   config_options:
     defaults:
       stdout_callback: debug
+      callback_whitelist: profile_tasks
   inventory:
     links:
       host_vars: ../scenario_resources/host_vars/
