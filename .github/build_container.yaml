@@ -1,0 +1,31 @@
+# Ansible playbook to create the pulp service containers image
+---
+- hosts: localhost
+  gather_facts: false
+  vars_files:
+    - vars/main.yaml
+  tasks:
+    - name: "Generate Containerfile from template"
+      template:
+        src: ../molecule/scenario_resources/Dockerfile.j2
+        dest: "Containerfile_{{ item.name }}"
+      with_items: "{{ molecule_images }}"
+
+    - name: Log into DockerHub
+      docker_login:
+        username: pulpbot
+        password: "{{ lookup('env','DOCKER_BOT_PASSWORD') }}"
+
+    - name: "Build molecule image"
+      docker_image:
+        name: "docker.io/pulp/molecule_{{ item.name }}"
+        tag: latest
+        build:
+          path: "."
+          dockerfile: "Containerfile_{{ item.name }}"
+          nocache: "{{ not cache | default(true) | bool }}"
+          pull: false
+        state: present
+        push: true
+        source: build
+      with_items: "{{ molecule_images }}"

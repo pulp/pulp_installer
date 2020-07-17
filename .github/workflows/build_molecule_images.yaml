@@ -1,0 +1,22 @@
+---
+name: Pulp Containers
+on:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron: '10 3 * * *'
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.1
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.8
+      - name: Install ansible
+        run: pip install -U ansible docker
+      - name: Build image
+        env:
+          DOCKER_BOT_PASSWORD: ${{ secrets.DOCKER_BOT_PASSWORD }}
+        run: |
+          ansible-playbook ./.github/build_container.yaml
