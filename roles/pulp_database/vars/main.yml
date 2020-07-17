@@ -2,10 +2,31 @@
 # Variables used by the Geerlingguy Postgresql role
 
 postgresql_databases:
-  - name: '{{ merged_pulp_settings.databases.default.NAME }}'
-    owner: '{{ merged_pulp_settings.databases.default.USER }}'
+  - name: '{{ __pulp_database_merged_pulp_settings.databases.default.NAME }}'
+    owner: '{{ __pulp_database_merged_pulp_settings.databases.default.USER }}'
 
 postgresql_users:
-  - name: '{{ merged_pulp_settings.databases.default.USER }}'
-    password: '{{ merged_pulp_settings.databases.default.PASSWORD }}'
+  - name: '{{ __pulp_database_merged_pulp_settings.databases.default.USER }}'
+    password: '{{ __pulp_database_merged_pulp_settings.databases.default.PASSWORD }}'
     role_attr_flags: CREATEDB
+
+# Users should not set this variable, instead using `pulp_settings.databases`
+__pulp_database_pulp_settings_defaults:
+  databases:
+    default:
+      HOST: localhost
+      ENGINE: django.db.backends.postgresql_psycopg2
+      NAME: pulp
+      USER: pulp
+      PASSWORD: pulp
+__pulp_database_merged_pulp_settings: "{{ __pulp_database_pulp_settings_defaults|combine(pulp_settings, recursive=True) }}"
+
+__pulp_database_local_postgresql_global_config_options:
+  - option: unix_socket_directories
+    value: '{{ postgresql_unix_socket_directories | join(",") }}'
+
+__pulp_database_remote_postgresql_global_config_options:
+  - option: listen_addresses
+    value: "*"
+
+postgresql_global_config_options: "{{ (__pulp_database_merged_pulp_settings.databases.default.HOST == 'localhost') | ternary(__pulp_database_local_postgresql_global_config_options, __pulp_database_remote_postgresql_global_config_options) }}"
