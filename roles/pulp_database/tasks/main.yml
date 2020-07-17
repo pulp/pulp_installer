@@ -13,8 +13,4 @@
   tags:
     - always
 
-- name: Set database defaults if not provided
-  set_fact:
-    merged_pulp_settings: "{{ pulp_settings_db_defaults|combine(pulp_settings, recursive=True) }}"
-
 - include_tasks: install_postgres.yml

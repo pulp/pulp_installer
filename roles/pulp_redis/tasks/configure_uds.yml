@@ -1,8 +1,4 @@
 ---
-- name: Configure pulp_redis_socket_file fact
-  set_fact:
-    pulp_redis_socket_file: '{{ pulp_redis_bind | replace("unix:", "") }}'
-
 - name: Ensure pulp is part of group redis
   user:
     name: '{{ pulp_user }}'
@@ -18,7 +14,7 @@
     - regexp: '^port '
       line: 'port 0'
     - regexp: '^unixsocket '
-      line: 'unixsocket {{ pulp_redis_socket_file }}'
+      line: 'unixsocket {{ pulp_redis_bind | replace("unix:", "") }}'
     - regexp: '^unixsocketperm '
       line: 'unixsocketperm 775'
   notify: restart redis

@@ -1,13 +1,4 @@
 ---
-# Users should not set this variable, instead using `pulp_settings.databases`
-pulp_settings_db_defaults:
-    databases:
-        default:
-            HOST: localhost
-            ENGINE: django.db.backends.postgresql_psycopg2
-            NAME: pulp
-            USER: pulp
-            PASSWORD: pulp
 # Auto is more robust for us than auto_legacy (still the default as of 2.8)
 # because the geerlingguy.postgresql role, with RPM weak deps, installs
 # /usr/bin/python pointing to python2, on Fedora 30. This in turn breaks

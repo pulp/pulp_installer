@@ -24,13 +24,6 @@
         - ansible_distribution == 'CentOS'
         - ansible_distribution_major_version|int == 7
 
-    - name: Set listen addresses
-      set_fact:
-        postgresql_global_config_options:
-          - option: listen_addresses
-            value: "*"
-      when: merged_pulp_settings.databases.default.HOST != 'localhost'
-
     - name: Install and configure PostgreSQL
       include_role:
         name: geerlingguy.postgresql
