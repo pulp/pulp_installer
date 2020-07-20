@@ -18,7 +18,7 @@
 
     - name: "Build molecule image"
       docker_image:
-        name: "docker.io/pulp/molecule_{{ item.name }}"
+        name: "molecule_{{ item.name }}"
         tag: latest
         build:
           path: "."
@@ -26,6 +26,14 @@
           nocache: "{{ not cache | default(true) | bool }}"
           pull: false
         state: present
-        push: true
         source: build
+      with_items: "{{ molecule_images }}"
+
+    - name: "Push molecule image"
+      docker_image:
+        name: "molecule_{{ item.name }}"
+        repository: "docker.io/pulp/molecule_{{ item.name }}"
+        tag: latest
+        push: true
+        source: local
       with_items: "{{ molecule_images }}"
