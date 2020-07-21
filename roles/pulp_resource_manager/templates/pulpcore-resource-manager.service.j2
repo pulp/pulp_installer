@@ -20,6 +20,9 @@ ExecStart={{ pulp_install_dir }}/bin/rq worker \
           -c 'pulpcore.rqconfig' \
           --disable-job-desc-logging
 
+# Enables tracking of process resource consumption at a unit & cgroup level.
+CPUAccounting=yes
+MemoryAccounting=yes
 
 # This provides reconnect support for PostgreSQL and Redis. Without reconnect support, if either
 # is not available at startup or becomes disconnected, this process will die and not respawn.
