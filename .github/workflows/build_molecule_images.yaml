@@ -19,4 +19,5 @@ jobs:
         env:
           DOCKER_BOT_PASSWORD: ${{ secrets.DOCKER_BOT_PASSWORD }}
         run: |
-          ansible-playbook ./.github/build_container.yaml
+          # ansible-playbook ./.github/build_container.yaml
+          echo "Disabled"
