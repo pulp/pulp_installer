@@ -11,29 +11,17 @@
         dest: "Containerfile_{{ item.name }}"
       with_items: "{{ molecule_images }}"
 
-    - name: Log into DockerHub
-      docker_login:
-        username: pulpbot
-        password: "{{ lookup('env','DOCKER_BOT_PASSWORD') }}"
-
+    # yamllint disable-file
     - name: "Build molecule image"
-      docker_image:
-        name: "molecule_{{ item.name }}"
-        tag: latest
-        build:
-          path: "."
-          dockerfile: "Containerfile_{{ item.name }}"
-          nocache: "{{ not cache | default(true) | bool }}"
-          pull: false
-        state: present
-        source: build
+      command: "buildah bud -f Containerfile_{{ item.name }} -t molecule_{{ item.name }}:latest ."
       with_items: "{{ molecule_images }}"
 
     - name: "Push molecule image"
-      docker_image:
+      podman_image:
         name: "molecule_{{ item.name }}"
-        repository: "docker.io/pulp/molecule_{{ item.name }}"
-        tag: latest
-        push: true
-        source: local
+        push: yes
+        username: pulpbot
+        password: "{{ lookup('env','DOCKER_BOT_PASSWORD') }}"
+        push_args:
+          dest: "docker.io/pulp"
       with_items: "{{ molecule_images }}"
