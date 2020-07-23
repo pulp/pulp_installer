@@ -22,11 +22,14 @@ ProtectSystem=full
 PrivateTmp=yes
 PrivateDevices=yes
 
-
 # This provides reconnect support for PostgreSQL and Redis. Without reconnect support, if either
 # is not available at startup or becomes disconnected, this process will die and not respawn.
 Restart=always
 RestartSec=3
+
+# Enables tracking of process resource consumption at a unit & cgroup level.
+CPUAccounting=yes
+MemoryAccounting=yes
 
 # This directive is set to an absolute path in other Pulp units. Using an
 # absolute path is an abuse of the directive, as it should be a relative path,
