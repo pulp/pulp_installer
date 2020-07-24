@@ -5,8 +5,11 @@
 # can be installed and controlled. Systemd seems to be able to detect that it is being run in a
 # container context, and starts very little services. There is no need to delete any files from
 # /{etc,lib}/systemd/*.
-
+{% if item.name.startswith('fedora') -%}
+FROM registry.fedoraproject.org/{{ item.image }}
+{% else -%}
 FROM {{ item.image }}
+{%- endif %}
 
 ENV container docker
 
