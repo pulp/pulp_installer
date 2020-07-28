@@ -188,6 +188,9 @@ pbindings(){
                 ;;
         esac
         rm -rf pulpcore-client
+
+        # check server is up before proceeding in case server is autoreloading
+        for i in {1..5}; do http :24817/pulp/api/v3/status/ && break || sleep 5; done
     fi
 
     ./generate.sh $@

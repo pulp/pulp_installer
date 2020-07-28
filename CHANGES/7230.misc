@@ -1,0 +1,3 @@
+Added a check to pbindings to ensure that the server is up after installing the pulpcore_client.
+This prevents the situation where the server might be autoreloading and unresponsive after detecting
+a change to ``pulpcore/__init__.py``.
