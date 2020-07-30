@@ -13,6 +13,13 @@
   tags:
     - always
 
+- name: Ensure that if we have web cert, we also have key
+  fail:
+    msg: "If you give one of pulp_webserver_ssl_cert and pulp_webserver_ssl_key, you must also give the other."
+  when:
+    - "pulp_webserver_ssl_cert is defined or pulp_webserver_ssl_key is defined"
+    - "pulp_webserver_ssl_cert is not defined or pulp_webserver_ssl_key is not defined"
+
 - debug:
     msg: >
       {{ (pulp_install_source == "packages") | ternary(pulp_python_interpreter, pulp_install_dir ~ "/bin/python") }}
@@ -29,6 +36,32 @@
     snippets.stderr is search("env: 'python': No such file or directory")
   changed_when: false
   check_mode: false
+
+- import_tasks: generate_tls_certificates.yml
+  become: true
+  when:
+    - pulp_webserver_ssl_cert is undefined
+    - pulp_webserver_ssl_key is undefined
+
+- import_tasks: import_certificates.yml
+  become: true
+  when:
+    - pulp_webserver_ssl_cert is defined
+    - pulp_webserver_ssl_key is defined
+
+- name: Copy custom CA cert
+  copy:
+    src: "{{ pulp_websserver_custom_ca_cert }}"
+    dest: "{{ pulp_webserver_trusted_root_certificates_path }}/pulp-custom-ca-cert.crt"
+    mode: '0644'
+    owner: root
+    group: root
+  when: pulp_websserver_custom_ca_cert is defined
+  become: true
+  notify: update ca trust
+
+- import_tasks: nginx.yml
+  when: pulp_webserver_server == 'nginx'
 
 - include_tasks: "{{ pulp_webserver_server }}.yml"
 

@@ -30,4 +30,4 @@ developer_user_home: /var/lib/pulp
 developer_user: pulp
 pulp_settings:
   secret_key: secret
-  content_origin: "http://{{ ansible_fqdn }}"
+  content_origin: "https://{{ ansible_fqdn }}"

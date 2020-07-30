@@ -1,0 +1,87 @@
+---
+- name: Ensure python-cryptography is installed
+  package:
+    name: '{{ pulp_webserver_python_cryptography }}'
+  become: true
+
+- name: Look for CA certificate
+  stat:
+    path: '{{ pulp_webserver_tls_folder }}/root.crt'
+    get_attributes: false
+    get_checksum: false
+    get_mime: false
+  register: __pulp_webserver_ca_cert
+
+- name: Generate CA
+  block:
+    - name: Generate CA key
+      openssl_privatekey:
+        path: '{{ pulp_webserver_tls_folder }}/root.key'
+
+    - name: Generate CA CSR
+      openssl_csr:
+        path: '{{ pulp_webserver_tls_folder }}/root.csr'
+        privatekey_path: '{{ pulp_webserver_tls_folder }}/root.key'
+        common_name: '{{ pulp_webserver_httpd_servername }}'
+        organization_name: Pulp
+        country_name: US
+        basic_constraints: 'CA:TRUE'
+
+    - name: Generate CA certificate
+      openssl_certificate:
+        path: '{{ pulp_webserver_tls_folder }}/root.crt'
+        csr_path: '{{ pulp_webserver_tls_folder }}/root.csr'
+        privatekey_path: '{{ pulp_webserver_tls_folder }}/root.key'
+        provider: selfsigned
+  when: not __pulp_webserver_ca_cert.stat.exists
+
+- name: Look for webserver certificate
+  stat:
+    path: '{{ pulp_webserver_tls_folder }}/pulp_webserver.crt'
+    get_attributes: false
+    get_checksum: false
+    get_mime: false
+  register: __pulp_webserver_cert
+
+- name: Generate webserver certificate
+  block:
+    - name: Generate private keys
+      openssl_privatekey:
+        path: '{{ pulp_webserver_tls_folder }}/pulp_webserver.key'
+        owner: root
+        group: "{{ pulp_group }}"
+
+    - name: Generate CSRs standalone
+      openssl_csr:
+        path: '{{ pulp_webserver_tls_folder }}/pulp_webserver.csr'
+        privatekey_path: '{{ pulp_webserver_tls_folder }}/pulp_webserver.key'
+        common_name: '{{ pulp_webserver_httpd_servername }}'
+        subject_alt_name: 'DNS:{{ pulp_webserver_httpd_servername }}'
+        key_usage:
+          - keyEncipherment
+          - dataEncipherment
+        extended_key_usage:
+          - serverAuth
+        owner: root
+        group: "{{ pulp_group }}"
+
+    - name: Generate certificates
+      openssl_certificate:
+        path: '{{ pulp_webserver_tls_folder }}/pulp_webserver.crt'
+        csr_path: '{{ pulp_webserver_tls_folder }}/pulp_webserver.csr'
+        privatekey_path: '{{ pulp_webserver_tls_folder }}/pulp_webserver.key'
+        provider: ownca
+        ownca_path: '{{ pulp_webserver_tls_folder }}/root.crt'
+        ownca_privatekey_path: '{{ pulp_webserver_tls_folder }}/root.key'
+        ownca_not_after: '+824d'
+        owner: root
+        group: "{{ pulp_group }}"
+  when: not __pulp_webserver_cert.stat.exists
+
+- name: Cleanup CSR files
+  file:
+    path: '{{ pulp_webserver_tls_folder }}/{{ item }}'
+    state: absent
+  loop:
+    - root.csr
+    - pulp_webserver.csr
