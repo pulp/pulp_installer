@@ -1,0 +1,63 @@
+---
+# Setup the RPM signing service
+#
+# Maintain parity with:
+# https://github.com/pulp/pulp_rpm/blob/master/.travis/post_before_script.sh
+
+- name: Copy the signing service script to {{ __pulp_devel_rpm_sign_script_path }}
+  copy:
+    src: >-
+      {{ pulp_install_plugins_normalized['pulp-rpm'].source_dir | default (developer_user_home ~ '/devel/pulp_rpm')
+      }}/pulp_rpm/tests/functional/sign-metadata.sh
+    dest: "{{ __pulp_devel_rpm_sign_script_path }}"
+    remote_src: true
+    owner: "{{ pulp_user }}"
+    group: "{{ pulp_group }}"
+    mode: 0755
+  become: true
+  become_user: root
+
+- name: Import GPG key
+  shell: |
+    set -o pipefail
+    curl -L https://github.com/pulp/pulp-fixtures/raw/master/common/GPG-PRIVATE-KEY-pulp-qe | gpg --import
+  args:
+    executable: /bin/bash
+  # Retries in case github access issue.
+  retries: 3
+  delay: 3
+  register: result
+  until: result.rc == 0
+  changed_when: '"secret keys imported: 1" in result.stderr'
+  become: true
+  become_user: "{{ pulp_user }}"
+  when: not ansible_check_mode
+
+- name: Import to trust database
+  command:
+    cmd: gpg --import-ownertrust
+    stdin: 6EDF301256480B9B801EBA3D05A5E6DA269D9D98:6
+  register: result
+  changed_when: '"gpg: inserting ownertrust of" in result.stderr'
+  become: true
+  become_user: "{{ pulp_user }}"
+  when: not ansible_check_mode
+
+- name: Create the Signing Service
+  shell:
+    cmd: >
+         {{ pulp_django_admin_path }} shell -c
+         "from pulpcore.app.models.content import AsciiArmoredDetachedSigningService;
+         AsciiArmoredDetachedSigningService.objects.create(name='sign-metadata',
+         script='{{ __pulp_devel_rpm_sign_script_path }}')"
+  environment:
+    PULP_SETTINGS: "{{ pulp_settings_file }}"
+  register: result
+  changed_when:
+    - result.rc == 0
+  failed_when:
+    - result.rc != 0
+    - '"DETAIL:  Key (name)=(sign-metadata) already exists." not in result.stderr'
+  become: true
+  become_user: "{{ pulp_user }}"
+  when: not ansible_check_mode

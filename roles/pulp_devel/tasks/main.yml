@@ -64,6 +64,21 @@
   become_user: "{{ developer_user }}"
   when: pulp_install_plugins_normalized['galaxy-ng'] is defined
 
+# For the use case of it being installed to the venv
+# from PyPI, but the git repo being cloned.
+- name: check if pulp_rpm exists on disk
+  stat:
+    path: "{{ developer_user_home }}/devel/pulp_rpm"
+  register: rpm_stat
+
+- name: include_tasks to create signing service if pulp_rpm is among the plugins
+  include_tasks:
+    file: rpm_signing_service.yml
+  when:
+    - pulp_install_plugins_normalized['pulp-rpm'] is defined
+    - pulp_install_plugins_normalized['pulp-rpm'].source_dir is defined
+      or rpm_stat.stat.exists
+
 - name: Set the message of the day
   copy:
     src: motd

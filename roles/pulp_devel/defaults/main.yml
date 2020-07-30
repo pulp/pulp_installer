@@ -3,3 +3,4 @@ pulp_devel_install_podman: true
 pulp_devel_package_retries: 5
 pulp_devel_supplement_bashrc: false
 pulp_workers: 2
+__pulp_devel_rpm_sign_script_path: "{{ pulp_user_home }}/sign-metadata.sh"
