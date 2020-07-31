@@ -20,9 +20,12 @@
         virtualenv_site_packages: yes
       when: pulp_use_system_wide_pkgs | bool
 
+    # 20.2 fails idempotency with ruamel.yaml due to this bug:
+    # https://github.com/pypa/pip/pull/8659
+    # Should be fixed in 20.2.1
     - name: Upgrade to a recent edition of pip (supporting manylinux2014)
       pip:
-        name: pip>=20.0
+        name: pip>=20.0,!=20.2
         state: present
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
