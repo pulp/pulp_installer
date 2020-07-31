@@ -110,11 +110,12 @@ RPM packages instead if this variable is set. Other distro packaging formats may
   Defaults to "pip".
 
 If it is set to "packages", the following variables are used, or behave *differently* from above:
+
 * `pulp_install_plugins`: **Required** A nested dictionary of plugins to install & their installation options.
     * *Dictionary Key*: **Required**. The plugin name.
     * `pkg_name`: If this is left undefined, each Linux distro package will be installed by the name `pulp_pkg_name_prefix`
-    with the Dictionary Key appended to it. `pulp_pkg_name_prefix` defaults to "python3-", so if the Dictionary key is, "pulp-file",
-    the package `python3-pulp-file` will be installed. This variable overrides the entire package name.
+    with the Dictionary Key appended to it. `pulp_pkg_name_prefix` defaults to "python3-", so if the Dictionary key is
+    "pulp-file", the package `python3-pulp-file` will be installed. This variable overrides the entire package name.
     * **Example**:
     ```yaml
     pulp_install_source: packages
@@ -127,21 +128,20 @@ If it is set to "packages", the following variables are used, or behave *differe
     ```
 * `pulp_install_dir`: Location of the filesystem prefix where package installed python programs
   (gunicorn & rq) are looked for on the filesystem.  Defaults to "/usr" (such as for "/usr/bin/gunicorn").
-* pulp_django_admin_paths: A list of possible filepaths to the `django-admin`
-  command. The first one found will be used for pulp_installer's
-  internal usage. See `defaults/main.yml` for default values.
-* pulp_pkg_name_prefix: The beginning of the Linux distro (RPM) package names for pulp, that is
+* `pulp_django_admin_paths`: A list of possible filepaths to the `django-admin` command.
+  The first one found will be used for pulp_installer's internal usage. See `defaults/main.yml` for default values.
+* `pulp_pkg_name_prefix`: The beginning of the Linux distro (RPM) package names for pulp, that is
   appended to in order to install "pulpcore" and the plugins. Defaults to "python3-".
-* pulp_pkg_pulpcore_name: The entire name of the Linux distro (RPM) package for pulpcore.
+* `pulp_pkg_pulpcore_name`: The entire name of the Linux distro (RPM) package for pulpcore.
   Defaults to: "python3-pulpcore"
-* pulp_pkg_repo: yum/dnf package repo to add to the system before installing Pulp
+* `pulp_pkg_repo`: yum/dnf package repo to add to the system before installing Pulp
   Consists simply of the URL to the repo. Defaults to nothing. Does not support any other repo
   type yet.
-* pulp_pkg_undeclared_deps: Additional Linux distro (RPM) packages to install before installing pulpcore.
+* `pulp_pkg_undeclared_deps`: Additional Linux distro (RPM) packages to install before installing pulpcore.
   See `defaults/main.yml` for default values.
-* pulp_pkg_upgrade_all: Whether to upgrade all Pulp Linux distro (RPM) packages (including the `pulp_pkg_undeclared_deps`
-  packages.)
-* pulp_upgraded_manually: Set this to `true` if you updated/upgraded Pulp manually beforehand,
+* `pulp_pkg_upgrade_all`: Whether to upgrade all Pulp Linux distro (RPM) packages (including the
+  `pulp_pkg_undeclared_deps` packages.)
+* `pulp_upgraded_manually`: Set this to `true` if you updated/upgraded Pulp manually beforehand,
   without using the installer. (e.g., you ran `yum update` and your Pulp installation is broken. Re-running the
   installer will fix it.)
   Defaults to `false`.
