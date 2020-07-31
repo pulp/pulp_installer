@@ -74,9 +74,9 @@ vim install.yml
       # pulp-npm: {}
       # pulp-python: {}
       pulp-rpm: {}
-    roles:
-      - pulp.pulp_installer.pulp_all_services
-    environment:
+  roles:
+    - pulp.pulp_installer.pulp_all_services
+  environment:
     DJANGO_SETTINGS_MODULE: pulpcore.app.settings
 ```
 4 - Run the playbook:
