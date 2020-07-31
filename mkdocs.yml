@@ -29,3 +29,5 @@ nav:
       - Pulp Services: meta_roles/pulp_services.md
 markdown_extensions:
   - pymdownx.superfences
+  - toc:
+      permalink: True
