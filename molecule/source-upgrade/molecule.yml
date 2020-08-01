@@ -36,6 +36,8 @@ platforms:
     pre_build_image: true
 provisioner:
   name: ansible
+  env:
+    ANSIBLE_LOOKUP_PLUGINS: "~/.ansible/plugins/lookup:/usr/share/ansible/plugins/lookup:~/work/pulp_installer/pulp_installer/plugins/lookup"
   config_options:
     defaults:
       stdout_callback: debug

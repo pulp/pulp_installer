@@ -40,6 +40,10 @@
   become: true
   become_user: '{{ pulp_user }}'
 
+- name: Testing the pre_flight plugin
+  set_fact:
+    pre_flight_result: "{{ lookup('pre_flight') }}"
+
 - name: Prepare for preflight checks
   block:
 
