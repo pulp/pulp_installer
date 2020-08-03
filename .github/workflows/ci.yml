@@ -55,10 +55,13 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python }}
-      - name: Install tox
+      - name: Install testing tools
         run: |
+          # Warning: Installing ansible via pip would break molecule in the tox environment
+          sudo apt-get -yy install ansible
           pip install --upgrade pip
-          pip install tox
+          # Dependency PyYAML is needed for compiling targets in the Makefile
+          pip install tox PyYAML
       - name: Pulling images for PyPI upgrades
         if: matrix.test_type == 'release-upgrade' || matrix.test_type == 'source-upgrade'
         run: |
@@ -71,7 +74,7 @@ jobs:
           docker pull quay.io/pulp/pulp-ci-pkgs-c7:3.3.1
           docker pull quay.io/pulp/pulp-ci-pkgs-c8:3.3.1
       - name: Run tox
-        run: tox -e "py${{ matrix.toxpy }}-ansible${{ matrix.ansible }}-${{ matrix.test_type }}"
+        run: "make test TOX_ENV=py${{ matrix.toxpy }}-ansible${{ matrix.ansible }}-${{ matrix.test_type }}"
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'

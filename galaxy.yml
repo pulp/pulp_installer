@@ -66,19 +66,3 @@ homepage: https://pulpproject.org/
 
 # The URL to the collection issue tracker
 issues: https://pulp.plan.io/projects/pulp/issues?query_id=156
-
-build_ignore:
-  - .ci
-  - .github
-  - .travis.yml
-  - .travis
-  - CHANGES
-  - pulp_installer
-  - .gitignore
-  - CHANGES.rst
-  - pyproject.toml
-  - template_config.yml
-  - forklift
-  - pulp-ci
-  - vagrant
-  - Vagrantfile

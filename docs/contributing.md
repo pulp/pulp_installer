@@ -17,7 +17,7 @@ Make sure you reference and link to the issue.
 Testing
 -------
 
-The tests can be run as they are on GitHub Actions with **tox**, or they can run with various options
+The tests can be run as they are on GitHub Actions with **make** and **tox**, or they can run with various options
 using **molecule** directly.
 
 ### Requirements
@@ -54,7 +54,7 @@ and so on.
    available, specify which environments to exercise:
 
    ```bash
-   tox -e py36
+   make test TOX_ENV=py36-ansible28-release-static
    ```
 
 ### Using Molecule
@@ -63,7 +63,15 @@ and so on.
 and [ansible-lint](https://docs.ansible.com/ansible-lint/).
 It is recommended that you do so with `pip` in a virtualenv.
 
-2. Run molecule commands.
+2. Prepare collection.
+
+   Install the collection into the test environment.
+   (You need to repeat this step whenever you changed a file.)
+   ```bash
+   make install
+   ```
+
+3. Run molecule commands.
 
    Test all scenarios on all hosts.
    ```bash

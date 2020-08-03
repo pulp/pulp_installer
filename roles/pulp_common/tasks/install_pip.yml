@@ -155,7 +155,7 @@
 
 - name: Include pulp-rpm prereq role
   include_role:
-    name: pulp_rpm_prerequisites
+    name: pulp.pulp_installer.pulp_rpm_prerequisites
   when: pulp_install_plugins_normalized['pulp-rpm'] is defined
 
 # Note: We would do a static import like in pulp_database, but

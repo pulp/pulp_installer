@@ -40,6 +40,8 @@ platforms:
     command: /usr/sbin/init
 provisioner:
   name: ansible
+  env:
+    ANSIBLE_COLLECTIONS_PATHS: $PWD/build/collections
   config_options:
     defaults:
       stdout_callback: debug
