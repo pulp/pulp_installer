@@ -1,6 +1,9 @@
 ---
 # We set the following to mod_ssl as httpd is a dependency
 # and hence will be pulled.
+pulp_seboolean_packages:
+  - python3-libselinux
+  - python3-libsemanage
 pulp_webserver_apache_package: mod_ssl
 pulp_webserver_apache_service: httpd
 pulp_webserver_apache_vhost_dir: /etc/httpd/conf.d
