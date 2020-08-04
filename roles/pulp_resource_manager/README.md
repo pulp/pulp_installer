@@ -3,8 +3,8 @@ pulp_resource_manager
 
 Install, configure, and set the state of the pulp resouce manager.
 
-Configurable Variables
-----------------------
+Role Variables
+--------------
 
 * `pulp_resouce_manager_state`: This variable can be configured with any of the
   states allowed by the systemd module's "state" directive. Defaults to "started."
@@ -20,6 +20,7 @@ This role **is tightly coupled** to the required `pulp_common` role, and inherit
 some of its variables.
 
 * `pulp_config_dir`
+* `pulp_group`
 * `pulp_install_dir`
 * `pulp_ld_library_path`: An optional LD_LIBRARY_PATH environment variable for the pulpcore-resource-manager systemd process
 * `pulp_settings_file`
