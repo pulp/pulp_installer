@@ -123,3 +123,4 @@
   when:
     - ansible_os_family == "RedHat"
     - pulp_pkg_repo is not none
+  become: true
