@@ -1,10 +1,10 @@
 pulp_content
-=============
+============
 
 Install, configure, and set the state of pulp content app.
 
-Variables
----------
+Role Variables
+--------------
 
 * `pulp_content_bind`: Interface and Port where Pulp Content `gunicorn` service will listen.
 
@@ -21,8 +21,9 @@ Shared variables
 This role **is tightly coupled** to the required `pulp_common` role, and inherits
 some of its variables.
 
-* `pulp_user`
-* `pulp_install_dir`
 * `pulp_config_dir`
+* `pulp_group`
+* `pulp_install_dir`
+* `pulp_ld_library_path`: An optional LD_LIBRARY_PATH environment variable for the pulpcore-api systemd process
 * `pulp_settings_file`
-* `pulp_ld_library_path`: An optional LD_LIBRARY_PATH environment variable for the pulpcore-content systemd process
+* `pulp_user`

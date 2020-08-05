@@ -10,8 +10,8 @@ By default TLS will be enabled (with self-signed certificates if none are provid
 redirect from http to https will take place.
 
 
-Variables
----------
+Role Variables
+--------------
 
 * `pulp_webserver_server` Set the webserver Pulp should use to reverse proxy with. Defaults to
   'nginx'.
