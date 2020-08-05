@@ -65,11 +65,19 @@
 
 - include_tasks: "{{ pulp_webserver_server }}.yml"
 
-- name: Set httpd_can_network_connect flag on and keep it persistent across reboots
-  seboolean:
-    name: httpd_can_network_connect
-    state: true
-    persistent: true
+- block:
+
+    - name: Install packages for Ansible seboolean module
+      yum:
+        name: "{{ pulp_seboolean_packages }}"
+        state: present
+
+    - name: Set httpd_can_network_connect flag on and keep it persistent across reboots
+      seboolean:
+        name: httpd_can_network_connect
+        state: true
+        persistent: true
+
   become: true
   when:
     - ansible_os_family == 'RedHat'
