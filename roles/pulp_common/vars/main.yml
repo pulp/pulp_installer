@@ -10,6 +10,7 @@ pulp_install_plugins_normalized_yml: |-
 # A pulp_install_plugins but with the plugin names corrected:
 # pip/PyPI only uses dashes, not underscores.
 pulp_install_plugins_normalized: "{{ pulp_install_plugins_normalized_yml | from_yaml }}"
+__pulp_common_pulp_pki_dir: "{{ pulp_config_dir }}/certs"
 # Users should not set this variable, instead using `pulp_settings`
 __pulp_common_pulp_settings_defaults:
   databases:
@@ -19,4 +20,8 @@ __pulp_common_pulp_settings_defaults:
       NAME: pulp
       USER: pulp
       PASSWORD: pulp
+  private_key_path: "{{ __pulp_common_pulp_pki_dir }}/token_private_key.pem"
+  public_key_path: "{{ __pulp_common_pulp_pki_dir }}/token_public_key.pem"
+  token_server: "https://{{ ansible_fqdn }}/token"
+  token_signature_algorithm: ES256
 __pulp_common_merged_pulp_settings: "{{ __pulp_common_pulp_settings_defaults|combine(pulp_settings, recursive=True) }}"

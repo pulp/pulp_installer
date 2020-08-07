@@ -9,3 +9,5 @@ pulp_preq_packages:
   - gcc                # For psycopg2
   - make               # For make docs
 pulp_python_interpreter: /usr/bin/python3.6
+pulp_python_cryptography:
+  - python-cryptography

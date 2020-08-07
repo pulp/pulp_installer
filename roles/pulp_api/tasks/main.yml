@@ -20,4 +20,45 @@
         daemon_reload: true
       become: true
 
-  when: pulp_install_api_service |bool
+    - name: Ensure python-cryptography is installed
+      package:
+        name: '{{ pulp_python_cryptography }}'
+      become: true
+
+    - name: Create cert directory to hold token authentication key
+      file:
+        path: "{{ __pulp_common_pulp_pki_dir }}"
+        state: directory
+        owner: "{{ pulp_user }}"
+        group: "{{ pulp_group }}"
+        mode: 0700
+      become: true
+
+    - import_tasks: generate_token_auth_key.yml
+      when: pulp_token_auth_key is undefined
+
+    - import_tasks: import_token_auth_key.yml
+      when: pulp_token_auth_key is defined
+
+    - name: Extract token authentication public key
+      openssl_publickey:
+        path: "{{ __pulp_common_pulp_pki_dir }}/token_public_key.pem"
+        privatekey_path: "{{ __pulp_common_pulp_pki_dir }}/token_private_key.pem"
+        owner: "{{ pulp_user }}"
+        group: "{{ pulp_group }}"
+      become: true
+      become_user: "{{ pulp_user }}"
+      when:
+        - (ansible_version.major > 2) or (ansible_version.major == 2 and ansible_version.minor >= 9)
+
+    - name: Extract token authentication public key (ansible 2.8 workaround)
+      command:
+        cmd: "openssl ec -in {{ __pulp_common_pulp_pki_dir }}/token_private_key.pem -pubout -out {{ __pulp_common_pulp_pki_dir }}/token_public_key.pem"
+        creates: "{{ __pulp_common_pulp_pki_dir }}/token_public_key.pem"
+      become: true
+      become_user: "{{ pulp_user }}"
+      when:
+        - ansible_version.major == 2
+        - ansible_version.minor < 9
+
+  when: pulp_install_api_service | bool
