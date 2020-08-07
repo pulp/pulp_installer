@@ -18,9 +18,6 @@ ExecStart={{ pulp_install_dir }}/bin/gunicorn pulpcore.app.wsgi:application \
           --bind '{{ pulp_api_bind }}' \
           --workers {{ pulp_api_workers }} \
           --access-logfile -
-ProtectSystem=full
-PrivateTmp=yes
-PrivateDevices=yes
 
 # This provides reconnect support for PostgreSQL and Redis. Without reconnect support, if either
 # is not available at startup or becomes disconnected, this process will die and not respawn.
