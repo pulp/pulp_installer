@@ -4,10 +4,6 @@ Getting started
 The Pulp 3 Ansible installer is a collection of roles to install or upgrade Pulp 3 hosted on galaxy:
 [https://galaxy.ansible.com/pulp/pulp_installer](https://galaxy.ansible.com/pulp/pulp_installer)
 
-Some plugins require a prerequisite role. You can find information about prerequisite roles that you require in the **Roles** area of the Pulp page on Ansible Galaxy:
-[https://galaxy.ansible.com/pulp](https://galaxy.ansible.com/pulp)
-
-
 Installation
 ------------
 The recommended installation is from ansible-galaxy:
@@ -33,7 +29,7 @@ they can be set in the playbook. See the Ansible docs for more flexible idiomati
 
 
 Example Playbook for Installing Plugins
------------------
+---------------------------------------
 As an example, we are going to write a playbook for installing `pulp_container` and `pulp_rpm`.
 You can learn more about the variables on the [roles section](https://pulp-installer.readthedocs.io/en/latest/roles/pulp/#role-variables)
 

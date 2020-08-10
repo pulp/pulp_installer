@@ -39,6 +39,10 @@ Define pulp-api {{ pulp_api_bind }}
 <VirtualHost *:443>
   ServerName {{ pulp_webserver_httpd_servername }}
 
+  # static files that can change dynamically, or are needed for TLS
+  # purposes are served through the webserver.
+  DocumentRoot {{ pulp_webserver_static_dir }}
+
   ## TLS Configuration
   SSLEngine On
   SSLCertificateFile {{ pulp_webserver_tls_folder }}/pulp_webserver.crt
@@ -47,7 +51,7 @@ Define pulp-api {{ pulp_api_bind }}
   SSLCipherSuite ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256
   SSLHonorCipherOrder on
 
-{% if pulp_webserver_ssl_cert is defined %}
+{% if pulp_webserver_tls_cert is defined %}
   # HSTS (15768000 seconds = 6 months)
   Header always set Strict-Transport-Security "max-age=15768000;; includeSubDomains; preload"
 {% endif %}
@@ -72,8 +76,18 @@ Define pulp-api {{ pulp_api_bind }}
 
   IncludeOptional pulp/*.conf
 
-  # static files are served through whitenoise - http://whitenoise.evans.io/en/stable/
+  # most pulp static files are served through whitenoise
+  # http://whitenoise.evans.io/en/stable/
   ProxyPass / http://${pulp-api}/
   ProxyPassReverse / http://${pulp-api}/
+
+  # ACME http-01 tokens, i.e, for Let's Encrypt
+  <Location "/.well-known">
+    AllowOverride None
+    ProxyPass "!"
+    ProxyPassReverse "!"
+    Require all granted
+  </Location>
+
 </VirtualHost>
 {% endif %}

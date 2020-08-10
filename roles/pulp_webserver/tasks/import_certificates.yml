@@ -1,18 +1,20 @@
 ---
 - name: Import specified TLS certificate
   copy:
-    src: "{{ pulp_webserver_ssl_cert }}"
+    src: "{{ pulp_webserver_tls_cert }}"
     dest: "{{ pulp_webserver_tls_folder }}/pulp_webserver.crt"
     owner: root
     group: "{{ pulp_group }}"
     mode: 0600
+    remote_src: "{{ pulp_webserver_tls_files_remote }}"
   notify: reload {{ pulp_webserver_server }}
 
 - name: Import specified TLS private key
   copy:
-    src: "{{ pulp_webserver_ssl_key }}"
+    src: "{{ pulp_webserver_tls_key }}"
     dest: "{{ pulp_webserver_tls_folder }}/pulp_webserver.key"
     owner: root
     group: "{{ pulp_group }}"
     mode: 0600
+    remote_src: "{{ pulp_webserver_tls_files_remote }}"
   notify: reload {{ pulp_webserver_server }}

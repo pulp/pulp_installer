@@ -15,10 +15,10 @@
 
 - name: Ensure that if we have web cert, we also have key
   fail:
-    msg: "If you give one of pulp_webserver_ssl_cert and pulp_webserver_ssl_key, you must also give the other."
+    msg: "If you give one of pulp_webserver_tls_cert and pulp_webserver_tls_key, you must also give the other."
   when:
-    - "pulp_webserver_ssl_cert is defined or pulp_webserver_ssl_key is defined"
-    - "pulp_webserver_ssl_cert is not defined or pulp_webserver_ssl_key is not defined"
+    - "pulp_webserver_tls_cert is defined or pulp_webserver_tls_key is defined"
+    - "pulp_webserver_tls_cert is not defined or pulp_webserver_tls_key is not defined"
 
 - debug:
     msg: >
@@ -37,31 +37,45 @@
   changed_when: false
   check_mode: false
 
-- import_tasks: generate_tls_certificates.yml
-  become: true
+- include_tasks: generate_tls_certificates.yml
+  args:
+    apply:
+      become: true
   when:
-    - pulp_webserver_ssl_cert is undefined
-    - pulp_webserver_ssl_key is undefined
+    - pulp_webserver_tls_cert is undefined
+    - pulp_webserver_tls_key is undefined
 
-- import_tasks: import_certificates.yml
-  become: true
+- include_tasks: import_certificates.yml
+  args:
+    apply:
+      become: true
   when:
-    - pulp_webserver_ssl_cert is defined
-    - pulp_webserver_ssl_key is defined
+    - pulp_webserver_tls_cert is defined
+    - pulp_webserver_tls_key is defined
 
 - name: Copy custom CA cert
   copy:
-    src: "{{ pulp_websserver_custom_ca_cert }}"
+    src: "{{ pulp_webserver_tls_custom_ca_cert }}"
     dest: "{{ pulp_webserver_trusted_root_certificates_path }}/pulp-custom-ca-cert.crt"
     mode: '0644'
     owner: root
     group: root
-  when: pulp_websserver_custom_ca_cert is defined
+    remote_src: "{{ pulp_webserver_tls_files_remote }}"
+  when: pulp_webserver_tls_custom_ca_cert is defined
   become: true
   notify: update ca trust
 
-- import_tasks: nginx.yml
-  when: pulp_webserver_server == 'nginx'
+- name: Create ACME dirs
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+    owner: "{{ pulp_user }}"
+    group: "{{ pulp_group }}"
+  become: true
+  with_items:
+    - "{{ pulp_webserver_static_dir }}"
+    - "{{ pulp_webserver_static_dir }}/.well-known"
 
 - include_tasks: "{{ pulp_webserver_server }}.yml"
 
@@ -86,3 +100,6 @@
 
 - include_tasks: firewalld.yml
   when: pulp_configure_firewall in ['firewalld', 'auto']
+
+# In case an ACME role relies on a change made in pulp_webserver.
+- meta: flush_handlers

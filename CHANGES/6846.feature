@@ -1,0 +1,1 @@
+Misc webserver changes so that Let's Encrypt and other ACME protocol CAs can be used via 3rd-party ansible roles, primarily for HTTP-01 verification. See docs/letsencrypt.md for a full HTTP-01 example playbook and explanation.
