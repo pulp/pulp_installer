@@ -1,4 +1,5 @@
 ---
+__pulp_database_config_run_once: false
 pulp_default_admin_password: password
 pulp_source_dir: '/var/lib/pulp/devel/pulpcore'
 pulp_upgrade: true

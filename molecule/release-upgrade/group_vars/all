@@ -1,4 +1,5 @@
 ---
+__pulp_database_config_run_once: false
 pulp_default_admin_password: password
 pulp_upgrade: true
 pulp_install_plugins:
