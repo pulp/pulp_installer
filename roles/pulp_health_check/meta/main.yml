@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: Pulp Team
-  description: A role to install all Pulp services (first-party & third-party) on a single host.
+  description: A role to verify Pulp healthy.
   issue_tracker_url: https://pulp.plan.io/projects/pulp/issues/new
   license: GPL-2.0-or-later
   company: Red Hat
@@ -21,9 +21,4 @@ galaxy_info:
   galaxy_tags:
     - pulp
     - pulpcore
-dependencies:
-  - pulp_database
-  - pulp_redis
-  - pulp_services
-  - pulp_health_check
-  - pulp_webserver
+dependencies: []
