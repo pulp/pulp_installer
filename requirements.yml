@@ -8,3 +8,4 @@ collections:
     version: ">=1.0.0"
   - community.general
   - community.postgresql
+  - mdellweg.filters
