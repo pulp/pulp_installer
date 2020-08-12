@@ -1,6 +1,10 @@
 ---
 - meta: flush_handlers
 
+- name: Wait 5 seconds for pulp services to restart
+  pause:
+    seconds: "5"
+
 - name: Get services
   service_facts:
 
