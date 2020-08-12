@@ -1,3 +1,4 @@
 ---
 pulp_default_admin_password: password
 pulp_api_bind: '127.0.0.1:24817'
+__service_check_success: false

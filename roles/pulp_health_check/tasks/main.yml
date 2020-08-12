@@ -5,19 +5,10 @@
   pause:
     seconds: "5"
 
-- name: Get services
-  service_facts:
-
-- name: Listing Pulp services
-  debug:
-    msg: '{{ ansible_facts.services|dict2items|selectattr("key", "contains", "pulp")|list|items2dict }}'
-
-
-- name: Checking Pulp services
-  fail:
-    msg: "{{ item.value.name }} state: {{ item.value.state }}"
-  when: "item.value.name != 'pulpcore-worker@.service' and item.value.state != 'running'"
-  with_dict: '{{ ansible_facts.services|dict2items|selectattr("key", "contains", "pulp")|list|items2dict }}'
+- name: Check if Pulp services have started yet (loop)
+  include_tasks: service_check.yml
+  when: not __service_check_success
+  with_sequence: start=1 end=50
 
 - name: Ensure Pulp is up and healthy
   uri:
