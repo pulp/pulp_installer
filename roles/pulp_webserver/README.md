@@ -20,12 +20,20 @@ Role Variables
 * `pulp_webserver_disable_https`: Whether or not HTTPS should be disabled. Defaults to `false`.
 * `pulp_webserver_tls_folder`: Path where to generate or drop the certificates. Defaults to
   `pulp_config_dir`.
+* `pulp_webserver_tls_cert`: Relative or absolute path to the TLS (SSL) certificate
+   one wants to import.
+* `pulp_webserver_tls_key`: Relative or absolute path to the TLS (SSL) key
+   one wants to import.
+* `pulp_webserver_tls_custom_ca_cert` A custom CA certificate to import on the server.
+* `pulp_webserver_tls_files_remote`: Whether or not `pulp_webserver_tls_cert`,
+  `pulp_webserver_tls_key` & `pulp_webserver_tls_custom_ca_cert` are on the webserver (`true`)
+   or on the ansible management node (`false`). Defaults to `false`.
 * `pulp_webserver_httpd_servername`: Servername to use when deploying httpd. Defaults to
   `ansible_fqdn`.
-* `pulp_webserver_ssl_cert`: Relative or absolute path to the TLS certificate one wants to
-   import.
-* `pulp_webserver_ssl_key`: Relative or absolute path to the TLS key one wants to
-   import.
+- `pulp_webserver_static_dir` absolute path where to place static files, such as for the .well-known
+   directory for ACME (letsencrypt) files or SSL certs. This is not to be confused with the Pulp
+   application's setting `STATIC_ROOT`, which is a function of Pulp itself (not the webserver) and servces
+   a different set of files.
 
 Plugin Webserver Configs
 ------------------------
