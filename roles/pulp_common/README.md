@@ -121,7 +121,7 @@ If it is set to "packages", the following variables are used, or behave *differe
     pulp_install_source: packages
     pulp_install_plugins:
       pulp-zero: {} # Effectively python3-pulp-zero
-      pulp-one: {}
+      pulp-one:
         pkg_name: python3-pulp-one-ng
       pulp-two:
         pkg_name: pulp_two_underscores
