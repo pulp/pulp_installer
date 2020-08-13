@@ -1,1 +1,0 @@
-Fix the tasks "Install pulpcore via PyPI" & "Install Pulp plugins via PyPI" always reporting CHANGED when pip 20.2 is installed.

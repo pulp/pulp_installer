@@ -1,2 +1,0 @@
-Fix pulp_installer failing on the task "pulp_common: Add pulpcore RPM repositories" when installing
-in packages mode, and when ansible_user is not root.
