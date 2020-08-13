@@ -1,1 +1,0 @@
-Remove the systemd sandboxing features from the pulpcore-api systemd unit file. This was preventing pulpcore-api from starting on containers running systemd (due to namespace capabilities), such as our molecule tests & CI.

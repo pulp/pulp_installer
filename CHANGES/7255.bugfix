@@ -1,2 +1,0 @@
-Fix services not starting due to pulp_installer putting the wrong path to binaries like gunicorn in
-systemd unit files. Only occured when installing in packages mode.

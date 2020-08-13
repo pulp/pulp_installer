@@ -13,6 +13,72 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.6.0 (2020-08-13)
+==================
+
+
+Features
+--------
+
+- Allow an installer user to configure Pulp to run with TLS enabled using custom provided
+  certificates.
+  [#6845](https://pulp.plan.io/issues/6845)
+- Misc webserver changes so that Let's Encrypt and other ACME protocol CAs can be used via 3rd-party ansible roles, primarily for HTTP-01 verification. See docs/letsencrypt.md for a full HTTP-01 example playbook and explanation.
+  [#6846](https://pulp.plan.io/issues/6846)
+- Allow an installer user to configure Pulp to run with TLS enabled using self-signed certificates.
+  [#6847](https://pulp.plan.io/issues/6847)
+- A key for token authentication is installed from either a specified file or a newly generated one.
+  [#7098](https://pulp.plan.io/issues/7098)
+- Enable resource accounting via systemd.
+  [#7192](https://pulp.plan.io/issues/7192)
+- Verify if Pulp Services are up & listening
+  [#7259](https://pulp.plan.io/issues/7259)
+
+
+Bugfixes
+--------
+
+- Fix the tasks "Install pulpcore via PyPI" & "Install Pulp plugins via PyPI" always reporting CHANGED when pip 20.2 is installed.
+  [#7254](https://pulp.plan.io/issues/7254)
+- Fix services not starting due to pulp_installer putting the wrong path to binaries like gunicorn in
+  systemd unit files. Only occured when installing in packages mode.
+  [#7255](https://pulp.plan.io/issues/7255)
+- Fix pulp_installer failing on the task "pulp_common: Add pulpcore RPM repositories" when installing
+  in packages mode, and when ansible_user is not root.
+  [#7275](https://pulp.plan.io/issues/7275)
+- Fix pulp_installer failing on task "pulp_webserver : Set httpd_can_network_connect flag on and keep
+  it persistent across reboots" on hosts with SELinux enabled (enforcing/permissive) by installing
+  the SELinux python RPM dependencies.
+  [#7276](https://pulp.plan.io/issues/7276)
+
+
+Deprecations and Removals
+-------------------------
+
+- Remove the systemd sandboxing features from the pulpcore-api systemd unit file. This was preventing pulpcore-api from starting on containers running systemd (due to namespace capabilities), such as our molecule tests & CI.
+  [#6586](https://pulp.plan.io/issues/6586)
+- Installations will have https enabled by default. Users need to configure their CONTENT_ORIGIN accordingly.
+  [#6845](https://pulp.plan.io/issues/6845)
+
+
+Misc
+----
+
+- [#6047](https://pulp.plan.io/issues/6047), [#7230](https://pulp.plan.io/issues/7230)
+
+
+Devel
+-----
+
+- Fix molecule (CI or local) often failing to test more than 1 OS a time.
+  [#7263](https://pulp.plan.io/issues/7263)
+- Add verification that Pulp is running at the end of pulp_installer CI, via inspec.
+  [#7272](https://pulp.plan.io/issues/7272)
+
+
+----
+
+
 3.5.0 (2020-07-09)
 ==================
 

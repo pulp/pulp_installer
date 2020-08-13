@@ -1,3 +1,0 @@
-Fix pulp_installer failing on task "pulp_webserver : Set httpd_can_network_connect flag on and keep
-it persistent across reboots" on hosts with SELinux enabled (enforcing/permissive) by installing
-the SELinux python RPM dependencies.

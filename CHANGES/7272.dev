@@ -1,1 +1,0 @@
-Add verification that Pulp is running at the end of pulp_installer CI, via inspec.
