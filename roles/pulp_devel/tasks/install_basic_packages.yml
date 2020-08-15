@@ -32,8 +32,8 @@
   register: result
   until: result is succeeded
   when:
-    - (ansible_distribution == 'CentOS') or (ansible_distribution == 'RedHat')
-    - ansible_distribution_major_version|int == 7
+    - (ansible_facts.distribution == 'CentOS') or (ansible_facts.distribution == 'RedHat')
+    - ansible_facts.distribution_major_version|int == 7
 
 - name: Install several useful packages (CentOS 8 specific)
   package:
@@ -60,8 +60,8 @@
   register: result
   until: result is succeeded
   when:
-    - (ansible_distribution == 'CentOS') or (ansible_distribution == 'RedHat')
-    - ansible_distribution_major_version|int == 8
+    - (ansible_facts.distribution == 'CentOS') or (ansible_facts.distribution == 'RedHat')
+    - ansible_facts.distribution_major_version|int == 8
 
 - name: Create virtualenvwrapper symlink
   file:
@@ -69,8 +69,8 @@
     dest: /usr/bin/virtualenvwrapper.sh
     state: link
   when:
-    - (ansible_distribution == 'CentOS') or (ansible_distribution == 'RedHat')
-    - ansible_distribution_major_version|int == 8
+    - (ansible_facts.distribution == 'CentOS') or (ansible_facts.distribution == 'RedHat')
+    - ansible_facts.distribution_major_version|int == 8
 
 - name: Install several useful packages (Debian-specific)
   package:
@@ -90,7 +90,7 @@
   retries: "{{ pulp_devel_package_retries }}"
   register: result
   until: result is succeeded
-  when: ansible_distribution == 'Debian'
+  when: ansible_facts.distribution == 'Debian'
 
 - name: Install several useful packages (Fedora-specific)
   package:
@@ -111,7 +111,7 @@
   retries: "{{ pulp_devel_package_retries }}"
   register: result
   until: result is succeeded
-  when: ansible_distribution == 'Fedora'
+  when: ansible_facts.distribution == 'Fedora'
 
 - name: Install Minio Client
   get_url:

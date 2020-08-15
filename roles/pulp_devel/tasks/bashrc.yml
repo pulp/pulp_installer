@@ -31,7 +31,7 @@
     template:
       src: templates/venv.bashrc.j2
       dest: '{{ developer_user_home }}/.bashrc.d/venv.bashrc'
-    when: ansible_distribution != 'Ubuntu'
+    when: ansible_facts.distribution != 'Ubuntu'
 
   - name: Install bindings requirements for testing locally
     shell: >-
@@ -46,7 +46,7 @@
     copy:
       src: files/fzf.bashrc
       dest: '{{ developer_user_home }}/.bashrc.d/fzf.bashrc'
-    when: ansible_distribution == 'Fedora'
+    when: ansible_facts.distribution == 'Fedora'
 
   when: pulp_devel_supplement_bashrc |bool
 ...

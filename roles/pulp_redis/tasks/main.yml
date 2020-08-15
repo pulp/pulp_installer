@@ -4,10 +4,10 @@
   vars:
     params:
       files:
-        - '{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml'
-        - '{{ ansible_distribution }}.yml'
-        - '{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml'
-        - '{{ ansible_os_family }}.yml'
+        - '{{ ansible_facts.distribution }}-{{ ansible_facts.distribution_major_version }}.yml'
+        - '{{ ansible_facts.distribution }}.yml'
+        - '{{ ansible_facts.os_family }}-{{ ansible_facts.distribution_major_version }}.yml'
+        - '{{ ansible_facts.os_family }}.yml'
       paths:
         - 'vars'
   tags:
@@ -25,8 +25,8 @@
         src: templates/redis_scl_profile.j2
         dest: "/etc/profile.d/redis.sh"
       when:
-        - ansible_os_family == 'RedHat'
-        - ansible_distribution_major_version|int == 7
+        - ansible_facts.os_family == 'RedHat'
+        - ansible_facts.distribution_major_version|int == 7
         - pulp_redis_package_name.startswith('rh-')
 
     - name: Configure Redis to listen on Unix Domain Socket

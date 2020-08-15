@@ -35,10 +35,10 @@
   vars:
     params:
       files:
-        - '{{ ansible_distribution }}-{{ ansible_distribution_major_version }}.yml'
-        - '{{ ansible_distribution }}.yml'
-        - '{{ ansible_os_family }}-{{ ansible_distribution_major_version }}.yml'
-        - '{{ ansible_os_family }}.yml'
+        - '{{ ansible_facts.distribution }}-{{ ansible_facts.distribution_major_version }}.yml'
+        - '{{ ansible_facts.distribution }}.yml'
+        - '{{ ansible_facts.os_family }}-{{ ansible_facts.distribution_major_version }}.yml'
+        - '{{ ansible_facts.os_family }}.yml'
       paths:
         - 'vars'
   tags:
@@ -48,8 +48,8 @@
   fail:
     msg: Pulp Installer only supports CentOS 7.7 or higher.
   when:
-    - ansible_distribution == 'CentOS'
-    - ansible_distribution_version|float < 7.7
+    - ansible_facts.distribution == 'CentOS'
+    - ansible_facts.distribution_version|float < 7.7
 
 # Note: We cannot use `systemd-path search-binaries-default` because
 # it wasn't added until systemd 239. Thus no CentOS 7 or Fedora 28
