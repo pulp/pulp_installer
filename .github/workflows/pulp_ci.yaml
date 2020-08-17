@@ -64,16 +64,6 @@ jobs:
         run: |
           pip install --upgrade pip
           pip install tox
-      - name: Temporarily disable pulp-rpm tests
-        run: |
-          sudo add-apt-repository --yes ppa:rmescandon/yq
-          sudo apt update
-          sudo apt install yq -y
-          find ./molecule/*/group_vars/all -exec sh -c "yq d -i {} pulp_install_plugins.pulp-rpm" \;
-          find ./molecule/*/group_vars/all -exec sh -c "echo; echo {}; cat {}" \;
-          find ./molecule/*/molecule.yml -exec sed -i 's/pulp_rpm-ci-c7:3.1.0/pulp-ci-c7:3.0.0/g' {} \;
-          find ./molecule/*/molecule.yml -exec sed -i 's/pulp_rpm-ci-f31:3.1.0/pulp-ci-f31:3.0.0/g' {} \;
-        shell: bash
       - name: Pulling images for PyPI upgrades
         if: matrix.test_type == 'release-upgrade' || matrix.test_type == 'source-upgrade'
         run: |
