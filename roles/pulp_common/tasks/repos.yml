@@ -14,7 +14,7 @@
     state: present
   register: epel
   when:
-    - (ansible_distribution == 'CentOS') or (ansible_distribution == 'RedHat')
+    - (ansible_facts.distribution == 'CentOS') or (ansible_facts.distribution == 'RedHat')
     # Works for both strings and lists to make sure not empty
     - epel_release_packages is defined
     - epel_release_packages is not none
@@ -37,8 +37,8 @@
   include_tasks: ambiguously-named-repo.yml
   with_items: "{{ rhel7_optional_repo }}"
   when:
-    - ansible_distribution == "RedHat"
-    - ansible_distribution_major_version|int == 7
+    - ansible_facts.distribution == "RedHat"
+    - ansible_facts.distribution_major_version|int == 7
     # Works for both strings and lists to make sure not empty
     - rhel7_optional_repo is not none
     - rhel7_optional_repo | length > 0
@@ -59,8 +59,8 @@
   include_tasks: ambiguously-named-repo.yml
   with_items: "{{ pulp_rhel_codeready_repo }}"
   when:
-    - ansible_distribution == "RedHat"
-    - ansible_distribution_major_version|int >= 8
+    - ansible_facts.distribution == "RedHat"
+    - ansible_facts.distribution_major_version|int >= 8
     # Works for both strings and lists to make sure not empty
     - pulp_rhel_codeready_repo is not none
     - pulp_rhel_codeready_repo | length > 0
@@ -110,8 +110,8 @@
       become: true
 
   when:
-    - ansible_distribution == "CentOS"
-    - ansible_distribution_major_version|int >= 8
+    - ansible_facts.distribution == "CentOS"
+    - ansible_facts.distribution_major_version|int >= 8
 
 - name: Add pulpcore RPM repositories
   yum_repository:
@@ -121,6 +121,6 @@
     gpgcheck: false
     enabled: true
   when:
-    - ansible_os_family == "RedHat"
+    - ansible_facts.os_family == "RedHat"
     - pulp_pkg_repo is not none
   become: true

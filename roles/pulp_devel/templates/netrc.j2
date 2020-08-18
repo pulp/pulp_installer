@@ -6,12 +6,12 @@ machine 127.0.0.1
 login admin
 password {{ pulp_default_admin_password }}
 
-machine {{ ansible_fqdn }}
+machine {{ ansible_facts.fqdn }}
 login admin
 password {{ pulp_default_admin_password }}
-{% if ansible_hostname != ansible_fqdn -%}
+{% if ansible_facts.hostname != ansible_facts.fqdn -%}
 
-machine {{ ansible_hostname }}
+machine {{ ansible_facts.hostname }}
 login admin
 password {{ pulp_default_admin_password }}
 {%- endif %}

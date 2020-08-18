@@ -22,7 +22,7 @@
           dest: /etc/apache2/sites-enabled/pulp-vhost.conf
         - src: ../mods-available/proxy.load
           dest: /etc/apache2/mods-enabled/proxy.load
-      when: ansible_os_family == "Debian"
+      when: ansible_facts.os_family == "Debian"
       notify: reload apache
 
     - name: Create directory for Pulp Apache snippets

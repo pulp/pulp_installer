@@ -5,7 +5,7 @@
     - name: Update apt package index
       apt:
         update_cache: yes
-      when: ansible_distribution == 'Debian'
+      when: ansible_facts.distribution == 'Debian'
       # This is a lie, but necessary for Idempotence test
       changed_when: False
 
@@ -18,7 +18,7 @@
       selinux:
         policy: targeted
         state: permissive
-      when: ansible_os_family == 'RedHat' and pulp_disable_selinux | bool
+      when: ansible_facts.os_family == 'RedHat' and pulp_disable_selinux | bool
 
     # Become root so as to search paths like /usr/sbin.
     - name: Find the nologin executable

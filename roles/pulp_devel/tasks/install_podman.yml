@@ -2,16 +2,16 @@
 - name: Ensure podman apt key is present (Debian-specific)
   apt_key:
     url: "https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable\
-    /{{ ansible_distribution }}_{{ ansible_distribution_version }}/Release.key"
+    /{{ ansible_facts.distribution }}_{{ ansible_facts.distribution_version }}/Release.key"
     state: present
-  when: ansible_distribution == 'Debian'
+  when: ansible_facts.distribution == 'Debian'
 
 - name: Ensure podman repository (Debian-specific)
   apt_repository:
     repo: "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable\
-    /{{ ansible_distribution }}_{{ ansible_distribution_version }}/ /"
+    /{{ ansible_facts.distribution }}_{{ ansible_facts.distribution_version }}/ /"
     filename: libcontainers
-  when: ansible_distribution == 'Debian'
+  when: ansible_facts.distribution == 'Debian'
 
 - name: Install podman, buildah, and runc
   package:
@@ -25,14 +25,14 @@
   until: result is succeeded
   # Because of this error on CentOS Stream (pre-8.2):
   # No available modular metadata for modular package 'criu-3.12-9.module_el8.1.0+293+ad8ef41f.x86_64', it cannot be installed on the system
-  ignore_errors: '{{ ansible_distribution_version == "8.1" }}'
+  ignore_errors: '{{ ansible_facts.distribution_version == "8.1" }}'
 
 - name: Adding podman registries (Debian-specific)
   command: echo -e "[registries.search]\nregistries = ['docker.io', 'quay.io']" | tee /etc/containers/registries.conf
   become: yes
   args:
     creates: /etc/containers
-  when: ansible_distribution == 'Debian'
+  when: ansible_facts.distribution == 'Debian'
 
 # Needed to allow non-root users to run podman containers on Debian
 - name: Enable unprivileged_userns_clone (Debian specific)
@@ -40,7 +40,7 @@
     name: kernel.unprivileged_userns_clone
     value: "1"
   when:
-    - ansible_distribution == 'Debian'
+    - ansible_facts.distribution == 'Debian'
     - ansible_virtualization_type != 'docker'
 
 # Needed to allow non-root users to run podman containers on EL7
@@ -49,6 +49,6 @@
     name: user.max_user_namespaces
     value: "15000"
   when:
-    - ansible_os_family == 'RedHat'
-    - ansible_distribution_major_version |int == 7
+    - ansible_facts.os_family == 'RedHat'
+    - ansible_facts.distribution_major_version |int == 7
 ...

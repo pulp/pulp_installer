@@ -1,7 +1,7 @@
 ---
 - block:
 
-    - name: "Install the Pulp undeclared {{ ansible_pkg_mgr }} package dependencies"
+    - name: "Install the Pulp undeclared {{ ansible_facts.pkg_mgr }} package dependencies"
       package:
         name: "{{ pulp_pkg_undeclared_deps }}"
         state: "{{ pulp_pkg_upgrade_all | ternary('latest','present') }}"
@@ -9,7 +9,7 @@
         - Collect static content
         - Restart all Pulp services
 
-    - name: "Install pulpcore via {{ ansible_pkg_mgr }} packages"
+    - name: "Install pulpcore via {{ ansible_facts.pkg_mgr }} packages"
       package:
         name: "{{ pulp_pkg_pulpcore_name }}"
         state: "{{ pulp_pkg_upgrade_all | ternary('latest','present') }}"
@@ -17,7 +17,7 @@
         - Collect static content
         - Restart all Pulp services
 
-    - name: "Install Pulp plugins via {{ ansible_pkg_mgr }} packages"
+    - name: "Install Pulp plugins via {{ ansible_facts.pkg_mgr }} packages"
       package:
         name: '{{ pulp_pkg_name_prefix }}{{ item.key }}'
         state: "{{ pulp_pkg_upgrade_all | ternary('latest','present') }}"
@@ -31,7 +31,7 @@
         - Collect static content
         - Restart all Pulp services
 
-    - name: "Install Pulp plugins (with overriden names) via {{ ansible_pkg_mgr }}"
+    - name: "Install Pulp plugins (with overriden names) via {{ ansible_facts.pkg_mgr }}"
       package:
         name: '{{ item.value.pkg_name }}'
         state: present
@@ -42,7 +42,7 @@
         - Collect static content
         - Restart all Pulp services
 
-    - name: "Install gunicorn via {{ ansible_pkg_mgr }} packages"
+    - name: "Install gunicorn via {{ ansible_facts.pkg_mgr }} packages"
       package:
         name: python3-gunicorn
         state: present
