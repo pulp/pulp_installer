@@ -8,7 +8,10 @@
 - name: Check if Pulp services have started yet (loop)
   include_tasks: service_check.yml
   when: not __service_check_success
-  with_sequence: start=1 end=50
+  loop: start=1 end=50
+  loop_control:
+    extended: true
+    loop_var: __item_outer
 
 - name: Ensure Pulp is up and healthy
   uri:
