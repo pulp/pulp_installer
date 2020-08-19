@@ -14,6 +14,14 @@
     daemon_reload: true
   become: true
 
+- name: Get services
+  service_facts:
+
 - name: Restart all pulpcore* services
-  command: systemctl restart pulpcore*
+  systemd:
+    daemon_reload: true
+    name: "{{ item.value.name }}"
+    state: restarted
+  when: "item.value.name != 'pulpcore-worker@.service'"
+  with_dict: '{{ ansible_facts.services|dict2items|selectattr("key", "contains", "pulp")|list|items2dict }}'
   become: true
