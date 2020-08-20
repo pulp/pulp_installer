@@ -65,8 +65,8 @@ Define pulp-api {{ pulp_api_bind }}
   ProxyRequests Off
   ProxyPreserveHost Off
 
-  ProxyPass /pulp/api http://${pulp-api}/pulp/api
-  ProxyPassReverse /pulp/api http://${pulp-api}/pulp/api
+  ProxyPass /pulp/api/v3 http://${pulp-api}/pulp/api/v3
+  ProxyPassReverse /pulp/api/v3 http://${pulp-api}/pulp/api/v3
 
   ProxyPass /auth/login/ http://${pulp-api}/auth/login/
   ProxyPassReverse /auth/login/ http://${pulp-api}/auth/login/
@@ -78,8 +78,8 @@ Define pulp-api {{ pulp_api_bind }}
 
   # most pulp static files are served through whitenoise
   # http://whitenoise.evans.io/en/stable/
-  ProxyPass / http://${pulp-api}/
-  ProxyPassReverse / http://${pulp-api}/
+  #ProxyPass / http://${pulp-api}/
+  #ProxyPassReverse / http://${pulp-api}/
 
   # ACME http-01 tokens, i.e, for Let's Encrypt
   <Location "/.well-known">
