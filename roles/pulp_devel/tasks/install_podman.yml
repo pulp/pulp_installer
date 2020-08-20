@@ -51,6 +51,6 @@
   when:
     - ansible_facts.os_family == 'RedHat'
     - ansible_facts.distribution_major_version |int == 7
-  tags: # Modifying podman setting while running it in docker causes it to fail tests
+  tags:  # Modifying podman setting while running it in docker causes it to fail tests
     - molecule-notest
 ...
