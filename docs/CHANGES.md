@@ -13,6 +13,43 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.6.0-1 (2020-08-20)
+====================
+
+
+Bugfixes
+--------
+
+- pulp_installer now uses ansible_facts namespaced vars instead of relying on `INJECT_FACTS_AS_VARS=True <https://docs.ansible.com/ansible/latest/reference_appendices/config.html#inject-facts-as-vars>`_.
+  [#7322](https://pulp.plan.io/issues/7322)
+- Assuring to restart only pulpcore services
+  [#7334](https://pulp.plan.io/issues/7334)
+- Fix template for pulp_health_check
+  [#7335](https://pulp.plan.io/issues/7335)
+- Accept unix socket on pulp_health_check
+  [#7349](https://pulp.plan.io/issues/7349)
+- Fix failure on task "pulp_common: Make /var/lib/pulp world executable" by creating the directory
+  (and giving it owner user permissions as well). Occurs when specifying an existing user account
+  as pulp_user but not having /var/lib/pulp (`pulp_user_home`) already present. pulplift would
+  trigger this.
+  [#7359](https://pulp.plan.io/issues/7359)
+
+
+Deprecations and Removals
+-------------------------
+
+- The default location for Pulp Webserver's TLS certificates was changed from /etc/pulp to /etc/pulp/certs/ .
+  Users that wish to continue using their current certificate and key must run
+  `sudo mv -t /etc/pulp/certs/ /etc/pulp/pulp_webserver.{key,crt}` before upgrading / running
+  the new pulp_installer version. Alternatively, users can control the directory with the variable
+  `pulp_certs_dir`, which was renamed from `pulp_webserver_tls_folder`. `pulp_certs_dir` now also
+  controls where the keys for API authentication tokens are installed as well.
+  [#7328](https://pulp.plan.io/issues/7328)
+
+
+----
+
+
 3.6.0 (2020-08-13)
 ==================
 
