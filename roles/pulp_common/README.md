@@ -99,6 +99,9 @@ Role Variables
   subscription-manager/katello.
   Also accepts a single string or empty string.
   Only affects RHEL7 (RHEL8 no longer has an optional repo.)
+* `pulp_certs_dir`: Path where to generate or drop the TLS certificates & keys for authentication
+  tokens. Not used directly by pulp_common, but by roles that depend on it. Defaults to
+  '{{ pulp_config_dir }}/certs' .
 
 Role Variables if installing from RPMs
 --------------------------------------

@@ -1,0 +1,6 @@
+The default location for Pulp Webserver's TLS certificates was changed from /etc/pulp to /etc/pulp/certs/ .
+Users that wish to continue using their current certificate and key must run
+`sudo mv -t /etc/pulp/certs/ /etc/pulp/pulp_webserver.{key,crt}` before upgrading / running
+the new pulp_installer version. Alternatively, users can control the directory with the variable
+`pulp_certs_dir`, which was renamed from `pulp_webserver_tls_folder`. `pulp_certs_dir` now also
+controls where the keys for API authentication tokens are installed as well.

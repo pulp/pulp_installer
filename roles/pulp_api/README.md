@@ -23,6 +23,8 @@ Shared variables
 This role **is tightly coupled** to the required `pulp_common` role, and inherits
 some of its variables.
 
+* `pulp_certs_dir`: Path where to generate or drop the keys for authentication tokens. Defaults to
+  '{{ pulp_config_dir }}/certs' .
 * `pulp_config_dir`
 * `pulp_group`
 * `pulp_install_dir`

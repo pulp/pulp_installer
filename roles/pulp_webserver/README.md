@@ -18,8 +18,6 @@ Role Variables
 * `pulp_configure_firewall` Install and configure a firewall. Valid values are 'auto', 'firewalld',
   and 'none'. Defaults to 'auto' (which is the same as 'firewalld', but may change in the future).
 * `pulp_webserver_disable_https`: Whether or not HTTPS should be disabled. Defaults to `false`.
-* `pulp_webserver_tls_folder`: Path where to generate or drop the certificates. Defaults to
-  `pulp_config_dir`.
 * `pulp_webserver_tls_cert`: Relative or absolute path to the TLS (SSL) certificate
    one wants to import.
 * `pulp_webserver_tls_key`: Relative or absolute path to the TLS (SSL) key
@@ -76,6 +74,8 @@ Shared variables
 This role **is tightly coupled** to the required `pulp_common` role, and inherits
 some of its variables.
 
+* `pulp_certs_dir`: Path where to generate or drop the TLS certificates. Defaults to
+  '{{ pulp_config_dir }}/certs' .
 * `pulp_install_dir`: Location of a virtual environment for Pulp and its Python
   dependencies.
 * `pulp_install_plugins` (technically `pulp_install_plugins_normalized`). The list

@@ -11,4 +11,3 @@ pulp_webserver_apache_snippets_dir: /etc/httpd/pulp
 pulp_webserver_apache_log_dir: /var/log/httpd
 pulp_webserver_trusted_root_certificates_path: /etc/pki/ca-trust/source/anchors/
 pulp_webserver_trusted_root_certificates_update_bin: update-ca-trust
-pulp_webserver_python_cryptography: python-cryptography

@@ -37,6 +37,15 @@
   changed_when: false
   check_mode: false
 
+- name: Create cert directory to hold SSL certificates
+  file:
+    path: "{{ pulp_certs_dir }}"
+    state: directory
+    owner: "{{ pulp_user }}"
+    group: "{{ pulp_group }}"
+    mode: 0700
+  become: true
+
 - include_tasks: generate_tls_certificates.yml
   args:
     apply:

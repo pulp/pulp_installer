@@ -5,7 +5,7 @@ pulp_api_bind: '127.0.0.1:24817'
 pulp_configure_firewall: auto
 
 pulp_webserver_disable_https: false
-pulp_webserver_tls_folder: '{{ pulp_config_dir }}'
+pulp_certs_dir: '{{ pulp_config_dir }}/certs'
 pulp_webserver_httpd_servername: '{{ ansible_facts.fqdn }}'
 # The "static" dir is used by Pulp 2, and has conflicting SELinux policies.
 # https://pulp.plan.io/issues/5995

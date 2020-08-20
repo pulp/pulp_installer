@@ -45,8 +45,8 @@ Define pulp-api {{ pulp_api_bind }}
 
   ## TLS Configuration
   SSLEngine On
-  SSLCertificateFile {{ pulp_webserver_tls_folder }}/pulp_webserver.crt
-  SSLCertificateKeyFile {{ pulp_webserver_tls_folder }}/pulp_webserver.key
+  SSLCertificateFile {{ pulp_certs_dir }}/pulp_webserver.crt
+  SSLCertificateKeyFile {{ pulp_certs_dir }}/pulp_webserver.key
   SSLProtocol TLSv1.2
   SSLCipherSuite ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-SHA384:ECDHE-RSA-AES256-SHA384:ECDHE-ECDSA-AES128-SHA256:ECDHE-RSA-AES128-SHA256
   SSLHonorCipherOrder on

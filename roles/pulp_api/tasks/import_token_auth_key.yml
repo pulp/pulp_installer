@@ -2,7 +2,7 @@
 - name: Import specified token authentication key
   copy:
     src: "{{ pulp_token_auth_key }}"
-    dest: "{{ __pulp_common_pulp_pki_dir }}/token_private_key.pem"
+    dest: "{{ pulp_certs_dir }}/token_private_key.pem"
     owner: "{{ pulp_user }}"
     group: "{{ pulp_group }}"
     mode: 0600
