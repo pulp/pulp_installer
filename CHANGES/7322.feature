@@ -1,1 +1,0 @@
-pulp_installer now uses ansible_facts namespaced vars instead of relying on `INJECT_FACTS_AS_VARS=True <https://docs.ansible.com/ansible/latest/reference_appendices/config.html#inject-facts-as-vars>`_.
