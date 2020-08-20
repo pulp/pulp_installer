@@ -68,12 +68,18 @@
     - name: Reset ssh conn to allow user changes to affect when ssh user and pulp user are the same
       meta: reset_connection
 
-    # Needed for ngingx/apache to serve content at pulp_webserver_static_dir,
-    # which is the subdir pulpcore_static by default.
-    - name: Make {{ pulp_user_home }} world executable
+    # World executable is needed for ngingx/apache to serve content at
+    # pulp_webserver_static_dir, which is the subdir pulpcore_static by default.
+    #
+    # We need to create it in case the pulp_user already exists
+    # and has a different home dir. Like "vagrant" for pulplift.
+    - name: Make sure {{ pulp_user_home }} is world executable, and exists
       file:
         path: '{{ pulp_user_home }}'
-        mode: 'o+x'
+        state: directory
+        mode: 'u+rwx,o+x'
+        owner: '{{ pulp_user }}'
+        group: '{{ pulp_group }}'
 
     - name: Create cache dir for Pulp
       file:

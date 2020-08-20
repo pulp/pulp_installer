@@ -1,0 +1,4 @@
+Fix failure on task "pulp_common: Make /var/lib/pulp world executable" by creating the directory
+(and giving it owner user permissions as well). Occurs when specifying an existing user account
+as pulp_user but not having /var/lib/pulp (`pulp_user_home`) already present. pulplift would
+trigger this.
