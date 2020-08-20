@@ -27,7 +27,7 @@
 
     - name: Create cert directory to hold token authentication key
       file:
-        path: "{{ __pulp_common_pulp_pki_dir }}"
+        path: "{{ pulp_certs_dir }}"
         state: directory
         owner: "{{ pulp_user }}"
         group: "{{ pulp_group }}"
@@ -42,8 +42,8 @@
 
     - name: Extract token authentication public key
       openssl_publickey:
-        path: "{{ __pulp_common_pulp_pki_dir }}/token_public_key.pem"
-        privatekey_path: "{{ __pulp_common_pulp_pki_dir }}/token_private_key.pem"
+        path: "{{ pulp_certs_dir }}/token_public_key.pem"
+        privatekey_path: "{{ pulp_certs_dir }}/token_private_key.pem"
         owner: "{{ pulp_user }}"
         group: "{{ pulp_group }}"
       become: true
@@ -53,8 +53,8 @@
 
     - name: Extract token authentication public key (ansible 2.8 workaround)
       command:
-        cmd: "openssl ec -in {{ __pulp_common_pulp_pki_dir }}/token_private_key.pem -pubout -out {{ __pulp_common_pulp_pki_dir }}/token_public_key.pem"
-        creates: "{{ __pulp_common_pulp_pki_dir }}/token_public_key.pem"
+        cmd: "openssl ec -in {{ pulp_certs_dir }}/token_private_key.pem -pubout -out {{ pulp_certs_dir }}/token_public_key.pem"
+        creates: "{{ pulp_certs_dir }}/token_public_key.pem"
       become: true
       become_user: "{{ pulp_user }}"
       when:

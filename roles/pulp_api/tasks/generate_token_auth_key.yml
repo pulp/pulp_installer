@@ -1,7 +1,7 @@
 ---
 - name: Look for token authentication key
   stat:
-    path: "{{ __pulp_common_pulp_pki_dir }}/token_private_key.pem"
+    path: "{{ pulp_certs_dir }}/token_private_key.pem"
     get_attributes: false
     get_checksum: false
     get_mime: false
@@ -11,7 +11,7 @@
 
 - name: Generate token authentication private key
   openssl_privatekey:
-    path: "{{ __pulp_common_pulp_pki_dir }}/token_private_key.pem"
+    path: "{{ pulp_certs_dir }}/token_private_key.pem"
     type: ECC
     curve: secp256r1
     owner: "{{ pulp_user }}"

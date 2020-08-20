@@ -5,4 +5,5 @@ skip_list:
 exclude_paths:
   - ./roles/geerlingguy.postgresql/
   - ../../.ansible/roles/geerlingguy.postgresql/
+  - ../../.ansible/roles/lexa-uw.letsencrypt/
   - ./.github/

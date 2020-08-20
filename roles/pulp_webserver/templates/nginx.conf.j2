@@ -38,8 +38,8 @@ http {
         listen 443 default_server deferred ssl;
         listen [::]:443 default_server deferred ssl;
 
-        ssl_certificate {{ pulp_webserver_tls_folder }}/pulp_webserver.crt;
-        ssl_certificate_key {{ pulp_webserver_tls_folder }}/pulp_webserver.key;
+        ssl_certificate {{ pulp_certs_dir }}/pulp_webserver.crt;
+        ssl_certificate_key {{ pulp_certs_dir }}/pulp_webserver.key;
         ssl_session_cache shared:SSL:50m;
         ssl_session_timeout 1d;
         ssl_session_tickets off;
