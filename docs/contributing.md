@@ -17,10 +17,11 @@ Make sure you reference and link to the issue.
 Testing
 -------
 
-The tests can be run as they are on travis with **tox**, or they can run with various options using
-**molecule** directly.
+The tests can be run as they are on GitHub Actions with **tox**, or they can run with various options
+using **molecule** directly.
 
-**Requirements:**
+### Requirements
+
 Install Docker, and add yourself to the group that is authorized to
 administer containers, and log out and back in to make the permissions change
 take effect. The authorized group is typically the "docker" group:
@@ -33,7 +34,7 @@ gpasswd --add "$(whoami)" docker
 They can have different packages installed, they can run different kernels,
 and so on.
 
-**Using Tox:**
+### Using Tox
 
 1. Install [tox](https://tox.readthedocs.io/en/latest/). This can be done
    through the system package manager or into a virtualenv:
@@ -56,14 +57,13 @@ and so on.
    tox -e py36
    ```
 
-**Using Molecule:**
+### Using Molecule
 
 1. Install [molecule](https://molecule.readthedocs.io/en/latest/),
 [molecule-inspec](https://github.com/ansible-community/molecule-inspec),
 and [ansible-lint](https://docs.ansible.com/ansible-lint/).
-
-
 It is recommended that you do so with `pip` in a virtualenv.
+
 2. Run molecule commands.
 
    Test all scenarios on all hosts.
@@ -85,6 +85,39 @@ It is recommended that you do so with `pip` in a virtualenv.
    ```bash
    molecule converge --all
    ```
+
+### Explanation of Different Molecule Scenarios
+
+The molecule scenarios have names like `release-static`, which we will refer to as
+"prefix-suffix".
+
+There is a 3 by 3 matrix of them.
+
+The prefixes are:
+
+1. `release` - Install stable release from PyPI
+1. `source` - Install from git checkout. Different codepaths; preflight check does not exist.
+1. `packages` - Install from distro (RPM) packages. Even more different codepaths; compatibility
+   checks (preflight) is the job of the repo maintainer.
+
+The suffixes are:
+
+1. `static` - Statically specify the roles in the "roles:" syntax in the main playbook, such as in
+   the example playbooks.
+1. `dynamic` - Run roles 1 at a time via `include_role:` under `tasks:` in the main playbook.
+   Catches undeclared dependencies between roles, and other dynamic include errors. Covers use cases
+   such as users running a 3rd party role, setting vars, and later running our role. Later
+   on, will probably be replaced with installing pulp against multiple containers, each 1 role.
+1. `upgrade` - Upgrade an existing Pulp 3.y container, to test upgrading Pulp 3.y. Roles are applied
+   statically. Depends on said containers existing on a registry, and having been built manually
+   (using `docker commit` from molecule.)
+
+`release-static` is symlinked to `default`, so that commands like `molecule test` will use it.
+
+### Molecule Limitations
+
+1. When using Python 2, [the inspec verification tests will not
+   run.](https://github.com/ansible-community/molecule-inspec/issues/5)
 
 Docs Testing
 ------------
