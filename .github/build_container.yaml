@@ -8,7 +8,7 @@
     - name: "Generate Containerfile from template"
       template:
         src: ../molecule/scenario_resources/Dockerfile.j2
-        dest: "Containerfile_{{ item.name }}"
+        dest: "Containerfile_{{ item.name | replace('-', '') }}"
       with_items: "{{ molecule_images }}"
 
     - name: Log into DockerHub
@@ -18,11 +18,11 @@
 
     - name: "Build molecule image"
       docker_image:
-        name: "molecule_{{ item.name }}"
+        name: "molecule_{{ item.name | replace('-', '') }}"
         tag: latest
         build:
           path: "."
-          dockerfile: "Containerfile_{{ item.name }}"
+          dockerfile: "Containerfile_{{ item.name | replace('-', '') }}"
           nocache: "{{ not cache | default(true) | bool }}"
           pull: false
         state: present
@@ -31,8 +31,8 @@
 
     - name: "Push molecule image"
       docker_image:
-        name: "molecule_{{ item.name }}"
-        repository: "docker.io/pulp/molecule_{{ item.name }}"
+        name: "molecule_{{ item.name | replace('-', '') }}"
+        repository: "docker.io/pulp/molecule_{{ item.name | replace('-', '') }}"
         tag: latest
         push: true
         source: local
