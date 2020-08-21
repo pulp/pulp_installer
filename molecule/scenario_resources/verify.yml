@@ -89,3 +89,17 @@
         msg: "Inspec failed to validate"
       when: item.rc != 0
       with_items: "{{ test_results.results }}"
+
+    - name: Install dependency for RAM usage check
+      yum:
+        name: procps-ng
+        state: present
+      when: ansible_facts.os_family == 'RedHat'
+
+    - name: Check RAM usage
+      command: free -m
+      changed_when: false
+      register: result
+
+    - name: Show RAM usage, so we know if our CI env is low on RAM
+      debug: var=result.stdout_lines
