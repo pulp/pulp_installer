@@ -52,6 +52,13 @@
         state: present
       when: ansible_pkg_mgr in ["yum","dnf"]
 
+    # Undeclared by the package, and not documented:
+    # https://docs.chef.io/inspec/resources/port/
+    - name: Install netstat dependency for inspec's port listening tests
+      package:
+        name: net-tools
+        state: present
+
     - name: Create Molecule directory for test files
       file:
         path: "{{ inspec_test_directory }}"
