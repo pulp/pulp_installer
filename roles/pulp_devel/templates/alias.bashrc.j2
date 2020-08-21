@@ -78,10 +78,10 @@ _reset_pulp2_help="Resets Pulp 2: drop the DB, remove content and publications f
 
 populate_pulp2_iso() {
     pulp-admin login -u admin -p admin
-    pulp-admin iso repo create --feed https://repos.fedorapeople.org/pulp/pulp/fixtures/file/ --repo-id file
-    pulp-admin iso repo create --feed https://repos.fedorapeople.org/pulp/pulp/fixtures/file2/ --repo-id file2 --download-policy on_demand
-    pulp-admin iso repo create --feed https://repos.fedorapeople.org/pulp/pulp/fixtures/file-many/ --repo-id file-many --download-policy on_demand
-    pulp-admin iso repo create --feed https://repos.fedorapeople.org/pulp/pulp/fixtures/file-large/ --repo-id file-large
+    pulp-admin iso repo create --feed https://fixtures.pulpproject.org/file/ --repo-id file
+    pulp-admin iso repo create --feed https://fixtures.pulpproject.org/file2/ --repo-id file2 --download-policy on_demand
+    pulp-admin iso repo create --feed https://fixtures.pulpproject.org/file-many/ --repo-id file-many --download-policy on_demand
+    pulp-admin iso repo create --feed https://fixtures.pulpproject.org/file-large/ --repo-id file-large
     pulp-admin iso repo sync run --repo-id file &
     pulp-admin iso repo sync run --repo-id file2 &
     pulp-admin iso repo sync run --repo-id file-many &
@@ -91,7 +91,7 @@ _populate_pulp2_iso_help="Syncs 4 ISO repos."
 
 populate_pulp2_rpm() {
     pulp-admin login -u admin -p admin
-    pulp-admin rpm repo create --feed https://repos.fedorapeople.org/pulp/pulp/fixtures/rpm-unsigned/ --repo-id rpm_unsigned --download-policy on_demand
+    pulp-admin rpm repo create --feed https://fixtures.pulpproject.org/rpm-unsigned/ --repo-id rpm_unsigned --download-policy on_demand
     pulp-admin rpm repo sync run --repo-id rpm_unsigned &
 }
 _populate_pulp2_rpm_help="Sync 1 RPM repo."
