@@ -5,17 +5,13 @@
       package:
         name: "{{ pulp_pkg_undeclared_deps }}"
         state: "{{ pulp_pkg_upgrade_all | ternary('latest','present') }}"
-      notify:
-        - Collect static content
-        - Restart all Pulp services
+      notify: Collect static content
 
     - name: "Install pulpcore via {{ ansible_facts.pkg_mgr }} packages"
       package:
         name: "{{ pulp_pkg_pulpcore_name }}"
         state: "{{ pulp_pkg_upgrade_all | ternary('latest','present') }}"
-      notify:
-        - Collect static content
-        - Restart all Pulp services
+      notify: Collect static content
 
     - name: "Install Pulp plugins via {{ ansible_facts.pkg_mgr }} packages"
       package:
@@ -27,9 +23,7 @@
       with_dict: '{{ pulp_install_plugins }}'
       when:
         - item.value.pkg_name is undefined
-      notify:
-        - Collect static content
-        - Restart all Pulp services
+      notify: Collect static content
 
     - name: "Install Pulp plugins (with overriden names) via {{ ansible_facts.pkg_mgr }}"
       package:
@@ -38,9 +32,7 @@
       with_dict: '{{ pulp_install_plugins }}'
       when:
         - item.value.pkg_name is defined
-      notify:
-        - Collect static content
-        - Restart all Pulp services
+      notify: Collect static content
 
     - name: "Install gunicorn via {{ ansible_facts.pkg_mgr }} packages"
       package:
