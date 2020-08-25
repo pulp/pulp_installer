@@ -11,14 +11,9 @@
   changed_when: "staticresult.stdout is not search('\n0 static files')"
   become: true
   become_user: '{{ pulp_user }}'
-  # Not needed currently because every task that calls "Collect static content"
-  # also calls "Restart all Pulp services".
-  #
-  # And pulpcore-api is installed later on in the role order.
-  #
-  # However, restarting pulpcore-api is necessary for collectstatic to
+  # Restarting pulpcore-api is necessary for collectstatic to
   # work; whitenoise cannot see the files unless pulpcore-api is restarted.
   #
-  # notify: Restart pulpcore-api.service
+  notify: Restart all Pulp services
   environment:
     PULP_SETTINGS: "{{ pulp_settings_file }}"
