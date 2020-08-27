@@ -15,6 +15,7 @@ subject to change over time:
   - pulp_database
   - pulp_redis
   - pulp_services
+  - pulp_health_check
   - pulp_webserver
   - pulp_database_config (implicitly)
   - pulp_api (implicitly)
