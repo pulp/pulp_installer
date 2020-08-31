@@ -14,6 +14,8 @@
     virtualenv: '{{ pulp_install_dir }}'
     virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
   when: pulp_source_dir is defined
+  environment:
+    SETUPTOOLS_USE_DISTUTILS: stdlib
 
 - name: Install requirements for developer scripts
   pip:
