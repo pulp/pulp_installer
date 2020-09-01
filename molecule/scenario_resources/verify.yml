@@ -49,6 +49,7 @@
     - name: Install Inspec (yum)
       yum:
         name: "{{ inspec_download_source_dir }}/{{ inspec_download_url.split('/')[-1] }}"
+        disable_gpg_check: true
         state: present
       when: ansible_pkg_mgr in ["yum","dnf"]
 

@@ -60,7 +60,6 @@ and so on.
 ### Using Molecule
 
 1. Install [molecule](https://molecule.readthedocs.io/en/latest/),
-[molecule-inspec](https://github.com/ansible-community/molecule-inspec),
 and [ansible-lint](https://docs.ansible.com/ansible-lint/).
 It is recommended that you do so with `pip` in a virtualenv.
 
@@ -113,11 +112,6 @@ The suffixes are:
    (using `docker commit` from molecule.)
 
 `release-static` is symlinked to `default`, so that commands like `molecule test` will use it.
-
-### Molecule Limitations
-
-1. When using Python 2, [the inspec verification tests will not
-   run.](https://github.com/ansible-community/molecule-inspec/issues/5)
 
 Docs Testing
 ------------
