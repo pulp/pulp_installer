@@ -43,18 +43,9 @@
       - nc
       - python-django-bash-completion
       - python3-setuptools
+      - python3-virtualenv-clone
       - vim-enhanced
       - ruby-devel
-      # Until packaged for EPEL8
-      - "https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/\
-      28/Everything/x86_64/os/Packages/p/\
-      python3-virtualenvwrapper-4.8.2-4.fc28.noarch.rpm"
-      - "https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/\
-      28/Everything/x86_64/os/Packages/p/\
-      python3-virtualenv-clone-0.2.6-9.fc28.noarch.rpm"
-      - "https://archives.fedoraproject.org/pub/archive/fedora/linux/releases/\
-      28/Everything/x86_64/os/Packages/p/\
-      python3-stevedore-1.25.0-2.fc28.noarch.rpm"
     state: present
   retries: "{{ pulp_devel_package_retries }}"
   register: result
@@ -63,9 +54,19 @@
     - (ansible_facts.distribution == 'CentOS') or (ansible_facts.distribution == 'RedHat')
     - ansible_facts.distribution_major_version|int == 8
 
+- name: Install virtualenvwrapper
+  pip:
+    name: virtualenvwrapper
+    state: present
+    virtualenv: '{{ pulp_install_dir }}'
+    virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+  when:
+    - (ansible_facts.distribution == 'CentOS') or (ansible_facts.distribution == 'RedHat')
+    - ansible_facts.distribution_major_version|int == 8
+
 - name: Create virtualenvwrapper symlink
   file:
-    src: /usr/bin/virtualenvwrapper-3.sh
+    src: "{{ pulp_install_dir }}/bin/virtualenvwrapper.sh"
     dest: /usr/bin/virtualenvwrapper.sh
     state: link
   when:
