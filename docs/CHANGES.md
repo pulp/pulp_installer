@@ -13,6 +13,22 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.6.1 (2020-09-02)
+==================
+
+
+Bugfixes
+--------
+
+- Restart services after collect static
+  [#7366](https://pulp.plan.io/issues/7366)
+- Fixed bug where pulp_install_plugins source_dir vcs was being used when checking depdencies via pip-compile
+  [#7382](https://pulp.plan.io/issues/7382)
+
+
+----
+
+
 3.6.0-1 (2020-08-20)
 ====================
 

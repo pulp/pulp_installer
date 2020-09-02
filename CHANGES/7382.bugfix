@@ -1,1 +1,0 @@
-Fixed bug where pulp_install_plugins source_dir vcs was being used when checking depdencies via pip-compile
