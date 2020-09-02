@@ -145,6 +145,8 @@
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
       when: pulp_source_dir is undefined
+      environment:
+        SETUPTOOLS_USE_DISTUTILS: stdlib
       notify: Collect static content
 
     - name: Install pulpcore package from source
@@ -157,6 +159,8 @@
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
       when: pulp_source_dir is defined
+      environment:
+        SETUPTOOLS_USE_DISTUTILS: stdlib
       register: result
       # This is a hack. Editable pip installs are always changed, which fails molecule's
       # idempotence test.
@@ -192,6 +196,8 @@
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
       with_dict: '{{ pulp_install_plugins_normalized }}'
       when: item.value.source_dir is undefined
+      environment:
+        SETUPTOOLS_USE_DISTUTILS: stdlib
       notify: Collect static content
 
     - name: Install Pulp plugins from source
@@ -206,6 +212,8 @@
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
       with_dict: '{{ pulp_install_plugins_normalized }}'
       when: item.value.source_dir is defined
+      environment:
+        SETUPTOOLS_USE_DISTUTILS: stdlib
       register: result
       # This is a hack. Editable pip installs are always changed, which fails molecule's
       # idempotence test.
