@@ -60,11 +60,8 @@ systemctl enable firewalld
 {% else -%}
 # fedora or centos-8
 
-# Pulp requires CentOS 8.2 or later. 8.2 is currently CentOS Stream.
-RUN grep -v "CentOS" /etc/redhat-release || dnf install -y centos-release-stream epel-release &&\
+RUN grep -v "CentOS" /etc/redhat-release || dnf install -y epel-release &&\
 dnf makecache &&\
-grep -v "CentOS Linux release 8.1." /etc/redhat-release || dnf update -y &&\
-grep -v "CentOS Linux release 8.1." /etc/redhat-release || dnf install -y centos-release-stream &&\
 dnf update -y &&\
 dnf --assumeyes install \
   bash \
