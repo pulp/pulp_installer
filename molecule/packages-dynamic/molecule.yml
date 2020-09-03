@@ -21,14 +21,15 @@ lint: |
   capabilities:
     - NET_ADMIN
     - NET_RAW
+  pre_build_image: true
 platforms:
   - <<: *platform_base
     name: centos-7
-    image: centos:7
+    image: pulp/molecule_centos7
     command: /sbin/init
   - <<: *platform_base
     name: centos-8
-    image: centos:8
+    image: pulp/molecule_centos8
     command: /sbin/init
 provisioner:
   name: ansible
