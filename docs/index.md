@@ -5,9 +5,9 @@ The Pulp 3 Ansible installer is a collection of Ansible roles that you can use t
 
 Each Ansible role installs and configures a component of Pulp.
 
-This version of the installer, 3.6.2, installs Pulp 3.6.2 specifically.
+This version of the installer, 3.6.3, installs Pulp 3.6.3 specifically.
 
-If run against an older version of Pulp 3, it will upgrade it to 3.6.2.
+If run against an older version of Pulp 3, it will upgrade it to 3.6.3.
 
 System Requirements
 -------------------
@@ -89,18 +89,18 @@ Recommended Workflows for Pulpcore & Plugin Versioning
 Initial installation:
 
 1. Make sure you are running the latest version of the installer, which installs the latest version
-   of pulpcore (3.6.2).
+   of pulpcore (3.6.3).
 1. Confirm that all the latest stable releases of your desired plugins are compatible with pulpcore
-   3.6.2, such as by reading the release announcement email thread for pulpcore 3.6.2, reading the
+   3.6.3, such as by reading the release announcement email thread for pulpcore 3.6.3, reading the
 plugins README, or as a last resort, reading their `setup.py`.
 1. Run `pulp_installer`.
 
 Upgrading your installation:
 
 1. Observe what is the latest version of `pulp_installer`, and what version of pulpcore it installed
-   (3.6.2).
+   (3.6.3).
 1. Confirm that all the latest stable releases of **currently installed** plugins are compatible
-   with pulpcore 3.6.2, such as by reading the release announcement email thread for pulpcore 3.6.2,
+   with pulpcore 3.6.3, such as by reading the release announcement email thread for pulpcore 3.6.3,
 reading the plugins README, or as a last resort, reading their setup.py.
 1. If they are not all compatible yet, **wait** for the plugins to be updated for
    compatibility.
@@ -112,9 +112,9 @@ reading the plugins README, or as a last resort, reading their setup.py.
 
 Initial installation:
 
-1. Observe the latest branch of `pulp_installer`, and what version of pulpcore it installs (3.6.2).
+1. Observe the latest branch of `pulp_installer`, and what version of pulpcore it installs (3.6.3).
 1. Confirm that all the latest stable releases of your desired plugins are compatible with pulpcore
-   3.6.2, such as by reading the release announcement email thread for pulpcore 3.6.2, reading the
+   3.6.3, such as by reading the release announcement email thread for pulpcore 3.6.3, reading the
 plugins README, or as a last resort, reading their setup.py.
 1. If they are not all compatible yet, try the last version of the installer that installs pulpcore
    3.3.z . Then confirm that there exist stable releases of your desired plugins that are compatible
@@ -126,9 +126,9 @@ with pulpcore 3.3.z. If there are none, try pulpcore 3.2.z, and repeate.
 Upgrading your install:
 
 1. Observe what the latest version of `pulp_installer` is, and what version of pulpcore it installed
-   (3.6.2). (Even if there is no update, you can still upgrade your plugins.)
+   (3.6.3). (Even if there is no update, you can still upgrade your plugins.)
 1. Confirm that all the latest stable releases of **currently installed** plugins are compatible
-   with pulpcore 3.6.2, such as by reading the release announcement email thread for pulpcore 3.6.2,
+   with pulpcore 3.6.3, such as by reading the release announcement email thread for pulpcore 3.6.3,
 reading the plugins README, or as a last resort, reading their setup.py.
 1. If they are not all compatible yet, try the last version of the installer that installs pulpcore
    3.3.z . Then confirm that there exist stable releases of your desired plugins that are compatible
