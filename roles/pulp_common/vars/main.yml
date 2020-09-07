@@ -32,3 +32,6 @@ __pulp_common_pulp_settings_fips_defaults:
     - sha384
     - sha512
 __pulp_common_merged_pulp_settings: "{{ __pulp_common_pulp_settings_defaults | combine(ansible_fips | ternary(__pulp_common_pulp_settings_fips_defaults, {}), pulp_settings, recursive=True) }}"
+
+# Pulps own replacement for django-admin setup in the proper environment
+pulp_django_admin_path: "{{ pulp_install_dir }}/bin/pulpcore-manager"

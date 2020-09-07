@@ -42,9 +42,6 @@ epel_release_packages:
 # set it, and even then we may just help them to append to a list.
 pulp_irregularly_named_plugins:
   - galaxy-ng
-pulp_django_admin_paths:
-  - "{{ pulp_install_dir }}/bin/django-admin"
-  - "{{ pulp_install_dir }}/bin/python3-django-admin"
 pulp_pkg_name_prefix: "python3-"
 pulp_pkg_pulpcore_name: "{{ pulp_pkg_name_prefix }}pulpcore"
 pulp_pkg_repo:
