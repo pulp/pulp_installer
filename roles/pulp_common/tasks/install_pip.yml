@@ -147,7 +147,9 @@
       when: pulp_source_dir is undefined
       environment:
         SETUPTOOLS_USE_DISTUTILS: stdlib
-      notify: Collect static content
+      notify:
+        - Collect static content
+        - Restart all Pulp services
 
     - name: Install pulpcore package from source
       pip:
@@ -166,7 +168,9 @@
       # idempotence test.
       # Unfortunately, this will prevent the handlers from being notified.
       changed_when: result.changed and not pulp_pip_editable
-      notify: Collect static content
+      notify:
+        - Collect static content
+        - Restart all Pulp services
 
     # We have to do this separate task, even though the pip module should
     # register the installed version, because when tested (Ansible 2.9, with no
@@ -198,7 +202,9 @@
       when: item.value.source_dir is undefined
       environment:
         SETUPTOOLS_USE_DISTUTILS: stdlib
-      notify: Collect static content
+      notify:
+        - Collect static content
+        - Restart all Pulp services
 
     - name: Install Pulp plugins from source
       pip:
@@ -219,7 +225,9 @@
       # idempotence test.
       # Unfortunately, this will prevent the handlers from being notified.
       changed_when: result.changed and not pulp_pip_editable
-      notify: Collect static content
+      notify:
+        - Collect static content
+        - Restart all Pulp services
 
     - name: Install gunicorn via PyPI
       pip:
