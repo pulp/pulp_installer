@@ -145,15 +145,6 @@ pyclean () {
 }
 _pyclean_help="Cleanup extra python files"
 
-pfixtures () {
-    cat ~/.config/pulp_smash/settings.json | \
-    jq "setpath([\"custom\",\"fixtures_origin\"]; \"http://localhost:8000/fixtures/\")" > /tmp/temp_pfixtures.json
-    cat /tmp/temp_pfixtures.json > ~/.config/pulp_smash/settings.json
-    rm /tmp/temp_pfixtures.json
-    podman run -d --rm -p 8000:80 docker.io/pulp/pulp-fixtures:latest
-}
-_pfixtures_help="Run pulp-fixtures container in foreground"
-
 pbindings(){
     CURRENT_DIR=$(pwd)
 
@@ -216,6 +207,17 @@ pbindings(){
 }
 _pbindings_help="Create and install bindings. Example usage: pbindings pulpcore python"
 
+pfixtures () {
+    cat ~/.config/pulp_smash/settings.json | \
+    jq "setpath([\"custom\",\"fixtures_origin\"]; \"http://localhost:8000/fixtures/\")" > ~/.config/pulp_smash/.settings.json.tmp
+    mv ~/.config/pulp_smash/.settings.json.tmp ~/.config/pulp_smash/settings.json
+    podman run --rm -it -p 0.0.0.0:8000:80 --name pulp_fixtures pulp/pulp-fixtures
+    cat ~/.config/pulp_smash/settings.json | \
+    jq "setpath([\"custom\",\"fixtures_origin\"]; \"https://fixtures.pulpproject.org/\")" > ~/.config/pulp_smash/.settings.json.tmp
+    mv ~/.config/pulp_smash/.settings.json.tmp ~/.config/pulp_smash/settings.json
+}
+_pfixtures_help="Run pulp-fixtures container in foreground"
+
 pminio(){
     if [ "$1" = 'stop' ]
     then
@@ -231,6 +233,7 @@ pminio(){
         sudo bash -c "sed -i '/MEDIA_ROOT/d' /etc/pulp/settings.py"
         sudo bash -c "sed -i '/AWS_S3_ENDPOINT_URL/d' /etc/pulp/settings.py"
         podman stop pulp_minio && podman rm pulp_minio
+        echo "The minio instance has been torn down. It's recommended that you run 'pclean' now."
     else
         export MINIO_ACCESS_KEY=AKIAIT2Z5TDYPX3ARJBA
         export MINIO_SECRET_KEY=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
@@ -239,7 +242,6 @@ pminio(){
         mc config host add s3 http://localhost:9000 AKIAIT2Z5TDYPX3ARJBA fqRvjWaPU5o0fCqQuUWbj9Fainj2pVZtBCiDiieS --api S3v4
         mc config host rm local
         mc mb s3/pulp3 --region eu-central-1
-        workon pulp
         echo "Declaring S3 environment variables..."
         sudo bash -c "echo AWS_ACCESS_KEY_ID = \'$MINIO_ACCESS_KEY\' >> /etc/pulp/settings.py"
         sudo bash -c "echo AWS_SECRET_ACCESS_KEY = \'$MINIO_SECRET_KEY\' >> /etc/pulp/settings.py"
