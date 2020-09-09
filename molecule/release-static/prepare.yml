@@ -6,3 +6,16 @@
         src: debian-redis-server.service
         dest: /etc/systemd/system/redis-server.service
       when: ansible_distribution == "Debian"
+
+    - name: Ensure dnf is not installed, which would conflict with ansible-pulp-rpm
+      yum:
+        name:
+          - python2-dnf
+          - python2-libdnf
+          - dnf-data
+          - libdnf
+        state: absent
+        use_backend: yum
+      when:
+        - ansible_os_family == "RedHat"
+        - ansible_distribution_major_version|int == 7

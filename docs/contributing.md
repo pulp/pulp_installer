@@ -113,6 +113,13 @@ The suffixes are:
 
 `release-static` is symlinked to `default`, so that commands like `molecule test` will use it.
 
+Intentional other differences between tests:
+1. `static` - These include using unix sockets for the webserver to connect to pulp-api
+   & pulp-content. The remainder use TCP connections (`upgrade` because that's what older installs
+   only did, `dynamic` because they will become containers soon anyway to test cluster installs.)
+1. `dynamic` - Due to a limitation of Ansible 2.8 with collections, these are not tested with
+   Ansible 2.8.
+
 Docs Testing
 ------------
 

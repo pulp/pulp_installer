@@ -21,6 +21,7 @@ lint: |
   capabilities:
     - NET_ADMIN
     - NET_RAW
+  pre_build_image: true
 platforms:
   - <<: *platform_base
     name: centos-7
