@@ -5,9 +5,9 @@
     # "min_ansible_version". It needs to be kept manually up-to-date.
     - name: Verify Ansible meets min required version
       assert:
-        that: "ansible_version.full is version_compare('2.8', '>=')"
+        that: "ansible_version.full is version_compare('2.9', '>=')"
         msg: >
-          "You must update Ansible to at least 2.8 to use this version of Pulp 3 Installer."
+          "You must update Ansible to at least 2.9 to use this version of Pulp 3 Installer."
   roles:
     - pulp_all_services
   environment:
