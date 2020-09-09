@@ -11,6 +11,7 @@ nav:
   - Getting started: quickstart.md
   - contributing.md
   - Let's Encrypt: letsencrypt.md
+  - FIPS: fips.md
   - Changelog: CHANGES.md
   - Roles:
       - Pulp Common: roles/pulp_common.md

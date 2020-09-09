@@ -1,0 +1,4 @@
+{% if ansible_fips -%}
+Django=={{ pip_pkgs.packages[pulp_install_dir + '/bin/pip'].Django[0].version }}
+{% endif %}
+pulpcore=={{ pip_pkgs.packages[pulp_install_dir + '/bin/pip'].pulpcore[0].version }}

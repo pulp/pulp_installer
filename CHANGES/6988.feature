@@ -1,0 +1,1 @@
+Install patched dependencies that are modified for FIPS compatibility on Red Hat based operating systems. Additionally remove ``md5`` from the ``ALLOWED_CONTENT_CHECKSUMS`` setting. Users can override the ``ALLOWED_CONTENT_CHECKSUMS`` if a new value is provided.
