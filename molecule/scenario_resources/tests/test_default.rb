@@ -2,6 +2,11 @@ describe directory('/etc/') do
   its('owner') { should eq 'root' }
 end
 
+describe directory('/var/lib/pulp/') do
+  its('owner') { should eq 'pulp' }
+  its('group') { should eq 'pulp' }
+end
+
 ['pulpcore-api','pulpcore-content','pulpcore-resource-manager', 'pulpcore-worker@1', 'pulpcore-worker@2'].each do |pservice|
   describe service(pservice) do
     it { should be_running }

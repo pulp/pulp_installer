@@ -43,6 +43,7 @@
         shell: '{{ result.stdout.strip() }}'
         home: '{{ pulp_user_home }}'
         system: true
+        group: '{{ pulp_group }}'
         groups:
           - '{{ pulp_group }}'
         append: true
@@ -131,6 +132,14 @@
           when: dirs_needing_setgid.stdout | length > 0
 
       when: pulp_user_home_stat.stat.pw_name == "apache"
+
+    - name: Set group on all files in '{{ pulp_user_home }}'
+      file:
+        path: '{{ pulp_user_home }}'
+        state: directory
+        group: '{{ pulp_group }}'
+        recurse: true
+        follow: false
 
     - name: Install packages needed for source install
       package:
