@@ -16,6 +16,7 @@
   when: pulp_source_dir is defined
   environment:
     SETUPTOOLS_USE_DISTUTILS: stdlib
+    PIP_USE_FEATURE: 2020-resolver
 
 - name: Install requirements for developer scripts
   pip:

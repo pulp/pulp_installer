@@ -20,14 +20,9 @@
         virtualenv_site_packages: yes
       when: pulp_use_system_wide_pkgs | bool
 
-    # 20.2 fails idempotency with ruamel.yaml due to this bug:
-    # https://github.com/pypa/pip/pull/8659
-    # Should be fixed in 20.2.1
-    # There seems to be another problem with pip >= 20.2 in combination with an old version of setuptools in the system
-    # https://github.com/pypa/setuptools/issues/1694
     - name: Upgrade to a recent edition of pip (supporting manylinux2014)
       pip:
-        name: pip>=20.0,<20.2
+        name: pip>=20.0
         state: present
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
@@ -147,6 +142,7 @@
       when: pulp_source_dir is undefined
       environment:
         SETUPTOOLS_USE_DISTUTILS: stdlib
+        PIP_USE_FEATURE: 2020-resolver
       notify:
         - Collect static content
         - Restart all Pulp services
@@ -163,6 +159,7 @@
       when: pulp_source_dir is defined
       environment:
         SETUPTOOLS_USE_DISTUTILS: stdlib
+        PIP_USE_FEATURE: 2020-resolver
       register: result
       # This is a hack. Editable pip installs are always changed, which fails molecule's
       # idempotence test.
@@ -202,6 +199,7 @@
       when: item.value.source_dir is undefined
       environment:
         SETUPTOOLS_USE_DISTUTILS: stdlib
+        PIP_USE_FEATURE: 2020-resolver
       notify:
         - Collect static content
         - Restart all Pulp services
@@ -220,6 +218,7 @@
       when: item.value.source_dir is defined
       environment:
         SETUPTOOLS_USE_DISTUTILS: stdlib
+        PIP_USE_FEATURE: 2020-resolver
       register: result
       # This is a hack. Editable pip installs are always changed, which fails molecule's
       # idempotence test.
