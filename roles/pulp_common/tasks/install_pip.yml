@@ -1,4 +1,25 @@
 ---
+- name: Remove old venv
+  file:
+    path: '{{ pulp_install_dir }}_old'
+    state: absent
+  tags:
+    - molecule-idempotence-notest
+
+- name: Check if venv already exists
+  stat:
+    path: '{{ pulp_install_dir }}'
+  register: pulp_venv
+
+- name: "Check if venv control {{ pulp_version }} exists"
+  stat:
+    path: '{{ pulp_install_dir }}/{{ pulp_version }}'
+  register: pulp_venv_control
+
+- name: Move pulp venv to pulp_old venv
+  command: 'mv {{ pulp_install_dir }} {{ pulp_install_dir }}_old'
+  when: pulp_venv.stat.exists and not pulp_venv_control.stat.exists
+
 - name: Create pulp install dir
   file:
     path: '{{ pulp_install_dir }}'
@@ -6,6 +27,15 @@
     owner: '{{ pulp_user }}'
     group: '{{ pulp_group }}'
   become: true
+
+- name: Touch a venv control file
+  copy:
+    content: ""
+    dest: '{{ pulp_install_dir }}/{{ pulp_version }}'
+    force: no
+    group: '{{ pulp_user }}'
+    owner: '{{ pulp_group }}'
+    mode: u=rw,g=r,o=r
 
 - name: Prepare the virtualenv itself
   block:
