@@ -5,6 +5,7 @@
       copy:
         src: debian-redis-server.service
         dest: /etc/systemd/system/redis-server.service
+        mode: '0600'
       when: ansible_distribution == "Debian"
 
     - name: Ensure dnf is not installed, which would conflict with ansible-pulp-rpm

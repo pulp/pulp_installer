@@ -10,6 +10,7 @@
       template:
         src: pulp-vhost.conf.j2
         dest: "{{ pulp_webserver_apache_vhost_dir }}/pulp-vhost.conf"
+        mode: '0600'
       notify: reload apache
 
     - name: Enable Apache vhost files and mod files
@@ -28,6 +29,7 @@
     - name: Create directory for Pulp Apache snippets
       file:
         path: "{{ pulp_webserver_apache_snippets_dir }}"
+        mode: '0600'
         state: directory
 
     # FIXME: The ansible output here over the results is very ugly.

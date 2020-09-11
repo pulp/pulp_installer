@@ -26,6 +26,7 @@
     state: directory
     owner: '{{ pulp_user }}'
     group: '{{ pulp_group }}'
+    mode: '0775'
   become: true
 
 - name: Touch a venv control file
@@ -84,6 +85,7 @@
       template:
         src: templates/requirements.in.j2
         dest: "{{ pulp_install_dir }}/requirements.in"
+        mode: '0600'
 
     - name: Install pip-tools, which provides pip-compile to check version compatibility
       pip:
@@ -215,6 +217,7 @@
       copy:
         content: "pulpcore=={{ pip_pkgs.packages[pulp_install_dir + '/bin/pip'].pulpcore[0].version }}\n"
         dest: "{{ pulp_install_dir }}/pip_constraints_for_plugins.txt"
+        mode: '0600'
 
     - name: Install Pulp plugins via PyPI
       pip:

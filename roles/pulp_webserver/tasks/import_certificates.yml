@@ -5,7 +5,7 @@
     dest: "{{ pulp_certs_dir }}/pulp_webserver.crt"
     owner: root
     group: "{{ pulp_group }}"
-    mode: 0600
+    mode: '0600'
     remote_src: "{{ pulp_webserver_tls_files_remote }}"
   notify: reload {{ pulp_webserver_server }}
 
@@ -15,6 +15,6 @@
     dest: "{{ pulp_certs_dir }}/pulp_webserver.key"
     owner: root
     group: "{{ pulp_group }}"
-    mode: 0600
+    mode: '0600'
     remote_src: "{{ pulp_webserver_tls_files_remote }}"
   notify: reload {{ pulp_webserver_server }}

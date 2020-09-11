@@ -24,6 +24,7 @@
       template:
         src: templates/redis_scl_profile.j2
         dest: "/etc/profile.d/redis.sh"
+        mode: '0600'
       when:
         - ansible_facts.os_family == 'RedHat'
         - ansible_facts.distribution_major_version|int == 7

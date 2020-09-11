@@ -20,6 +20,7 @@
       template:
         src: templates/postgresql_scl_profile.j2
         dest: "{{ postgresql_profile_path }}"
+        mode: '0600'
       when:
         - ansible_facts.distribution == 'CentOS'
         - ansible_facts.distribution_major_version|int == 7

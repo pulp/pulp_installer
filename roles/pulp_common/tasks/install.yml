@@ -78,7 +78,7 @@
       file:
         path: '{{ pulp_user_home }}'
         state: directory
-        mode: 'u+rwx,o+x'
+        mode: '775'
         owner: '{{ pulp_user }}'
         group: '{{ pulp_group }}'
 
@@ -138,6 +138,7 @@
         path: '{{ pulp_user_home }}'
         state: directory
         group: '{{ pulp_group }}'
+        mode: '0775'
         recurse: true
         follow: false
 

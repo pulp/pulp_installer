@@ -26,6 +26,7 @@
   copy:
     src: '{{ pulp_install_dir }}/requirements.txt'
     dest: '{{ pulp_install_dir }}/requirements.txt.orig'
+    mode: '0600'
     remote_src: true
     backup: true
   changed_when: false
