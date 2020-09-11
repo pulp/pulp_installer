@@ -24,6 +24,8 @@
     virtualenv: '{{ pulp_install_dir }}'
     virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
   when: pulp_source_dir is defined
+  tags:  # Avoiding dynaconf x black conflict
+    - molecule-notest
 
 - name: Install requirements for S3 tests
   pip:
