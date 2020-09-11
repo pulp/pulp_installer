@@ -142,6 +142,7 @@
         # But we still need to handle upgrading dependencies.
         # state: "{{ pulp_upgrade | ternary('latest','present') }}"
         version: '{{ pulp_version }}'
+        extra_args: " --upgrade --upgrade-strategy=eager"
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
       when: pulp_source_dir is undefined
@@ -158,6 +159,7 @@
         # For this task, `state` has no effect. It installs or upgrades/
         # downgrades to the exact dir's or VCS URL's version regardless.
         state: present
+        extra_args: " --upgrade --upgrade-strategy=eager"
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
       when: pulp_source_dir is defined
