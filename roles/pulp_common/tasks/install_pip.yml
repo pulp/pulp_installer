@@ -181,6 +181,16 @@
         clients: "{{ pulp_install_dir }}/bin/pip"
       register: pip_pkgs
 
+    # Needed because dynaconf bundles box, but dynaconf<3.1.1 conflicts with normally installed
+    # box.
+    - name: Upgrade dynaconf to 3.1.1rc2 pre-release if it is older than 3.1.1
+      pip:
+        name: dynaconf==3.1.1rc2
+        state: present
+        virtualenv: '{{ pulp_install_dir }}'
+        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+      when: pip_pkgs.packages[pulp_install_dir + '/bin/pip'].dynaconf[0].version is version("3.1.1", "<")
+
     - name: Create constraints file to lock the pulpcore version when plugins are installed
       copy:
         content: "pulpcore=={{ pip_pkgs.packages[pulp_install_dir + '/bin/pip'].pulpcore[0].version }}\n"
