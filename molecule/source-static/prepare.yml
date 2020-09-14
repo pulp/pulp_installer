@@ -41,7 +41,7 @@
       copy:
         src: debian-redis-server.service
         dest: /etc/systemd/system/redis-server.service
-      when: ansible_distribution == "Debian"
+      when: ansible_facts.distribution == "Debian"
 
     - name: Ensure dnf is not installed, which would conflict with ansible-pulp-rpm
       yum:
@@ -53,5 +53,5 @@
         state: absent
         use_backend: yum
       when:
-        - ansible_os_family == "RedHat"
-        - ansible_distribution_major_version|int == 7
+        - ansible_facts.os_family == "RedHat"
+        - ansible_facts.distribution_major_version|int == 7
