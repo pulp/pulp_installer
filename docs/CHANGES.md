@@ -13,6 +13,38 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.6.3-1 (2020-09-15)
+====================
+
+
+Bugfixes
+--------
+
+- Changed pulp users main group from 'users' to '{{ pulp_group }}'.
+  [#7173](https://pulp.plan.io/issues/7173)
+- Fix auth migrations being run for galaxy_ng. Due to code removal, the
+  pulp_default_admin_password is now set whenever pulpcore is 1st installed, updated/upgraded,
+  or when `pulp_upgraded_manually==true`.
+  [#7493](https://pulp.plan.io/issues/7493)
+- Fix upgrades from pulpcore 3.0 failing at collectstatic by upgrading dynaconf to at least 3.1.1rc2.
+  [#7503](https://pulp.plan.io/issues/7503)
+
+
+Devel
+-----
+
+- Install pulp-rpm in the RPM package molecule / CI tests. (In addition to pulp-file.)
+  [#7455](https://pulp.plan.io/issues/7455)
+- Molecule & pulp_installer CI no longer update the CentOS 8 container to CentOS Stream.
+  (They were doing it always, since 8.2 released by accident.)
+  [#7456](https://pulp.plan.io/issues/7456)
+- CI: Do not install dnf on CentOS 7. So as to actually test yum (yum 3), like most users use.
+  [#7473](https://pulp.plan.io/issues/7473)
+
+
+----
+
+
 3.6.2 (2020-09-02)
 ==================
 
