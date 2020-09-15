@@ -20,13 +20,11 @@
 - meta: flush_handlers
 
 - block:
+
     - name: Run database auth migrations
       command: '{{ pulp_django_admin_path }} migrate auth --no-input'
       register: migrate_auth
       changed_when: "'No migrations to apply' not in migrate_auth.stdout"
-      environment:
-        # Stops django-guardian from creating an anonymous user
-        PULP_ANONYMOUS_USER_NAME: '@none None'
 
     - name: Run database migrations
       command: '{{ pulp_django_admin_path }} migrate --no-input'
