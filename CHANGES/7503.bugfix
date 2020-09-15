@@ -1,1 +1,0 @@
-Fix upgrades from pulpcore 3.0 failing at collectstatic by upgrading dynaconf to at least 3.1.1rc2.

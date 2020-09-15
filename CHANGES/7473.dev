@@ -1,1 +1,0 @@
-CI: Do not install dnf on CentOS 7. So as to actually test yum (yum 3), like most users use.

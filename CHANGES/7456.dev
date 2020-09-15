@@ -1,2 +1,0 @@
-Molecule & pulp_installer CI no longer update the CentOS 8 container to CentOS Stream.
-(They were doing it always, since 8.2 released by accident.)
