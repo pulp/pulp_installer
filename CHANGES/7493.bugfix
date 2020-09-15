@@ -1,1 +1,3 @@
-Allow auth migrations to work for galaxy_ng
+Fix auth migrations being run for galaxy_ng. Due to code removal, the
+pulp_default_admin_password is now set whenever pulpcore is 1st installed, updated/upgraded,
+or when `pulp_upgraded_manually==true`.

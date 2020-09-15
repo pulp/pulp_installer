@@ -147,6 +147,7 @@
       when: pulp_source_dir is undefined
       environment:
         SETUPTOOLS_USE_DISTUTILS: stdlib
+      register: pulpcore_install_pypi
       notify:
         - Collect static content
         - Restart all Pulp services
@@ -163,14 +164,14 @@
       when: pulp_source_dir is defined
       environment:
         SETUPTOOLS_USE_DISTUTILS: stdlib
-      register: result
-      # This is a hack. Editable pip installs are always changed, which fails molecule's
-      # idempotence test.
-      # Unfortunately, this will prevent the handlers from being notified.
-      changed_when: result.changed and not pulp_pip_editable
+      register: pulpcore_install_src
       notify:
         - Collect static content
         - Restart all Pulp services
+      # Editable pip installs are always changed, which fails molecule's idempotence test.
+      # Unfortunately, this will prevent the handlers from being notified.
+      tags:
+        - molecule-idempotence-notest
 
     # We have to do this separate task, even though the pip module should
     # register the installed version, because when tested (Ansible 2.9, with no
@@ -230,14 +231,13 @@
       when: item.value.source_dir is defined
       environment:
         SETUPTOOLS_USE_DISTUTILS: stdlib
-      register: result
-      # This is a hack. Editable pip installs are always changed, which fails molecule's
-      # idempotence test.
-      # Unfortunately, this will prevent the handlers from being notified.
-      changed_when: result.changed and not pulp_pip_editable
       notify:
         - Collect static content
         - Restart all Pulp services
+      # Editable pip installs are always changed, which fails molecule's idempotence test.
+      # Unfortunately, this will prevent the handlers from being notified.
+      tags:
+        - molecule-idempotence-notest
 
     - name: Install gunicorn via PyPI
       pip:

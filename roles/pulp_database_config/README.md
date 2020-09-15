@@ -11,7 +11,8 @@ More specifically, this role does the following via `django-admin`:
 Role Variables
 --------------
 
-`pulp_default_admin_password`: Initial password for the Pulp admin. **Required**.
+`pulp_default_admin_password`: Initial password for the Pulp admin. Is set whenever
+pulp is installed, updated/upgraded, or `pulp_upgraded_manually==true`. **Required**
 
 Shared Variables
 ----------------
@@ -26,6 +27,7 @@ variables which are documented in that role:
 * `pulp_django_admin_paths`
 * `pulp_settings_file`
 * `pulp_user`
+* `pulp_upgraded_manually`
 
 This role understands how to talk to the database server via `pulp_settings_file`,
 which is written to disk in the `pulp_common` role, and whose relevant
