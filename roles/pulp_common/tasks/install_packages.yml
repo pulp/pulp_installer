@@ -1,21 +1,17 @@
 ---
 - block:
 
-    - name: "Install pulpcore via {{ ansible_facts.pkg_mgr }} packages"
+    - name: "Install the Pulp undeclared {{ ansible_facts.pkg_mgr }} package dependencies"
       package:
-        name: "{{ pulp_pkg_pulpcore_name }}"
+        name: "{{ pulp_pkg_undeclared_deps }}"
         state: "{{ pulp_pkg_upgrade_all | ternary('latest','present') }}"
-      register: pulpcore_install_pkgs
       notify:
         - Collect static content
         - Restart all Pulp services
 
-    # This includes the SELinux package, which actually depends on pulpcore.
-    # So we install these after installing pulpcore, to ensure that
-    # pulpcore_install_pkgs.changed is correctly determined.
-    - name: "Install the Pulp undeclared {{ ansible_facts.pkg_mgr }} package dependencies"
+    - name: "Install pulpcore via {{ ansible_facts.pkg_mgr }} packages"
       package:
-        name: "{{ pulp_pkg_undeclared_deps }}"
+        name: "{{ pulp_pkg_pulpcore_name }}"
         state: "{{ pulp_pkg_upgrade_all | ternary('latest','present') }}"
       notify:
         - Collect static content
