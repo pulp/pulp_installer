@@ -11,7 +11,9 @@ More specifically, this role does the following via `django-admin`:
 Role Variables
 --------------
 
-`pulp_default_admin_password`: Initial password for the Pulp admin. **Required**.
+* `pulp_default_admin_password`: Initial password for the Pulp admin. Only affects Pulp
+  during initial install, not upgrades/updates or re-running the installer for any other
+  reason. **Required**.
 
 Shared Variables
 ----------------

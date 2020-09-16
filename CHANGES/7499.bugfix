@@ -1,0 +1,2 @@
+Changed the mechanism to only set the admin password on first installation.
+Removed the depedency of ``pulp_health_check`` on the variable ``pulp_default_admin_password``.
