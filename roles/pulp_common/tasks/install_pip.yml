@@ -132,6 +132,14 @@
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
       when: prereq_pip_packages | length > 0
 
+    - name: Install patched versions of dependencies (FIPS only)
+      pip:
+        name:
+          - git+https://github.com/mdellweg/django.git@fips
+        virtualenv: '{{ pulp_install_dir }}'
+        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+      when: ansible_fips
+
     - name: Install pulpcore via PyPI
       pip:
         name: pulpcore
@@ -192,9 +200,9 @@
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
       when: pip_pkgs.packages[pulp_install_dir + '/bin/pip'].dynaconf[0].version is version("3.1.1", "<")
 
-    - name: Create constraints file to lock the pulpcore version when plugins are installed
-      copy:
-        content: "pulpcore=={{ pip_pkgs.packages[pulp_install_dir + '/bin/pip'].pulpcore[0].version }}\n"
+    - name: Create constraints file to lock the django and pulpcore version when plugins are installed
+      template:
+        src: "pip_constraints_for_plugins.txt.j2"
         dest: "{{ pulp_install_dir }}/pip_constraints_for_plugins.txt"
 
     - name: Install Pulp plugins via PyPI
