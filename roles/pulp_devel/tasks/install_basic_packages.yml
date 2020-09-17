@@ -20,39 +20,13 @@
   register: result
   until: result is succeeded
 
-- name: Install several useful packages (CentOS 7 specific)
+- name: Install several useful packages (distro-specific)
   package:
-    name:
-      - nc
-      - python-virtualenvwrapper
-      - ruby-devel
-      - jnettop
+    name: "{{ pulp_devel_distro_pkgs }}"
     state: present
   retries: "{{ pulp_devel_package_retries }}"
   register: result
   until: result is succeeded
-  when:
-    - (ansible_facts.distribution == 'CentOS') or (ansible_facts.distribution == 'RedHat')
-    - ansible_facts.distribution_major_version|int == 7
-
-- name: Install several useful packages (CentOS 8 specific)
-  package:
-    name:
-      - bash-completion
-      - dnf-utils
-      - nc
-      - python-django-bash-completion
-      - python3-setuptools
-      - python3-virtualenv-clone
-      - vim-enhanced
-      - ruby-devel
-    state: present
-  retries: "{{ pulp_devel_package_retries }}"
-  register: result
-  until: result is succeeded
-  when:
-    - (ansible_facts.distribution == 'CentOS') or (ansible_facts.distribution == 'RedHat')
-    - ansible_facts.distribution_major_version|int == 8
 
 - name: Install virtualenvwrapper
   pip:
@@ -72,47 +46,6 @@
   when:
     - (ansible_facts.distribution == 'CentOS') or (ansible_facts.distribution == 'RedHat')
     - ansible_facts.distribution_major_version|int == 8
-
-- name: Install several useful packages (Debian-specific)
-  package:
-    name:
-      - bash-completion
-      - fd-find
-      - fzf
-      - netcat
-      - python3-setuptools
-      - virtualenvwrapper
-      - ripgrep
-      - vim
-      - software-properties-common
-      - ruby-dev
-      - jnettop
-    state: present
-  retries: "{{ pulp_devel_package_retries }}"
-  register: result
-  until: result is succeeded
-  when: ansible_facts.distribution == 'Debian'
-
-- name: Install several useful packages (Fedora-specific)
-  package:
-    name:
-      - bash-completion
-      - dnf-utils
-      - fd-find
-      - fzf
-      - nc
-      - python-django-bash-completion
-      - python3-setuptools
-      - python3-virtualenvwrapper
-      - ripgrep
-      - vim-enhanced
-      - ruby-devel
-      - jnettop
-    state: present
-  retries: "{{ pulp_devel_package_retries }}"
-  register: result
-  until: result is succeeded
-  when: ansible_facts.distribution == 'Fedora'
 
 - name: Install Minio Client
   get_url:
