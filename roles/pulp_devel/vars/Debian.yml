@@ -1,0 +1,13 @@
+---
+pulp_devel_distro_pkgs:
+  - bash-completion
+  - fd-find
+  - fzf
+  - netcat
+  - python3-setuptools
+  - virtualenvwrapper
+  - ripgrep
+  - vim
+  - software-properties-common
+  - ruby-dev
+  - jnettop
