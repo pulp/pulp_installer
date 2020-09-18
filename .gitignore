@@ -2,7 +2,7 @@
 .tox
 **/*.pyc
 /roles/geerlingguy.postgresql
+/playbooks/roles/geerlingguy.postgresql
 
 # Ignores for Vagrant related items
 .vagrant/
-Vagrantfile

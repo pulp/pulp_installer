@@ -7,3 +7,5 @@ exclude_paths:
   - ../../.ansible/roles/geerlingguy.postgresql/
   - ../../.ansible/roles/lexa-uw.letsencrypt/
   - ./.github/
+  - ./vagrant/
+  - ./.vagrant/

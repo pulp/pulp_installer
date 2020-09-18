@@ -1,0 +1,6 @@
+# The only provider of Ubuntu 18.04 boxes ('generic' on vagrant cloud) disables IPv6
+# *at the kernel level* in the name of "compatibility" with many different backends.
+# The practical result of this is that you can't install redis, because redis tries
+# to set itself up on an IPv6 address while processing the post-install scripts.
+#
+# This can be re-evaluated at a later date.
