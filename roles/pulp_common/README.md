@@ -131,8 +131,6 @@ If it is set to "packages", the following variables are used, or behave *differe
     ```
 * `pulp_install_dir`: Location of the filesystem prefix where package installed python programs
   (gunicorn & rq) are looked for on the filesystem.  Defaults to "/usr" (such as for "/usr/bin/gunicorn").
-* `pulp_django_admin_paths`: A list of possible filepaths to the `django-admin` command.
-  The first one found will be used for pulp_installer's internal usage. See `defaults/main.yml` for default values.
 * `pulp_pkg_name_prefix`: The beginning of the Linux distro (RPM) package names for pulp, that is
   appended to in order to install "pulpcore" and the plugins. Defaults to "python3-".
 * `pulp_pkg_pulpcore_name`: The entire name of the Linux distro (RPM) package for pulpcore.
