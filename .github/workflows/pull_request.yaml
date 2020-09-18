@@ -2,6 +2,12 @@
 name: Pulp PR
 on: pull_request
 jobs:
+  submodule-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.1
+      - run: |
+          .ci/submodule_check.sh
   test:
     runs-on: ubuntu-latest
     strategy:

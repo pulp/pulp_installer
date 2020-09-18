@@ -1,0 +1,3 @@
+[submodule "forklift"]
+	path = forklift
+	url = ../../theforeman/forklift
