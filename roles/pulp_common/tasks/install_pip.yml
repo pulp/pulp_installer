@@ -155,7 +155,6 @@
       when: pulp_source_dir is undefined
       environment:
         SETUPTOOLS_USE_DISTUTILS: stdlib
-      register: pulpcore_install_pypi
       notify:
         - Collect static content
         - Restart all Pulp services
@@ -172,7 +171,6 @@
       when: pulp_source_dir is defined
       environment:
         SETUPTOOLS_USE_DISTUTILS: stdlib
-      register: pulpcore_install_src
       notify:
         - Collect static content
         - Restart all Pulp services

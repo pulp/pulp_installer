@@ -20,23 +20,23 @@
 - meta: flush_handlers
 
 - block:
-
     - name: Run database migrations
       command: '{{ pulp_django_admin_path }} migrate --no-input'
       register: result
       changed_when: "'No migrations to apply' not in result.stdout"
 
+    - name: Check if admin account has been created
+      command: >
+        {{ pulp_django_admin_path }} shell -c
+        'from django.contrib.auth import get_user_model; print(get_user_model().objects.filter(username="admin").exists())'
+      register: __pulp_database_config_admin_account_exists
+      changed_when: false
+      check_mode: false
+
     - name: Set the Pulp admin user's password
-      command: '{{ pulp_django_admin_path }} reset-admin-password --password {{ pulp_default_admin_password }}'
+      command: "{{ pulp_django_admin_path }} reset-admin-password --password {{ pulp_default_admin_password }}"
       no_log: true
-      # Only gets run when pulpcore gets installed or updated/upgraded.
-      # Using 1 combined variable for all 3 types of install seemed to always be
-      # false when it was skipped later, so let's use separate vars.
-      when: >
-        pulpcore_install_pypi.changed | default(false) or
-        pulpcore_install_src.changed | default(false) or
-        pulpcore_install_pkgs.changed | default(false) or
-        pulp_upgraded_manually
+      when: (__pulp_database_config_admin_account_exists.stdout == "False" ) | default(false)
 
   run_once: "{{ __pulp_database_config_run_once }}"
   become: true
