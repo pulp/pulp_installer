@@ -20,8 +20,6 @@ yum makecache fast &&\
 yum update -y &&\
 yum install -y \
   bash \
-  firewalld \
-  iptables \
   jemalloc \
   python \
   selinux-policy \
@@ -47,8 +45,6 @@ rm /sbin/modprobe &&\
 ln -s /bin/true /sbin/modprobe &&\
 apt-get -y install \
   bash \
-  firewalld \
-  iptables \
   python3 \
   python3-setuptools \
   sudo \
@@ -64,13 +60,10 @@ dnf makecache &&\
 dnf update -y &&\
 dnf --assumeyes install \
   bash \
-  firewalld \
-  iptables \
   jemalloc \
   glibc-langpack-en \
   python3 \
   python3-dnf \
-  python3-firewall \
   python3-setuptools \
   selinux-policy \
   selinux-policy-targeted \
