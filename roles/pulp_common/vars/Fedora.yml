@@ -4,8 +4,9 @@ pulp_preq_packages:
   - python3-devel
   - python3-libselinux  # For ansible itself
   - gcc                 # For psycopg2
-  - make                # For make docs
+  - make                # For make docs, and SELinux policy install
   - libpq-devel         # Renamed/Split version of postgresql-devel
+  - git                 # For source install, and SELinux policy install
 
 # Pulp requires Python 3.6+.
 pulp_python_interpreter: /usr/bin/python3

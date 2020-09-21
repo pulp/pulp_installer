@@ -52,3 +52,20 @@ pulp_pkg_undeclared_deps:
   - python3-djangorestframework-queryfields
 pulp_pkg_upgrade_all: false
 pulp_upgraded_manually: false
+
+# The order is significant; linear order to handle the dependency tree
+__pulp_selinux_policy_pkgs:
+  - pulpcore_port
+  - pulpcore
+  - pulpcore_rhsmcertd
+__pulp_selinux_repo: 'https://github.com/pulp/pulpcore-selinux.git'
+__pulp_selinux_version: 'master'
+__pulp_selinux_label_dirs:
+  - "{{ pulp_install_dir }}"
+  - "{{ pulp_config_dir }}"
+  - "{{ pulp_user_home }}"
+__pulp_selinux_label_dirs_optional:
+  # Depending on the roles applied yet whether or not Pulp is running, these may
+  # not exist, throwing error code 255 when a called command realizes nothing
+  # is present.
+  - "/var/run/pulpcore*"

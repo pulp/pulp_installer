@@ -135,14 +135,6 @@
         recurse: true
         follow: false
 
-    - name: Install packages needed for source install
-      package:
-        name:
-          - git
-        state: present
-      register: result
-      until: result is succeeded
-
   become: true
 
 - name: install pulp from {{ pulp_install_source }}

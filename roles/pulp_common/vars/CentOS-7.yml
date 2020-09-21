@@ -6,7 +6,9 @@ pulp_preq_packages:
   - libselinux-python  # For ansible itself
   - postgresql-devel
   - gcc                # For psycopg2
-  - make               # For make docs
+  - make               # For make docs, and SELinux policy install
+  - git                # For source install, and SELinux policy install
+
 pulp_python_interpreter: /usr/bin/python3.6
 pulp_python_cryptography:
   - python-cryptography
