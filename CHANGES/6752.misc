@@ -1,0 +1,1 @@
+Remove python3-psycopg2 dependency as installed automatically when needed.
