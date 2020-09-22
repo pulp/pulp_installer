@@ -17,8 +17,8 @@
   fail:
     msg: "If you give one of pulp_webserver_tls_cert and pulp_webserver_tls_key, you must also give the other."
   when:
-    - "pulp_webserver_tls_cert is defined or pulp_webserver_tls_key is defined"
-    - "pulp_webserver_tls_cert is not defined or pulp_webserver_tls_key is not defined"
+    - pulp_webserver_tls_cert | length or pulp_webserver_tls_key | length
+    - not pulp_webserver_tls_cert | length or not pulp_webserver_tls_key | length
 
 - debug:
     msg: >
@@ -51,16 +51,16 @@
     apply:
       become: true
   when:
-    - pulp_webserver_tls_cert is undefined
-    - pulp_webserver_tls_key is undefined
+    - not pulp_webserver_tls_cert | length
+    - not pulp_webserver_tls_key | length
 
 - include_tasks: import_certificates.yml
   args:
     apply:
       become: true
   when:
-    - pulp_webserver_tls_cert is defined
-    - pulp_webserver_tls_key is defined
+    - pulp_webserver_tls_cert | length
+    - pulp_webserver_tls_key | length
 
 - name: Copy custom CA cert
   copy:
@@ -70,7 +70,7 @@
     owner: root
     group: root
     remote_src: "{{ pulp_webserver_tls_files_remote }}"
-  when: pulp_webserver_tls_custom_ca_cert is defined
+  when: pulp_webserver_tls_custom_ca_cert | length
   become: true
   notify: update ca trust
 
