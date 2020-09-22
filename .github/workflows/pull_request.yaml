@@ -82,9 +82,16 @@ jobs:
         run: |
           docker pull quay.io/pulp/pulp-ci-pkgs-c7:3.3.1
           docker pull quay.io/pulp/pulp-ci-pkgs-c8:3.3.1
+      - name: Build images
+        run: |
+          find ./molecule/*/molecule.yml -exec sed -i 's/pulp\/molecule_fedora31/fedora:31/g' {} \;
+          find ./molecule/*/molecule.yml -exec sed -i 's/pulp\/molecule_debian10/debian:buster/g' {} \;
+          find ./molecule/*/molecule.yml -exec sed -i 's/pulp\/molecule_centos/centos:/g' {} \;
       - name: Run tox
         run: tox -e "py${{ matrix.toxpy }}-ansible${{ matrix.ansible }}-${{ matrix.test_type }}"
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
+          PRE_BUILD_MOLECULE: 'false'
+          MOLECULE_NO_LOG: 'false'
         shell: bash
