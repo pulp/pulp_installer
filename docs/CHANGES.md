@@ -13,6 +13,16 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.6.4 (2020-09-23)
+==================
+
+
+No significant changes, and is created as a compatibility release that can install pulpcore 3.6.4.
+
+
+----
+
+
 3.6.3-1 (2020-09-15)
 ====================
 
