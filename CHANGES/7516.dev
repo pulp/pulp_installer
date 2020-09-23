@@ -1,1 +1,0 @@
-pulp_devel role now installs distro-specific packages in parallel, for better performance when run against hosts running multiple distros (like our molecule CI).

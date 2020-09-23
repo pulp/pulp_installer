@@ -13,6 +13,37 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.7.0 (2020-09-23)
+==================
+
+
+Features
+--------
+
+- Install patched dependencies that are modified for FIPS compatibility on Red Hat based operating systems. Additionally remove ``md5`` from the ``ALLOWED_CONTENT_CHECKSUMS`` setting. Users can override the ``ALLOWED_CONTENT_CHECKSUMS`` if a new value is provided.
+  [#6988](https://pulp.plan.io/issues/6988)
+
+
+Bugfixes
+--------
+
+- Changed the mechanism to only set the admin password on first installation.
+  Removed the depedency of ``pulp_health_check`` on the variable ``pulp_default_admin_password``.
+  [#7499](https://pulp.plan.io/issues/7499)
+
+
+Devel
+-----
+
+- pulp_devel role now installs distro-specific packages in parallel, for better performance when run against hosts running multiple distros (like our molecule CI).
+  [#7516](https://pulp.plan.io/issues/7516)
+- pulp_installer's CI/molecule "packages mode" tests now test a new Foreman/Katello project URL for RPM packages. Has pulpcore 3.6 rather than 3.4.
+  [#7517](https://pulp.plan.io/issues/7517)
+
+
+----
+
+
 3.6.3-1 (2020-09-15)
 ====================
 
