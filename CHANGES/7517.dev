@@ -1,1 +1,0 @@
-pulp_installer's CI/molecule "packages mode" tests now test a new Foreman/Katello project URL for RPM packages. Has pulpcore 3.6 rather than 3.4.
