@@ -14,12 +14,6 @@
         name: '{{ pulp_preq_packages }}'
         state: present
 
-    - name: Disable SELinux
-      selinux:
-        policy: targeted
-        state: permissive
-      when: ansible_facts.os_family == 'RedHat' and pulp_disable_selinux | bool
-
     # Become root so as to search paths like /usr/sbin.
     - name: Find the nologin executable
       command: which nologin
