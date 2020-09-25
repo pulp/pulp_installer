@@ -17,8 +17,8 @@
   fail:
     msg: "If you give one of pulp_webserver_tls_cert and pulp_webserver_tls_key, you must also give the other."
   when:
-    - pulp_webserver_tls_cert | length or pulp_webserver_tls_key | length
-    - not pulp_webserver_tls_cert | length or not pulp_webserver_tls_key | length
+    - pulp_webserver_tls_cert is not mdellweg.filters.empty or pulp_webserver_tls_key is not mdellweg.filters.empty
+    - pulp_webserver_tls_cert is mdellweg.filters.empty or pulp_webserver_tls_key is mdellweg.filters.empty
 
 - name: Python interpreter
   debug:
@@ -54,16 +54,16 @@
     apply:
       become: true
   when:
-    - not pulp_webserver_tls_cert | length
-    - not pulp_webserver_tls_key | length
+    - pulp_webserver_tls_cert is mdellweg.filters.empty
+    - pulp_webserver_tls_key is mdellweg.filters.empty
 
 - include_tasks: import_certificates.yml
   args:
     apply:
       become: true
   when:
-    - pulp_webserver_tls_cert | length
-    - pulp_webserver_tls_key | length
+    - pulp_webserver_tls_cert is not mdellweg.filters.empty
+    - pulp_webserver_tls_key is not mdellweg.filters.empty
 
 - name: Copy custom CA cert
   copy:
@@ -73,7 +73,7 @@
     owner: root
     group: root
     remote_src: "{{ pulp_webserver_tls_files_remote }}"
-  when: pulp_webserver_tls_custom_ca_cert | length
+  when: pulp_webserver_tls_custom_ca_cert is not mdellweg.filters.empty
   become: true
   notify: update ca trust
 
