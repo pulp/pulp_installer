@@ -21,6 +21,10 @@ must be one of these currently supported operating systems:
 * Debian Buster (needs `allow_world_readable_tmpfiles = True` in ansible.cfg)
 * Fedora 30 or later
 
+The managed node cannot provide any other service on the same hostname as Pulp's API. The only
+exception is Pulp 2. The RESP APIs for Pulp 2 and Pulp 3 can be served on the same hostname as
+long as the `apache` webserver is deployed for both.
+
 Ansibles Python interpreter must have the package installed:
 * psycopg2
 * firewall (if firewalld should be configured; you can disable that with `pulp_configure_firewall=false`)
