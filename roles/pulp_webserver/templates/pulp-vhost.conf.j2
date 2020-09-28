@@ -14,8 +14,8 @@ Define pulp-api {{ pulp_api_bind }}
   ProxyRequests Off
   ProxyPreserveHost Off
 
-  ProxyPass /pulp/api http://${pulp-api}/pulp/api
-  ProxyPassReverse /pulp/api http://${pulp-api}/pulp/api
+  ProxyPass /pulp/api/v3 http://${pulp-api}/pulp/api/v3
+  ProxyPassReverse /pulp/api/3 http://${pulp-api}/pulp/api/v3
 
   ProxyPass /auth/login/ http://${pulp-api}/auth/login/
   ProxyPassReverse /auth/login/ http://${pulp-api}/auth/login/
@@ -26,6 +26,8 @@ Define pulp-api {{ pulp_api_bind }}
   IncludeOptional pulp/*.conf
 
   # static files are served through whitenoise - http://whitenoise.evans.io/en/stable/
+  # exclude all pulp v2 api calls
+  ProxyPassMatch ^/pulp/api/v2 !
   ProxyPass / http://${pulp-api}/
   ProxyPassReverse / http://${pulp-api}/
 
@@ -65,8 +67,8 @@ Define pulp-api {{ pulp_api_bind }}
   ProxyRequests Off
   ProxyPreserveHost Off
 
-  ProxyPass /pulp/api http://${pulp-api}/pulp/api
-  ProxyPassReverse /pulp/api http://${pulp-api}/pulp/api
+  ProxyPass /pulp/api/v3 http://${pulp-api}/pulp/api/v3
+  ProxyPassReverse /pulp/api/v3 http://${pulp-api}/pulp/api/v3
 
   ProxyPass /auth/login/ http://${pulp-api}/auth/login/
   ProxyPassReverse /auth/login/ http://${pulp-api}/auth/login/
@@ -78,6 +80,8 @@ Define pulp-api {{ pulp_api_bind }}
 
   # most pulp static files are served through whitenoise
   # http://whitenoise.evans.io/en/stable/
+  # exclude all pulp v2 api calls
+  ProxyPassMatch ^/pulp/api/v2 !
   ProxyPass / http://${pulp-api}/
   ProxyPassReverse / http://${pulp-api}/
 
