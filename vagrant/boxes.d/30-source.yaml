@@ -45,6 +45,8 @@ pulp2-nightly-pulp3-source-centos7:
       - "pulp-ci/ci/ansible/pulp_server.yaml"
       - "playbooks/source-install.yml"
     variables:
+      # The pulp2 playbook is missing more fine graned privilege control
+      ansible_become: true
       pulp_build: 'nightly'
       pulp_version: '2.21'
       pulp_webserver_server: 'apache'
