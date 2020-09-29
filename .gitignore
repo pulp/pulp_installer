@@ -2,7 +2,8 @@
 .tox
 **/*.pyc
 /roles/geerlingguy.postgresql
-/playbooks/roles/geerlingguy.postgresql
+/vagrant/playbooks/roles/geerlingguy.postgresql
+local.*-config.yml
 
 # Ignores for Vagrant related items
 .vagrant/

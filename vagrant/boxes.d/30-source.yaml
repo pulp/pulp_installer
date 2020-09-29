@@ -6,7 +6,7 @@ pulp3-source-fedora31:
     reverse: False
   memory: 4096
   ansible:
-    playbook: "playbooks/source-install.yml"
+    playbook: "vagrant/playbooks/source-install.yml"
     galaxy_role_file: "requirements.yml"
 
 pulp3-source-fedora32:
@@ -17,7 +17,7 @@ pulp3-source-fedora32:
     reverse: False
   memory: 4096
   ansible:
-    playbook: "playbooks/source-install.yml"
+    playbook: "vagrant/playbooks/source-install.yml"
     galaxy_role_file: "requirements.yml"
 
 pulp3-source-centos7:
@@ -28,7 +28,7 @@ pulp3-source-centos7:
     reverse: False
   memory: 4096
   ansible:
-    playbook: "playbooks/source-install.yml"
+    playbook: "vagrant/playbooks/source-install.yml"
     galaxy_role_file: "requirements.yml"
 
 # Update the Travis scripts whenever you update the RAM/CPU values
@@ -43,7 +43,7 @@ pulp2-nightly-pulp3-source-centos7:
   ansible:
     playbook:
       - "pulp-ci/ci/ansible/pulp_server.yaml"
-      - "playbooks/source-install.yml"
+      - "vagrant/playbooks/source-install.yml"
     variables:
       # The pulp2 playbook is missing more fine graned privilege control
       ansible_become: true
@@ -60,7 +60,7 @@ pulp3-source-centos7-fips:
     reverse: False
   memory: 4096
   ansible:
-    playbook: "playbooks/source-install.yml"
+    playbook: "vagrant/playbooks/source-install.yml"
     galaxy_role_file: "requirements.yml"
 
 pulp3-source-centos8:
@@ -72,7 +72,7 @@ pulp3-source-centos8:
     reverse: False
   memory: 4096
   ansible:
-    playbook: "playbooks/source-install.yml"
+    playbook: "vagrant/playbooks/source-install.yml"
     galaxy_role_file: "requirements.yml"
 
 pulp3-source-centos8-fips:
@@ -83,7 +83,7 @@ pulp3-source-centos8-fips:
     reverse: False
   memory: 4096
   ansible:
-    playbook: "playbooks/source-install.yml"
+    playbook: "vagrant/playbooks/source-install.yml"
     galaxy_role_file: "requirements.yml"
 
 pulp3-source-centos8-stream:
@@ -95,7 +95,7 @@ pulp3-source-centos8-stream:
     reverse: False
   memory: 4096
   ansible:
-    playbook: "playbooks/source-install.yml"
+    playbook: "vagrant/playbooks/source-install.yml"
     galaxy_role_file: "requirements.yml"
 
 pulp3-source-debian10:
@@ -106,5 +106,5 @@ pulp3-source-debian10:
     reverse: False
   memory: 4096
   ansible:
-    playbook: "playbooks/source-install.yml"
+    playbook: "vagrant/playbooks/source-install.yml"
     galaxy_role_file: "requirements.yml"

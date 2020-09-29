@@ -1,6 +1,16 @@
 ---
 # Misc workarounds for Vagrant boxes and Vagrant itself
 
+- name: Workarounds for source boxes
+  block:
+    - name: (Vagrant) Make user's home directory world-readable
+      file:
+        path: "{{ ansible_env.HOME }}"
+        state: directory
+        mode: 0755
+      become: true
+  when: source_workarounds | default(false)
+
 # Addresses both of these sporadic dnf failures, which affect the vagrant
 # box that never gets updated past GA release.
 # https://bodhi.fedoraproject.org/updates/FEDORA-2019-ae52a20ff6
