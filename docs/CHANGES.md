@@ -13,6 +13,20 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.7.1 (2020-09-30)
+==================
+
+
+Bugfixes
+--------
+
+- Fixed Apache config bug that prevented Pulp 2 API from being accessible.
+  [#7481](https://pulp.plan.io/issues/7481)
+
+
+----
+
+
 3.7.0 (2020-09-23)
 ==================
 
