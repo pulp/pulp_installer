@@ -1,1 +1,0 @@
-Fixed Apache config bug that prevented Pulp 2 API from being accessible.
