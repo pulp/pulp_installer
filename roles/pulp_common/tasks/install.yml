@@ -14,12 +14,6 @@
         name: '{{ pulp_preq_packages }}'
         state: present
 
-    - name: Disable SELinux
-      selinux:
-        policy: targeted
-        state: permissive
-      when: ansible_facts.os_family == 'RedHat' and pulp_disable_selinux | bool
-
     # Become root so as to search paths like /usr/sbin.
     - name: Find the nologin executable
       command: which nologin
@@ -140,14 +134,6 @@
         group: '{{ pulp_group }}'
         recurse: true
         follow: false
-
-    - name: Install packages needed for source install
-      package:
-        name:
-          - git
-        state: present
-      register: result
-      until: result is succeeded
 
   become: true
 

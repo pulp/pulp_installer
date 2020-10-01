@@ -1,9 +1,25 @@
 ---
-# Workaround https://github.com/ansible/ansible/issues/34505
-# by not using include_tasks
-- name: Restart all Pulp services
-  include: handlers/restart_all_pulp.yml
-  static: no
+# These SELinux handlers are listed up top so that they are run 1st, before
+# Pulp is restarted.
+- name: Load the SELinux policy packages
+  command: 'semodule -i /usr/local/share/selinux/{{ ansible_facts.selinux.type }}/{{ item }}.pp'
+  loop: '{{ __pulp_selinux_policy_pkgs }}'
+
+# Note: we cannot flush handlers until after these are created later on in the
+# Pulp role, after the SELinux policies are installed.
+# Installing them earlier should mean the files are created with the context to
+# begin with.
+- name: Restore SELinux contexts on Pulp dirs that must exist
+  command: '/sbin/fixfiles restore {{ __pulp_selinux_label_dirs | join(" ") }}'
+  # We need the when condition on this particular SELinux handler because it
+  # gets triggered by "Collect static content".
+
+# shell for handling '*' in the dir name
+- name: Restore SELinux contexts on Pulp dirs that may exist
+  shell: '/sbin/fixfiles restore {{ __pulp_selinux_label_dirs_optional | join(" ") }}' # noqa 305
+  register: result
+  changed_when: result.rc == 0
+  failed_when: result.rc not in [0,255]
 
 - name: Collect static content
   command: "{{ pulp_django_admin_path }} collectstatic --noinput --link"
@@ -14,6 +30,24 @@
   # Restarting pulpcore-api is necessary for collectstatic to
   # work; whitenoise cannot see the files unless pulpcore-api is restarted.
   #
-  notify: Restart all Pulp services
+  notify:
+    # the pulpcore-manager command does not run in the context of the daemon
+    - Restore SELinux contexts on Pulp asset dirs
+    - Restart all Pulp services
   environment:
     PULP_SETTINGS: "{{ pulp_settings_file }}"
+
+- name: Restore SELinux contexts on Pulp asset dirs
+  command: '/sbin/fixfiles restore {{ pulp_user_home }}/assets'
+  # We need the when condition on this particular SELinux handler because it
+  # gets triggered by "Collect static content".
+  when:
+    - ansible_facts.os_family == 'RedHat'
+    # when permissive or enforcing. That would be stored in .mode & .config_mode
+    - ansible_facts.selinux.status == "enabled"
+
+# Workaround https://github.com/ansible/ansible/issues/34505
+# by not using include_tasks
+- name: Restart all Pulp services
+  include: handlers/restart_all_pulp.yml
+  static: no

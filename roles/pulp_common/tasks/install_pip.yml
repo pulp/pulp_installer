@@ -1,4 +1,67 @@
 ---
+# Dependency package was installed earlier via pulp_preq_packages
+- name: Check if SELinux is enabled
+  setup:
+    gather_subset: selinux
+
+- name: Compile & install the pulpcore SELinux policy
+  block:
+
+    - name: Install SELinux policy build dependencies
+      yum:
+        name:
+          - selinux-policy-devel
+          - policycoreutils
+          # Needed for seport technically, used by pulp_api & pulp_content
+          - "{{ (ansible_facts.distribution_major_version | int == 7) | ternary('policycoreutils-python','python3-policycoreutils') }}"
+
+    - name: 'Ensure that /usr/local/share/selinux/{{ ansible_facts.selinux.type }} exists'
+      file:
+        path: '/usr/local/share/selinux/{{ ansible_facts.selinux.type }}'
+        state: directory
+        recurse: true
+        mode: 0755
+        owner: root
+        group: root
+
+    - name: Clone SELinux policy from Git
+      git:
+        # TEMP: Temporary repo and branch for el8 and related set of features.
+        repo: '{{ __pulp_selinux_repo }}'
+        version: '{{ __pulp_selinux_version }}'
+        dest: '{{ pulp_user_home }}/pulpcore-selinux'
+      become: true
+      become_user: '{{ pulp_user }}'
+
+    - name: Compile the SELinux policies
+      make:
+        file: /usr/share/selinux/devel/Makefile
+        chdir: '{{ pulp_user_home }}/pulpcore-selinux'
+        target: '{{ item }}.pp'
+      loop: '{{ __pulp_selinux_policy_pkgs }}'
+      become: true
+      become_user: '{{ pulp_user }}'
+
+    - name: Install the SELinux policy packages on disk
+      copy:
+        src: '{{ pulp_user_home }}/pulpcore-selinux/{{ item }}.pp'
+        dest: '/usr/local/share/selinux/{{ ansible_facts.selinux.type }}/{{ item }}.pp'
+        remote_src: true
+        mode: 0644
+        owner: root
+        group: root
+      loop: '{{ __pulp_selinux_policy_pkgs }}'
+      notify:
+        - Load the SELinux policy packages
+        - Restore SELinux contexts on Pulp dirs that must exist
+        - Restore SELinux contexts on Pulp dirs that may exist
+
+  become: true
+  when:
+    - ansible_facts.os_family == 'RedHat'
+    # when permissive or enforcing. That would be stored in .mode & .config_mode
+    - ansible_facts.selinux.status == "enabled"
+
 - name: Create pulp install dir
   file:
     path: '{{ pulp_install_dir }}'

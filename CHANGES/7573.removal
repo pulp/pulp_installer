@@ -1,0 +1,1 @@
+pulp_installer will no longer set SELinux to enabled, permissive and enforcing (casually referred to as "disabled") on CentOS/RHEL/Fedora.

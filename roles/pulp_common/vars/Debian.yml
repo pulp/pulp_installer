@@ -5,6 +5,7 @@ pulp_preq_packages:
   - python3-venv
   - libpq-dev
   - gcc              # For psycopg2
+  - git              # For source install
 
 # Pulp requires Python 3.6+.
 pulp_python_interpreter: /usr/bin/python3
