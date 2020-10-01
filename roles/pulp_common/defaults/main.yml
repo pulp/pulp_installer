@@ -59,7 +59,7 @@ __pulp_selinux_policy_pkgs:
   - pulpcore
   - pulpcore_rhsmcertd
 __pulp_selinux_repo: 'https://github.com/pulp/pulpcore-selinux.git'
-__pulp_selinux_version: 'master'
+__pulp_selinux_version: '1.1.1'
 __pulp_selinux_label_dirs:
   - "{{ pulp_install_dir }}"
   - "{{ pulp_config_dir }}"
