@@ -1,7 +1,8 @@
 ---
 dependency:
   name: galaxy
-  role-file: requirements.yml
+  options:
+    role-file: requirements.yml
 driver:
   name: docker
 lint: |
@@ -44,8 +45,8 @@ provisioner:
       group_vars: ../scenario_resources/group_vars/
 scenario:
   test_sequence:
-    - lint
     - dependency
+    - lint
     - syntax
     - create
     - prepare

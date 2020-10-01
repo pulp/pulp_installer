@@ -1,2 +1,5 @@
 ---
-- src: geerlingguy.postgresql
+roles:
+  - geerlingguy.postgresql
+collections:
+  - ansible.posix

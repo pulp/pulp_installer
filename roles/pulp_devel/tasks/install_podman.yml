@@ -58,7 +58,7 @@
     value: "1"
   when:
     - ansible_facts.distribution == 'Debian'
-    - ansible_virtualization_type != 'docker'
+    - ansible_facts.env.container | default("") == "podman"
 
 # Needed to allow non-root users to run podman containers on EL7
 - name: Set max_user_namespaces (EL7 specific)
