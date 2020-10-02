@@ -113,10 +113,10 @@
     - ansible_facts.distribution == "CentOS"
     - ansible_facts.distribution_major_version|int >= 8
 
-- name: Add pulpcore RPM repositories
+- name: "Add {{ __pulp_pkg_repo_name }} RPM repository"
   yum_repository:
-    name: pulpcore
-    description: pulpcore
+    name: "{{ __pulp_pkg_repo_name }}"
+    description: "{{ __pulp_pkg_repo_name }}"
     baseurl: "{{ pulp_pkg_repo }}"
     gpgcheck: false
     enabled: true
