@@ -1,5 +1,32 @@
 ---
 - block:
+    - name: "Enumerate the list of updates from the {{ __pulp_pkg_repo_name }} repo"
+      yum:
+        list: updates
+        disablerepo: "*"
+        enablerepo:  "{{ __pulp_pkg_repo_name }}"
+      register: updates
+
+    - name: List packages to be upgraded
+      debug:
+        # We do not use json_query because it requires jmespath on the control
+        # node. We should not introduce an addtl control node dependency
+        # unless there is a very compelling reason.
+        # msg: "{{ updates | json_query('results[*].name') }}"
+        msg: "{{ updates.results | map(attribute='name')|list }}"
+
+    - name: Upgrade all existing installed Pulp packages
+      yum:
+        name: "{{ updates.results | map(attribute='name')|list }}"
+        state: latest # noqa 403
+
+  become: true
+  when:
+    - ansible_facts.os_family == "RedHat"
+    - pulp_pkg_repo is not none
+    - pulp_pkg_upgrade_all
+
+- block:
 
     - name: "Install the Pulp undeclared {{ ansible_facts.pkg_mgr }} package dependencies"
       package:
@@ -34,7 +61,7 @@
     - name: "Install Pulp plugins (with overriden names) via {{ ansible_facts.pkg_mgr }}"
       package:
         name: '{{ item.value.pkg_name }}'
-        state: present
+        state: "{{ pulp_pkg_upgrade_all | ternary('latest','present') }}"
       with_dict: '{{ pulp_install_plugins }}'
       when:
         - item.value.pkg_name is defined

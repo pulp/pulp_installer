@@ -51,6 +51,7 @@ pulp_pkg_undeclared_deps:
   - python3-djangorestframework
   - python3-djangorestframework-queryfields
 pulp_pkg_upgrade_all: false
+__pulp_pkg_repo_name: "pulpcore"
 pulp_upgraded_manually: false
 
 # The order is significant; linear order to handle the dependency tree
