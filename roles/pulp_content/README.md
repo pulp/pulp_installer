@@ -6,12 +6,13 @@ Install, configure, and set the state of pulp content app.
 Role Variables
 --------------
 
-* `pulp_content_bind`: Interface and Port where Pulp Content `gunicorn` service will listen.
+* `pulp_content_bind`: Interface and Port where Pulp Content [`gunicorn` service will
+  listen.](https://docs.gunicorn.org/en/stable/settings.html#bind)
 
-This variable is the value used to render the `pulpcore-content.service.j2` template passing
-to the `--bind` parameter of the gunicorn service.
+One can specify a unix socket path instead
+(recommended value is `'unix:/var/run/pulpcore-content/pulpcore-content.sock'`).
 
-Defaults to `127.0.0.1:24816`
+Defaults to `'127.0.0.1:24816'`.
 
 Shared variables
 ----------------
