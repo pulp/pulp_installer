@@ -2,7 +2,7 @@ Define pulp-content {{ pulp_content_bind }}
 Define pulp-api {{ pulp_api_bind }}
 
 {% if pulp_webserver_disable_https | bool %}
-<VirtualHost *:80>
+<VirtualHost *:{{ pulp_webserver_http_port }}>
   ServerName {{ pulp_webserver_httpd_servername }}
 
   ## Logging
@@ -33,12 +33,12 @@ Define pulp-api {{ pulp_api_bind }}
 
 </VirtualHost>
 {% else %}
-<VirtualHost *:80>
+<VirtualHost *:{{ pulp_webserver_http_port }}>
   ServerName {{ pulp_webserver_httpd_servername }}
   Redirect permanent / https://{{ pulp_webserver_httpd_servername }}/
 </VirtualHost>
 
-<VirtualHost *:443>
+<VirtualHost *:{{ pulp_webserver_https_port }}>
   ServerName {{ pulp_webserver_httpd_servername }}
 
   # static files that can change dynamically, or are needed for TLS

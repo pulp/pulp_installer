@@ -32,11 +32,11 @@ http {
     server {
         # Gunicorn docs suggest the use of the "deferred" directive on Linux.
 {% if pulp_webserver_disable_https | bool %}
-        listen 80 default_server deferred;
-        listen [::]:80 default_server deferred;
+        listen {{ pulp_webserver_http_port }} default_server deferred;
+        listen [::]:{{ pulp_webserver_http_port }} default_server deferred;
 {% else %}
-        listen 443 default_server deferred ssl;
-        listen [::]:443 default_server deferred ssl;
+        listen {{ pulp_webserver_https_port }} default_server deferred ssl;
+        listen [::]:{{ pulp_webserver_https_port }} default_server deferred ssl;
 
         ssl_certificate {{ pulp_certs_dir }}/pulp_webserver.crt;
         ssl_certificate_key {{ pulp_certs_dir }}/pulp_webserver.key;
@@ -120,8 +120,8 @@ http {
 
 {% if not pulp_webserver_disable_https | bool %}
     server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
+        listen {{ pulp_webserver_http_port }} default_server;
+        listen [::]:{{ pulp_webserver_http_port }} default_server;
         server_name _;
         return 301 https://$host$request_uri;
     }
