@@ -19,6 +19,9 @@
       yum:
         name: "{{ updates.results | map(attribute='name')|list }}"
         state: latest # noqa 403
+      notify:
+        - Collect static content
+        - Restart all Pulp services
 
   become: true
   when:
