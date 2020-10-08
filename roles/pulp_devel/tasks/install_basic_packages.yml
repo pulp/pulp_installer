@@ -53,4 +53,7 @@
     dest: /usr/local/bin
     owner: '{{ developer_user }}'
     mode: 0750
+  retries: "{{ pulp_devel_package_retries }}"
+  register: result
+  until: result is succeeded
 ...
