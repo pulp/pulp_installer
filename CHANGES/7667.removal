@@ -1,0 +1,1 @@
+pulp_installer no longer supports installing from older RPM packages that lack the wrapper scripts `/usr/libexec/pulpcore/{rq,gunicorn}`.

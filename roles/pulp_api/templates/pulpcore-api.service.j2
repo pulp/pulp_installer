@@ -14,7 +14,7 @@ User={{ pulp_user }}
 Group={{ pulp_group }}
 PIDFile=/run/pulpcore-api.pid
 RuntimeDirectory=pulpcore-api
-ExecStart={{ pulp_install_dir }}/bin/gunicorn pulpcore.app.wsgi:application \
+ExecStart={{ __pulp_daemons_dir }}/gunicorn pulpcore.app.wsgi:application \
           --bind '{{ pulp_api_bind }}' \
           --workers {{ pulp_api_workers }} \
           --access-logfile -
