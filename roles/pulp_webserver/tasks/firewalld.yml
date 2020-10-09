@@ -12,16 +12,16 @@
         state: started
         enabled: true
 
-    - name: Accept connections on port 80
+    - name: Accept HTTP connections on port {{ pulp_webserver_http_port }}
       firewalld:
-        service: http
+        port: '{{ pulp_webserver_http_port }}/tcp'
         permanent: true
         immediate: true
         state: enabled
 
-    - name: Accept connections on port 443
+    - name: Accept HTTPS connections on port {{ pulp_webserver_https_port }}
       firewalld:
-        service: https
+        port: '{{ pulp_webserver_https_port }}/tcp'
         permanent: true
         immediate: true
         state: enabled

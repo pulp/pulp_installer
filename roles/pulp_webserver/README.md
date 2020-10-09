@@ -17,6 +17,8 @@ Role Variables
   'nginx'.
 * `pulp_configure_firewall` Install and configure a firewall. Valid values are 'auto', 'firewalld',
   and 'none'. Defaults to 'auto' (which is the same as 'firewalld', but may change in the future).
+* `pulp_webserver_http_port`: Define the HTTP port to listen on. Defaults to `80`.
+* `pulp_webserver_https_port`: Define the HTTPS port to listen on. Defaults to `443`.
 * `pulp_webserver_disable_https`: Whether or not HTTPS should be disabled. Defaults to `false`.
 * `pulp_webserver_tls_cert`: Relative or absolute path to the TLS (SSL) certificate
    one wants to import.
