@@ -1,5 +1,6 @@
 [Unit]
 Description=Pulp Content App
+Requires=pulpcore-content.socket
 After=network-online.target
 Wants=network-online.target
 
@@ -15,7 +16,6 @@ Group={{ pulp_group }}
 WorkingDirectory=/var/run/pulpcore-content/
 RuntimeDirectory=pulpcore-content
 ExecStart={{ __pulp_daemons_dir }}/gunicorn pulpcore.content:server \
-          --bind '{{ pulp_content_bind }}' \
           --worker-class 'aiohttp.GunicornWebWorker' \
           -w 2 \
           --access-logfile -

@@ -10,7 +10,7 @@ Role Variables
   listen.](https://docs.gunicorn.org/en/stable/settings.html#bind)
 
 One can specify a unix socket path instead
-(recommended value is `'unix:/var/run/pulpcore-content/pulpcore-content.sock'`).
+(recommended value is `'unix:/var/run/pulpcore-content.sock'`).
 
 Defaults to `'127.0.0.1:24816'`.
 

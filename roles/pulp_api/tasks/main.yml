@@ -14,6 +14,16 @@
         # We can also try using seport's ignore_selinux_state variable
         - ansible_facts.selinux.status == "enabled"
 
+    - name: Install pulpcore-api socket file
+      template:
+        src: pulpcore-api.socket.j2
+        dest: /lib/systemd/system/pulpcore-api.socket
+        owner: root
+        group: root
+        mode: 0644
+      become: true
+      notify: Restart pulpcore-api.socket
+
     - name: Install pulpcore-api service files
       template:
         src: pulpcore-api.service.j2

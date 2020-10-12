@@ -1,5 +1,6 @@
 [Unit]
 Description=Pulp WSGI Server
+Requires=pulpcore-api.socket
 After=network-online.target
 Wants=network-online.target
 
@@ -15,7 +16,6 @@ Group={{ pulp_group }}
 PIDFile=/run/pulpcore-api.pid
 RuntimeDirectory=pulpcore-api
 ExecStart={{ __pulp_daemons_dir }}/gunicorn pulpcore.app.wsgi:application \
-          --bind '{{ pulp_api_bind }}' \
           --workers {{ pulp_api_workers }} \
           --access-logfile -
 

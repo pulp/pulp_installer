@@ -1,0 +1,8 @@
+[Unit]
+Description=Pulp Content App socket
+
+[Socket]
+ListenStream={{ pulp_content_bind | replace("unix:", "") }}
+
+[Install]
+WantedBy=sockets.target

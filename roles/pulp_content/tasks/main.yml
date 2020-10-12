@@ -12,6 +12,15 @@
       # We can also try using seport's ignore_selinux_state variable
       - ansible_facts.selinux.status == "enabled"
 
+  - name: Install pulpcore-content socket file
+    template:
+      src: pulpcore-content.socket.j2
+      dest: /lib/systemd/system/pulpcore-content.socket
+      owner: root
+      group: root
+      mode: 0644
+    notify: Reload systemd and restart pulp content socket
+
   - name: Install pulpcore-content service file
     template:
       src: pulpcore-content.service.j2

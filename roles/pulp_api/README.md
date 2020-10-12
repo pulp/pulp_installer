@@ -8,7 +8,7 @@ Role Variables
 
 * `pulp_api_bind`: Interface and Port where Pulp Content [`gunicorn` service will
   listen.](https://docs.gunicorn.org/en/stable/settings.html#bind)
-  One can specify a unix socket path instead (recommended value is `'unix:/var/run/pulpcore-api/pulpcore-api.sock'`).
+  One can specify a unix socket path instead (recommended value is `'unix:/var/run/pulpcore-api.sock'`).
   Defaults to `'127.0.0.1:24817'`.
 * `pulp_api_workers`: Number of Pulp Content `gunicorn` processes for handling requests. Defaults to 1.
   Used to render the `pulpcore-api.service.j2` template, passing to the `--workers` parameter of the

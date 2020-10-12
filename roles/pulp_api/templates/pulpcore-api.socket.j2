@@ -1,0 +1,8 @@
+[Unit]
+Description=Pulp WSGI Server socket
+
+[Socket]
+ListenStream={{ pulp_api_bind | replace("unix:", "") }}
+
+[Install]
+WantedBy=sockets.target

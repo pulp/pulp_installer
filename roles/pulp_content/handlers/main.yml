@@ -4,4 +4,13 @@
     daemon_reload: true
     name: pulpcore-content.service
     state: restarted
+    enabled: true
+  become: true
+
+- name: Reload systemd and restart pulp content socket
+  systemd:
+    daemon_reload: true
+    name: pulpcore-content.socket
+    state: restarted
+    enabled: true
   become: true
