@@ -11,8 +11,9 @@
 # begin with.
 - name: Restore SELinux contexts on Pulp dirs that must exist
   command: '/sbin/fixfiles restore {{ __pulp_selinux_label_dirs | join(" ") }}'
-  # We need the when condition on this particular SELinux handler because it
-  # gets triggered by "Collect static content".
+  when:
+    - ansible_facts.os_family == 'RedHat'
+    - ansible_facts.selinux.status == "enabled"
 
 # shell for handling '*' in the dir name
 - name: Restore SELinux contexts on Pulp dirs that may exist
@@ -20,6 +21,9 @@
   register: result
   changed_when: result.rc == 0
   failed_when: result.rc not in [0,255]
+  when:
+    - ansible_facts.os_family == 'RedHat'
+    - ansible_facts.selinux.status == "enabled"
 
 - name: Collect static content
   command: "{{ pulp_django_admin_path }} collectstatic --noinput --link"
