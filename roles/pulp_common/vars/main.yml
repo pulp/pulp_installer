@@ -5,7 +5,11 @@
 # https://stackoverflow.com/questions/41521138/ansible-template-adds-u-to-array-in-template
 pulp_install_plugins_normalized_yml: |-
   {% for key, value in pulp_install_plugins.items() %}
-  {{ key.replace('_', '-') }}: {{ value | to_json }}
+  {% if value.get('inherits') %}
+  {{ value.get('inherits').replace('_', '-')  }}: {{ value | to_json  }}
+  {% else %}
+  {{ key.replace('_', '-')  }}: {{ value | to_json  }}
+  {% endif %}
   {% endfor %}
 # A pulp_install_plugins but with the plugin names corrected:
 # pip/PyPI only uses dashes, not underscores.
