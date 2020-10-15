@@ -22,7 +22,7 @@
   failed_when: result.rc not in [0,255]
 
 - name: Collect static content
-  command: "{{ pulp_django_admin_path }} collectstatic --noinput --link"
+  command: "{{ pulp_django_admin_path }} collectstatic --noinput --link {{ pulp_collectstatic_ignore_list }}"
   register: staticresult
   changed_when: "staticresult.stdout is not search('\n0 static files')"
   become: true

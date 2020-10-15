@@ -32,6 +32,8 @@ Role Variables
     immediately before the venv is created. You will need to download it 1st (with
     ansible-galaxy.) Needed because many plugins will have OS dependencies in C.
     See `prereq_pip_packages` also.
+    * `collectstatic`: Optional. Boolean that specifies if the static for a plugin should be collected.
+    If set to false the plugin name will be passed as `--ignore` at collectstatic time.
     * **Example**:
     ```yaml
     pulp_install_source: pip
@@ -45,6 +47,8 @@ Role Variables
         source_dir: "/var/lib/pulp/pulp_three" # path to the plugin source code
       pulp-four:
         prereq_role: "pulp.pulp_four_role" # role to run immediately before the venv is created
+      pulp-five:
+        collectstatic: false
     ```
 * `pulp_cache_dir`: Location of Pulp cache. Defaults to "/var/lib/pulp/tmp".
 * `pulp_config_dir`: Directory which will contain Pulp configuration files.
