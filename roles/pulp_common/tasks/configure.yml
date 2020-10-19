@@ -7,6 +7,7 @@
         owner: root
         group: '{{ pulp_group }}'
         mode: 0750
+      notify: Restore SELinux contexts on Pulp dirs that must exist
 
     - name: Create configuration file for Pulp
       template:

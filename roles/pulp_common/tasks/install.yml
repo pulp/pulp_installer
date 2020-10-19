@@ -44,6 +44,7 @@
       # The check implicitly does an or for this check:
       # developer_user is not defined
       when: pulp_user != developer_user|default('')
+      notify: Restore SELinux contexts on Pulp dirs that must exist
 
     - name: Add user {{ pulp_user }} to extra groups
       user:
