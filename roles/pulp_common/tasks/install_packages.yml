@@ -19,25 +19,29 @@
 
     - name: "Install Pulp plugins via {{ ansible_facts.pkg_mgr }} packages"
       package:
-        name: '{{ pulp_pkg_name_prefix }}{{ item.key }}'
+        name: '{{ pulp_pkg_name_prefix }}{{ __pulp_common_package.key }}'
         state: "{{ pulp_pkg_upgrade_all | ternary('latest','present') }}"
       # We use pulp_install_plugins rather than pulp_install_plugins_normalized
       # so that users can specify package names with underscores if distros
       # require it.
-      with_dict: '{{ pulp_install_plugins }}'
+      loop: '{{ pulp_install_plugins | dict2items }}'
+      loop_control:
+        loop_var: __pulp_common_package
       when:
-        - item.value.pkg_name is undefined
+        - __pulp_common_package.value.pkg_name is undefined
       notify:
         - Collect static content
         - Restart all Pulp services
 
     - name: "Install Pulp plugins (with overriden names) via {{ ansible_facts.pkg_mgr }}"
       package:
-        name: '{{ item.value.pkg_name }}'
+        name: '{{ __pulp_common_package.value.pkg_name }}'
         state: present
-      with_dict: '{{ pulp_install_plugins }}'
+      loop: '{{ pulp_install_plugins | dict2items }}'
+      loop_control:
+        loop_var: __pulp_common_package
       when:
-        - item.value.pkg_name is defined
+        - __pulp_common_package.value.pkg_name is defined
       notify:
         - Collect static content
         - Restart all Pulp services

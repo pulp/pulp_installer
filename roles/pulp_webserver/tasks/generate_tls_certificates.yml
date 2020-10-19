@@ -81,8 +81,10 @@
 
 - name: Cleanup CSR files
   file:
-    path: '{{ pulp_certs_dir }}/{{ item }}'
+    path: '{{ pulp_certs_dir }}/{{ __pulp_webserver_csr_path }}'
     state: absent
   loop:
     - root.csr
     - pulp_webserver.csr
+  loop_control:
+    loop_var: __pulp_webserver_csr_path

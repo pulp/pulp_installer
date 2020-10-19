@@ -1,15 +1,15 @@
 ---
-- name: "Determine which file in /etc/yum.repos.d/ has the {{ item }} repo"
-  shell: grep -l -E "^\[{{ item }}\]" /etc/yum.repos.d/*.repo
+- name: "Determine which file in /etc/yum.repos.d/ has the {{ __pulp_common_repo }} repo"
+  shell: grep -l -E "^\[{{ __pulp_common_repo }}\]" /etc/yum.repos.d/*.repo
   register: repo_file
   changed_when: false
   failed_when: false
   check_mode: False
 
-- name: "Enable the {{ item }} repo"
+- name: "Enable the {{ __pulp_common_repo }} repo"
   ini_file:
     path: "{{ repo_file.stdout }}"
-    section: "{{ item }}"
+    section: "{{ __pulp_common_repo }}"
     option: enabled
     value: "1"
     no_extra_spaces: true

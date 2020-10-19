@@ -35,7 +35,9 @@
 # The query ensures that a single string rather than a list of strings is valid.
 - name: Find and enable the first found name of the RHEL7 Optional repo
   include_tasks: ambiguously-named-repo.yml
-  with_items: "{{ rhel7_optional_repo }}"
+  loop: "{{ rhel7_optional_repo }}"
+  loop_control:
+    loop_var: __pulp_common_repo
   when:
     - ansible_facts.distribution == "RedHat"
     - ansible_facts.distribution_major_version|int == 7
@@ -57,7 +59,9 @@
 # The query ensures that a single string rather than a list of strings is valid.
 - name: Find and enable the first found name of the RHEL CodeReady Builder repo
   include_tasks: ambiguously-named-repo.yml
-  with_items: "{{ pulp_rhel_codeready_repo }}"
+  loop: "{{ pulp_rhel_codeready_repo }}"
+  loop_control:
+    loop_var: __pulp_common_repo
   when:
     - ansible_facts.distribution == "RedHat"
     - ansible_facts.distribution_major_version|int >= 8
