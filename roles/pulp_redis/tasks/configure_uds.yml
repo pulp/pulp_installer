@@ -8,8 +8,8 @@
 - name: Ensure Redis will not listen on a TCP socket
   lineinfile:
     path: '{{ pulp_redis_conf_file | default(_pulp_redis_conf_file) }}'
-    regexp: '{{ item.regexp }}'
-    line: '{{ item.line }}'
+    regexp: '{{ __pulp_redis_setting.regexp }}'
+    line: '{{ __pulp_redis_setting.line }}'
   loop:
     - regexp: '^port '
       line: 'port 0'
@@ -17,4 +17,6 @@
       line: 'unixsocket {{ pulp_redis_bind | replace("unix:", "") }}'
     - regexp: '^unixsocketperm '
       line: 'unixsocketperm 775'
+  loop_control:
+    loop_var: __pulp_redis_setting
   notify: restart redis

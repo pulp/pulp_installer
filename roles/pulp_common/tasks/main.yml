@@ -17,9 +17,9 @@
       # "that:" (like when:), and then the {{ }}
       # It converts from item, to the string like pulp_default_admin_password ,
       # to the value of pulp_default_admin_password .
-      - "{{ item }} | default('', true) | length > 0"
+      - "{{ __pulp_common_req_var }} | default('', true) | length > 0"
     fail_msg: >
-      {{ item }} is undefined, null, an empty string, or an empty dictionary "{}" . Please
+      {{ __pulp_common_req_var }} is undefined, null, an empty string, or an empty dictionary "{}" . Please
       set it in your variables
       (e.g. pulp_installer/playbooks/example-use/group_vars/all)
       and run pulp_installer again.
@@ -29,6 +29,8 @@
     - pulp_settings.content_origin
     - pulp_settings.secret_key
     - pulp_install_plugins
+  loop_control:
+    loop_var: __pulp_common_req_var
 
 - name: Load OS specific variables
   include_vars: "{{ lookup('first_found', params) }}"

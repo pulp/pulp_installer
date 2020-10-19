@@ -6,9 +6,9 @@
       # "that:" (like when:), and then the {{ }}
       # It converts from item, to the string like pulp_default_admin_password ,
       # to the value of pulp_default_admin_password .
-      - "{{ item }} | default('', true) | length > 0"
+      - "{{ __pulp_database_config_req_variable }} | default('', true) | length > 0"
     fail_msg: >
-      {{ item }} is undefined, null, or an empty string. Please
+      {{ __pulp_database_config_req_variable }} is undefined, null, or an empty string. Please
       set it in your variables
       (e.g. pulp_installer/playbooks/example-use/group_vars/all)
       and run pulp_installer again.
@@ -16,6 +16,8 @@
       pulp_installer/roles/pulp/README.md for more info.
   loop:
     - pulp_default_admin_password
+  loop_control:
+    loop_var: __pulp_database_config_req_variable
 
 - meta: flush_handlers
 
