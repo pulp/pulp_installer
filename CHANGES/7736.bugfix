@@ -1,0 +1,2 @@
+Added become and proper condition to SELinux handlers.
+This fixes an issue with installations that are not run as root.
