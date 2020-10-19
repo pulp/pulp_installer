@@ -7,6 +7,15 @@ pulp_install_plugins_normalized_yml: |-
   {% for key, value in pulp_install_plugins.items() %}
   {{ key.replace('_', '-') }}: {{ value | to_json }}
   {% endfor %}
+# List of plugin to ignore when collecting static files
+pulp_collectstatic_ignore_list: |-
+  {{ pulp_install_plugins | dict2items |
+      selectattr('value.collectstatic', "defined") |
+      selectattr('value.collectstatic', "sameas", False) |
+      map(attribute='key') |
+      map('regex_replace', "-", "_") |
+      map('regex_replace', "^", "--ignore ") |
+      list | join(" ") }}
 # A pulp_install_plugins but with the plugin names corrected:
 # pip/PyPI only uses dashes, not underscores.
 pulp_install_plugins_normalized: "{{ pulp_install_plugins_normalized_yml | from_yaml }}"
