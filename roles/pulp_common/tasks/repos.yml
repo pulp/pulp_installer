@@ -134,7 +134,8 @@
     name: "{{ __pulp_pkg_repo_name }}"
     description: "{{ __pulp_pkg_repo_name }}"
     baseurl: "{{ pulp_pkg_repo }}"
-    gpgcheck: false
+    gpgcheck: "{{ pulp_pkg_repo_gpgcheck }}"
+    gpgkey: "{{ __pulp_pkg_repo_gpgkey }}"
     enabled: true
   when:
     - ansible_facts.os_family == "RedHat"
