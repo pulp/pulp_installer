@@ -12,8 +12,10 @@
 - name: Set states of pulp workers
   systemd:
     daemon_reload: true
-    name: pulpcore-worker@{{ item }}.service
+    name: pulpcore-worker@{{ __pulp_workers_worker_index }}.service
     state: started
     enabled: true
-  with_sequence: 'start=1 count={{ pulp_workers }}'
+  loop: "{{ range(1, pulp_workers + 1) | list }}"
+  loop_control:
+    loop_var: __pulp_workers_worker_index
   become: true

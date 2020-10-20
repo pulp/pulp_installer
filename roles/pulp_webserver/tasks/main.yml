@@ -27,11 +27,13 @@
 
 - name: "Check installed plugins for {{ pulp_webserver_server }} snippets"
   script:
-    cmd: check_snippet.py {{ item.key | regex_replace("-", "_") | quote }} {{ pulp_webserver_server }}.conf
+    cmd: check_snippet.py {{ __pulp_webserver_plugin.key | regex_replace("-", "_") | quote }} {{ pulp_webserver_server }}.conf
   args:
     executable: '{{ (pulp_install_source == "packages") | ternary(pulp_python_interpreter, pulp_install_dir ~ "/bin/python") }}'
   register: snippets
-  with_dict: '{{ pulp_install_plugins_normalized }}'
+  loop: '{{ pulp_install_plugins_normalized | dict2items }}'
+  loop_control:
+    loop_var: __pulp_webserver_plugin
   failed_when: >
     snippets.stderr is search("env: 'python': No such file or directory")
   changed_when: false
@@ -76,15 +78,17 @@
 
 - name: Create ACME dirs
   file:
-    path: "{{ item }}"
+    path: "{{ __pulp_webserver_acme_path }}"
     state: directory
     mode: 0755
     owner: "{{ pulp_user }}"
     group: "{{ pulp_group }}"
   become: true
-  with_items:
+  loop:
     - "{{ pulp_webserver_static_dir }}"
     - "{{ pulp_webserver_static_dir }}/.well-known"
+  loop_control:
+    loop_var: __pulp_webserver_acme_path
 
 - include_tasks: "{{ pulp_webserver_server }}.yml"
 

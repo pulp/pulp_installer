@@ -45,12 +45,14 @@
     # above and/or create a temporary data structure.
     - name: Symlink nginx snippets
       file:
-        src: "{{ item.stdout_lines | last }}"
+        src: "{{ __pulp_webserver_snippet.stdout_lines | last }}"
         # Note: item.item is pulp_install_plugins_normalized
-        dest: "/etc/nginx/pulp/{{ item.item.key | regex_replace('-', '_') }}.conf"
+        dest: "/etc/nginx/pulp/{{ __pulp_webserver_snippet.__pulp_webserver_plugin.key | regex_replace('-', '_') }}.conf"
         state: link
       loop: '{{ snippets.results }}'
-      when: item.rc == 0
+      loop_control:
+        loop_var: __pulp_webserver_snippet
+      when: __pulp_webserver_snippet.rc == 0
       notify: reload nginx
 
     - name: Start and enable Nginx
