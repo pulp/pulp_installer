@@ -1,1 +1,0 @@
-When installing from distro packages (`pulp_install_source==packages`), from a repo (`pulp_pkg_repo`), and upgrading them (`pulp_pkg_upgrade_all==true`), pulp_installer will now upgrade all the packages from the repo. This addresses any incorrect dependency declarations in the repo, which would cause pulp_installer to fail on collectstatic.
