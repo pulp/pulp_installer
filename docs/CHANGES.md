@@ -13,6 +13,42 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.8.0 (2020-10-21)
+==================
+
+
+Features
+--------
+
+- Compile and install the pulpcore-selinux policy on CentOS/RHEL/Fedora.
+  [#7574](https://pulp.plan.io/issues/7574)
+- When installing from distro packages (`pulp_install_source==packages`), from a repo (`pulp_pkg_repo`), and upgrading them (`pulp_pkg_upgrade_all==true`), pulp_installer will now upgrade all the packages from the repo. This addresses any incorrect dependency declarations in the repo, which would cause pulp_installer to fail on collectstatic.
+  [#7646](https://pulp.plan.io/issues/7646)
+- Allow one to customize webserver ports pulp will be listening on via `pulp_webserver_http_port`
+  (defaults to 80) and `pulp_webserver_https_port` (defaults to 443).
+  [#7662](https://pulp.plan.io/issues/7662)
+- Start rq & gunicorn from the bash wrapper scripts provided by newer pulpcore 3.7 RPM packages, `/usr/libexec/pulpcore/{rq,gunicorn}`. These scripts enable pulp processes to transitioning to the Pulp SELinux context, rather than the generic rq/gunicorn context.
+  [#7667](https://pulp.plan.io/issues/7667)
+
+
+Deprecations and Removals
+-------------------------
+
+- pulp_installer will no longer set SELinux to enabled, permissive and enforcing (casually referred to as "disabled") on CentOS/RHEL/Fedora.
+  [#7573](https://pulp.plan.io/issues/7573)
+- pulp_installer no longer supports installing from older RPM packages that lack the wrapper scripts `/usr/libexec/pulpcore/{rq,gunicorn}`.
+  [#7667](https://pulp.plan.io/issues/7667)
+
+
+Misc
+----
+
+- [#7709](https://pulp.plan.io/issues/7709)
+
+
+----
+
+
 3.7.1 (2020-09-30)
 ==================
 
