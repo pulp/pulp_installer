@@ -18,6 +18,7 @@
           "You must update Ansible to at least 2.8 to use this version of Pulp 3 Installer."
 
     - include_tasks: pre_tasks/vagrant-workarounds.yml
+    - include_tasks: pre_tasks/selinux-workarounds.yml
 
   roles:
     - pulp_all_services

@@ -1,0 +1,28 @@
+---
+- name: Install libselinux-python for EL7
+  yum:
+    name: libselinux-python
+  become: true
+  when:
+    - ansible_facts.os_family == 'RedHat'
+    - ansible_facts.distribution_major_version | int == 7
+
+- name: Install python3-libselinux for all other hats
+  yum:
+    name: python3-libselinux
+  become: true
+  when:
+    - ansible_facts.os_family == 'RedHat'
+    - ansible_facts.distribution_major_version | int != 7
+
+# e.g. `ausearch -m AVC,USER_AVC` to see all SELinux errors,
+# rather than having Pulp fail on the 1st SELinux error.
+- name: Set SELinux to permissive to facilitate debugging
+  selinux:
+    policy: targeted
+    state: permissive
+  become: true
+  when: ansible_facts.os_family == 'RedHat'
+
+- name: Refresh facts for SELinux state changes
+  setup:

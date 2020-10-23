@@ -20,6 +20,7 @@
     - include_tasks: pre_tasks/vagrant-workarounds.yml
       vars:
         source_workarounds: true
+    - include_tasks: pre_tasks/selinux-workarounds.yml
   roles:
     - pulp_all_services
     - pulp_devel
