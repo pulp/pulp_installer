@@ -18,4 +18,21 @@
         mode: 0640
         force: yes
 
+    - name: Create wrapper to call pulpcore-manager
+      template:
+        src: pulpcore-manager.j2
+        dest: "/usr/local/bin/pulpcore-manager"
+        owner: root
+        group: "{{ pulp_group }}"
+        mode: "0750"
+
+    - name: Configure sudo for pulpcore-manager
+      lineinfile:
+        path: /etc/sudoers.d/pulpcore-manager
+        line: "%{{ pulp_group }} ALL=({{ pulp_user }}:{{ pulp_group }}) NOPASSWD:SETENV: {{ pulp_django_admin_path }}"
+        create: true
+        owner: root
+        group: root
+        mode: "0440"
+
   become: true

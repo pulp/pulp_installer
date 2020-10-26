@@ -1,0 +1,5 @@
+#!/bin/sh
+
+set -eu
+
+/usr/bin/sudo -u {{ pulp_user }} PULP_SETTINGS={{ pulp_settings_file }} {{ pulp_django_admin_path }} "$@"
