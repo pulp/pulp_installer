@@ -1,0 +1,26 @@
+---
+- hosts: all
+  vars:
+    paths_to_vars_files:
+      - '../../local.user-config.yml'
+      - '../../example.user-config.yml'
+  pre_tasks:
+    - name: Load local config
+      include_vars: "{{ item }}"
+      with_first_found: "{{ paths_to_vars_files }}"
+
+    # The version string below is the highest of all those in roles' metadata:
+    # "min_ansible_version". It needs to be kept manually up-to-date.
+    - name: Verify Ansible meets min required version
+      assert:
+        that: "ansible_version.full is version_compare('2.8', '>=')"
+        msg: >
+          "You must update Ansible to at least 2.8 to use this version of Pulp 3 Installer."
+
+    - include_tasks: pre_tasks/vagrant-workarounds.yml
+    - include_tasks: pre_tasks/selinux-workarounds.yml
+
+  roles:
+    - pulp_all_services
+  environment:
+    DJANGO_SETTINGS_MODULE: pulpcore.app.settings

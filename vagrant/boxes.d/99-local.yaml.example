@@ -1,0 +1,33 @@
+---
+centos7-pulp3-source:
+  box: 'pulp3-source-centos7'
+  memory: 4096
+  nfs:
+    host_path: ~/dev/nfs/centos7-pulp3-source/
+    guest_path: /home/vagrant/nfs/
+  ansible:
+    playbook: "playbooks/source-install.yml"
+    galaxy_role_file: "pulp_installer/requirements.yml"
+    verbose: vv
+    variables:
+      pulp_source_dir: /home/vagrant/nfs/pulp
+      pulp_install_plugins:
+        pulp-file:
+          app_label: "pulp_file"
+          source_dir: "/home/vagrant/nfs/pulp_file"
+
+centos7-pulp3-github:
+  box: 'pulp3-source-centos7'
+  memory: 4096
+  ansible:
+    playbook: "playbooks/source-install.yml"
+    galaxy_role_file: "pulp_installer/requirements.yml"
+    verbose: vv
+    variables:
+      pulp_requirements_dir: "https://raw.githubusercontent.com/pulp/pulpcore/master/"
+      pulp_source_dir: "git+https://github.com/pulp/pulpcore.git#egg=pulpcore"
+      pulp_install_plugins:
+        pulp-file:
+          app_label: "file"
+          source_dir: "git+https://github.com/pulp/pulp_file.git#egg=pulp-file"
+...

@@ -1,0 +1,49 @@
+---
+language: python
+dist: focal
+git:
+  submodules: true
+install:
+  - .travis/install.sh
+script:
+  - .travis/script.sh $TEST
+jobs:
+  # Let's run ~ half as many tests for PRs to save time
+  # Let's run no tests for master branch to save time,
+  # especially for other projects in the Pulp org.
+  # Let's run the more difficult ones typically
+  include:
+    - env: TEST=pulp2-nightly-pulp3-source-centos7
+      if: type IN (cron, pull_request)
+    - env: TEST=pulp3-sandbox-centos7
+      if: type IN (cron)
+    - env: TEST=pulp3-sandbox-centos7-fips
+      if: type IN (cron, pull_request)
+    - env: TEST=pulp3-sandbox-centos8
+      if: type IN (cron)
+    - env: TEST=pulp3-sandbox-centos8-fips
+      if: type IN (cron, pull_request)
+    - env: TEST=pulp3-sandbox-centos8-stream
+      if: type IN (cron)
+    - env: TEST=pulp3-sandbox-debian10
+      if: type IN (cron, pull_request)
+    - env: TEST=pulp3-sandbox-fedora31
+      if: type IN (cron)
+    - env: TEST=pulp3-sandbox-fedora32
+      if: type IN (cron, pull_request)
+    - env: TEST=pulp3-source-centos7
+      if: type IN (cron)
+    - env: TEST=pulp3-source-centos7-fips
+      if: type IN (cron, pull_request)
+    - env: TEST=pulp3-source-centos8
+      if: type IN (cron)
+    - env: TEST=pulp3-source-centos8-fips
+      if: type IN (cron, pull_request)
+    - env: TEST=pulp3-source-centos8-stream
+      if: type IN (cron)
+    - env: TEST=pulp3-source-debian10
+      if: type IN (cron, pull_request)
+    - env: TEST=pulp3-source-fedora31
+      if: type IN (cron, pull_request)
+    - env: TEST=pulp3-source-fedora32
+      if: type IN (cron)

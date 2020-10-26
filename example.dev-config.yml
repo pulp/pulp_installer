@@ -1,0 +1,41 @@
+---
+# Options
+pulp_devel_supplement_bashrc: true
+pulp_default_admin_password: password
+pulp_install_plugins:
+  # pulp-ansible:
+  #   source_dir: "/home/vagrant/devel/pulp_ansible"
+  # galaxy-ng:
+  #   source_dir: "/home/vagrant/devel/galaxy_ng"
+  # pulp-certguard:
+  #   source_dir: "/home/vagrant/devel/pulp-certguard"
+  # pulp-cookbook:
+  #   source_dir: "/home/vagrant/devel/pulp_cookbook"
+  # pulp-deb:
+  #   source_dir: "/home/vagrant/devel/pulp_deb"
+  # pulp-container:
+  #   source_dir: "/home/vagrant/devel/pulp_container"
+  # pulp-gem:
+  #   source_dir: "/home/vagrant/devel/pulp_gem"
+  # pulp-maven:
+  #   source_dir: "/home/vagrant/devel/pulp_maven"
+  # pulp-python:
+  #   source_dir: "/home/vagrant/devel/pulp_python"
+  # pulp-rpm:
+  #   source_dir: "/home/vagrant/devel/pulp_rpm"
+  pulp-file:
+    source_dir: "/home/vagrant/devel/pulp_file"
+
+# Vagrant source install Required
+pulp_user: "vagrant"
+developer_user: "vagrant"
+developer_user_home: "/home/vagrant"
+pulp_source_dir: "/home/vagrant/devel/pulpcore"
+
+# # Uncomment to prevent https configuration
+# pulp_webserver_disable_https: true
+
+pulp_settings:
+  secret_key: "unsafe_default"
+  content_origin: "http://{{ ansible_fqdn }}"
+...

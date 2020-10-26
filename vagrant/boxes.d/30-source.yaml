@@ -1,0 +1,110 @@
+pulp3-source-fedora31:
+  box: 'fedora31'
+  sshfs:
+    host_path: '..'
+    guest_path: '/home/vagrant/devel'
+    reverse: False
+  memory: 4096
+  ansible:
+    playbook: "vagrant/playbooks/source-install.yml"
+    galaxy_role_file: "requirements.yml"
+
+pulp3-source-fedora32:
+  box: 'fedora32'
+  sshfs:
+    host_path: '..'
+    guest_path: '/home/vagrant/devel'
+    reverse: False
+  memory: 4096
+  ansible:
+    playbook: "vagrant/playbooks/source-install.yml"
+    galaxy_role_file: "requirements.yml"
+
+pulp3-source-centos7:
+  box: 'centos7'
+  sshfs:
+    host_path: '..'
+    guest_path: '/home/vagrant/devel'
+    reverse: False
+  memory: 4096
+  ansible:
+    playbook: "vagrant/playbooks/source-install.yml"
+    galaxy_role_file: "requirements.yml"
+
+# Update the Travis scripts whenever you update the RAM/CPU values
+pulp2-nightly-pulp3-source-centos7:
+  box: 'centos7'
+  sshfs:
+    host_path: '..'
+    guest_path: '/home/vagrant/devel'
+    reverse: False
+  memory: 10500
+  cpus: 4
+  ansible:
+    playbook:
+      - "pulp-ci/ci/ansible/pulp_server.yaml"
+      - "vagrant/playbooks/source-install.yml"
+    variables:
+      # The pulp2 playbook is missing more fine graned privilege control
+      ansible_become: true
+      pulp_build: 'nightly'
+      pulp_version: '2.21'
+      pulp_webserver_server: 'apache'
+    galaxy_role_file: "requirements.yml"
+
+pulp3-source-centos7-fips:
+  box: 'centos7-fips'
+  sshfs:
+    host_path: '..'
+    guest_path: '/home/vagrant/devel'
+    reverse: False
+  memory: 4096
+  ansible:
+    playbook: "vagrant/playbooks/source-install.yml"
+    galaxy_role_file: "requirements.yml"
+
+pulp3-source-centos8:
+  box_name: 'centos/82'
+  box_url: 'https://cloud.centos.org/centos/8/x86_64/images/CentOS-8-Vagrant-8.2.2004-20200611.2.x86_64.vagrant-libvirt.box'
+  sshfs:
+    host_path: '..'
+    guest_path: '/home/vagrant/devel'
+    reverse: False
+  memory: 4096
+  ansible:
+    playbook: "vagrant/playbooks/source-install.yml"
+    galaxy_role_file: "requirements.yml"
+
+pulp3-source-centos8-fips:
+  box_name: 'pulp/centos8-fips'
+  sshfs:
+    host_path: '..'
+    guest_path: '/home/vagrant/devel'
+    reverse: False
+  memory: 4096
+  ansible:
+    playbook: "vagrant/playbooks/source-install.yml"
+    galaxy_role_file: "requirements.yml"
+
+pulp3-source-centos8-stream:
+  box_name: 'centos/8-stream'
+  box_url: 'https://cloud.centos.org/centos/8-stream/x86_64/images/CentOS-Stream-Vagrant-8-20200113.0.x86_64.vagrant-libvirt.box'
+  sshfs:
+    host_path: '..'
+    guest_path: '/home/vagrant/devel'
+    reverse: False
+  memory: 4096
+  ansible:
+    playbook: "vagrant/playbooks/source-install.yml"
+    galaxy_role_file: "requirements.yml"
+
+pulp3-source-debian10:
+  box: 'debian10'
+  sshfs:
+    host_path: '..'
+    guest_path: '/home/vagrant/devel'
+    reverse: False
+  memory: 4096
+  ansible:
+    playbook: "vagrant/playbooks/source-install.yml"
+    galaxy_role_file: "requirements.yml"

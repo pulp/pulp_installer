@@ -18,5 +18,10 @@ rules:
 ignore: |
   .tox
   .git
+  .travis
+  .travis.yml
+  .vagrant
+  forklift
   roles/geerlingguy.postgresql
   roles/ansible-role-postgresql
+  vagrant

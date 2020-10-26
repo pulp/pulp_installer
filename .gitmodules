@@ -1,0 +1,6 @@
+[submodule "forklift"]
+	path = forklift
+	url = ../../theforeman/forklift
+[submodule "pulp-ci"]
+	path = pulp-ci
+	url = ../../pulp/pulp-ci

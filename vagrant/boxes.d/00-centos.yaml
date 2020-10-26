@@ -1,0 +1,26 @@
+centos7:
+  box_name:   'centos/7'
+  image_name: !ruby/regexp '/CentOS 7.*PV/'
+  google_options:
+    image_family: 'centos-7'
+  pty:        true
+
+
+centos7-fips:
+  box_name: 'pulp/centos7-fips'
+  pty: true
+
+centos8:
+  box_name:   'centos/82'
+  # vagrantcloud still has 8.1. We've asked CentOS to register this URL with it.
+  box_url:    'https://cloud.centos.org/centos/8/x86_64/images/CentOS-8-Vagrant-8.2.2004-20200611.2.x86_64.vagrant-libvirt.box'
+  pty:        true
+
+centos8-fips:
+  box_name:   'pulp/centos8-fips'
+  pty:        true
+
+centos8-stream:
+  box_name:   'centos/8-stream'
+  box_url:    'https://cloud.centos.org/centos/8-stream/x86_64/images/CentOS-Stream-Vagrant-8-20200113.0.x86_64.vagrant-libvirt.box'
+  pty:        true

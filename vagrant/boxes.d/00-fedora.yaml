@@ -1,0 +1,15 @@
+fedora31:
+  box_name: 'fedora/31-cloud-base'
+  image_name: !ruby/regexp '/Fedora 31.*/'
+  pty: true
+  ansible:
+    variables:
+      ansible_python_interpreter: /usr/bin/python3
+
+fedora32:
+  box_name: 'fedora/32-cloud-base'
+  image_name: !ruby/regexp '/Fedora 32.*/'
+  pty: true
+  ansible:
+    variables:
+      ansible_python_interpreter: /usr/bin/python3

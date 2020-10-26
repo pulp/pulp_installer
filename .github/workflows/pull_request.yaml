@@ -2,6 +2,32 @@
 name: Pulp PR
 on: pull_request
 jobs:
+  git-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.1
+      - run: |
+          git fetch --prune --unshallow
+      - name: Set up Python
+        uses: actions/setup-python@v2
+      - name: Install requests
+        run: pip install requests
+      - name: Check commit message
+        env:
+          GITHUB_CONTEXT: ${{ github.event.pull_request.commits_url }}
+        run: |
+          for sha in $(curl $GITHUB_CONTEXT | jq '.[].sha' | sed 's/"//g')
+          do
+            python .github/validate_commit_message.py $sha
+            VALUE=$?
+            if [ "$VALUE" -gt 0 ]; then
+              exit $VALUE
+            fi
+          done
+        shell: bash
+      - name: Check submodule status
+        run: |
+          .ci/submodule_check.sh
   test:
     runs-on: ubuntu-latest
     strategy:
@@ -48,8 +74,6 @@ jobs:
             toxpy: "36"
     steps:
       - uses: actions/checkout@v2.3.1
-      - run: |
-          git fetch --prune --unshallow
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -57,20 +81,7 @@ jobs:
       - name: Install tox
         run: |
           pip install --upgrade pip
-          pip install tox requests
-      - name: Check commit message
-        env:
-          GITHUB_CONTEXT: ${{ github.event.pull_request.commits_url }}
-        run: |
-          for sha in $(curl $GITHUB_CONTEXT | jq '.[].sha' | sed 's/"//g')
-          do
-            python .github/validate_commit_message.py $sha
-            VALUE=$?
-            if [ "$VALUE" -gt 0 ]; then
-              exit $VALUE
-            fi
-          done
-        shell: bash
+          pip install tox
       - name: Pulling images for PyPI upgrades
         if: matrix.test_type == 'release-upgrade' || matrix.test_type == 'source-upgrade'
         run: |

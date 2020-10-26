@@ -4,6 +4,7 @@
 - name: Load the SELinux policy packages
   command: 'semodule -i /usr/local/share/selinux/{{ ansible_facts.selinux.type }}/{{ item }}.pp'
   loop: '{{ __pulp_selinux_policy_pkgs }}'
+  become: true
 
 # Note: we cannot flush handlers until after these are created later on in the
 # Pulp role, after the SELinux policies are installed.
@@ -11,13 +12,18 @@
 # begin with.
 - name: Restore SELinux contexts on Pulp dirs that must exist
   command: '/sbin/fixfiles restore {{ __pulp_selinux_label_dirs | join(" ") }}'
+  become: true
+  # We need the when condition on this particular SELinux handler because it
+  # gets triggered by "Collect static content".
   when:
     - ansible_facts.os_family == 'RedHat'
+    # when permissive or enforcing. That would be stored in .mode & .config_mode
     - ansible_facts.selinux.status == "enabled"
 
 # shell for handling '*' in the dir name
 - name: Restore SELinux contexts on Pulp dirs that may exist
   shell: '/sbin/fixfiles restore {{ __pulp_selinux_label_dirs_optional | join(" ") }}' # noqa 305
+  become: true
   register: result
   changed_when: result.rc == 0
   failed_when: result.rc not in [0,255]
@@ -43,6 +49,7 @@
 
 - name: Restore SELinux contexts on Pulp asset dirs
   command: '/sbin/fixfiles restore {{ pulp_user_home }}/assets'
+  become: true
   # We need the when condition on this particular SELinux handler because it
   # gets triggered by "Collect static content".
   when:

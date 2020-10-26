@@ -1,0 +1,69 @@
+---
+# Misc workarounds for Vagrant boxes and Vagrant itself
+
+- name: Workarounds for source boxes
+  block:
+    - name: (Vagrant) Make user's home directory world-readable
+      file:
+        path: "{{ ansible_env.HOME }}"
+        state: directory
+        mode: 0755
+      become: true
+  when: source_workarounds | default(false)
+
+# Addresses both of these sporadic dnf failures, which affect the vagrant
+# box that never gets updated past GA release.
+# https://bodhi.fedoraproject.org/updates/FEDORA-2019-ae52a20ff6
+# https://bodhi.fedoraproject.org/updates/FEDORA-2019-13479b151a
+- name: Update Fedora 30 dnf stack
+  dnf:
+    name:
+      - curl
+      - librepo
+      - dnf
+    state: latest
+  become: true
+  retries: 10
+  delay: 3
+  register: result
+  until: result is success
+  when:
+    - ansible_distribution == "Fedora"
+    - ansible_distribution_major_version|int == 30
+
+- name: CentOS 8 & 8 Stream workarounds
+  block:
+    # https://github.com/dustymabe/vagrant-sshfs/issues/108
+    - name: Workaround vagrant-sshfs 1.3.3 not supporting EL8; installing EPEL6
+      dnf:
+        name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm
+
+    - name: Check if on Centos stream
+      stat:
+        path: /etc/dnf/vars/stream
+      register: centos_stream
+
+    # Being out of date defeats the point of testing CentOS Stream. Packages are
+    # upgraded, not just updated.
+    - name: Upgrade CentOS Stream RPMs
+      dnf:
+        name: "*"
+        state: latest
+      when: centos_stream.stat.exists
+
+  become: true
+  when:
+    - (ansible_distribution == 'CentOS') or (ansible_distribution == 'RedHat')
+    - ansible_distribution_major_version|int == 8
+
+- name: Upgrade CentOS 7 FIPS box
+  yum:
+    name: "*"
+    state: latest
+  become: true
+  when:
+    - (ansible_distribution == 'CentOS') or (ansible_distribution == 'RedHat')
+    - ansible_distribution_version is version("7.6", "<=")
+
+- name: Refresh facts for OS upgrade
+  setup:

@@ -1,0 +1,12 @@
+---
+# This file does nothing unless symlinked to forklift/vagrant/settings.yaml
+
+# Needed on most boxes, the hostname must not be any longer than 64 chars.
+# e.g., pulp3-source-fedora32.roughly.50.chars.long.travis-instance-name.com
+#    -> pulp3-source-fedora32.lan
+domain: lan
+
+libvirt_options:
+    # VMs will run faster, but power loss or the hypervisor process
+    # getting killed for any reason will result in lost data on the VM.
+    volume_cache: unsafe
