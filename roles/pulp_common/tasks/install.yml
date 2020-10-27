@@ -77,6 +77,14 @@
         owner: '{{ pulp_user }}'
         group: '{{ pulp_group }}'
 
+    - name: Create artifact dir for Pulp
+      file:
+        path: '{{ __pulp_artifact_dir }}'
+        state: directory
+        owner: '{{ pulp_user }}'
+        group: '{{ pulp_group }}'
+        mode: "u+rwx,g+rwx,o+rx"
+
     - name: Create cache dir for Pulp
       file:
         path: '{{ pulp_cache_dir }}'
