@@ -37,5 +37,5 @@ pulp_source_dir: "/home/vagrant/devel/pulpcore"
 
 pulp_settings:
   secret_key: "unsafe_default"
-  content_origin: "http://{{ ansible_fqdn }}"
+  content_origin: "{{ pulp_webserver_disable_https | default(false) | ternary('http', 'https') }}://{{ ansible_fqdn }}"
 ...

@@ -45,20 +45,38 @@
   ignore_errors: '{{ ansible_facts.distribution_version == "8.1" }}'
 
 - name: Adding podman registries (Debian-specific)
-  command: echo -e "[registries.search]\nregistries = ['docker.io', 'quay.io']" | tee /etc/containers/registries.conf
+  # This should have been a toml_file module if I had found one
+  ini_file:
+    path: /etc/containers/registries.conf
+    section: registries.search
+    option: registries
+    value: "['docker.io', 'quay.io']"
   become: yes
-  args:
-    creates: /etc/containers
   when: ansible_facts.distribution == 'Debian'
+
+- name: Adding podman insecure registries (Debian-specific)
+  # This should have been a toml_file module if I had found one
+  ini_file:
+    path: /etc/containers/registries.conf
+    section: registries.insecure
+    option: registries
+    value: "['localhost:24817']"
+  become: yes
+  when:
+    - ansible_facts.distribution == 'Debian'
+    - pulp_webserver_disable_https | default(false)
 
 # Needed to allow non-root users to run podman containers on Debian
 - name: Enable unprivileged_userns_clone (Debian specific)
   sysctl:
     name: kernel.unprivileged_userns_clone
     value: "1"
+  become: yes
   when:
     - ansible_facts.distribution == 'Debian'
-    - ansible_facts.env.container | default("") == "podman"
+    # This tries to catch all possible ways to identify the use of ansible against a container environment
+    - ansible_facts.virtualization_type | default("") not in ["docker", "podman"]
+    - ansible_facts.env.container | default("") not in ["docker", "podman"]
 
 # Needed to allow non-root users to run podman containers on EL7
 - name: Set max_user_namespaces (EL7 specific)
