@@ -1,6 +1,18 @@
 ---
 # enable additional repos needed by Pulp
 
+
+- name: Import required EPEL RPM GPG keys
+  rpm_key:
+    state: present
+    key: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_facts.distribution_major_version }}
+  become: true
+  when:
+    - (ansible_facts.distribution == 'CentOS') or (ansible_facts.distribution == 'RedHat')
+    - epel_release_packages is defined
+    - epel_release_packages is not none
+    - epel_release_packages | length > 0
+
 # Break the loop once the first package name/URL in the list is found to be installed.
 # The yum module with the yum backend (which wraps the yum command) uses
 # rc=126 for package not found, or 0 for changed / already installed.
