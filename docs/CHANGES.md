@@ -13,6 +13,20 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.7.3 (2020-10-29)
+==================
+
+
+Bugfixes
+--------
+
+- Backport of a bug fix to import EPEL GPG keys before using EPEL. This is needed due to a recent change in ansible.
+  [#7769](https://pulp.plan.io/issues/7769)
+
+
+----
+
+
 3.7.2 (2020-10-21)
 ==================
 
