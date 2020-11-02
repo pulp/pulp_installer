@@ -13,6 +13,36 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.8.1 (2020-11-02)
+==================
+
+
+Features
+--------
+
+- Added a pulpcore-manager wrapper to setup the environment and call the real pulpcore-admin command as pulp user.
+  [#7155](https://pulp.plan.io/issues/7155)
+- Migrated Vagrant infrastructure from pulplift to this repository.
+  [#7527](https://pulp.plan.io/issues/7527)
+
+
+Bugfixes
+--------
+
+- Added become and proper condition to SELinux handlers.
+  This fixes an issue with installations that are not run as root.
+  [#7736](https://pulp.plan.io/issues/7736)
+
+
+Misc
+----
+
+- [#6753](https://pulp.plan.io/issues/6753)
+
+
+----
+
+
 3.8.0 (2020-10-21)
 ==================
 
