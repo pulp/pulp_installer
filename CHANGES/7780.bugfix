@@ -1,0 +1,1 @@
+Fix SELinux denials on symlinking by the galaxy_ng content plugin by updating pulpcore-selinux (SELinux policies) to 1.2.3.
