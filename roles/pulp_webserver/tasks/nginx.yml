@@ -46,7 +46,6 @@
     - name: Symlink nginx snippets
       file:
         src: "{{ __pulp_webserver_snippet.stdout_lines | last }}"
-        # Note: item.item is pulp_install_plugins_normalized
         dest: "/etc/nginx/pulp/{{ __pulp_webserver_snippet.__pulp_webserver_plugin.key | regex_replace('-', '_') }}.conf"
         state: link
       loop: '{{ snippets.results }}'

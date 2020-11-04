@@ -35,12 +35,13 @@
     # above and/or create a temporary data structure.
     - name: Symlink Apache snippets
       file:
-        src: "{{ item.stdout_lines | last }}"
-        # Note: item.item is pulp_install_plugins_normalized
-        dest: "{{ pulp_webserver_apache_snippets_dir }}/{{ item.item.key | regex_replace('-', '_') }}.conf"
+        src: "{{ __pulp_webserver_snippet.stdout_lines | last }}"
+        dest: "{{ pulp_webserver_apache_snippets_dir }}/{{ __pulp_webserver_snippet.__pulp_webserver_plugin.key | regex_replace('-', '_') }}.conf"
         state: link
       loop: '{{ snippets.results }}'
-      when: item.rc == 0
+      loop_control:
+        loop_var: __pulp_webserver_snippet
+      when: __pulp_webserver_snippet.rc == 0
       notify: reload apache
 
     - name: Start and enable Apache
