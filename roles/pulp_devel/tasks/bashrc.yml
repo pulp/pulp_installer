@@ -48,5 +48,10 @@
       dest: '{{ developer_user_home }}/.bashrc.d/fzf.bashrc'
     when: ansible_facts.distribution == 'Fedora'
 
+  - name: Add pulp_cli bashrc
+    copy:
+      src: files/pulp_cli.bashrc
+      dest: '{{ developer_user_home }}/.bashrc.d/pulp_cli.bashrc'
+
   when: pulp_devel_supplement_bashrc |bool
 ...
