@@ -4,20 +4,26 @@
     url: "https://download.opensuse.org/repositories/devel:kubic:libcontainers:stable\
     /{{ ansible_facts.distribution }}_{{ ansible_facts.distribution_version }}/Release.key"
     state: present
-  when: ansible_facts.distribution == 'Debian'
+  when:
+    - ansible_facts.distribution == 'Debian'
+    - ansible_facts['distribution_major_version'] == "10"
 
 - name: Ensure podman repository (Debian-specific)
   apt_repository:
     repo: "deb https://download.opensuse.org/repositories/devel:/kubic:/libcontainers:/stable\
     /{{ ansible_facts.distribution }}_{{ ansible_facts.distribution_version }}/ /"
     filename: libcontainers
-  when: ansible_facts.distribution == 'Debian'
+  when:
+    - ansible_facts.distribution == 'Debian'
+    - ansible_facts['distribution_major_version'] == "10"
 
 - name: Ensure backports repository (Debian-specific)
   apt_repository:
     repo: "deb http://deb.debian.org/debian buster-backports main"
     filename: backports
-  when: ansible_facts.distribution == 'Debian'
+  when:
+    - ansible_facts.distribution == 'Debian'
+    - ansible_facts['distribution_major_version'] == "10"
 
 - name: Install libseccomp2 from backports (Debian-specific)
   apt:
@@ -28,7 +34,9 @@
   retries: "{{ pulp_devel_package_retries }}"
   register: result
   until: result is succeeded
-  when: ansible_facts.distribution == 'Debian'
+  when:
+    - ansible_facts.distribution == 'Debian'
+    - ansible_facts['distribution_major_version'] == "10"
 
 - name: Install podman, buildah, and runc
   package:
