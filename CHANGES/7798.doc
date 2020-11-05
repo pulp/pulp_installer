@@ -1,0 +1,1 @@
+Configured `content_origin' to properly choose between `http` and `https` in the example playbooks as well as the vagrant playbooks.
