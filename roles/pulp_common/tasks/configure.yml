@@ -17,6 +17,7 @@
         group: '{{ pulp_group }}'
         mode: 0640
         force: yes
+      notify: Restart all Pulp services
 
     - name: Create wrapper to call pulpcore-manager
       template:

@@ -35,7 +35,12 @@ pulp_source_dir: "/home/vagrant/devel/pulpcore"
 # # Uncomment to prevent https configuration
 # pulp_webserver_disable_https: true
 
+# # Uncomment to deploy with apache instead of nginx
+# pulp_webserver_server: "apache"
+
 pulp_settings:
   secret_key: "unsafe_default"
   content_origin: "{{ pulp_webserver_disable_https | default(false) | ternary('http', 'https') }}://{{ ansible_fqdn }}"
+  allowed_export_paths: ["/tmp"]
+  allowed_import_paths: ["/tmp"]
 ...
