@@ -20,6 +20,7 @@ Role Variables
 * `pulp_webserver_http_port`: Define the HTTP port to listen on. Defaults to `80`.
 * `pulp_webserver_https_port`: Define the HTTPS port to listen on. Defaults to `443`.
 * `pulp_webserver_disable_https`: Whether or not HTTPS should be disabled. Defaults to `false`.
+* `pulp_webserver_disable_hsts`: Whether or not HSTS should be disabled. Defaults to `false`.
 * `pulp_webserver_tls_cert`: Relative or absolute path to the TLS (SSL) certificate
    one wants to import.
 * `pulp_webserver_tls_key`: Relative or absolute path to the TLS (SSL) key
