@@ -1,1 +1,0 @@
-Fixed Ansible error with loop variables when deploying webserver configuration snippets to apache.
