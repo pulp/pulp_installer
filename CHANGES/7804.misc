@@ -1,2 +1,0 @@
-Allow one to specify when HSTS should be enabled/disabled rather than relying on the presence
-of pulp_webserver_tls_cert. The new knob is called pulp_webserver_disable_hsts.

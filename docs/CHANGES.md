@@ -13,6 +13,35 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.8.1-1 (2020-11-09)
+====================
+
+
+Bugfixes
+--------
+
+- Fixed Ansible error with loop variables when deploying webserver configuration snippets to apache.
+  [#7746](https://pulp.plan.io/issues/7746)
+- Fix SELinux denials on symlinking by the galaxy_ng content plugin by updating pulpcore-selinux (SELinux policies) to 1.2.3.
+  [#7780](https://pulp.plan.io/issues/7780)
+
+
+Improved Documentation
+----------------------
+
+- Configured `content_origin' to properly choose between `http` and `https` in the example playbooks as well as the vagrant playbooks.
+  [#7798](https://pulp.plan.io/issues/7798)
+
+
+Misc
+----
+
+- [#7804](https://pulp.plan.io/issues/7804)
+
+
+----
+
+
 3.8.1 (2020-11-02)
 ==================
 
