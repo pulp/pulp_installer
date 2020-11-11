@@ -13,6 +13,16 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.6.5 (2020-11-11)
+==================
+
+
+This new version of pulp_installer only differs in that it installs the new version 3.6.5.post2 of pulpcore.
+
+
+----
+
+
 3.6.4 (2020-09-23)
 ==================
 
