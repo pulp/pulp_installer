@@ -4,9 +4,9 @@ pulp_default_admin_password: password
 pulp_upgrade: true
 pulp_install_plugins:
   pulp-file:
-    upgrade: true
+    version: 1.2.0
   pulp-rpm:
-    upgrade: true
+    version: 3.6.2
 pulp_settings:
   secret_key: secret
   content_origin: "https://{{ ansible_fqdn }}"
