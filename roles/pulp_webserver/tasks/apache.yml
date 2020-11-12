@@ -12,7 +12,19 @@
         dest: "{{ pulp_webserver_apache_vhost_dir }}/pulp-vhost.conf"
       notify: reload apache
 
-    - name: Enable Apache vhost files and mod files
+    - name: Enable Apache mod files
+      apache2_module:
+        state: present
+        name: "{{ item }}"
+      loop:
+        - headers
+        - proxy
+        - proxy_http
+        - ssl
+      when: ansible_facts.os_family == "Debian"
+      notify: reload apache
+
+    - name: Enable Apache vhost files
       file:
         src: "{{ item.src }}"
         dest: "{{ item.dest }}"
@@ -20,8 +32,13 @@
       loop:
         - src: ../sites-available/pulp-vhost.conf
           dest: /etc/apache2/sites-enabled/pulp-vhost.conf
-        - src: ../mods-available/proxy.load
-          dest: /etc/apache2/mods-enabled/proxy.load
+      when: ansible_facts.os_family == "Debian"
+      notify: reload apache
+
+    - name: Remove default apache vhost file
+      file:
+        state: absent
+        path: /etc/apache2/sites-enabled/000-default.conf
       when: ansible_facts.os_family == "Debian"
       notify: reload apache
 

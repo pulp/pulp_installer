@@ -31,3 +31,4 @@ developer_user: pulp
 pulp_settings:
   secret_key: secret
   content_origin: "https://{{ ansible_fqdn }}"
+pulp_webserver_server: apache
