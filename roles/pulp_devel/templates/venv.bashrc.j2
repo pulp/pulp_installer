@@ -10,6 +10,7 @@ source /usr/bin/virtualenvwrapper-3.sh
 {% endif %}
 {% if ansible_distribution == 'Debian' %}
 export VIRTUALENVWRAPPER_HOOK_DIR=$HOME/.virtualenvs
+source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 {% endif %}
 {% if ansible_distribution == 'CentOS' and ansible_distribution_major_version|int == 8 %}
 export VIRTUALENVWRAPPER_PYTHON={{ pulp_install_dir }}/bin/python3

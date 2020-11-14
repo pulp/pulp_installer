@@ -2,7 +2,7 @@
 # vars file for pulp_rpm_prerequisites on CentOS
 ansible_python_interpreter: /usr/bin/python
 
-packages:
+rpm_prereq_packages:
   # epel-release must be 1st so that multiple packages can install from it
   # later.
   # And if we switch to yum or dnf, it must be a separate task, or different
