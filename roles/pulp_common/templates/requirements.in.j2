@@ -1,4 +1,4 @@
-pulpcore=={{ pulp_version }}
+pulpcore=={{ __pulp_version }}
 {% for plugin, value in pulp_install_plugins_normalized.items() %}
 {% if value['source_dir'] is defined -%}
 -e {{ value['source_dir'] }}

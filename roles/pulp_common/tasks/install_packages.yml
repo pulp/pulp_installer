@@ -41,7 +41,11 @@
 
     - name: "Install pulpcore via {{ ansible_facts.pkg_mgr }} packages"
       package:
-        name: "{{ pulp_pkg_pulpcore_name }}"
+        name: >-
+          {{ pulp_pkg_pulpcore_name }}
+          {% if pulpcore_version | default('') | length -%}
+          = {{ pulpcore_version }}
+          {%- endif -%}
         state: "{{ pulp_pkg_upgrade_all | ternary('latest','present') }}"
       notify:
         - Collect static content
@@ -49,7 +53,11 @@
 
     - name: "Install Pulp plugins via {{ ansible_facts.pkg_mgr }} packages"
       package:
-        name: '{{ pulp_pkg_name_prefix }}{{ __pulp_common_package.key }}'
+        name: >-
+          {{ pulp_pkg_name_prefix }}{{ __pulp_common_package.key }}
+          {% if __pulp_common_package.value.version | default('') | length -%}
+          = {{ __pulp_common_package.value.version }}
+          {%- endif -%}
         state: "{{ pulp_pkg_upgrade_all | ternary('latest','present') }}"
       # We use pulp_install_plugins rather than pulp_install_plugins_normalized
       # so that users can specify package names with underscores if distros
@@ -65,7 +73,11 @@
 
     - name: "Install Pulp plugins (with overriden names) via {{ ansible_facts.pkg_mgr }}"
       package:
-        name: '{{ __pulp_common_package.value.pkg_name }}'
+        name: >-
+          {{ __pulp_common_package.value.pkg_name }}
+          {% if __pulp_common_package.value.version | default('') | length -%}
+          = {{ __pulp_common_package.value.version }}
+          {%- endif -%}
         state: "{{ pulp_pkg_upgrade_all | ternary('latest','present') }}"
       loop: '{{ pulp_install_plugins | dict2items }}'
       loop_control:

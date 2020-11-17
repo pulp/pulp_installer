@@ -123,6 +123,7 @@ If it is set to "packages", the following variables are used, or behave *differe
     * `pkg_name`: If this is left undefined, each Linux distro package will be installed by the name `pulp_pkg_name_prefix`
     with the Dictionary Key appended to it. `pulp_pkg_name_prefix` defaults to "python3-", so if the Dictionary key is
     "pulp-file", the package `python3-pulp-file` will be installed. This variable overrides the entire package name.
+    * `version`: Like with pip, a user can specify a specific version of a package one wants installed.
     * **Example**:
     ```yaml
     pulp_install_source: packages
@@ -132,6 +133,7 @@ If it is set to "packages", the following variables are used, or behave *differe
         pkg_name: python3-pulp-one-ng
       pulp-two:
         pkg_name: pulp_two_underscores
+        version: 2.2.0
     ```
 * `pulp_install_dir`: Location of the filesystem prefix where package installed python programs
   (gunicorn & rq) are looked for on the filesystem.  Defaults to "/usr" (such as for "/usr/bin/gunicorn").
@@ -151,6 +153,13 @@ If it is set to "packages", the following variables are used, or behave *differe
   without using the installer. (e.g., you ran `yum update` and your Pulp installation is broken. Re-running the
   installer will fix it.)
   Defaults to `false`.
+
+Role Variables for advanced usage
+---------------------------------
+
+* `pulpcore_version`: Specify a specific version of pulpcore one would like to install or upgrade to.
+   By default the installer will do the right thing by using the version of pulpcore it is designed
+   for and tested with. It is strongly advised against setting.
 
 Shared Variables
 ----------------
