@@ -15,35 +15,37 @@ jobs:
   include:
     - env: TEST=pulp2-nightly-pulp3-source-centos7
       if: type IN (cron, pull_request)
-    - env: TEST=pulp3-sandbox-centos7
-      if: type IN (cron)
+#    - env: TEST=pulp3-sandbox-centos7
+#      if: type IN (cron)
     - env: TEST=pulp3-sandbox-centos7-fips
-      if: type IN (cron, pull_request)
-    - env: TEST=pulp3-sandbox-centos8
-      if: type IN (cron)
+      if: type IN (pull_request)
+#      if: type IN (cron, pull_request)
+#    - env: TEST=pulp3-sandbox-centos8
+#      if: type IN (cron)
     - env: TEST=pulp3-sandbox-centos8-fips
-      if: type IN (cron, pull_request)
-    - env: TEST=pulp3-sandbox-centos8-stream
-      if: type IN (cron)
-    - env: TEST=pulp3-sandbox-debian10
-      if: type IN (cron, pull_request)
-    - env: TEST=pulp3-sandbox-fedora31
-      if: type IN (cron)
-    - env: TEST=pulp3-sandbox-fedora32
-      if: type IN (cron, pull_request)
-    - env: TEST=pulp3-source-centos7
-      if: type IN (cron)
+      if: type IN (pull_request)
+#      if: type IN (cron, pull_request)
+#    - env: TEST=pulp3-sandbox-centos8-stream
+#      if: type IN (cron)
+#    - env: TEST=pulp3-sandbox-debian10
+#      if: type IN (cron, pull_request)
+#    - env: TEST=pulp3-sandbox-fedora31
+#      if: type IN (cron)
+#    - env: TEST=pulp3-sandbox-fedora32
+#      if: type IN (cron, pull_request)
+#    - env: TEST=pulp3-source-centos7
+#      if: type IN (cron)
     - env: TEST=pulp3-source-centos7-fips
       if: type IN (cron, pull_request)
-    - env: TEST=pulp3-source-centos8
-      if: type IN (cron)
+#    - env: TEST=pulp3-source-centos8
+#      if: type IN (cron)
     - env: TEST=pulp3-source-centos8-fips
       if: type IN (cron, pull_request)
-    - env: TEST=pulp3-source-centos8-stream
-      if: type IN (cron)
-    - env: TEST=pulp3-source-debian10
-      if: type IN (cron, pull_request)
-    - env: TEST=pulp3-source-fedora31
-      if: type IN (cron, pull_request)
-    - env: TEST=pulp3-source-fedora32
-      if: type IN (cron)
+#    - env: TEST=pulp3-source-centos8-stream
+#      if: type IN (cron)
+#    - env: TEST=pulp3-source-debian10
+#      if: type IN (cron, pull_request)
+#    - env: TEST=pulp3-source-fedora31
+#      if: type IN (cron, pull_request)
+#    - env: TEST=pulp3-source-fedora32
+#      if: type IN (cron)
