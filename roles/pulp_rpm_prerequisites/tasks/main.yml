@@ -11,7 +11,8 @@
         - '{{ ansible_facts.os_family }}-{{ ansible_facts.distribution_major_version }}.yml'
         - '{{ ansible_facts.os_family }}.yml'
       paths:
-        - 'vars'
+        # Only using 'vars' leads to Ansible finding files elsewhere
+        - '../pulp_rpm_prerequisites/vars'
   tags:
     - always
 
@@ -22,9 +23,9 @@
     - ansible_facts.distribution == "Ubuntu"
   become: true
 
-- name: Install requested non-RPM packages
+- name: Install requested non-pip packages
   package:
-    name: '{{ packages }}'
+    name: '{{ rpm_prereq_packages }}'
     state: present
   become: true
 

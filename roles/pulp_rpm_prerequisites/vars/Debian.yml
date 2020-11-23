@@ -1,13 +1,15 @@
 ---
-# vars file for pulp_rpm_prerequisites on Ubuntu
+# vars file for pulp_rpm_prerequisites on Debian
 rpm_prereq_packages:
   - gcc
   - make
   - cmake
   - libbz2-dev
+  - libcairo2-dev
   - libexpat1-dev
   - libmagic-dev
   - libglib2.0-dev
+  - libgirepository1.0-dev
   - libcurl4-openssl-dev
   - libxml2-dev
   - libpython3-dev
@@ -15,7 +17,8 @@ rpm_prereq_packages:
   - libssl-dev  # createrepo_c
   - libsqlite3-dev
   - liblzma-dev
-  - libmodulemd-2.0-dev
+  - libmodulemd-dev
+  - libzck-dev
   - zlib1g-dev
 
 # These packages must be explicitly installed during the pulp role, after the

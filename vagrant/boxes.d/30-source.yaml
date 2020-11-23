@@ -103,7 +103,18 @@ pulp3-source-debian10:
   sshfs:
     host_path: '..'
     guest_path: '/home/vagrant/devel'
-    reverse: False
+    reverse: True
+  memory: 4096
+  ansible:
+    playbook: "vagrant/playbooks/source-install.yml"
+    galaxy_role_file: "requirements.yml"
+
+pulp3-source-debian-testing:
+  box: 'debian-testing'
+  sshfs:
+    host_path: '..'
+    guest_path: '/home/vagrant/devel'
+    reverse: True
   memory: 4096
   ansible:
     playbook: "vagrant/playbooks/source-install.yml"

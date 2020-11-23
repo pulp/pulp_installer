@@ -1,7 +1,7 @@
 ---
 # vars file for pulp_rpm_prerequisites on Fedora
 # Also used by RHEL8 / CentOS8
-packages:
+rpm_prereq_packages:
   - gcc
   - make
   - cairo-devel
