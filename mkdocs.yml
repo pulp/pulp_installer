@@ -10,6 +10,7 @@ nav:
   - Home: index.md
   - Getting started: quickstart.md
   - contributing.md
+  - pulplift.md
   - Let's Encrypt: letsencrypt.md
   - FIPS: fips.md
   - Changelog: CHANGES.md
