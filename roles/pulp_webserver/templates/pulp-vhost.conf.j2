@@ -1,5 +1,5 @@
-Define pulp-content {{ pulp_content_bind }}
-Define pulp-api {{ pulp_api_bind }}
+Define pulp-content {{ __pulp_webserver_apache_content_bind }}
+Define pulp-api {{ __pulp_webserver_apache_api_bind }}
 
 {% if pulp_webserver_disable_https | bool %}
 <VirtualHost *:{{ pulp_webserver_http_port }}>
@@ -14,22 +14,22 @@ Define pulp-api {{ pulp_api_bind }}
   ProxyRequests Off
   ProxyPreserveHost Off
 
-  ProxyPass /pulp/api/v3 http://${pulp-api}/pulp/api/v3
-  ProxyPassReverse /pulp/api/3 http://${pulp-api}/pulp/api/v3
+  ProxyPass /pulp/api/v3 ${pulp-api}/pulp/api/v3
+  ProxyPassReverse /pulp/api/3 ${pulp-api}/pulp/api/v3
 
-  ProxyPass /auth/login/ http://${pulp-api}/auth/login/
-  ProxyPassReverse /auth/login/ http://${pulp-api}/auth/login/
+  ProxyPass /auth/login/ ${pulp-api}/auth/login/
+  ProxyPassReverse /auth/login/ ${pulp-api}/auth/login/
 
-  ProxyPass /pulp/content http://${pulp-content}/pulp/content
-  ProxyPassReverse /pulp/content http://${pulp-content}/pulp/content
+  ProxyPass /pulp/content ${pulp-content}/pulp/content
+  ProxyPassReverse /pulp/content ${pulp-content}/pulp/content
 
   IncludeOptional pulp/*.conf
 
   # static files are served through whitenoise - http://whitenoise.evans.io/en/stable/
   # exclude all pulp v2 api calls
   ProxyPassMatch ^/pulp/api/v2 !
-  ProxyPass / http://${pulp-api}/
-  ProxyPassReverse / http://${pulp-api}/
+  ProxyPass / ${pulp-api}/
+  ProxyPassReverse / ${pulp-api}/
 
 </VirtualHost>
 {% else %}
@@ -67,14 +67,14 @@ Define pulp-api {{ pulp_api_bind }}
   ProxyRequests Off
   ProxyPreserveHost Off
 
-  ProxyPass /pulp/api/v3 http://${pulp-api}/pulp/api/v3
-  ProxyPassReverse /pulp/api/v3 http://${pulp-api}/pulp/api/v3
+  ProxyPass /pulp/api/v3 ${pulp-api}/pulp/api/v3
+  ProxyPassReverse /pulp/api/v3 ${pulp-api}/pulp/api/v3
 
-  ProxyPass /auth/login/ http://${pulp-api}/auth/login/
-  ProxyPassReverse /auth/login/ http://${pulp-api}/auth/login/
+  ProxyPass /auth/login/ ${pulp-api}/auth/login/
+  ProxyPassReverse /auth/login/ ${pulp-api}/auth/login/
 
-  ProxyPass /pulp/content http://${pulp-content}/pulp/content
-  ProxyPassReverse /pulp/content http://${pulp-content}/pulp/content
+  ProxyPass /pulp/content ${pulp-content}/pulp/content
+  ProxyPassReverse /pulp/content ${pulp-content}/pulp/content
 
   IncludeOptional pulp/*.conf
 
@@ -82,8 +82,8 @@ Define pulp-api {{ pulp_api_bind }}
   # http://whitenoise.evans.io/en/stable/
   # exclude all pulp v2 api calls
   ProxyPassMatch ^/pulp/api/v2 !
-  ProxyPass / http://${pulp-api}/
-  ProxyPassReverse / http://${pulp-api}/
+  ProxyPass / ${pulp-api}/
+  ProxyPassReverse / ${pulp-api}/
 
   # ACME http-01 tokens, i.e, for Let's Encrypt
   <Location "/.well-known">

@@ -121,6 +121,14 @@ There are other (intentional) differences between tests:
 1. `dynamic` - Due to a limitation of Ansible 2.8 with collections, these are not tested with
    Ansible 2.8.
 
+To test both webserver solutions we testing `apache` as webserver with
+
+* package-dynamic
+* source-dynamic
+* release-static
+
+All others scenarios use `nginx` as a webserver.
+
 Docs Testing
 ------------
 

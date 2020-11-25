@@ -12,3 +12,4 @@ pulp_pkg_repo: "https://yum.theforeman.org/pulpcore/3.7/el{{ ansible_distributio
 # Setting this not because it should have any effect, but to test that it
 # doesn't:
 pulp_pkg_upgrade_all: true
+pulp_webserver_server: apache
