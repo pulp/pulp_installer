@@ -142,6 +142,7 @@ If it is set to "packages", the following variables are used, or behave *differe
 * `pulp_pkg_repo`: yum/dnf package repo to add to the system before installing Pulp
   Consists simply of the URL to the repo. Defaults to nothing. Does not support any other repo
   type yet.
+* `pulp_pkg_repo_gpgcheck`: Whether the package signatures should be checked or not. Defaults to `True`.
 * `pulp_pkg_undeclared_deps`: Additional Linux distro (RPM) packages to install before installing pulpcore.
   See `defaults/main.yml` for default values.
 * `pulp_pkg_upgrade_all`: Whether to upgrade all Pulp Linux distro (RPM) packages (including the
