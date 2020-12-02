@@ -1,0 +1,25 @@
+---
+# Remove once it is reintroduced to EPEL7:
+# https://bodhi.fedoraproject.org/updates/FEDORA-EPEL-2020-9fc650ec67
+
+- hosts: all
+  tasks:
+    - block:
+        - name: Add copr repo for python-qpid
+          get_url:
+            url: https://copr.fedorainfracloud.org/coprs/g/qpid/qpid/repo/epel-7/group_qpid-qpid-epel-7.repo
+            dest: /etc/yum.repos.d/group_qpid-qpid-epel-7.repo
+
+        # ansible-lint 403 should be ignored because it does not understand
+        # update_only yet.
+        - name: Update qpid packages
+          yum:
+            name:
+              - python2-qpid
+              - qpid-tools
+            state: latest # noqa 403
+            update_only: yes
+      become: true
+      when:
+        - (ansible_distribution == 'CentOS') or (ansible_distribution == 'RedHat')
+        - ansible_distribution_major_version|int == 7
