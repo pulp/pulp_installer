@@ -1,0 +1,3 @@
+---
+_pulp_redis_server_name: redis
+_pulp_redis_conf_file: '/etc/redis/redis.conf'
