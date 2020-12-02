@@ -25,7 +25,7 @@ __pulp_common_pulp_settings_defaults:
   databases:
     default:
       HOST: localhost
-      ENGINE: django.db.backends.postgresql_psycopg2
+      ENGINE: django.db.backends.postgresql
       NAME: pulp
       USER: pulp
       PASSWORD: pulp

@@ -56,7 +56,7 @@ Here's an example playbook for using pulp_services in pulp_installer. It assumes
           databases:
             default:
               HOST: postgres1
-              ENGINE: django.db.backends.postgresql_psycopg2
+              ENGINE: django.db.backends.postgresql
               NAME: pulp
               USER: pulp
               PASSWORD: << YOUR DATABASE PASSWORD HERE >>
