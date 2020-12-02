@@ -42,6 +42,7 @@ pulp2-nightly-pulp3-source-centos7:
   cpus: 4
   ansible:
     playbook:
+      - "vagrant/playbooks/pre_tasks/qpid.yml"
       - "pulp-ci/ci/ansible/pulp_server.yaml"
       - "vagrant/playbooks/source-install.yml"
     variables:
