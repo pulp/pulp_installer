@@ -13,6 +13,40 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.9.0 (2020-12-07)
+==================
+
+
+Features
+--------
+
+- Updated gunicorn access log format to include correlation id in the pulpcore api service file.
+  [#7792](https://pulp.plan.io/issues/7792)
+
+
+Bugfixes
+--------
+
+- Fixed apache config to handle unix sockets.
+  [#7524](https://pulp.plan.io/issues/7524)
+
+
+Improved Documentation
+----------------------
+
+- Added documentation how to use the pulplift vagrant facilities.
+  [#7878](https://pulp.plan.io/issues/7878)
+
+
+Misc
+----
+
+- [#4968](https://pulp.plan.io/issues/4968), [#6752](https://pulp.plan.io/issues/6752)
+
+
+----
+
+
 3.8.1-1 (2020-11-09)
 ====================
 
