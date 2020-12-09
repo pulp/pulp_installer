@@ -12,6 +12,8 @@ Release Guide
 1. Tag this commit with the name of the release, e.g. 3.8.0.
 1. Create a release on github based on the tag.
 1. Upload the pulp_installer collection to the Galaxy.
+1. Change the status of all issues that were referenced in the change log for this release to
+   CLOSED - CURRENTRELEASE.
 
 
 Uploading a collection to the Galaxy
