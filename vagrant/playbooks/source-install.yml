@@ -2,6 +2,7 @@
 - hosts: all
   vars:
     paths_to_vars_files:
+      - '../../local.{{ ansible_hostname }}-config.yml'
       - '../../local.dev-config.yml'
       - '../../example.dev-config.yml'
   pre_tasks:

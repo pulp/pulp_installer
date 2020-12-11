@@ -104,7 +104,8 @@ and `example.dev-config.yml` for development installations respectively.
 If you need to change these variables, **including choosing which plugins to install**,
 copy one of these files to **create a local variable file**.
 Pulplift will first look for `local.user-config.yml` or `local.dev-config.yml`,
-which are not checked into git.
+which are not checked into git. To overwrite those settings for an individual one of your vagrant
+instances, you can provide a `local.<hostname>-config.yml`.
 
 Any of the Ansible variables can be set in this local variable file.
 Please see the README of each [pulp_installer](https://github.com/pulp/pulp_installer#roles) role
