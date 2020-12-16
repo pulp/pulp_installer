@@ -212,7 +212,7 @@
         # "version is incompatible with state=latest"
         # But we still need to handle upgrading dependencies.
         # state: "{{ pulp_upgrade | ternary('latest','present') }}"
-        version: '{{ pulp_version }}'
+        version: '{{ __pulp_version }}'
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
       when: pulp_source_dir is undefined
