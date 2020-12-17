@@ -13,6 +13,27 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.9.0-1 (2020-12-17)
+====================
+
+
+Bugfixes
+--------
+
+- Fixed inability to install on CentOS 8.3 or CentOS Stream due to the newly renamed "powertools" repo
+  (formerly "PowerTools") not being enabled by the installer.
+  [#7996](https://pulp.plan.io/issues/7996)
+
+
+Misc
+----
+
+- [#7841](https://pulp.plan.io/issues/7841)
+
+
+----
+
+
 3.9.0 (2020-12-07)
 ==================
 
