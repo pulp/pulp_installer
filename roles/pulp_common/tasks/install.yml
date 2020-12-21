@@ -77,6 +77,28 @@
         owner: '{{ pulp_user }}'
         group: '{{ pulp_group }}'
 
+    - name: Create media dir for Pulp
+      file:
+        path: '{{ pulp_media_root }}'
+        state: directory
+        owner: '{{ pulp_user }}'
+        group: '{{ pulp_group }}'
+        mode: "u+rwx,g+rwx,o+rx"
+        seuser: _default
+        serole: _default
+        setype: _default
+
+    - name: Check if artifact directory exists at old path
+      stat:
+        path: '{{ __pulp_old_artifact_dir }}'
+      register: old_artifact_dir_stat
+
+    - name: Move artifact directory inside MEDIA_ROOT
+      script: 'scripts/move-artifacts-to-media-root.sh {{ __pulp_old_artifact_dir }} {{ __pulp_artifact_dir }}'
+      args:
+        creates: '{{ __pulp_artifact_dir }}'
+      when: old_artifact_dir_stat.stat.exists
+
     - name: Create artifact dir for Pulp
       file:
         path: '{{ __pulp_artifact_dir }}'

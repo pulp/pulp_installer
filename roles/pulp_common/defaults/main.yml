@@ -16,7 +16,7 @@ pulp_user_id:
 pulp_group: pulp
 pulp_group_id:
 pulp_user_home: '/var/lib/pulp'
-__pulp_artifact_dir: "{{ pulp_user_home | regex_replace('\\/$', '')  }}/artifact"
+pulp_media_root: '/var/lib/pulp/media'
 pulp_pip_editable: yes
 pulp_use_system_wide_pkgs: false
 prereq_pip_packages:

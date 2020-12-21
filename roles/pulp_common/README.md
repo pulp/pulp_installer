@@ -55,7 +55,8 @@ Role Variables
   Defaults to "/etc/pulp".
 * `pulp_install_dir`: Location of a virtual environment for Pulp and its Python
   dependencies. Defaults to "/usr/local/lib/pulp".
-* `pulp_user_home`: equivalent to `MEDIA_ROOT` from `pulpcore` i.e. absolute path for pulp user home.
+* `pulp_user_home`: absolute path for pulp user home.
+* `pulp_media_root`: `MEDIA_ROOT` for `pulpcore`. Defaults to "/var/lib/pulp/media".
 * `pulp_source_dir`: Optional. Absolute path to pulpcore source code. If
   present, pulpcore will be installed from source in editable mode. Also accepts
   a pip VCS URL, to (for example) install the master branch.
