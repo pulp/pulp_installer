@@ -4,7 +4,7 @@
       yum:
         list: updates
         disablerepo: "*"
-        enablerepo:  "{{ __pulp_pkg_repo_name }}"
+        enablerepo: "{{ __pulp_pkg_repo_name }}"
       register: updates
 
     - name: List packages to be upgraded
@@ -15,10 +15,50 @@
         # msg: "{{ updates | json_query('results[*].name') }}"
         msg: "{{ updates.results | map(attribute='name')|list }}"
 
+    # These 3 tasks have changed_when: false for the sake if idempotency
+    # We are not modifying the system after all, just the value of the conf file
+    - name: generate a temporary dnf.conf
+      block:
+
+        - name: Generate a temp filepath for the temp dnf.conf
+          tempfile:
+            state: file
+            suffix: .repoupdates.dnf.conf
+          register: __dnf_conf
+          changed_when: false
+
+        - name: Copy system dnf.conf to temp dnf.conf
+          copy:
+            src: /etc/dnf/dnf.conf
+            dest: "{{ __dnf_conf.path }}"
+            remote_src: true
+          changed_when: false
+
+        # The example being:
+        # python3-pulpcore depends on rq < 1.7
+        # the pulpcore repo has rq 1.5
+        # EPEL8 has rq 1.7
+        # Without this, the update task below would fail.
+        #
+        # Only really needed for CentOS 8. Fedora 33 defaults to best=False.
+        - name: Modify the temp dnf.conf to permit updating to newer but not the latest RPMS
+          ini_file:
+            path: "{{ __dnf_conf.path }}"
+            section: main
+            option: best
+            value: "False"
+            no_extra_spaces: true
+          changed_when: false
+
+      when: ansible_pkg_mgr == "dnf"
+
     - name: Upgrade all existing installed Pulp packages
       yum:
         name: "{{ updates.results | map(attribute='name')|list }}"
         state: latest # noqa 403
+        conf_file: "{{ __dnf_conf.path | default(omit) }}"
+        # update_only is a needed part of installing older updates
+        update_only: true
       notify:
         - Collect static content
         - Restart all Pulp services
