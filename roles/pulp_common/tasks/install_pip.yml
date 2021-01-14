@@ -11,9 +11,6 @@
       yum:
         name:
           - selinux-policy-devel
-          - policycoreutils
-          # Needed for seport technically, used by pulp_api & pulp_content
-          - "{{ (ansible_facts.distribution_major_version | int == 7) | ternary('policycoreutils-python','python3-policycoreutils') }}"
 
     - name: 'Ensure that /usr/local/share/selinux/{{ ansible_facts.selinux.type }} exists'
       file:

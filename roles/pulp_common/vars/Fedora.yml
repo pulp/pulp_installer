@@ -3,6 +3,7 @@ pulp_preq_packages:
   - python3
   - python3-devel
   - python3-libselinux  # For ansible itself
+  - python3-policycoreutils # For ansible itself
   - gcc                 # For psycopg2
   - make                # For make docs, and SELinux policy install
   - libpq-devel         # Renamed/Split version of postgresql-devel
