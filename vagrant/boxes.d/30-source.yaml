@@ -1,5 +1,5 @@
-pulp3-source-fedora31:
-  box: 'fedora31'
+pulp3-source-fedora32:
+  box: 'fedora32'
   sshfs:
     host_path: '..'
     guest_path: '/home/vagrant/devel'
@@ -9,8 +9,8 @@ pulp3-source-fedora31:
     playbook: "vagrant/playbooks/source-install.yml"
     galaxy_role_file: "requirements.yml"
 
-pulp3-source-fedora32:
-  box: 'fedora32'
+pulp3-source-fedora33:
+  box: 'fedora33'
   sshfs:
     host_path: '..'
     guest_path: '/home/vagrant/devel'
