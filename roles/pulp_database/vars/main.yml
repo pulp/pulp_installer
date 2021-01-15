@@ -30,3 +30,7 @@ __pulp_database_remote_postgresql_global_config_options:
     value: "*"
 
 postgresql_global_config_options: "{{ (__pulp_database_merged_pulp_settings.databases.default.HOST == 'localhost') | ternary(__pulp_database_local_postgresql_global_config_options, __pulp_database_remote_postgresql_global_config_options) }}"
+
+# The following task has failed in the past for FIPS-enabled systems, so let's see its output:
+# geerlingguy.postgresql : Ensure PostgreSQL users are configured correctly
+postgres_users_no_log: false
