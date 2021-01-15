@@ -25,6 +25,7 @@
         permanent: true
         immediate: true
         state: enabled
+        zone: '{{ pulp_firewalld_zone | default(omit) }}'
 
     - name: Accept HTTPS connections on port {{ pulp_webserver_https_port }}
       firewalld:
@@ -32,6 +33,7 @@
         permanent: true
         immediate: true
         state: enabled
+        zone: '{{ pulp_firewalld_zone | default(omit) }}'
       when: not pulp_webserver_disable_https | bool
 
   become: true

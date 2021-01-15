@@ -17,6 +17,9 @@ Role Variables
   `nginx`. The other valid value is `apache`.
 * `pulp_configure_firewall` Install and configure a firewall. Valid values are `auto`, `firewalld`,
   and `none`. Defaults to `auto` (which is the same as `firewalld`, but may change in the future).
+* `pulp_firewalld_zone`: Define the firewalld zone to configure. Defaults to undefined, which uses
+  the system's default zone, found in `/etc/firewalld/firewalld.conf`.
+  The most common example value is `public`.
 * `pulp_webserver_http_port`: Define the HTTP port to listen on. Defaults to `80`.
 * `pulp_webserver_https_port`: Define the HTTPS port to listen on. Defaults to `443`.
 * `pulp_webserver_disable_https`: Whether or not HTTPS should be disabled. Defaults to `false`.
