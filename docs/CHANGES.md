@@ -13,6 +13,29 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.9.1 (2021-01-21)
+==================
+
+
+Features
+--------
+
+- Add support for Fedora 33.
+  [#7800](https://pulp.plan.io/issues/7800)
+- Introduce the new variable `pulp_firewalld_zone` so that users can manually specify the firewalld zone to open up to Pulp traffic.
+  [#8107](https://pulp.plan.io/issues/8107)
+
+
+Bugfixes
+--------
+
+- When upgrading from distro packages (`pulp_install_source==packages` & `pulp_pkg_upgrade_all==true`), pulp_installer will now configure dnf (CentOS/RHEL 8) to permit upgrading them to newer versions that are not necessarily the latest (dnf option `best=false`). This addresses the issue of python3-rq from EPEL8 being too new for Pulp, and thus upgrades failing with a depsolve error on the task "pulp_common : Upgrade all existing installed Pulp packages".
+  [#8042](https://pulp.plan.io/issues/8042)
+
+
+----
+
+
 3.9.0-1 (2020-12-17)
 ====================
 
