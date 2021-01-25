@@ -3,7 +3,7 @@ Release Guide
 
 1. Ensure that pulpcore of the corresponding version is available on PyPI.
 1. Generate changelog (`towncrier --yes --version 3.8.0`).
-1. Update version in the `galaxy.yml` and in the `roles/pulp_common/defaults/main.yml`.
+1. Update version in the `galaxy.yml` and in the `roles/pulp_common/vars/main.yml`.
 1. Update references to current and previous versions in `docs/index.md`
    (`sed -i -e 's/3.7.1/3.8.0/g' -e 's/3.6.z/3.7.z/g' -e 's/3.5.z/3.6.z/g' docs/index.md`).\
    **NOTE**: Post releases are done in pulp_installer as needed.
