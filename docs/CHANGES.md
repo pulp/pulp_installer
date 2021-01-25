@@ -13,6 +13,27 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.9.1-1 (2021-01-27)
+====================
+
+
+Features
+--------
+
+- Install the Linux distro's `gpg` binary command for the new SigningService functionality in pulpcore.
+  [#8163](https://pulp.plan.io/issues/8163)
+
+
+Bugfixes
+--------
+
+- Fix the installer (versioned 3.9.1-x) still installing pulpcore 3.9.0 instead of 3.9.1.
+  [#8158](https://pulp.plan.io/issues/8158)
+
+
+----
+
+
 3.9.1 (2021-01-21)
 ==================
 
