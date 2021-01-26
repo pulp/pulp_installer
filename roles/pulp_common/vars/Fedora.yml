@@ -6,6 +6,7 @@ pulp_preq_packages:
   - gcc                 # For psycopg2
   - make                # For make docs
   - libpq-devel         # Renamed/Split version of postgresql-devel
+  - gnupg2
 
 # Pulp requires Python 3.6+.
 pulp_python_interpreter: /usr/bin/python3
