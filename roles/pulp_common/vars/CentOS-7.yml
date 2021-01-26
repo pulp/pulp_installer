@@ -10,6 +10,7 @@ pulp_preq_packages:
   - make               # For make docs, and SELinux policy install
   - git                # For source install, and SELinux policy install
   - sudo
+  - gnupg2             # For the signing service via the gpg python module
 
 pulp_python_interpreter: /usr/bin/python3.6
 pulp_python_cryptography:
