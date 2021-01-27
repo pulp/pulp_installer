@@ -1,2 +1,0 @@
-Fix the installer (versioned 3.9.1-x) still installing pulpcore 3.9.0 instead of 3.9.1.
-
