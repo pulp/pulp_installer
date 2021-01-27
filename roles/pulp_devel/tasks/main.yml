@@ -45,6 +45,17 @@
   become: true
   become_user: "{{ developer_user }}"
 
+- name: Initialize galaxy data
+  shell: >-
+      source {{ developer_user_home }}/.bashrc.d/alias.bashrc
+      && source {{ developer_user_home }}/.bashrc.d/venv.bashrc
+      && pdbreset
+  args:
+    executable: /bin/bash
+  become: true
+  become_user: "{{ developer_user }}"
+  when: pulp_install_plugins_normalized['galaxy-ng'] is defined
+
 - name: Set the message of the day
   copy:
     src: motd
