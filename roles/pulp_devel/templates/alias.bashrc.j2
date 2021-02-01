@@ -212,9 +212,9 @@ _pbindings_help="Create and install bindings. Example usage: pbindings pulpcore 
 
 pfixtures () {
     cat ~/.config/pulp_smash/settings.json | \
-    jq "setpath([\"custom\",\"fixtures_origin\"]; \"http://localhost:8000/fixtures/\")" > ~/.config/pulp_smash/.settings.json.tmp
+    jq "setpath([\"custom\",\"fixtures_origin\"]; \"http://localhost:8080/fixtures/\")" > ~/.config/pulp_smash/.settings.json.tmp
     mv ~/.config/pulp_smash/.settings.json.tmp ~/.config/pulp_smash/settings.json
-    podman run --rm -it -p 0.0.0.0:8000:80 --name pulp_fixtures pulp/pulp-fixtures
+    podman run --rm -it -p 0.0.0.0:8080:8080 --name pulp_fixtures pulp/pulp-fixtures
     cat ~/.config/pulp_smash/settings.json | \
     jq "setpath([\"custom\",\"fixtures_origin\"]; \"https://fixtures.pulpproject.org/\")" > ~/.config/pulp_smash/.settings.json.tmp
     mv ~/.config/pulp_smash/.settings.json.tmp ~/.config/pulp_smash/settings.json
