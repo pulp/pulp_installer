@@ -1,1 +1,0 @@
-Update pulpcore-selinux (SELinux policies) to 1.2.4 for the future feature of systemd socket activation.
