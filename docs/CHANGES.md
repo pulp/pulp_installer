@@ -13,6 +13,28 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+
+3.10.0 (2021-02-04)
+===================
+
+
+Features
+--------
+
+- Added support for upgrading to pulpcore 3.10. 
+
+  The installer moves an existing 'artifact' directory inside the MEDIA_ROOT path.
+  [#8011](https://pulp.plan.io/issues/8011)
+
+
+Misc
+----
+
+- [#8210](https://pulp.plan.io/issues/8210)
+
+----
+
+
 3.9.1-1 (2021-01-27)
 ====================
 
