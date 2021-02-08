@@ -1,0 +1,6 @@
+---
+domain: lan
+
+libvirt_options:
+  driver: "qemu"
+  volume_cache: unsafe

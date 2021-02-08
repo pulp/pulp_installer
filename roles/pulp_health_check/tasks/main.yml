@@ -8,7 +8,6 @@
   debug:
     msg: '{{ ansible_facts.services|dict2items|selectattr("key", "contains", "pulpcore")|list|items2dict }}'
 
-
 - name: Checking Pulp services
   fail:
     msg: "{{ item.value.name }} state: {{ item.value.state }}"
@@ -20,6 +19,9 @@
     url: "http://{{ __pulp_default_host if pulp_api_bind.startswith('unix:') else pulp_api_bind }}/pulp/api/v3/status/"
     status_code: "200"
     unix_socket: "{{ pulp_api_bind | regex_replace('^unix:', '') if pulp_api_bind.startswith('unix:') else omit }}"
+    # Alternate between 30 second timeouts and 5 second timeouts when handling the situation of
+    # there being a timeout (rather than connection refused), presumably due to a firewall.
+    timeout: "{{ result.elapsed | default(5) == 30 | ternary(5,30) }}"
   register: result
   until: >
     result.json is defined and
@@ -28,5 +30,5 @@
     result.json.online_workers | map(attribute='name') | select('match', '^resource-manager$') | list | count > 0 and
     result.json.online_workers | map(attribute='name') | select('match', '^[0-9]+@.*$') | list | count > 0
   delay: 6
-  retries: 150
+  retries: 75
   check_mode: false
