@@ -1,0 +1,1 @@
+Fix Pulp clients experience "connection timed out" on very slow machines, such as Qemu emulated machines, by raising the the Pulp server's gunicorn worker timeout to 90 seconds.
