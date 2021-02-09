@@ -20,7 +20,9 @@ Uploading a collection to the Galaxy
 ------------------------------------
 
 1. Prepare a tarball of the pulp_insaller collection (from inside the root of the collection, run `ansible-galaxy collection build`).\
-   **NOTE**: ansible-galaxy>=2.9 is reqiured.
+   **NOTE**: ansible-galaxy>=2.9 is required.\
+   **NOTE:** the tarball will include every untracked file in the repo unless you git clean, even
+ignored files. You may want to just clone the repo to another temporary dir instead.
 1. Make sure that you are one of the owners on Galaxy! Github perms are not helping here.
 1. Go to https://galaxy.ansible.com/my-content/namespaces.
 1. Choose/unfold pulp namespace.
