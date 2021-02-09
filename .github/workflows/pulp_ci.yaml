@@ -4,11 +4,6 @@ on:
   push:
     branches:
       - '*'
-    tags:
-      - '*'
-  schedule:
-    # * is a special character in YAML so you have to quote this string
-    - cron: '15 0 * * *'
 jobs:
   full_test:
     runs-on: ubuntu-latest

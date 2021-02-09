@@ -1,34 +1,11 @@
 ---
-name: Pulp PR
-on: pull_request
+name: Pulp CI
+on:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron: '15 0 * * *'
 jobs:
-  git-check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2.3.1
-      - run: |
-          git fetch --prune --unshallow
-      - name: Set up Python
-        uses: actions/setup-python@v2
-      - name: Install requests
-        run: pip install requests
-      - name: Check commit message
-        env:
-          GITHUB_CONTEXT: ${{ github.event.pull_request.commits_url }}
-        run: |
-          for sha in $(curl $GITHUB_CONTEXT | jq '.[].sha' | sed 's/"//g')
-          do
-            python .github/validate_commit_message.py $sha
-            VALUE=$?
-            if [ "$VALUE" -gt 0 ]; then
-              exit $VALUE
-            fi
-          done
-        shell: bash
-      - name: Check submodule status
-        run: |
-          .ci/submodule_check.sh
-  test:
+  full_test:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -86,7 +63,7 @@ jobs:
         if: matrix.test_type == 'release-upgrade' || matrix.test_type == 'source-upgrade'
         run: |
           docker pull quay.io/pulp/pulp-ci-dbuster:3.0.0
-          docker pull quay.io/pulp/pulp_rpm-ci-f33:3.9.0
+          docker pull quay.io/pulp/pulp_rpm-ci-f31:3.1.0
           docker pull quay.io/pulp/pulp_rpm-ci-c7:3.1.0
       - name: Pulling images for distro packages upgrades
         if: matrix.test_type == 'packages-upgrade'
@@ -104,10 +81,11 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        #FIXME: Remove f32 & debian10 immediately before merge
         include:
-          - test_type: pulp3-source-centos7-fips
+          - test_type: pulp3-sandbox-centos7-fips
+          - test_type: pulp3-sandbox-centos8-fips
           - test_type: pulp3-source-centos8-fips
+          - test_type: pulp3-source-centos7-fips
           - test_type: pulp3-source-fedora32
           - test_type: pulp3-source-debian10
     steps:
@@ -123,7 +101,3 @@ jobs:
       - name: After failure
         if: failure()
         run: .github/scripts/after_failure.sh ${{ matrix.test_type }}
-      # FIXME: remove before merge
-      - name: After failure - tmate
-        if: failure() &&  matrix.test_type == 'pulp3-source-fedora32'
-        uses: mxschmitt/action-tmate@v3

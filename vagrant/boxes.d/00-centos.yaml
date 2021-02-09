@@ -1,5 +1,8 @@
+# We are using the "generic" boxes created by Vagrant rather than the CentOS
+# project's "centos" boxes because for CentOS 7, "generic" are upgraded much
+# more frequently
 centos7:
-  box_name:   'centos/7'
+  box_name:   'generic/centos7'
   image_name: !ruby/regexp '/CentOS 7.*PV/'
   google_options:
     image_family: 'centos-7'
