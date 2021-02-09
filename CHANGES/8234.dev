@@ -1,0 +1,1 @@
+Fix compatibility with ansible-lint 5.0.0 by having it not check requirements.yml under the molecule directories.

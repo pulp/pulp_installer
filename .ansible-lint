@@ -3,9 +3,20 @@
 skip_list:
   - '303'
 exclude_paths:
+  - ./roles/ansible-role-postgresql/
   - ./roles/geerlingguy.postgresql/
   - ../../.ansible/roles/geerlingguy.postgresql/
   - ../../.ansible/roles/lexa-uw.letsencrypt/
   - ./.github/
   - ./vagrant/
   - ./.vagrant/
+  - ./molecule/default/requirements.yml
+  - ./molecule/packages-dynamic/requirements.yml
+  - ./molecule/packages-static/requirements.yml
+  - ./molecule/packages-upgrade/requirements.yml
+  - ./molecule/release-dynamic/requirements.yml
+  - ./molecule/release-static/requirements.yml
+  - ./molecule/release-upgrade/requirements.yml
+  - ./molecule/source-dynamic/requirements.yml
+  - ./molecule/source-static/requirements.yml
+  - ./molecule/source-upgrade/requirements.yml
