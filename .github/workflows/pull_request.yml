@@ -28,7 +28,7 @@ jobs:
       - name: Check submodule status
         run: |
           .ci/submodule_check.sh
-  test:
+  molecule:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -104,26 +104,23 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        #FIXME: Remove f32 & debian10 immediately before merge
         include:
           - test_type: pulp3-source-centos7-fips
           - test_type: pulp3-source-centos8-fips
-          - test_type: pulp3-source-fedora32
-          - test_type: pulp3-source-debian10
     steps:
       - uses: actions/checkout@v2.3.1
         with:
           submodules: true
       - name: Install Vagrant
         shell: bash
-        run: .github/scripts/install.sh ${{ matrix.test_type }}
+        run: .github/workflows/scripts/install.sh ${{ matrix.test_type }}
       - name: Run Vagrant
         shell: bash
-        run: .github/scripts/script.sh ${{ matrix.test_type }}
+        run: .github/workflows/scripts/script.sh ${{ matrix.test_type }}
       - name: After failure
         if: failure()
-        run: .github/scripts/after_failure.sh ${{ matrix.test_type }}
-      # FIXME: remove before merge
-      - name: After failure - tmate
-        if: failure() &&  matrix.test_type == 'pulp3-source-fedora32'
-        uses: mxschmitt/action-tmate@v3
+        run: .github/workflows/scripts/after_failure.sh ${{ matrix.test_type }}
+      # EXAMPLE: If you want to debug
+      # - name: After failure - tmate
+      #   if: failure() &&  matrix.test_type == 'pulp3-source-centos8-fips'
+      #   uses: mxschmitt/action-tmate@v3

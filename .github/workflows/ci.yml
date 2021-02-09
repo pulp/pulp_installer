@@ -5,7 +5,7 @@ on:
     branches:
       - '*'
 jobs:
-  full_test:
+  molecule:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
