@@ -1,8 +1,9 @@
 ---
 name: Pulp CI
 on:
-  tags:
-    - '*'
+  push:
+    tags:
+      - '*'
 jobs:
   full_test:
     runs-on: ubuntu-latest
