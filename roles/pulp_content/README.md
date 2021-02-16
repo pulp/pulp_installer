@@ -8,6 +8,8 @@ Role Variables
 
 * `pulp_content_bind`: Interface and Port where Pulp Content [`gunicorn` service will
   listen.](https://docs.gunicorn.org/en/stable/settings.html#bind)
+* `pulp_content_workers`: Number of `gunicorn` processes for handling Pulp content app requests.
+  Defaults to 8.
 
 One can specify a unix socket path instead
 (recommended value is `'unix:/var/run/pulpcore-content/pulpcore-content.sock'`).
