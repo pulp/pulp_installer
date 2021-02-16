@@ -3,18 +3,22 @@
 pulp_devel_supplement_bashrc: true
 pulp_default_admin_password: password
 pulp_install_plugins:
-  # pulp-ansible:
-  #   source_dir: "/home/vagrant/devel/pulp_ansible"
   # galaxy-ng:
   #   source_dir: "/home/vagrant/devel/galaxy_ng"
+  # pulp-2to3-migration:
+  #   source_dir: "/home/vagrant/devel/pulp-2to3-migration"
+  # pulp-ansible:
+  #   source_dir: "/home/vagrant/devel/pulp_ansible"
   # pulp-certguard:
   #   source_dir: "/home/vagrant/devel/pulp-certguard"
+  # pulp-container:
+  #   source_dir: "/home/vagrant/devel/pulp_container"
   # pulp-cookbook:
   #   source_dir: "/home/vagrant/devel/pulp_cookbook"
   # pulp-deb:
   #   source_dir: "/home/vagrant/devel/pulp_deb"
-  # pulp-container:
-  #   source_dir: "/home/vagrant/devel/pulp_container"
+  pulp-file:
+    source_dir: "/home/vagrant/devel/pulp_file"
   # pulp-gem:
   #   source_dir: "/home/vagrant/devel/pulp_gem"
   # pulp-maven:
@@ -23,8 +27,6 @@ pulp_install_plugins:
   #   source_dir: "/home/vagrant/devel/pulp_python"
   # pulp-rpm:
   #   source_dir: "/home/vagrant/devel/pulp_rpm"
-  pulp-file:
-    source_dir: "/home/vagrant/devel/pulp_file"
 
 # Vagrant source install Required
 pulp_user: "vagrant"
