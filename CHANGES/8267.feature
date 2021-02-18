@@ -1,0 +1,1 @@
+The `pulp_content_workers` option can be used to adjust the number of Gunicorn worker processes handling content app requests.

@@ -20,7 +20,7 @@ RuntimeDirectory=pulpcore-content
 ExecStart={{ __pulp_daemons_dir }}/gunicorn pulpcore.content:server \
           --bind '{{ pulp_content_bind }}' \
           --worker-class 'aiohttp.GunicornWebWorker' \
-          -w 2 \
+          --workers {{ pulp_content_workers }} \
           --timeout 90 \
           --access-logfile -
 

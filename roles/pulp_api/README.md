@@ -10,9 +10,7 @@ Role Variables
   listen.](https://docs.gunicorn.org/en/stable/settings.html#bind)
   One can specify a unix socket path instead (recommended value is `'unix:/var/run/pulpcore-api/pulpcore-api.sock'`).
   Defaults to `'127.0.0.1:24817'`.
-* `pulp_api_workers`: Number of Pulp Content `gunicorn` processes for handling requests. Defaults to 1.
-  Used to render the `pulpcore-api.service.j2` template, passing to the `--workers` parameter of the
-  gunicorn service.
+* `pulp_api_workers`: Number of `gunicorn` processes for handling Pulp API requests. Defaults to 1.
 * `pulp_token_auth_key`: Location of the openssl private key (in pem format) to use for token
   authentication. If not specified, a new key wil be generated.
 
