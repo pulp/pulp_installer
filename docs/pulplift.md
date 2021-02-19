@@ -120,3 +120,57 @@ For example:
 vagrant up centos7
 ansible-playbook -i forklift/inventories/ -l centos7 my-pulp-install.yaml
 ```
+
+## Configuring Vagrant to run on a HDD
+
+Vagrant boxes that are libvirt-based use storage-pool to for VMs that are created. So to get a
+libvirt based pulp_installer box running on a HDD disk you need to:
+
+1. Create a new storage pool on your HDD
+2. Configure Vagrant to use that storage pool
+
+### Creating a new storage pool on your spinny disk
+
+1. Have a mounted, HDD, e.g. mine is mounted at: `/run/media/bmbouter/2TB\ External/`
+2. I wanted to have the VMs use a specific directory, so I manually created `/run/media/bmbouter/2TB\ External/slow_pool`.
+4. Use the interactive `virsh` tool to create a pool, e.g. `pool-define-as slow_pool --type dir --target /run/media/bmbouter/2TB\ External/slow_pool`
+5. Start the pool using `virsh` to run `pool-start slow_pool`.
+6. You could also mark the pool to auto-start with `pool-autostart slow_pool`.
+
+Now you have the `slow_pool`.
+
+### Give Vagrant the `storage_pool_name` option
+
+For pulp_installer this can only be done on the vagrant "box definition" itself. The
+`local.dev-config.yml` and `local.user-config.yml` files only specifies Ansible variables. These are
+not the same as Vagrant box definitions, which for [the pulp_installer live here](https://github.com/pulp/pulp_installer/tree/master/vagrant/boxes.d)
+
+This is documentation for libvirt backends, and we're going to be using the `storage_pool_name`
+which is an option for `libvirt_options`. The docs referring to this are [here](https://github.com/vagrant-libvirt/vagrant-libvirt#provider-options).
+
+In my case I wanted to modify the `pulp2-nightly-pulp3-source-centos7` box, so I applied this diff:
+
+```
+diff --git a/vagrant/boxes.d/30-source.yaml b/vagrant/boxes.d/30-source.yaml
+index 72b70b4..68876cc 100644
+--- a/vagrant/boxes.d/30-source.yaml
++++ b/vagrant/boxes.d/30-source.yaml
+@@ -40,6 +40,8 @@ pulp2-nightly-pulp3-source-centos7:
+     reverse: False
+   memory: 10500
+   cpus: 4
++  libvirt_options:
++    storage_pool_name: "slow_pool"
+   ansible:
+     playbook:
+       - "pulp-ci/ci/ansible/pulp_server.yaml"
+```
+
+Then I ran `vagrant up pulp2-nightly-pulp3-source-centos7`. I knew it worked because it showed me:
+
+```
+<snip>
+==> pulp2-nightly-pulp3-source-centos7:  -- Storage pool:      slow_pool
+==> pulp2-nightly-pulp3-source-centos7:  -- Image:             /run/media/bmbouter/2TB External/slow_pool/pulp_installer_pulp2-nightly-pulp3-source-centos7.img (128G)
+<snip>
+```
