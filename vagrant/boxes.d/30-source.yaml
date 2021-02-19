@@ -4,7 +4,8 @@ pulp3-source-fedora32:
     host_path: '..'
     guest_path: '/home/vagrant/devel'
     reverse: False
-  memory: 4096
+  memory: 6144
+  cpus: 4
   ansible:
     playbook: "vagrant/playbooks/source-install.yml"
     galaxy_role_file: "requirements.yml"
@@ -15,7 +16,8 @@ pulp3-source-fedora33:
     host_path: '..'
     guest_path: '/home/vagrant/devel'
     reverse: False
-  memory: 4096
+  memory: 6144
+  cpus: 4
   ansible:
     playbook: "vagrant/playbooks/source-install.yml"
     galaxy_role_file: "requirements.yml"
@@ -26,7 +28,8 @@ pulp3-source-centos7:
     host_path: '..'
     guest_path: '/home/vagrant/devel'
     reverse: False
-  memory: 4096
+  memory: 6144
+  cpus: 4
   ansible:
     playbook: "vagrant/playbooks/source-install.yml"
     galaxy_role_file: "requirements.yml"
@@ -38,7 +41,7 @@ pulp2-nightly-pulp3-source-centos7:
     host_path: '..'
     guest_path: '/home/vagrant/devel'
     reverse: False
-  memory: 10500
+  memory: 10240
   cpus: 4
   ansible:
     playbook:
@@ -58,7 +61,8 @@ pulp3-source-centos7-fips:
     host_path: '..'
     guest_path: '/home/vagrant/devel'
     reverse: False
-  memory: 4096
+  memory: 6144
+  cpus: 4
   ansible:
     playbook: "vagrant/playbooks/source-install.yml"
     galaxy_role_file: "requirements.yml"
@@ -70,7 +74,8 @@ pulp3-source-centos8:
     host_path: '..'
     guest_path: '/home/vagrant/devel'
     reverse: False
-  memory: 4096
+  memory: 6144
+  cpus: 4
   ansible:
     playbook: "vagrant/playbooks/source-install.yml"
     galaxy_role_file: "requirements.yml"
@@ -81,7 +86,8 @@ pulp3-source-centos8-fips:
     host_path: '..'
     guest_path: '/home/vagrant/devel'
     reverse: False
-  memory: 4096
+  memory: 6144
+  cpus: 4
   ansible:
     playbook: "vagrant/playbooks/source-install.yml"
     galaxy_role_file: "requirements.yml"
@@ -93,7 +99,8 @@ pulp3-source-centos8-stream:
     host_path: '..'
     guest_path: '/home/vagrant/devel'
     reverse: False
-  memory: 4096
+  memory: 6144
+  cpus: 4
   ansible:
     playbook: "vagrant/playbooks/source-install.yml"
     galaxy_role_file: "requirements.yml"
@@ -104,7 +111,8 @@ pulp3-source-debian10:
     host_path: '..'
     guest_path: '/home/vagrant/devel'
     reverse: True
-  memory: 4096
+  memory: 6144
+  cpus: 4
   ansible:
     playbook: "vagrant/playbooks/source-install.yml"
     galaxy_role_file: "requirements.yml"
@@ -115,7 +123,8 @@ pulp3-source-debian-testing:
     host_path: '..'
     guest_path: '/home/vagrant/devel'
     reverse: True
-  memory: 4096
+  memory: 6144
+  cpus: 4
   ansible:
     playbook: "vagrant/playbooks/source-install.yml"
     galaxy_role_file: "requirements.yml"

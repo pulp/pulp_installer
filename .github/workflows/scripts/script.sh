@@ -10,9 +10,6 @@ if [ $(id -gn) != $group ]; then
   exec sg $group "$0 $*"
 fi
 
-sed -i -e 's/memory: 10500/memory: 5500/g' vagrant/boxes.d/*
-sed -i -e 's/cpus: 4/cpus: 2/g' vagrant/boxes.d/*
-
 unset GEM_PATH
 unset GEM_HOME
 

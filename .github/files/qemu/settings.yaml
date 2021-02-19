@@ -4,3 +4,5 @@ domain: lan
 libvirt_options:
   driver: "qemu"
   volume_cache: unsafe
+  cpus: 2
+  memory: 4096
