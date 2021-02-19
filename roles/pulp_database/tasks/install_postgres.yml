@@ -2,7 +2,10 @@
 - block:
     - name: Install SCL package
       package:
-        name: 'centos-release-scl'
+        name:
+          - 'scl-utils'
+          - 'centos-release-scl-rh'
+          - 'centos-release-scl'
         state: present
       when:
         - ansible_facts.distribution == 'CentOS'
@@ -10,7 +13,7 @@
 
     - name: Install PostgreSQL SCL
       package:
-        name: 'rh-postgresql96'
+        name: "{{ postgresql_packages }}"
         state: present
       when:
         - ansible_facts.distribution == 'CentOS'
@@ -23,6 +26,24 @@
       when:
         - ansible_facts.distribution == 'CentOS'
         - ansible_facts.distribution_major_version|int == 7
+
+    - name: Check if PostgreSQL database is initialized.
+      stat:
+        path: "{{ postgresql_data_dir }}/PG_VERSION"
+      register: pgdata_dir_version
+
+    - name: Ensure PostgreSQL database is initialized.
+      shell: >-
+        source scl_source enable rh-postgresql10
+        && {{ postgresql_bin_path }}/initdb -D {{ postgresql_data_dir }}
+      when:
+        - not pgdata_dir_version.stat.exists
+        - ansible_facts.distribution == 'CentOS'
+        - ansible_facts.distribution_major_version|int == 7
+      become: true
+      become_user: "{{ postgresql_user }}"
+      vars:
+        ansible_ssh_pipelining: true
 
     - name: Install and configure PostgreSQL
       include_role:
