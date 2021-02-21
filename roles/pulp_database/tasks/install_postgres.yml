@@ -1,25 +1,11 @@
 ---
 - block:
-    - name: Install SCL package
-      package:
-        name: 'centos-release-scl'
-        state: present
-      when:
-        - ansible_facts.distribution == 'CentOS'
-        - ansible_facts.distribution_major_version|int == 7
-
-    - name: Install PostgreSQL SCL
-      package:
-        name: 'rh-postgresql96'
-        state: present
-      when:
-        - ansible_facts.distribution == 'CentOS'
-        - ansible_facts.distribution_major_version|int == 7
-
-    - name: Enable PostgreSQL SCL
-      template:
-        src: templates/postgresql_scl_profile.j2
-        dest: "{{ postgresql_profile_path }}"
+    - name: Install PostgreSQL10 Repository
+      yum_repository:
+        name: postgres
+        description: Postgres YUM repo
+        baseurl: "https://download.postgresql.org/pub/repos/yum/10/redhat/rhel-7-{{ ansible_facts.architecture }}"
+        gpgkey: https://download.postgresql.org/pub/repos/yum/RPM-GPG-KEY-PGDG-10
       when:
         - ansible_facts.distribution == 'CentOS'
         - ansible_facts.distribution_major_version|int == 7
@@ -27,4 +13,14 @@
     - name: Install and configure PostgreSQL
       include_role:
         name: geerlingguy.postgresql
+
+    - name: Create pg_config symbolic link
+      file:
+        src: "{{ postgresql_bin_path }}/pg_config"
+        dest: "/usr/bin/pg_config"
+        state: link
+      check_mode: false
+      when:
+        - ansible_facts.distribution == 'CentOS'
+        - ansible_facts.distribution_major_version|int == 7
   become: yes

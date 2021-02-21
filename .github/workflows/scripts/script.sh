@@ -20,11 +20,6 @@ export LANG=en_US.UTF-8
 sudo localectl status
 localectl status
 
-# Workaround https://pulp.plan.io/issues/8095 until fixed.
-if [[ "$1" == *"fips" ]] ; then
-  cp .github/files/fips/requirements.yml ./requirements.yml
-fi
-
 # This comamnd does include vagrant-sshfs getting run, and thus using epel.
 # --no-tty --machine-readable and the grep is an overall approach to avoid clutter
 # in the output during box download, it would do a progress bar.
