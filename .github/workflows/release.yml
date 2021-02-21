@@ -94,6 +94,9 @@ jobs:
       - name: Run Vagrant
         shell: bash
         run: .github/workflows/scripts/script.sh ${{ matrix.test_type }}
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
       - name: After failure
         if: failure()
         run: .github/workflows/scripts/after_failure.sh ${{ matrix.test_type }}
