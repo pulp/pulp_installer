@@ -14,12 +14,14 @@
 
     - name: 'Ensure that /usr/local/share/selinux/{{ ansible_facts.selinux.type }} exists'
       file:
-        path: '/usr/local/share/selinux/{{ ansible_facts.selinux.type }}'
+        path: "{{ item }}"
         state: directory
-        recurse: true
         mode: 0755
         owner: root
         group: root
+      with_items:
+        - '/usr/local/share/selinux'
+        - '/usr/local/share/selinux/{{ ansible_facts.selinux.type }}'
 
     - name: Clone SELinux policy from Git
       git:
