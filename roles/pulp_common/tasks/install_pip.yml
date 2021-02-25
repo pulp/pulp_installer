@@ -197,7 +197,7 @@
     - name: Install patched versions of dependencies (FIPS only)
       pip:
         name:
-          - git+https://github.com/mdellweg/django.git@fips
+          - git+https://github.com/pulp/django.git@fips
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
       when: ansible_fips
