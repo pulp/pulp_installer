@@ -1,6 +1,0 @@
----
-roles:
-  - name: geerlingguy.postgresql
-    version: 2.2.1
-collections:
-  - ansible.posix

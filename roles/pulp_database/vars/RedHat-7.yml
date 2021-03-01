@@ -1,8 +1,18 @@
 ---
-# vars needed for 'rh-postgresql96' SCL
-postgresql_packages: rh-postgresql96
-postgresql_daemon: rh-postgresql96-postgresql
-postgresql_bin_path: /opt/rh/rh-postgresql96/root/bin
-postgresql_data_dir: /var/opt/rh/rh-postgresql96/lib/pgsql/data
-postgresql_config_path: /var/opt/rh/rh-postgresql96/lib/pgsql/data
-postgresql_profile_path: /etc/profile.d/enablepostgresql96.sh
+# vars needed for 'rh-postgresql10' SCL
+__postgresql_version: "10"
+postgresql_user: postgres
+postgresql_packages:
+  - rh-postgresql10
+  - rh-postgresql10-postgresql
+  - rh-postgresql10-postgresql-server
+  - rh-postgresql10-postgresql-libs
+  - rh-postgresql10-postgresql-contrib
+  - rh-postgresql10-postgresql-devel
+postgresql_daemon: rh-postgresql10-postgresql
+postgresql_previous_daemon: rh-postgresql96-postgresql
+postgresql_bin_path: /opt/rh/rh-postgresql10/root/bin
+postgresql_data_dir: /var/opt/rh/rh-postgresql10/lib/pgsql/data
+postgresql_previous_data_dir: /var/opt/rh/rh-postgresql96/lib/pgsql/data
+postgresql_config_path: /var/opt/rh/rh-postgresql10/lib/pgsql/data
+postgresql_profile_path: /etc/profile.d/enablepostgresql10.sh
