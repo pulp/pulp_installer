@@ -28,24 +28,13 @@ curl -L --output $VAGRANT_SSHFS_DEB http://mirrors.kernel.org/ubuntu/pool/univer
 sudo apt install ./$VAGRANT_SSHFS_DEB
 rm ./$VAGRANT_SSHFS_DEB
 
-# This PPA doesn't exist for 20.04 (focal)
-if grep -i bionic /etc/os-release ; then
-  sudo apt-add-repository --yes --update ppa:ansible/ansible
-fi
-
 # Updating ansible past 2.9.6 (to 2.9.8+) is necessary to manage Fedora 32:
 # https://github.com/ansible/ansible/pull/68211
 # And to 2.9.16 for a bug with managing systemd
 # https://github.com/ansible/ansible/issues/71528#issuecomment-729778048
-if grep -i focal /etc/os-release ; then
-  # The 21.04 version.
-  ANSIBLE_DEB=ansible_2.9.16+dfsg-1.1_all.deb
-  curl -L --output $ANSIBLE_DEB http://mirrors.kernel.org/ubuntu/pool/universe/a/ansible/$ANSIBLE_DEB
-  sudo apt install ./$ANSIBLE_DEB
-  sudo rm ./$ANSIBLE_DEB
-else
-  sudo apt install ansible
-fi
+sudo apt remove ansible
+pip3 install -U pip
+pip3 install "ansible>2.9.15,<3"
 
 # qemu-kvm has gone from a tiny package to a virtual package in Qemu 5.2.
 # Workaround the PPA's virtual package not existing or properly depending on qemu-system-x86.
@@ -97,8 +86,3 @@ df -hl
 cat /proc/cpuinfo
 sudo apt install virt-what
 sudo virt-what
-
-# For the source tests
-cd ..
-git clone https://github.com/pulp/pulpcore
-git clone https://github.com/pulp/pulp_file
