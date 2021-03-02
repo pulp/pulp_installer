@@ -92,12 +92,24 @@ jobs:
       - uses: actions/checkout@v2.3.1
         with:
           submodules: true
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
       - name: Install Vagrant
         shell: bash
-        run: .github/workflows/scripts/install.sh ${{ matrix.test_type }}
+        run: |
+          .github/workflows/scripts/install.sh ${{ matrix.test_type }}
+          # For the source tests
+          cd ..
+          git clone https://github.com/pulp/pulpcore
+          git clone https://github.com/pulp/pulp_file
       - name: Run Vagrant
         shell: bash
         run: .github/workflows/scripts/script.sh ${{ matrix.test_type }}
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
       - name: After failure
         if: failure()
         run: .github/workflows/scripts/after_failure.sh ${{ matrix.test_type }}
