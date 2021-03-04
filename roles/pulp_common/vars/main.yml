@@ -33,14 +33,8 @@ __pulp_common_pulp_settings_defaults:
   public_key_path: "{{ pulp_certs_dir }}/token_public_key.pem"
   token_server: "{{ pulp_webserver_disable_https | default(false) | ternary('http', 'https') }}://{{ ansible_facts.fqdn }}/token"
   token_signature_algorithm: ES256
-__pulp_common_pulp_settings_fips_defaults:
-  allowed_content_checksums:
-    - sha1
-    - sha224
-    - sha256
-    - sha384
-    - sha512
-__pulp_common_merged_pulp_settings: "{{ __pulp_common_pulp_settings_defaults | combine(ansible_fips | ternary(__pulp_common_pulp_settings_fips_defaults, {}), pulp_settings, recursive=True) }}"
+
+__pulp_common_merged_pulp_settings: "{{ __pulp_common_pulp_settings_defaults | combine(pulp_settings, recursive=True) }}"
 
 __pulp_version: '{{ pulpcore_version | default("3.10.0") }}'
 
