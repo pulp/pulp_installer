@@ -100,6 +100,9 @@ jobs:
           cd ..
           git clone https://github.com/pulp/pulpcore
           git clone https://github.com/pulp/pulp_file
+      - name: Add pulp box
+        shell: bash
+        run: .github/workflows/scripts/before_script.sh ${{ matrix.test_type }}
       - name: Run Vagrant
         shell: bash
         run: .github/workflows/scripts/script.sh ${{ matrix.test_type }}
