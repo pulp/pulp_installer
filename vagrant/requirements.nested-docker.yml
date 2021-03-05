@@ -1,0 +1,7 @@
+---
+# pulp_installer's requirements.yml, but with the docker role added for certain boxes that need it.
+roles:
+  - geerlingguy.docker
+  - geerlingguy.postgresql
+collections:
+  - ansible.posix

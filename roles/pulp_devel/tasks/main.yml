@@ -32,6 +32,7 @@
 
 - import_tasks: install_podman.yml
   become: true
+  when: pulp_devel_install_podman
 
 - import_tasks: install_docs_requirements.yml
   become: true

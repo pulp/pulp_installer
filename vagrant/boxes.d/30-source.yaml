@@ -48,12 +48,92 @@ pulp2-nightly-pulp3-source-centos7:
       - "pulp-ci/ci/ansible/pulp_server.yaml"
       - "vagrant/playbooks/source-install.yml"
     variables:
-      # The pulp2 playbook is missing more fine graned privilege control
+      # The pulp2 playbook is missing more fine-grained privilege control
       ansible_become: true
       pulp_build: 'nightly'
       pulp_version: '2.21'
       pulp_webserver_server: 'apache'
     galaxy_role_file: "requirements.yml"
+
+# Update the Travis scripts whenever you update the RAM/CPU values
+#
+# The design of pulp2-nightly-pulp3-source-fips-a & pulp2-nightly-pulp3-source-fips-b is as follows:
+# 1. pulp2-nightly-pulp3-source-fips-a is a VM that runs pulp 3 in FIPS mode,
+#    and potentially SELinux in the future.
+# 2. pulp2-nightly-pulp3-source-fips-b is a container that runs pulp 2 in FIPS mode.
+# 3. a runs docker, and b uses the vagrant docker provider, which can use a VM
+#    as the docker host (force_host_vm). It is uncommon to use a functional box
+#    as the docker host (normally boot2docker), but supported.
+# 4. We want to make sure the container never tries to do NFS to the host,
+#    as we assume the host doesn't run it. (Although even then the container
+#    networking might be an issue.)
+# 5. Because of #4 and for performance, we pre-build the image. We do not want
+#    to make the host build the image (host_vm_build_dir_options), because it
+#    would invoke NFS.
+# 6. Users must run separate commands to up a, then b, the 1st time.
+#    This is because we add user "vagrant" user to the "docker" group
+#    during ansible provisioning of a, and Vagrant would otherwise maintain
+#    a persistent SSH connection from the beginning of up'ing a, that never gets
+#    reset/newgrp'd to recognize the new group membership, even after it starts
+#    up'ing b.
+#
+pulp2-nightly-pulp3-source-fips-a:
+  box: 'centos8-fips'
+  sshfs:
+    host_path: '..'
+    guest_path: '/home/vagrant/devel'
+    reverse: False
+  memory: 10240
+  cpus: 4
+  ansible:
+    playbook:
+      - "vagrant/playbooks/source-install.yml"
+      - "vagrant/playbooks/host-pulp2.yml"
+    variables:
+      # The pulp2 playbook is missing more fine-grained privilege control
+      pulp_webserver_server: 'apache'
+      pulp_devel_install_podman: false
+    galaxy_role_file: "vagrant/requirements.nested-docker.yml"
+
+# Update the Travis scripts whenever you update the RAM/CPU values
+pulp2-nightly-pulp3-source-fips-b:
+  provider: docker
+  docker_options:
+    image: quay.io/mikedep333/vagrant-pulp2:latest
+    cmd:
+      - /usr/sbin/init
+    has_ssh: True
+    name: centos7-pulp2
+    remains_running: True
+    force_host_vm: True
+    ports:
+      - "127.0.0.1:27017:27017"
+    vagrant_machine: pulp2-nightly-pulp3-source-fips-a
+    vagrant_vagrantfile: ./Vagrantfile
+    volumes:
+      - "/var/lib/pulp:/var/lib/pulp"
+      - "/etc/system-fips:/etc/system-fips:ro"
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+      - "/run"
+      - "/run/lock"
+  synced_folders:
+    - path: ".."
+      mount_point: "/home/vagrant/devel"
+      options:
+        type: "sshfs"
+    - path: "."
+      mount_point: "/vagrant"
+      disabled: true
+      options:
+        disabled: true
+  ansible:
+    playbook:
+      - "pulp-ci/ci/ansible/pulp_server.yaml"
+    variables:
+      # The pulp2 playbook is missing more fine-grained privilege control
+      ansible_become: true
+      pulp_build: 'nightly'
+      pulp_version: '2.21'
 
 pulp3-source-centos7-fips:
   box: 'centos7-fips'

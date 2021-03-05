@@ -91,6 +91,40 @@ If using libvirt, the [vagrant-sshfs](https://github.com/dustymabe/vagrant-sshfs
 vagrant up pulp3-source-centos7
 ```
 
+#### FIPS box pair
+
+The following source/development boxes are meant to be run together as a pair:
+- pulp2-nightly-pulp3-source-fips-a (Pulp 3 **VM**)
+- pulp2-nightly-pulp3-source-fips-b (Pulp 2 **container** that runs **on top** of the "a" VM)
+
+
+To create or start them, this is the shortest command:
+```
+vagrant up pulp2-nightly-pulp3-source-fips-a && vagrant up --provider docker pulp2-nightly-pulp3-source-fips-b || vagrant up --provider docker pulp2-nightly-pulp3-source-fips-b
+```
+
+You will then do your Pulp 3 development on the A box, which includes the mongo client:
+```
+vagrant ssh pulp2-nightly-pulp3-source-fips-a
+```
+
+To destroy them, you must destroy b 1st, and you may need to force it:
+```
+vagrant destroy --force pulp2-nightly-pulp3-source-fips-b && vagrant destroy --force pulp2-nightly-pulp3-source-fips-a
+```
+
+NOTE: We repeat the command to work around a net-ssh ["poll_next_packet' padding error"](https://github.com/hashicorp/vagrant/issues/3951#issuecomment-73057077) that is triggered about 50% of the time, the 1st time it is run only.
+
+If you ever run into a situation where Vagrant cannot enumerate the VMs at all (`vagrant status`) because it cannot talk to the docker host (a), run one of the following:
+- vagrant up pulp2-nightly-pulp3-source-fips-a
+- vagrant destroy --force pulp2-nightly-pulp3-source-fips-b
+
+If using libvirt, the [vagrant-sshfs](https://github.com/dustymabe/vagrant-sshfs#install-plugin) plugin must be installed to mount.
+
+NOTE: FIPS is not supported by Pulp. These FIPS boxes, like all the other boxes with "fips" in their
+name, are provided for those who would like test their plugins in FIPS environment and
+potentially apply their own FIPS patches to Django.
+
 ## Ansible
 
 Any of the `pulp3` labeled boxes will both spin-up and provision the labeled Ansible installation

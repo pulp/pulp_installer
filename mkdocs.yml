@@ -12,7 +12,6 @@ nav:
   - contributing.md
   - pulplift.md
   - Let's Encrypt: letsencrypt.md
-  - FIPS: fips.md
   - Changelog: CHANGES.md
   - Roles:
       - Pulp Common: roles/pulp_common.md
