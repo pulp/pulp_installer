@@ -32,6 +32,15 @@
   loop_control:
     loop_var: __pulp_common_req_var
 
+- name: Check required roles if FIPS detected
+  assert:
+    that:
+      - "'pulp_devel' in role_names"
+    fail_msg: >
+      Pulp cannot run in a FIPS environment because Django (a dependency) is not FIPS
+      compatible
+  when: ansible_facts.fips
+
 - name: Load OS specific variables
   include_vars: "{{ lookup('first_found', params) }}"
   vars:

@@ -194,14 +194,6 @@
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
       when: prereq_pip_packages | length > 0
 
-    - name: Install patched versions of dependencies (FIPS only)
-      pip:
-        name:
-          - git+https://github.com/pulp/django.git@fips
-        virtualenv: '{{ pulp_install_dir }}'
-        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
-      when: ansible_fips
-
     - name: Install pulpcore via PyPI
       pip:
         name: pulpcore
@@ -249,6 +241,16 @@
       pip_package_info:
         clients: "{{ pulp_install_dir }}/bin/pip"
       register: pip_pkgs
+
+    - name: Patch md5usedforsecurity in Django (devel only)
+      shell: |
+        django_location=$({{ pulp_install_dir }}/bin/pip3 show Django | grep Location | cut -d' ' -f2)
+        sed -i 's/hashlib.md5()/hashlib.md5(usedforsecurity=False)/' "$django_location/django/db/backends/utils.py"
+      when:
+        - "'pulp_devel' in role_names"
+        - ansible_facts.distribution in ['RedHat', 'CentOS'] or ansible_facts.python_version is version('3.9', '>=')
+      check_mode: false
+      changed_when: false
 
     # Needed because dynaconf bundles box, but dynaconf<3.1.1 conflicts with normally installed
     # box.
