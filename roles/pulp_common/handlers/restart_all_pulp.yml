@@ -30,3 +30,4 @@
   file:
     path: '{{ __pulp_old_artifact_dir }}'
     state: absent
+  become: true
