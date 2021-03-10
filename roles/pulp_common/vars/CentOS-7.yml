@@ -4,7 +4,7 @@ pulp_preq_packages:
   - python36-devel
   - python-setuptools
   - libselinux-python  # For ansible itself
-  - policycoreutils-python # For ansible itself
+  - policycoreutils-python  # For ansible itself
   - postgresql-devel
   - gcc                # For psycopg2
   - make               # For make docs, and SELinux policy install

@@ -1,12 +1,15 @@
 ---
 
-- debug:
+- name: pulp_install_plugins
+  debug:
     var: pulp_install_plugins
     verbosity: 1
-- debug:
+- name: pulp_install_plugins_normalized_yml
+  debug:
     var: pulp_install_plugins_normalized_yml
     verbosity: 1
-- debug:
+- name: pulp_install_plugins_normalized
+  debug:
     var: pulp_install_plugins_normalized
     verbosity: 1
 
