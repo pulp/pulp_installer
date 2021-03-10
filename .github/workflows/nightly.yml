@@ -82,8 +82,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - test_type: pulp3-sandbox-centos7-fips
-          - test_type: pulp3-sandbox-centos8-fips
           - test_type: pulp3-source-centos8-fips
           - test_type: pulp3-source-centos7-fips
           - test_type: pulp3-source-fedora32
