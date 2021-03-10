@@ -9,3 +9,5 @@ exclude_paths:
   - ./.github/
   - ./vagrant/
   - ./.vagrant/
+  - ./molecule/
+  - ./.cache/roles/geerlingguy.postgresql/

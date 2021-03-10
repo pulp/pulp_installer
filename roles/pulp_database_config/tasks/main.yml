@@ -19,7 +19,8 @@
   loop_control:
     loop_var: __pulp_database_config_req_variable
 
-- meta: flush_handlers
+- name: Flush handlers
+  meta: flush_handlers
 
 - block:
     - name: Run database migrations

@@ -22,7 +22,7 @@
 
 # shell for handling '*' in the dir name
 - name: Restore SELinux contexts on Pulp dirs that may exist
-  shell: '/sbin/fixfiles restore {{ __pulp_selinux_label_dirs_optional | join(" ") }}' # noqa 305
+  shell: '/sbin/fixfiles restore {{ __pulp_selinux_label_dirs_optional | join(" ") }}'  # noqa 305
   become: true
   register: result
   changed_when: result.rc == 0

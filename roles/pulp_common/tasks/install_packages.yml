@@ -55,7 +55,7 @@
     - name: Upgrade all existing installed Pulp packages
       yum:
         name: "{{ updates.results | map(attribute='name')|list }}"
-        state: latest # noqa 403
+        state: latest  # noqa 403
         conf_file: "{{ __dnf_conf.path | default(omit) }}"
         # update_only is a needed part of installing older updates
         update_only: true
