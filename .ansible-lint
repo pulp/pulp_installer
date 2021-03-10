@@ -10,13 +10,5 @@ exclude_paths:
   - ./.github/
   - ./vagrant/
   - ./.vagrant/
-  - ./molecule/default/requirements.yml
-  - ./molecule/packages-dynamic/requirements.yml
-  - ./molecule/packages-static/requirements.yml
-  - ./molecule/packages-upgrade/requirements.yml
-  - ./molecule/release-dynamic/requirements.yml
-  - ./molecule/release-static/requirements.yml
-  - ./molecule/release-upgrade/requirements.yml
-  - ./molecule/source-dynamic/requirements.yml
-  - ./molecule/source-static/requirements.yml
-  - ./molecule/source-upgrade/requirements.yml
+  - ./molecule/
+  - ./.cache/roles/geerlingguy.postgresql/

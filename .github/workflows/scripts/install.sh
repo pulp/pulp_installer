@@ -34,7 +34,7 @@ rm ./$VAGRANT_SSHFS_DEB
 # https://github.com/ansible/ansible/issues/71528#issuecomment-729778048
 sudo apt remove ansible
 pip3 install -U pip
-pip3 install "ansible>2.9.15,<3"
+pip3 install "ansible>2.9.15"
 
 # qemu-kvm has gone from a tiny package to a virtual package in Qemu 5.2.
 # Workaround the PPA's virtual package not existing or properly depending on qemu-system-x86.

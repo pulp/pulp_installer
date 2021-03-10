@@ -20,7 +20,8 @@
     - pulp_webserver_tls_cert | length or pulp_webserver_tls_key | length
     - not pulp_webserver_tls_cert | length or not pulp_webserver_tls_key | length
 
-- debug:
+- name: Python interpreter
+  debug:
     msg: >
       {{ (pulp_install_source == "packages") | ternary(pulp_python_interpreter, pulp_install_dir ~ "/bin/python") }}
     verbosity: 1
@@ -115,4 +116,5 @@
   when: pulp_configure_firewall in ['firewalld', 'auto']
 
 # In case an ACME role relies on a change made in pulp_webserver.
-- meta: flush_handlers
+- name: Flush handlers
+  meta: flush_handlers
