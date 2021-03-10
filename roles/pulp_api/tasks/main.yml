@@ -63,14 +63,4 @@
       when:
         - (ansible_version.major > 2) or (ansible_version.major == 2 and ansible_version.minor >= 9)
 
-    - name: Extract token authentication public key (ansible 2.8 workaround)
-      command:
-        cmd: "openssl ec -in {{ pulp_certs_dir }}/token_private_key.pem -pubout -out {{ pulp_certs_dir }}/token_public_key.pem"
-        creates: "{{ pulp_certs_dir }}/token_public_key.pem"
-      become: true
-      become_user: "{{ pulp_user }}"
-      when:
-        - ansible_version.major == 2
-        - ansible_version.minor < 9
-
   when: pulp_install_api_service | bool
