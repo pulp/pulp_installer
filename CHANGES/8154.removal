@@ -1,0 +1,2 @@
+Require postgreSQL >= 10 due to FIPS
+Upgrade postgreSQL 9.6 to postgreSQL 10 on CentOS 7
