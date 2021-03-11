@@ -46,6 +46,7 @@
     - Restart all Pulp services
   environment:
     PULP_SETTINGS: "{{ pulp_settings_file }}"
+    LD_LIBRARY_PATH: "{{ pulp_ld_library_path }}"
 
 - name: Restore SELinux contexts on Pulp asset dirs
   command: '/sbin/fixfiles restore {{ pulp_user_home }}/assets'

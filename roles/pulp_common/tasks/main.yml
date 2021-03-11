@@ -72,13 +72,21 @@
   # pipefail is not needed due to grep's rc, but it resolves ansible-lint 306
   shell: |
     set -o pipefail
-    systemctl show-environment | grep -E '^PATH=' | sed 's/PATH=//g'
+    export PATH=$(systemctl show-environment | grep -E '^PATH=' | sed 's/PATH=//g')
+    if [[ -f "/opt/rh/rh-postgresql10/enable" ]]; then
+      source /opt/rh/rh-postgresql10/enable
+    fi
+    echo $PATH
   args:
     # Debian defaults to bourne, but it doesn't understand pipefail.
     executable: /bin/bash
   changed_when: false
   register: systemd_show_env_path
   check_mode: false
+
+- name: systemd_show_env_path
+  debug:
+    var: systemd_show_env_path
 
 - name: set the default system PATH as a fact
   set_fact:
