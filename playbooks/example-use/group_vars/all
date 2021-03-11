@@ -2,6 +2,7 @@
 pulp_default_admin_password: password
 pulp_install_plugins:
   # galaxy-ng: {}
+  # pulp-2to3-migration: {}
   # pulp-ansible: {}
   # pulp-certguard: {}
   # pulp-container: {}

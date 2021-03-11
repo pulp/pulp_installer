@@ -11,6 +11,7 @@ pulp_install_plugins:
   pulp-file: {}
   # pulp-gem: {}
   # pulp-maven: {}
+  # pulp-npm: {}
   # pulp-python: {}
   # pulp-rpm: {}
 

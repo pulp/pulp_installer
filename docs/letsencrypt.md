@@ -72,6 +72,7 @@ vim install.yml
     pulp_default_admin_password: << YOUR PASSWORD HERE >>
     pulp_install_plugins:
       # galaxy-ng: {}
+      # pulp-2to3-migration: {}
       # pulp-ansible: {}
       # pulp-certguard: {}
       # pulp-container: {}

@@ -12,3 +12,4 @@ exclude_paths:
   - ./.vagrant/
   - ./molecule/
   - ./.cache/roles/geerlingguy.postgresql/
+  - ./example.dev-config.yml
