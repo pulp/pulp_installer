@@ -4,6 +4,8 @@ pulp_source_dir: '/var/lib/pulp/devel/pulpcore'
 pulp_install_plugins:
   # galaxy-ng:
   #   source_dir: "/var/lib/pulp/devel/galaxy_ng"
+  # pulp-2to3-migration:
+  #   source_dir: "/var/lib/pulp/devel/pulp-2to3-migration"
   # pulp-ansible:
   #   source_dir: "/var/lib/pulp/devel/pulp_ansible"
   # pulp-certguard:
