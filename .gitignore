@@ -5,6 +5,8 @@
 /vagrant/playbooks/roles/geerlingguy.postgresql
 local.*-config.yml
 .github/Containerfile_*
+build/
+*.tar.gz
 
 # Ignores for Vagrant related items
 .vagrant/

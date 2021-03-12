@@ -1,5 +1,5 @@
 ---
-name: Pulp CI
+name: Pulp Nightly CI
 on:
   schedule:
     # * is a special character in YAML so you have to quote this string
