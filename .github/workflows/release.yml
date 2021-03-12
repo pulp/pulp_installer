@@ -1,5 +1,5 @@
 ---
-name: Pulp CI
+name: Pulp Release CI
 on:
   push:
     tags:
@@ -76,6 +76,24 @@ jobs:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
         shell: bash
+
+  release:
+    runs-on: ubuntu-latest
+    needs: molecule
+    if: github.repository == 'pulp/pulp_installer'
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+      - name: Install Ansible
+        run: pip install --upgrade ansible
+      - name: Build Ansible Collection
+        run: make dist
+      - name: Deploy Ansible Collection
+        run: make publish GALAXY_API_KEY=${{ secrets.GALAXY_API_KEY }}
+
   vagrant:
     runs-on: ubuntu-20.04
     strategy:
