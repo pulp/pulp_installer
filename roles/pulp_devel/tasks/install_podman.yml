@@ -7,6 +7,9 @@
   when:
     - ansible_facts.distribution == 'Debian'
     - ansible_facts['distribution_major_version'] == "10"
+  retries: 3
+  register: result
+  until: result is succeeded
 
 - name: Ensure podman repository (Debian-specific)
   apt_repository:
