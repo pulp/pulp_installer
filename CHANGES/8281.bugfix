@@ -1,1 +1,0 @@
-Fix pulp_installer, on SELinux-enabled systems, not being idemopotent and always restoring SELinux contexts.

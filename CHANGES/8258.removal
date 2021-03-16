@@ -1,1 +1,0 @@
-FIPS support is removed due to Django (a dependency of Pulp) not being FIPS compatible.
