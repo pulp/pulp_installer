@@ -20,7 +20,7 @@ must be one of these currently supported operating systems:
 
 - CentOS 7
 - Debian Buster (needs `allow_world_readable_tmpfiles = True` in ansible.cfg)
-- Fedora 30 or later
+- Fedora 32 or later
 
 The managed node cannot provide any other service on the same hostname as Pulp's API. The only
 exception is Pulp 2. The RESP APIs for Pulp 2 and Pulp 3 can be served on the same hostname as

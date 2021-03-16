@@ -11,26 +11,6 @@
       become: true
   when: source_workarounds | default(false)
 
-# Addresses both of these sporadic dnf failures, which affect the vagrant
-# box that never gets updated past GA release.
-# https://bodhi.fedoraproject.org/updates/FEDORA-2019-ae52a20ff6
-# https://bodhi.fedoraproject.org/updates/FEDORA-2019-13479b151a
-- name: Update Fedora 30 dnf stack
-  dnf:
-    name:
-      - curl
-      - librepo
-      - dnf
-    state: latest
-  become: true
-  retries: 10
-  delay: 3
-  register: result
-  until: result is success
-  when:
-    - ansible_distribution == "Fedora"
-    - ansible_distribution_major_version|int == 30
-
 - name: CentOS 8 & 8 Stream workarounds
   block:
     # https://github.com/dustymabe/vagrant-sshfs/issues/108
