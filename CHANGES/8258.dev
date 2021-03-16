@@ -1,1 +1,0 @@
-The dev role patches Django to allow continued FIPS compatibility development within Pulp in preparation for Django to add FIPS support at some point.

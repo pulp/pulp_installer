@@ -13,6 +13,66 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.11.0 (2021-03-16)
+===================
+
+
+Features
+--------
+
+- The `pulp_content_workers` option can be used to adjust the number of Gunicorn worker processes handling content app requests.
+  [#8267](https://pulp.plan.io/issues/8267)
+- Adding ansible 3 support
+  [#8365](https://pulp.plan.io/issues/8365)
+
+
+Bugfixes
+--------
+
+- Fix Pulp clients experience "connection timed out" on very slow machines, such as Qemu emulated machines, by raising the the Pulp server's gunicorn worker timeout to 90 seconds.
+  [#8228](https://pulp.plan.io/issues/8228)
+- Fix pulp_installer, on SELinux-enabled systems, not being idemopotent and always restoring SELinux contexts.
+  [#8281](https://pulp.plan.io/issues/8281)
+
+
+Improved Documentation
+----------------------
+
+- Adds documentation to pulplift.md on how to configure a Vagrant box on an HDD.
+  [#8285](https://pulp.plan.io/issues/8285)
+
+
+Deprecations and Removals
+-------------------------
+
+- Require postgreSQL >= 10 due to FIPS
+  Upgrade postgreSQL 9.6 to postgreSQL 10 on CentOS 7
+  [#8154](https://pulp.plan.io/issues/8154)
+- FIPS support is removed due to Django (a dependency of Pulp) not being FIPS compatible.
+  [#8258](https://pulp.plan.io/issues/8258)
+- Removing ansible 2.8 support
+  [#8365](https://pulp.plan.io/issues/8365)
+
+
+Misc
+----
+
+- [#8337](https://pulp.plan.io/issues/8337)
+
+
+Devel
+-----
+
+- Re-implement FIPS CI and enable future SELinux CI by using Qemu Emulation on Github Actions.
+  [#7884](https://pulp.plan.io/issues/7884)
+- Fix compatibility with ansible-lint 5.0.0 by having it not check requirements.yml under the molecule directories.
+  [#8234](https://pulp.plan.io/issues/8234)
+- The dev role patches Django to allow continued FIPS compatibility development within Pulp in preparation for Django to add FIPS support at some point.
+  [#8258](https://pulp.plan.io/issues/8258)
+
+
+----
+
 
 3.10.0 (2021-02-04)
 ===================
