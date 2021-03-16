@@ -72,10 +72,12 @@ build_ignore:
   - .github
   - .travis.yml
   - .travis
+  - .vagrant
   - CHANGES
   - pulp_installer
   - .gitignore
   - CHANGES.rst
+  - "local.*"
   - pyproject.toml
   - template_config.yml
   - forklift
