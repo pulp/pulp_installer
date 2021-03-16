@@ -13,6 +13,28 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.7.4 (2021-03-16)
+==================
+
+
+Features
+--------
+
+- Install the Linux distro's `gpg` binary command for the new SigningService functionality in pulpcore.
+  [#8406](https://pulp.plan.io/issues/8406)
+
+
+Bugfixes
+--------
+
+- Fixed inability to install on CentOS 8.3 or CentOS Stream due to the newly renamed "powertools" repo
+  (formerly "PowerTools") not being enabled by the installer.
+  [#8407](https://pulp.plan.io/issues/8407)
+
+
+----
+
+
 3.7.3 (2020-10-29)
 ==================
 

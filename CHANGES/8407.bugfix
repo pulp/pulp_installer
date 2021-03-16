@@ -1,2 +1,0 @@
-Fixed inability to install on CentOS 8.3 or CentOS Stream due to the newly renamed "powertools" repo
-(formerly "PowerTools") not being enabled by the installer.
