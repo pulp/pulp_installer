@@ -8,7 +8,7 @@ DOCS := $(wildcard docs/*/*) $(wildcard docs/*)
 META := $(wildcard meta/*)
 PLAYBOOKS := $(wildcard playbooks/*/*/*) $(wildcard playbooks/*/*) $(wildcard playbooks/*)
 METADATA := galaxy.yml COPYRIGHT LICENSE README.md requirements.yml
-DEPENDENCIES := $(METADATA) $(foreach ROLE,$(ROLES),$(wildcard $(ROLE)/*/*)) $(META) $(DOCS) $(PLAYBOOKS)
+DEPENDENCIES := $(METADATA) $(foreach ROLE,$(ROLES),$(wildcard $(ROLE)/*/*)) $(foreach ROLE,$(ROLES),$(ROLE)/README.md) $(META) $(DOCS) $(PLAYBOOKS)
 
 MOLECULE_SCENARIO ?= release-static
 TOX_ENV ?= py37-ansible2.9-$(MOLECULE_SCENARIO)
