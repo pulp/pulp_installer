@@ -87,6 +87,8 @@
   changed_when: false
   register: systemd_show_env_path
   check_mode: false
+  # This task typically doesn't need root, but on some user systems it does.
+  become: yes
 
 - name: systemd_show_env_path
   debug:
