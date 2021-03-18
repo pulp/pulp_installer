@@ -21,7 +21,9 @@ The variables that this role uses are listed below:
 
 The following variables have a default value:
 ```yaml
+pulp_devel_install_podman: true
 pulp_devel_package_retries: 5
+pulp_devel_supplement_bashrc: false
 ```
 
 The following variables have no default value, and we recommend the following

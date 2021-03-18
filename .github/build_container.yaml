@@ -38,3 +38,23 @@
         push: true
         source: local
       with_items: "{{ molecule_images }}"
+
+    - name: Build vagrant image for pulp2-nightly-pulp3-source-fips-b
+      docker_image:
+        name: "vagrant-pulp2"
+        tag: latest
+        build:
+          path: "../../vagrant/"
+          dockerfile: "Dockerfile"
+          nocache: false
+          pull: false
+        state: present
+        source: build
+
+    - name: Push vagrant image for pulp2-nightly-pulp3-source-fips-b
+      docker_image:
+        name: "vagrant-pulp2"
+        repository: "docker.io/pulp/vagrant-pulp2"
+        tag: latest
+        push: true
+        source: local

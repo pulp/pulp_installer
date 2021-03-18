@@ -160,7 +160,9 @@ pbindings(){
         cd pulp-openapi-generator
     fi
 
-    sed -i 's/docker/podman/g' generate.sh
+    if command podman 2> /dev/null; then
+        sed -i 's/docker/podman/g' generate.sh
+    fi
     workon pulp
 
     if [ $1 != 'pulpcore' ]
@@ -205,7 +207,9 @@ pbindings(){
     esac
     rm -rf $1-client
 
-    sed -i 's/podman/docker/g' generate.sh
+    if command podman 2> /dev/null; then
+        sed -i 's/docker/podman/g' generate.sh
+    fi
     cd $CURRENT_DIR
 }
 _pbindings_help="Create and install bindings. Example usage: pbindings pulpcore python"
