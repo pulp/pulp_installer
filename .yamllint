@@ -25,3 +25,4 @@ ignore: |
   roles/geerlingguy.postgresql
   roles/ansible-role-postgresql
   vagrant
+  docs
