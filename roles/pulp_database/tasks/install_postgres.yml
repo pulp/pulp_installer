@@ -42,6 +42,18 @@
         src: templates/postgresql_scl_profile.j2
         dest: "{{ postgresql_profile_path }}"
 
+    - name: Create SCL symlinks
+      file:
+        src: "{{ item }}"
+        dest: "{{ item.replace('/opt/rh/rh-postgresql10/root', '') }}"
+        state: link
+      loop:
+        - "/opt/rh/rh-postgresql10/root/usr/lib64/libpq.so.rh-postgresql10-5"
+        - "/opt/rh/rh-postgresql10/root/usr/bin/psql"
+      register: symlink_result
+      failed_when: "symlink_result is failed and 'refusing to convert from file to symlink' not in symlink_result.msg"
+      check_mode: false
+
     # https://access.redhat.com/documentation/en-us/red_hat_software_collections/3/html/3.3_release_notes/chap-migration#sect-Migration-PostgreSQL-9_6-10
     - name: Backup previous PostgreSQL
       copy:
