@@ -1,3 +1,4 @@
+---
 # systemctl show-environment trips this, but it should only complain about
 # systemctl subcommands that actually manage services.
 skip_list:
@@ -5,6 +6,7 @@ skip_list:
 exclude_paths:
   - ./roles/ansible-role-postgresql/
   - ./roles/geerlingguy.postgresql/
+  - ./roles/*/*.md
   - ../../.ansible/roles/geerlingguy.postgresql/
   - ../../.ansible/roles/lexa-uw.letsencrypt/
   - ./.github/
@@ -13,3 +15,4 @@ exclude_paths:
   - ./molecule/
   - ./.cache/roles/geerlingguy.postgresql/
   - ./example.dev-config.yml
+  - ./docs/
