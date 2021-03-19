@@ -44,7 +44,7 @@
         name: "vagrant-pulp2"
         tag: latest
         build:
-          path: "../../vagrant/"
+          path: "../vagrant/"
           dockerfile: "Dockerfile"
           nocache: false
           pull: false
