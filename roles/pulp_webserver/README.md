@@ -38,6 +38,7 @@ Role Variables
    directory for ACME (letsencrypt) files or SSL certs. This is not to be confused with the Pulp
    application's setting `STATIC_ROOT`, which is a function of Pulp itself (not the webserver) and servces
    a different set of files.
+- `pulp_client_max_body_size`: Sets the maximum allowed size of the client request body.
 
 Plugin Webserver Configs
 ------------------------
