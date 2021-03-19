@@ -4,6 +4,7 @@ Define pulp-api {{ __pulp_webserver_apache_api_bind }}
 {% if pulp_webserver_disable_https | bool %}
 <VirtualHost *:{{ pulp_webserver_http_port }}>
   ServerName {{ pulp_webserver_httpd_servername }}
+  LimitRequestBody {{ pulp_client_max_body_size }}
 
   ## Logging
   ErrorLog "{{ pulp_webserver_apache_log_dir }}/pulp_error.log"
@@ -35,11 +36,13 @@ Define pulp-api {{ __pulp_webserver_apache_api_bind }}
 {% else %}
 <VirtualHost *:{{ pulp_webserver_http_port }}>
   ServerName {{ pulp_webserver_httpd_servername }}
+  LimitRequestBody {{ pulp_client_max_body_size }}
   Redirect permanent / https://{{ pulp_webserver_httpd_servername }}/
 </VirtualHost>
 
 <VirtualHost *:{{ pulp_webserver_https_port }}>
   ServerName {{ pulp_webserver_httpd_servername }}
+  LimitRequestBody {{ pulp_client_max_body_size }}
 
   # static files that can change dynamically, or are needed for TLS
   # purposes are served through the webserver.
