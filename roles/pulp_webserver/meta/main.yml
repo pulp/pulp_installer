@@ -25,3 +25,4 @@ dependencies:
   - pulp_common
 collections:
   - ansible.posix
+  - community.crypto

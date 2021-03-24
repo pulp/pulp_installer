@@ -22,3 +22,5 @@ galaxy_info:
     - pulp
     - pulpcore
 dependencies: []
+collections:
+  - community.postgresql

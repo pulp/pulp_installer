@@ -23,3 +23,5 @@ galaxy_info:
     - pulpcore
 dependencies:
   - pulp_common
+collections:
+  - community.general
