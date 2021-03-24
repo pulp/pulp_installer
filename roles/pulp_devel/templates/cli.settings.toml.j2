@@ -1,0 +1,6 @@
+[cli]
+base_url = "{{ pulp_webserver_disable_https | default(false) | ternary('http', 'https') }}://{{ ansible_fqdn }}"
+username = "admin"
+password = "{{ pulp_default_admin_password }}"
+verify_ssl = {{ (not pulp_webserver_disable_https | default(true)) | lower }}
+format = "json"

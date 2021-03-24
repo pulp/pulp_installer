@@ -46,6 +46,10 @@
   become: true
   become_user: "{{ developer_user }}"
 
+- import_tasks: pulp_cli.yml
+  become: true
+  become_user: "{{ developer_user }}"
+
 - name: Initialize galaxy data
   shell: >-
       source {{ developer_user_home }}/.bashrc.d/alias.bashrc

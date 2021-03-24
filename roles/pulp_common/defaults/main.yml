@@ -21,6 +21,7 @@ pulp_pip_editable: yes
 pulp_use_system_wide_pkgs: false
 prereq_pip_packages:
   - Jinja2
+  - pygments
 pulp_rhel_codeready_repo:
   - codeready-builder-for-rhel-8-x86_64-rpms
   - rhui-codeready-builder-for-rhel-8-rhui-rpms
