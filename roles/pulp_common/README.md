@@ -167,9 +167,10 @@ Shared Variables
 
 * `ansible_python_interpreter`: **Required**. Path to the Python interpreter.
 
-* `prereq_pip_packages`: Additional pip packages to install in the virtual
+* `prereq_pip_packages`: A List of additional pip packages to install in the virtual
   environment before installing pulp or its content plugins.
-  Defaults to an empty list, but a `prereq_role` may append to it.
+  Defaults to a list containing the single item "Jinja2" (which is necessary for pulp_installer to
+function). Also, a `prereq_role` may append to it.
 
 This role is required by the `pulp_database` role and uses some variables from it.
 
