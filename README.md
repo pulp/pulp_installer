@@ -24,3 +24,19 @@ descriptions of all the fields and how they are used.
 | Category | Installer |
 | Version | The version of installer that you discovered the issue. |
 | OS | The Ansible managed OS. |
+
+
+Get Help
+--------
+
+Documentation: https://pulp-installer.readthedocs.io/en/latest/
+
+Issue Tracker: https://pulp.plan.io
+
+User mailing list: https://www.redhat.com/mailman/listinfo/pulp-list
+
+Developer mailing list: https://www.redhat.com/mailman/listinfo/pulp-dev
+
+User questions welcome in #pulp on FreeNode IRC server.
+
+Developer discussion in #pulp-dev on FreeNode IRC server
