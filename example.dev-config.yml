@@ -2,6 +2,8 @@
 # Options
 pulp_devel_supplement_bashrc: true
 pulp_default_admin_password: password
+pulp_api_bind: "unix:/var/run/pulpcore-api/pulpcore-api.sock"
+pulp_content_bind: "unix:/var/run/pulpcore-content/pulpcore-content.sock"
 pulp_install_plugins:
   # galaxy-ng:
   #   source_dir: "/home/vagrant/devel/galaxy_ng"
