@@ -20,6 +20,10 @@ export LANG=en_US.UTF-8
 sudo localectl status
 localectl status
 
+# Verbosity
+sed -i "/\[def/a verbosity = 3" ansible.cfg
+cat ansible.cfg
+
 # This comamnd does include vagrant-sshfs getting run, and thus using epel.
 # --no-tty --machine-readable and the grep is an overall approach to avoid clutter
 # in the output during box download, it would do a progress bar.
