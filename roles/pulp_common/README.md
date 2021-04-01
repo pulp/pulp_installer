@@ -161,6 +161,7 @@ Role Variables for advanced usage
 * `pulpcore_version`: Specify a specific version of pulpcore one would like to install or upgrade to.
    By default the installer will do the right thing by using the version of pulpcore it is designed
    for and tested with. It is strongly advised against setting.
+* `pulp_service_timeout`: Set timeout value for pulp services. Defaults to 90.
 
 Shared Variables
 ----------------

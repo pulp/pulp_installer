@@ -64,6 +64,8 @@ if /bin/false ; then
   sudo vagrant plugin install vagrant-sshfs
 fi
 
+sed -i "s/pulp_service_timeout: 90/pulp_service_timeout: 180/g" roles/pulp_common/defaults/main.yml
+
 if sudo kvm-ok ; then
   # Speed up disk writes by switching qemu-kvm from writeback to unsafe.
   ln -s $PWD/vagrant/settings.ci.yaml forklift/vagrant/settings.yaml
