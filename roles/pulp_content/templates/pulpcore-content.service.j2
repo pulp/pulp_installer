@@ -15,13 +15,13 @@ Group={{ pulp_group }}
 WorkingDirectory=/var/run/pulpcore-content/
 RuntimeDirectory=pulpcore-content
 
-# timeout 90 is needed Pulp to service its 1st request on extremely slow
+# timeout is needed Pulp to service its 1st request on extremely slow
 # machines, such as qemu-emulated 2-core machines
 ExecStart={{ __pulp_daemons_dir }}/gunicorn pulpcore.content:server \
           --bind '{{ pulp_content_bind }}' \
           --worker-class 'aiohttp.GunicornWebWorker' \
           --workers {{ pulp_content_workers }} \
-          --timeout 90 \
+          --timeout {{ pulp_service_timeout }} \
           --access-logfile -
 
 # Enables tracking of process resource consumption at a unit & cgroup level.
