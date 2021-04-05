@@ -160,7 +160,7 @@ pbindings(){
         cd pulp-openapi-generator
     fi
 
-    if command podman 2> /dev/null; then
+    if command -v podman > /dev/null; then
         sed -i 's/docker/podman/g' generate.sh
     fi
     workon pulp
@@ -207,7 +207,7 @@ pbindings(){
     esac
     rm -rf $1-client
 
-    if command podman 2> /dev/null; then
+    if command -v podman > /dev/null; then
         sed -i 's/docker/podman/g' generate.sh
     fi
     cd $CURRENT_DIR

@@ -38,9 +38,12 @@
   become: true
   become_user: '{{ pulp_user }}'
 
-- import_tasks: bashrc.yml
-  become: true
-  become_user: "{{ developer_user }}"
+- name: Include bashrc
+  include_tasks:
+    file: bashrc.yml
+    apply:
+      become: true
+      become_user: "{{ developer_user }}"
 
 - import_tasks: config_files.yml
   become: true
