@@ -1,0 +1,27 @@
+---
+pulp_default_admin_password: password
+pulp_install_object_storage: azure
+pulp_install_plugins:
+  # galaxy-ng: {}
+  # pulp-2to3-migration: {}
+  # pulp-ansible: {}
+  # pulp-certguard: {}
+  # pulp-container: {}
+  # pulp-cookbook: {}
+  # pulp-deb: {}
+  pulp-file: {}
+  # pulp-gem: {}
+  # pulp-maven: {}
+  # pulp-npm: {}
+  # pulp-python: {}
+  # pulp-rpm: {}
+pulp_settings:
+  secret_key: secret
+  content_origin: "{{ pulp_webserver_disable_https | default(false) | ternary('http', 'https') }}://{{ ansible_fqdn }}"
+  azure_account_name: 'Storage account name'
+  azure_container: 'Container name (as created within the blob service of your storage account)'
+  azure_account_key: 'Key1 or Key2 from the access keys of your storage account'
+  azure_url_expiration_secs: 60
+  azure_overwrite_files: 'True'
+  azure_location: 'the folder within the container where your pulp objects will be stored'
+  default_file_storage: 'storages.backends.azure_storage.AzureStorage'

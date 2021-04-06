@@ -18,6 +18,33 @@
         msg: >
           "You must update Ansible to at least 2.8 to use this version of Pulp 3 Installer."
 
+    - name: Check (S3) storage backend is configured.
+      assert:
+        that:
+          - pulp_settings.aws_access_key_id is defined
+          - pulp_settings.aws_secret_access_key is defined
+          - pulp_settings.aws_storage_bucket_name is defined
+          - pulp_settings.aws_default_acl is defined
+          - pulp_settings.s3_use_sigv4 is defined
+          - pulp_settings.aws_s3_signature_version is defined
+          - pulp_settings.aws_s3_addressing_style is defined
+          - pulp_settings.aws_s3_region_name is defined
+          - pulp_settings.media_root is defined
+          - pulp_settings.default_file_storage is defined
+      when: pulp_install_object_storage == "s3"
+
+    - name: Check (Azure) storage backend is configured.
+      assert:
+        that:
+          - pulp_settings.azure_account_name is defined
+          - pulp_settings.azure_container is defined
+          - pulp_settings.azure_account_key is defined
+          - pulp_settings.azure_url_expiration_secs is defined
+          - pulp_settings.azure_overwrite_files is defined
+          - pulp_settings.azure_location is defined
+          - pulp_settings.default_file_storage is defined
+      when: pulp_install_object_storage == "azure"
+
     - include_tasks: pre_tasks/vagrant-workarounds.yml
       vars:
         source_workarounds: true
