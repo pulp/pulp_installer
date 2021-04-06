@@ -193,7 +193,7 @@
 
     - name: Install pulpcore via PyPI
       pip:
-        name: pulpcore
+        name: "pulpcore{{ '['+ pulp_install_object_storage +']' if pulp_install_object_storage != 'filesystem' else '' }}"
         # pulp_upgrade true/false -> ansible pip module latest/present ->
         # pip command "install --upgrade"/"install"
         # Commented out because:
@@ -213,7 +213,7 @@
 
     - name: Install pulpcore package from source
       pip:
-        name: '{{ pulp_source_dir }}'
+        name: "{{ pulp_source_dir }}{{ '['+ pulp_install_object_storage +']' if pulp_install_object_storage != 'filesystem' else '' }}"
         editable: '{{ pulp_pip_editable }}'
         # For this task, `state` has no effect. It installs or upgrades/
         # downgrades to the exact dir's or VCS URL's version regardless.

@@ -71,6 +71,7 @@ Role Variables
 * `pulp_use_system_wide_pkgs` Use python system-wide packages. Defaults to "false".
 * `pulp_remote_user_environ_name` Optional. Set the `REMOTE_USER_ENVIRON_NAME` setting for Pulp.
   This variable will be set as the value of `CONTENT_HOST` as the base path to build content URLs.
+* `pulp_install_object_storage`: The preferred object storage. Defaults to `filesystem`.
 * `pulp_settings`: A nested dictionary that is used to add custom values to the user's
     `setting.py`, which will override any default values set by pulpcore. The keys of this
     dictionary are variable names, and the values should be expressed using the [Dynaconf syntax](

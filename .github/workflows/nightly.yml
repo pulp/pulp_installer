@@ -108,6 +108,7 @@ jobs:
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
+          TERM: 'xterm-256color'
       - name: After failure
         if: failure()
         run: .github/workflows/scripts/after_failure.sh ${{ matrix.test_type }}
