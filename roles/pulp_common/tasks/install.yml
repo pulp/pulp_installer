@@ -14,6 +14,47 @@
         name: '{{ pulp_preq_packages }}'
         state: present
 
+    - name: Gather package facts
+      package_facts:
+        manager: "auto"
+
+    - name: Installed packages
+      debug:
+        var: ansible_facts.packages
+        verbosity: 1
+
+    - name: Get PATH
+      shell: |
+        {% if 'rh-postgresql10' in ansible_facts.packages %}
+          source /opt/rh/rh-postgresql10/enable
+        {% endif %}
+        env | grep -E '^PATH=' | sed 's/PATH=//g'
+      args:
+        executable: /bin/bash
+      changed_when: false
+      register: pulp_env_path
+      check_mode: false
+
+    - name: Set PATH as a fact
+      set_fact:
+        pulp_path: "{{ pulp_env_path.stdout }}"
+
+    - name: Get LD_LIBRARY_PATH
+      shell: |
+        {% if 'rh-postgresql10' in ansible_facts.packages %}
+          source /opt/rh/rh-postgresql10/enable
+        {% endif %}
+        env | grep -E '^LD_LIBRARY_PATH=' | sed 's/LD_LIBRARY_PATH=//g'
+      args:
+        executable: /bin/bash
+      changed_when: false
+      register: pulp_env_ld_library_path
+      check_mode: false
+
+    - name: Set LD_LIBRARY_PATH as a fact
+      set_fact:
+        pulp_ld_library_path: "{{ pulp_env_ld_library_path.stdout }}"
+
     # Become root so as to search paths like /usr/sbin.
     - name: Find the nologin executable
       command: which nologin

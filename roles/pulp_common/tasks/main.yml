@@ -65,6 +65,10 @@
     - ansible_facts.distribution == 'CentOS'
     - ansible_facts.distribution_version|float < 7.7
 
+- name: Gather package facts
+  package_facts:
+    manager: "auto"
+
 # Note: We cannot use `systemd-path search-binaries-default` because
 # it wasn't added until systemd 239. Thus no CentOS 7 or Fedora 28
 # support, etc.
@@ -73,9 +77,9 @@
   shell: |
     set -o pipefail
     export PATH=$(systemctl show-environment | grep -E '^PATH=' | sed 's/PATH=//g')
-    if [[ -f "/opt/rh/rh-postgresql10/enable" ]]; then
+    {% if 'rh-postgresql10' in ansible_facts.packages %}
       source /opt/rh/rh-postgresql10/enable
-    fi
+    {% endif %}
     echo $PATH
   args:
     # Debian defaults to bourne, but it doesn't understand pipefail.
