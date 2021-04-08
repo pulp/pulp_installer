@@ -14,6 +14,27 @@
         name: '{{ pulp_preq_packages }}'
         state: present
 
+    - name: Package facts
+      package_facts:
+        manager: "auto"
+
+    - name: Packages
+      debug:
+        var: ansible_facts.packages
+
+    - name: Create SCL symlinks
+      file:
+        src: "{{ item }}"
+        dest: "{{ item.replace('/opt/rh/rh-postgresql10/root', '') }}"
+        state: link
+      loop:
+        - "/opt/rh/rh-postgresql10/root/usr/bin/pg_config"
+      register: symlink_result
+      failed_when: "symlink_result is failed and 'refusing to convert from file to symlink' not in symlink_result.msg"
+      check_mode: false
+      when:
+        - "'rh-postgresql10-postgresql-devel' in ansible_facts.packages"
+
     # Become root so as to search paths like /usr/sbin.
     - name: Find the nologin executable
       command: which nologin

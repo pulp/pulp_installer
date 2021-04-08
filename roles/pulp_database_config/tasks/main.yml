@@ -46,4 +46,3 @@
   become_user: '{{ pulp_user }}'
   environment:
     PULP_SETTINGS: "{{ pulp_settings_file }}"
-    LD_LIBRARY_PATH: "{{ pulp_ld_library_path }}"

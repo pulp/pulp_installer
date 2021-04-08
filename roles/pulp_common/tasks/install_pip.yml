@@ -206,7 +206,6 @@
       when: pulp_source_dir is undefined
       environment:
         SETUPTOOLS_USE_DISTUTILS: stdlib
-        PATH: "{{ pulp_path }}"
       notify:
         - Collect static content
         - Restart all Pulp services
@@ -223,7 +222,6 @@
       when: pulp_source_dir is defined
       environment:
         SETUPTOOLS_USE_DISTUTILS: stdlib
-        PATH: "{{ pulp_path }}"
       notify:
         - Collect static content
         - Restart all Pulp services
