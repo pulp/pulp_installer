@@ -13,6 +13,20 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.11.0-1 (2021-04-08)
+=====================
+
+
+Bugfixes
+--------
+
+- Avoid using shared variables from pulp_database role
+  [#8519](https://pulp.plan.io/issues/8519)
+
+
+----
+
+
 3.11.0 (2021-03-16)
 ===================
 
