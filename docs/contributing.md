@@ -110,6 +110,8 @@ The suffixes are:
 1. `upgrade` - Upgrade an existing Pulp 3.y container, to test upgrading Pulp 3.y. Roles are applied
    statically. Depends on said containers existing on a registry, and having been built manually
    (using `docker commit` from molecule.)
+1. `externaldb` - Upgrade an existing Pulp 3.y container avoiding the usage of `pulp_database` role
+   i.e. using `pulp_services` rather than `pulp_all_services`.
 
 `release-static` is symlinked to `default`, so that commands like `molecule test` will use it.
 
