@@ -105,38 +105,6 @@
     - ansible_facts.distribution_major_version|int == 7
 
 - block:
-    - name: Get PATH
-      shell: |
-        if [[ -f "/opt/rh/rh-postgresql10/enable" ]]; then
-          source /opt/rh/rh-postgresql10/enable
-        fi
-        env | grep -E '^PATH=' | sed 's/PATH=//g'
-      args:
-        executable: /bin/bash
-      changed_when: false
-      register: pulp_env_path
-      check_mode: false
-
-    - name: Set PATH as a fact
-      set_fact:
-        pulp_path: "{{ pulp_env_path.stdout }}"
-
-    - name: Get LD_LIBRARY_PATH
-      shell: |
-        if [[ -f "/opt/rh/rh-postgresql10/enable" ]]; then
-          source /opt/rh/rh-postgresql10/enable
-        fi
-        env | grep -E '^LD_LIBRARY_PATH=' | sed 's/LD_LIBRARY_PATH=//g'
-      args:
-        executable: /bin/bash
-      changed_when: false
-      register: pulp_env_ld_library_path
-      check_mode: false
-
-    - name: Set LD_LIBRARY_PATH as a fact
-      set_fact:
-        pulp_ld_library_path: "{{ pulp_env_ld_library_path.stdout }}"
-
     - name: Install and configure PostgreSQL
       include_role:
         name: geerlingguy.postgresql
