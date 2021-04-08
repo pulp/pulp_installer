@@ -1,0 +1,1 @@
+Avoid using shared variables from pulp_database role
