@@ -13,6 +13,43 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.12 (2021-04-09)
+=================
+
+
+Features
+--------
+
+- Vagrant environment: Created a pair of Pulp 2 / Pulp 3 FIPS boxes, pulp2-nightly-pulp3-source-fips-a (Pulp 3 FIPS **VM**)
+  & pulp2-nightly-pulp3-source-fips-b (Pulp 2 FIPS **container** that runs **on top** of the "a" VM.)
+  [#8097](https://pulp.plan.io/issues/8097)
+- Allow specifying file upload limit
+  [#8212](https://pulp.plan.io/issues/8212)
+- Install object storage support (azure/s3)
+  [#8446](https://pulp.plan.io/issues/8446)
+- Introduce advanced variable: ``pulp_service_timeout``
+  [#8498](https://pulp.plan.io/issues/8498)
+
+
+Bugfixes
+--------
+
+- Avoid using shared variables from pulp_database role
+  [#8519](https://pulp.plan.io/issues/8519)
+
+
+Devel
+-----
+
+- Configure pulp-cli at devel role
+  [#8416](https://pulp.plan.io/issues/8416)
+- Adding required collections to requirement.yml
+  [#8443](https://pulp.plan.io/issues/8443)
+
+
+----
+
+
 3.11.0 (2021-03-16)
 ===================
 
