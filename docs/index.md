@@ -9,13 +9,26 @@ This version of the installer, 3.12.0, installs Pulp 3.12.0 specifically.
 
 If run against an older version of Pulp 3, it will upgrade it to 3.12.0.
 
+---
+**Didn't find what you need to get started?**
+
+We are actively trying to make our documentation as complete and user-friendly as possible.
+If you experience any difficulties or have any feedback, write to `pulp-list@redhat.com`.
+[Documentation PRs](https://github.com/pulp/pulp_installer/edit/master/docs/index.md) are always welcome.
+---
+
+
 System Requirements
 -------------------
 
-The [control node](https://docs.ansible.com/ansible/2.5/network/getting_started/basic_concepts.html#control-node)
+Before you install Pulp, review the [architecture and component documentation](https://docs.pulpproject.org/pulpcore/components.html#) to ensure you understand the deployment structure and concepts.
+
+Ensure that your server meets the [hardware requirements](https://docs.pulpproject.org/pulpcore/components.html#hardware-requirements) to install and run Pulp.
+
+The Ansible [control node](https://docs.ansible.com/ansible/2.5/network/getting_started/basic_concepts.html#control-node)
 must have Python 3 and Ansible (>= 2.9) installed.
 
-The [managed node](https://docs.ansible.com/ansible/2.5/network/getting_started/basic_concepts.html#managed-nodes)
+The Ansible [managed node](https://docs.ansible.com/ansible/2.5/network/getting_started/basic_concepts.html#managed-nodes)
 must be one of these currently supported operating systems:
 
 - CentOS 7
@@ -27,16 +40,18 @@ exception is Pulp 2. The RESP APIs for Pulp 2 and Pulp 3 can be served on the sa
 long as the `apache` webserver is deployed for both.
 
 The Ansible collection requires [geerlingguy.postgresql](https://galaxy.ansible.com/geerlingguy/postgresql) role,
-which should be installed from ansible-galaxy.
+which you can from ansible-galaxy.
 
 ```
 ansible-galaxy install geerlingguy.postgresql
 ```
 
-Variables
+Customizing Your Pulp Installation
 ---------
 
-**Each role documents all the variables that it uses**. Some variables are
+Because the Pulp installer is composed of Ansible roles, you can use the variables for each of these roles to customize your Pulp installation.
+For example, if you want to specify firewall requirements, edit the corresponding firewall variables associated with the [pulp_webserver](https://pulp-installer.readthedocs.io/en/latest/roles/pulp_webserver/#pulp_webserver) role.
+Each role documents all the variables that it uses. Some variables are
 used by multiple roles. In that case, they are documented in their primary role and mentioned in
 the `shared_variables` section the other roles.
 
