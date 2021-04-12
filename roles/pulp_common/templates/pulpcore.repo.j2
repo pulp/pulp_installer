@@ -1,0 +1,12 @@
+# Set module_hotfixes=1 so that dnf allows to override packages that are part
+# of modular repositories (like CentOS-8 - AppStream).
+# Use a dedicated config file and include it later, as yum_repository doesn't
+# support setting the module_hotfixes parameter yet.
+[{{ __pulp_pkg_repo_name }}]
+name = {{__pulp_pkg_repo_name}}
+description = {{ __pulp_pkg_repo_name }}
+baseurl = {{ pulp_pkg_repo }}
+gpgcheck = {{ pulp_pkg_repo_gpgcheck }}
+gpgkey = {{ __pulp_pkg_repo_gpgkey }}
+enabled = 1
+module_hotfixes = 1
