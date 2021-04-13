@@ -9,7 +9,34 @@
   notify: Reload systemd and restart pulp workers
   become: true
 
-- name: Set states of pulp workers
+- name: Get services
+  service_facts:
+
+- name: Get already existing workers
+  set_fact:
+    __pulp_workers_worker_svcs: '{{ __pulp_workers_worker_svcs|default([]) + [ item | regex_search("(?<=pulpcore-worker@)\d+(?=\.service$)") ] }}'
+  loop: '{{ ansible_facts.services.keys() | list | select("match", "pulpcore-worker@\d+\.service") | list }}'
+
+- name: Get the highest worker ID
+  set_fact:
+    __pulp_workers_worker_max: "{{ __pulp_workers_worker_svcs | map('int') | max }}"
+  when: __pulp_workers_worker_svcs is defined
+
+- name: Scale down workers
+  systemd:
+    daemon_reload: true
+    name: pulpcore-worker@{{ __pulp_workers_worker_index }}.service
+    state: stopped
+    enabled: false
+  loop: "{{ range(pulp_workers + 1, __pulp_workers_worker_max|int + 1) | list }}"
+  loop_control:
+    loop_var: __pulp_workers_worker_index
+  when:
+    - __pulp_workers_worker_max is defined
+    - '__pulp_workers_worker_max|int + 1 > pulp_workers + 1'
+  become: true
+
+- name: Set states of new pulp workers
   systemd:
     daemon_reload: true
     name: pulpcore-worker@{{ __pulp_workers_worker_index }}.service
