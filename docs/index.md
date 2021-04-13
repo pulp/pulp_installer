@@ -23,24 +23,29 @@ System Requirements
 
 Before you install Pulp, review the [architecture and component documentation](https://docs.pulpproject.org/pulpcore/components.html#) to ensure you understand the deployment structure and concepts.
 
+The Ansible [control node](https://docs.ansible.com/ansible/2.5/network/getting_started/basic_concepts.html#control-node)
+(i.e., your workstation) must have Python 3 and Ansible (>= 2.9) installed.
+
 Ensure that your server meets the [hardware requirements](https://docs.pulpproject.org/pulpcore/components.html#hardware-requirements) to install and run Pulp.
 
-The Ansible [control node](https://docs.ansible.com/ansible/2.5/network/getting_started/basic_concepts.html#control-node)
-must have Python 3 and Ansible (>= 2.9) installed.
+Ensure that your server, AKA the Ansible [managed node](https://docs.ansible.com/ansible/2.5/network/getting_started/basic_concepts.html#managed-nodes),
+runs one of these currently supported operating systems:
 
-The Ansible [managed node](https://docs.ansible.com/ansible/2.5/network/getting_started/basic_concepts.html#managed-nodes)
-must be one of these currently supported operating systems:
-
-- CentOS 7
+- CentOS 7 or 8
 - Debian Buster (needs `allow_world_readable_tmpfiles = True` in ansible.cfg)
 - Fedora 32 or later
 
-The managed node cannot provide any other service on the same hostname as Pulp's API. The only
-exception is Pulp 2. The RESP APIs for Pulp 2 and Pulp 3 can be served on the same hostname as
+The server cannot provide any other HTTP (port 80, 443) service on the same hostname as Pulp's API. The only
+exception is Pulp 2. The REST APIs for Pulp 2 and Pulp 3 can be served on the same hostname as
 long as the `apache` webserver is deployed for both.
 
+NOTE: These server requirements assume you are deploying Pulp to a single server. If you are deploying it
+to a cluster (with multiple tiers), the hardware requirements will differ, and only the webserver
+(pulp_webserver role) will have the service limitation. Each node must run a supported operating
+system from the list above, but each node can run a different OS.
+
 The Ansible collection requires [geerlingguy.postgresql](https://galaxy.ansible.com/geerlingguy/postgresql) role,
-which you can from ansible-galaxy.
+which you can install on the Ansible control node from ansible-galaxy.
 
 ```
 ansible-galaxy install geerlingguy.postgresql
