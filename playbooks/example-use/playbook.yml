@@ -34,6 +34,22 @@
           - pulp_settings.azure_location is defined
           - pulp_settings.default_file_storage is defined
       when: pulp_install_object_storage == "azure"
+
+    # Upgrading packages may break due to wrong base url
+    # following tasks replace yum pulpcore repository base url from
+    # https://fedorapeople.org/groups/katello/releases/yum/nightly/pulpcore/
+    # to https://yum.theforeman.org/pulpcore/
+    - name: Check if pulpcore repo exists
+      stat:
+        path: /etc/yum.repos.d/pulpcore.repo
+      register: pulpcorerepo
+
+    - name: Remove pulpcore fedorapeople
+      lineinfile:
+        path: /etc/yum.repos.d/pulpcore.repo
+        regexp: 'fedorapeople'
+        line: "baseurl = {{ pulp_pkg_repo }}"
+      when: pulpcorerepo.stat.exists
   roles:
     - pulp_all_services
   environment:

@@ -1,0 +1,3 @@
+Replace yum pulpcore repository base url from
+https://fedorapeople.org/groups/katello/releases/yum/nightly/pulpcore/
+to https://yum.theforeman.org/pulpcore/
