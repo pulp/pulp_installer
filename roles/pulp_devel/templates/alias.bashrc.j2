@@ -150,6 +150,7 @@ _pyclean_help="Cleanup extra python files"
 
 pbindings(){
     CURRENT_DIR=$(pwd)
+    lang="${2:-python}"
 
     if [ -d $HOME/devel/pulp-openapi-generator ]
     then
@@ -167,8 +168,8 @@ pbindings(){
 
     if [ $1 != 'pulpcore' ]
     then
-        ./generate.sh pulpcore $2
-        case $2 in
+        ./generate.sh pulpcore "$lang"
+        case "$lang" in
             python)
                 pip install ./pulpcore-client
                 ;;
@@ -190,7 +191,7 @@ pbindings(){
     fi
 
     ./generate.sh $@
-    case $2 in
+    case "$lang" in
         python)
             pip install ./$1-client
             ;;
