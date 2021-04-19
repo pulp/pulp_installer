@@ -21,15 +21,10 @@ http {
     # to build optimal hash types.
     types_hash_max_size 4096;
 
-    upstream pulp-content {
-        server {{ pulp_content_bind }};
-    }
-
-    upstream pulp-api {
-        server {{ pulp_api_bind }};
-    }
-
     server {
+        set $pulp_content {{ __pulp_webserver_nginx_content_bind }};
+        set $pulp_api {{ __pulp_webserver_nginx_api_bind }};
+
         # Gunicorn docs suggest the use of the "deferred" directive on Linux.
 {% if pulp_webserver_disable_https | bool %}
         listen {{ pulp_webserver_http_port }} default_server deferred;
@@ -79,7 +74,7 @@ http {
             # we don't want nginx trying to do something clever with
             # redirects, we set the Host: header above already.
             proxy_redirect off;
-            proxy_pass http://pulp-content;
+            proxy_pass $pulp_content;
         }
 
         location /pulp/api/v3/ {
@@ -89,7 +84,7 @@ http {
             # we don't want nginx trying to do something clever with
             # redirects, we set the Host: header above already.
             proxy_redirect off;
-            proxy_pass http://pulp-api;
+            proxy_pass $pulp_api;
         }
 
         location /auth/login/ {
@@ -99,7 +94,7 @@ http {
             # we don't want nginx trying to do something clever with
             # redirects, we set the Host: header above already.
             proxy_redirect off;
-            proxy_pass http://pulp-api;
+            proxy_pass $pulp_api;
         }
 
         include pulp/*.conf;
@@ -111,7 +106,7 @@ http {
             # we don't want nginx trying to do something clever with
             # redirects, we set the Host: header above already.
             proxy_redirect off;
-            proxy_pass http://pulp-api;
+            proxy_pass $pulp_api;
             # most pulp static files are served through whitenoise
             # http://whitenoise.evans.io/en/stable/
         }

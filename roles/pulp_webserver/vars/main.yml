@@ -2,3 +2,5 @@
 __pulp_apache_url: 'localhost'
 __pulp_webserver_apache_api_bind: "{{ pulp_api_bind.startswith('unix') | ternary(pulp_api_bind + '|http://' + __pulp_apache_url, 'http://' + pulp_api_bind ) }}"
 __pulp_webserver_apache_content_bind: "{{ pulp_content_bind.startswith('unix') | ternary(pulp_content_bind + '|http://' + __pulp_apache_url, 'http://' + pulp_content_bind ) }}"
+__pulp_webserver_nginx_api_bind: "{{ 'http://' + pulp_api_bind }}"
+__pulp_webserver_nginx_content_bind: "{{ 'http://' + pulp_content_bind }}"
