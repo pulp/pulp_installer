@@ -33,10 +33,14 @@ http {
         # Gunicorn docs suggest the use of the "deferred" directive on Linux.
 {% if pulp_webserver_disable_https | bool %}
         listen {{ pulp_webserver_http_port }} default_server deferred;
+        {% if ansible_facts['all_ipv6_addresses'] is defined and ansible_facts['all_ipv6_addresses'] | length > 0 -%}
         listen [::]:{{ pulp_webserver_http_port }} default_server deferred;
+        {%- endif %}
 {% else %}
         listen {{ pulp_webserver_https_port }} default_server deferred ssl;
+        {% if ansible_facts['all_ipv6_addresses'] is defined and ansible_facts['all_ipv6_addresses'] | length > 0 -%}
         listen [::]:{{ pulp_webserver_https_port }} default_server deferred ssl;
+        {%- endif %}
 
         ssl_certificate {{ pulp_certs_dir }}/pulp_webserver.crt;
         ssl_certificate_key {{ pulp_certs_dir }}/pulp_webserver.key;
