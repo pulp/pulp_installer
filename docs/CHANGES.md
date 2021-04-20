@@ -326,6 +326,51 @@ Misc
 ----
 
 
+3.7.5 (2021-04-12)
+==================
+
+
+No significant changes.
+
+
+----
+
+
+3.7.4 (2021-03-16)
+==================
+
+
+Features
+--------
+
+- Install the Linux distro's `gpg` binary command for the new SigningService functionality in pulpcore.
+  [#8406](https://pulp.plan.io/issues/8406)
+
+
+Bugfixes
+--------
+
+- Fixed inability to install on CentOS 8.3 or CentOS Stream due to the newly renamed "powertools" repo
+  (formerly "PowerTools") not being enabled by the installer.
+  [#8407](https://pulp.plan.io/issues/8407)
+
+
+----
+
+
+3.7.3 (2020-10-29)
+==================
+
+
+Bugfixes
+--------
+
+- Backport of a bug fix to import EPEL GPG keys before using EPEL. This is needed due to a recent change in ansible.
+  [#7769](https://pulp.plan.io/issues/7769)
+
+
+----
+
 3.7.2 (2020-10-21)
 ==================
 
