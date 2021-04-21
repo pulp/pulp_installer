@@ -13,6 +13,33 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.12.0 (2021-04-21)
+===================
+
+
+Bugfixes
+--------
+
+- Fixed a bug where workers did not scale down.
+  [#8490](https://pulp.plan.io/issues/8490)
+- Replace yum pulpcore repository base url from
+  https://fedorapeople.org/groups/katello/releases/yum/nightly/pulpcore/
+  to https://yum.theforeman.org/pulpcore/
+  [#8586](https://pulp.plan.io/issues/8586)
+
+
+Improved Documentation
+----------------------
+
+- Add workaround to install redis correctly
+  [#7773](https://pulp.plan.io/issues/7773)
+- Add hardware requirement link to docs. General doc cleanup.
+  [#8477](https://pulp.plan.io/issues/8477)
+
+
+----
+
+
 3.12 (2021-04-09)
 =================
 
