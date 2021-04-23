@@ -64,7 +64,13 @@ if /bin/false ; then
   sudo vagrant plugin install vagrant-sshfs
 fi
 
+# Increase timeout for CI jobs
 sed -i "s/pulp_service_timeout: 90/pulp_service_timeout: 180/g" roles/pulp_common/defaults/main.yml
+
+# Use unix socket
+sed -e "/pulp_default_admin_password/a pulp_content_bind: 'unix:/var/run/pulpcore-content/pulpcore-content.sock'" example.dev-config.yml > local.dev-config.yml
+sed -i "/pulp_default_admin_password/a pulp_api_bind: 'unix:/var/run/pulpcore-api/pulpcore-api.sock'" local.dev-config.yml
+cat local.dev-config.yml
 
 if sudo kvm-ok ; then
   # Speed up disk writes by switching qemu-kvm from writeback to unsafe.
