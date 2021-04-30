@@ -5,10 +5,11 @@ MANIFEST := build/collections/ansible_collections/$(NAMESPACE)/$(NAME)/MANIFEST.
 
 ROLES := $(wildcard roles/*)
 DOCS := $(wildcard docs/*/*) $(wildcard docs/*)
+PLUGINS := $(wildcard plugins/*/*) $(wildcard plugins/*)
 META := $(wildcard meta/*)
 PLAYBOOKS := $(wildcard playbooks/*/*/*) $(wildcard playbooks/*/*) $(wildcard playbooks/*)
 METADATA := galaxy.yml COPYRIGHT LICENSE README.md requirements.yml
-DEPENDENCIES := $(METADATA) $(foreach ROLE,$(ROLES),$(wildcard $(ROLE)/*/*)) $(foreach ROLE,$(ROLES),$(ROLE)/README.md) $(META) $(DOCS) $(PLAYBOOKS)
+DEPENDENCIES := $(METADATA) $(foreach ROLE,$(ROLES),$(wildcard $(ROLE)/*/*)) $(foreach ROLE,$(ROLES),$(ROLE)/README.md) $(META) $(DOCS) $(PLAYBOOKS) $(PLUGINS)
 
 MOLECULE_SCENARIO ?= release-static
 TOX_ENV ?= py37-ansible2.9-$(MOLECULE_SCENARIO)
@@ -50,6 +51,17 @@ $(NAMESPACE)-$(NAME)-$(VERSION).tar.gz: $(addprefix build/src/,$(DEPENDENCIES))
 
 dist: $(NAMESPACE)-$(NAME)-$(VERSION).tar.gz
 
+vendor:
+	ansible-galaxy collection install --force community.general -p ./temp
+	ansible-galaxy collection install --force community.crypto -p ./temp
+	mkdir -p plugins/modules
+	cp temp/ansible_collections/community/general/plugins/modules/files/ini_file.py plugins/modules
+	cp temp/ansible_collections/community/general/plugins/modules/packaging/language/pip_package_info.py plugins/modules
+	cp temp/ansible_collections/community/general/plugins/modules/system/locale_gen.py plugins/modules
+	cp temp/ansible_collections/community/general/plugins/modules/system/make.py plugins/modules
+	cp temp/ansible_collections/community/general/plugins/modules/system/seport.py plugins/modules
+	rm -rf temp
+
 install: $(MANIFEST)
 
 publish: $(NAMESPACE)-$(NAME)-$(VERSION).tar.gz
@@ -60,4 +72,4 @@ clean:
 
 FORCE:
 
-.PHONY: help dist install lint sanity test publish FORCE
+.PHONY: help dist vendor install lint sanity test publish FORCE

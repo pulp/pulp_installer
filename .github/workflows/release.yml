@@ -90,7 +90,9 @@ jobs:
       - name: Install Ansible
         run: pip install --upgrade ansible
       - name: Build Ansible Collection
-        run: make dist
+        run: |
+          make vendor
+          make dist
       - name: Deploy Ansible Collection
         run: make publish GALAXY_API_KEY=${{ secrets.GALAXY_API_KEY }}
 
