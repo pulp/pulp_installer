@@ -102,6 +102,52 @@ jobs:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
         shell: bash
+  core:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.1
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+      - name: Install Ansible
+        run: |
+          pip install --upgrade pip
+          sudo apt remove ansible
+          pip install --pre ansible-core
+      - name: Install Molecule
+        run: |
+          pip install molecule docker molecule-docker ansible-lint[yamllint]
+          MOLECULE_PATH=$(pip show molecule | grep Location | cut -d' ' -f2)
+          sed -i "/tasks:/i collections:" $MOLECULE_PATH/molecule_docker/playbooks/create.yml
+          sed -i "/collections:/a - community.docker" $MOLECULE_PATH/molecule_docker/playbooks/create.yml
+          sed -i "s/collections:/  collections:/g" $MOLECULE_PATH/molecule_docker/playbooks/create.yml
+          sed -i "s/- community.docker/    - community.docker/g" $MOLECULE_PATH/molecule_docker/playbooks/create.yml
+          ansible-galaxy collection install --force community.docker
+      - name: Install Collection
+        run: |
+          make vendor
+          make install
+          mkdir -p ~/.ansible/collections/ansible_collections/pulp/pulp_installer
+          cp -r ./build/collections/ansible_collections/pulp/pulp_installer/* ~/.ansible/collections/ansible_collections/pulp/pulp_installer
+          ansible-galaxy collection install --requirements-file requirements.yml
+          rm -rf ~/.ansible/collections/ansible_collections/community/general
+          ls -al ~/.ansible/collections/ansible_collections
+          ls -al ~/.ansible/collections/ansible_collections/community
+      - name: Adapting playbooks to use collection
+        run: |
+          sed -i "/roles:/i collections:" playbooks/example-source/playbook.yml
+          sed -i "/collections:/a - pulp.pulp_installer" playbooks/example-source/playbook.yml
+          sed -i "s/collections:/  collections:/g" playbooks/example-source/playbook.yml
+          sed -i "s/- pulp.pulp_installer/    - pulp.pulp_installer/g" playbooks/example-source/playbook.yml
+      - name: Molecule Test
+        run: |
+          ansible --version
+          molecule test --scenario-name source-static
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+        shell: bash
   vagrant:
     runs-on: ubuntu-20.04
     strategy:
