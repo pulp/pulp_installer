@@ -13,6 +13,29 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.12.2 (2021-04-30)
+===================
+
+
+Bugfixes
+--------
+
+- On some environments we need to escalate privilege for Enumerate default system PATH.
+  [#8186](https://pulp.plan.io/issues/8186)
+- Only listen IPv6 when it is configured on the managed host
+  [#8536](https://pulp.plan.io/issues/8536)
+
+
+Improved Documentation
+----------------------
+
+- Add more details to & update the "System Requirements" section of the docs.
+  [#8551](https://pulp.plan.io/issues/8551)
+
+
+----
+
+
 3.12.1 (2021-04-21)
 ===================
 
