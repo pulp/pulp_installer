@@ -13,6 +13,20 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.11.1 (2021-04-30)
+===================
+
+
+Bugfixes
+--------
+
+- Only listen IPv6 when it is configured on the managed host
+  [#8536](https://pulp.plan.io/issues/8536)
+
+
+----
+
+
 3.11.0-2 (2021-04-12)
 =====================
 
