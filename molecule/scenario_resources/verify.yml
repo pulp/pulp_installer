@@ -53,6 +53,12 @@
         state: present
       when: ansible_pkg_mgr in ["yum","dnf"]
 
+    - name: Install libxcrypt-compat
+      yum:
+        name: libxcrypt-compat
+        state: present
+      when: ansible_facts.distribution == 'Fedora'
+
     # Undeclared by the package, and not documented:
     # https://docs.chef.io/inspec/resources/port/
     - name: Install netstat dependency for inspec's port listening tests
