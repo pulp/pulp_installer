@@ -13,3 +13,11 @@ fedora33:
   ansible:
     variables:
       ansible_python_interpreter: /usr/bin/python3
+
+fedora34:
+  box_name: 'fedora/34-cloud-base'
+  image_name: !ruby/regexp '/Fedora 34.*/'
+  pty: true
+  ansible:
+    variables:
+      ansible_python_interpreter: /usr/bin/python3
