@@ -16,7 +16,7 @@ Define pulp-api {{ __pulp_webserver_apache_api_bind }}
   ProxyPreserveHost Off
 
   ProxyPass /pulp/api/v3 ${pulp-api}/pulp/api/v3
-  ProxyPassReverse /pulp/api/3 ${pulp-api}/pulp/api/v3
+  ProxyPassReverse /pulp/api/v3 ${pulp-api}/pulp/api/v3
 
   ProxyPass /auth/login/ ${pulp-api}/auth/login/
   ProxyPassReverse /auth/login/ ${pulp-api}/auth/login/
