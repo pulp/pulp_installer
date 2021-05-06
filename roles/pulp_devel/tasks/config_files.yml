@@ -19,7 +19,24 @@
     recurse: yes
 
 - name: Create pulp-smash config if not already present
-  copy:
-    src: files/settings.json
+  template:
+    src: templates/settings.json.j2
     dest: "{{ developer_user_home }}/.config/pulp_smash/settings.json"
+    force: yes
+    mode: 0600
+
+- name: Trusting Pulp CA
+  shell: |
+    set -o pipefail
+    CERTIFI=$({{ pulp_install_dir }}/bin/python -c 'import certifi; print(certifi.where())')
+    cat {{ pulp_certs_dir }}/root.crt | tee -a $CERTIFI
+    CERT=$(python -c 'import ssl; print(ssl.get_default_verify_paths().openssl_cafile)')
+    cat $CERTIFI | tee -a $CERT
+  args:
+    # Debian defaults to bourne, but it doesn't understand pipefail.
+    executable: /bin/bash
+  changed_when: false
+  check_mode: false
+  become: yes
+  become_user: root
 ...

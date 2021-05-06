@@ -168,7 +168,7 @@ pbindings(){
 
     if [ $1 != 'pulpcore' ]
     then
-        ./generate.sh pulpcore "$lang"
+        PULP_URL="{{ pulp_webserver_disable_https | default(false) | ternary('http', 'https') }}://{{ ansible_fqdn }}" ./generate.sh pulpcore "$lang"
         case "$lang" in
             python)
                 pip install ./pulpcore-client
@@ -190,7 +190,7 @@ pbindings(){
         for i in {1..5}; do http :24817/pulp/api/v3/status/ && break || sleep 5; done
     fi
 
-    ./generate.sh $@
+    PULP_URL="{{ pulp_webserver_disable_https | default(false) | ternary('http', 'https') }}://{{ ansible_fqdn }}" ./generate.sh $@
     case "$lang" in
         python)
             pip install ./$1-client

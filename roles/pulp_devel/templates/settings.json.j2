@@ -1,17 +1,17 @@
 {
   "hosts": [
     {
-      "hostname": "localhost",
+      "hostname": "{{ ansible_facts.fqdn }}",
       "roles": {
         "api": {
-          "port": 24817,
-          "scheme": "http",
+          "port": {{ pulp_webserver_disable_https | default(false) | ternary(80, 443) }},
+          "scheme": "{{ pulp_webserver_disable_https | default(false) | ternary('http', 'https') }}",
           "service": "nginx",
           "verify": false
         },
         "content": {
-          "port": 24816,
-          "scheme": "http",
+          "port": {{ pulp_webserver_disable_https | default(false) | ternary(80, 443) }},
+          "scheme": "{{ pulp_webserver_disable_https | default(false) | ternary('http', 'https') }}",
           "service": "pulpcore-content",
           "verify": false
         },
