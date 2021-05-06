@@ -1,5 +1,5 @@
 ---
-# Fedora 33 containers only have python3 by default
+# Fedora 34 containers only have python3 by default
 postgresql_python_library: python3-psycopg2
 
 # Geerlingguy.postgresql roles doesn't support F34
