@@ -2,19 +2,14 @@ Release Guide
 =============
 
 1. Ensure that pulpcore of the corresponding version is available on PyPI.
-1. Generate changelog (`towncrier --yes --version 3.8.0`).
-1. Update version in the `galaxy.yml` and in the `roles/pulp_common/{vars,defaults}/main.yml`.
-1. Update references to current and previous versions in `docs/index.md`
-   (`sed -i -e 's/3.7.1/3.8.0/g' -e 's/3.6.z/3.7.z/g' -e 's/3.5.z/3.6.z/g' docs/index.md`).\
+1. Run the release script (`python .ci/scripts/release.py`).
+1. Check the updated version in the `galaxy.yml` and in the `roles/pulp_common/{vars,defaults}/main.yml`.
+1. Check references to current and previous versions in `docs/index.md`\
    **NOTE**: Post releases are done in pulp_installer as needed.
    The format is in compliance with [PEP 440 for implicit post releases](https://www.python.org/dev/peps/pep-0440/#implicit-post-releases), e.g. 3.7.0-1.
 1. Create a PR with all the changes above and merge it after a review.
 1. Tag this commit with the name of the release, e.g. 3.8.0.
 1. Create a release on github based on the tag.
-1. Go to https://github.com/pulp/pulp_installer/actions/workflows/release.yml and monitor the job
-1. After the job is finished, confirm the collection is present at https://galaxy.ansible.com/pulp/pulp_installer
-1. Change the status of all issues that were referenced in the change log for this release to
-   CLOSED - CURRENTRELEASE.
 
 
 ## Manually uploading a collection to the Galaxy

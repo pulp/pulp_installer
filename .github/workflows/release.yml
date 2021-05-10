@@ -87,6 +87,10 @@ jobs:
         uses: actions/setup-python@v2
         with:
           python-version: "3.8"
+      - name: Setting secrets
+        run: python3 .github/workflows/scripts/secrets.py "$SECRETS_CONTEXT"
+        env:
+          SECRETS_CONTEXT: ${{ toJson(secrets) }}
       - name: Install Ansible
         run: pip install --upgrade ansible
       - name: Build Ansible Collection
@@ -95,6 +99,8 @@ jobs:
           make dist
       - name: Deploy Ansible Collection
         run: make publish GALAXY_API_KEY=${{ secrets.GALAXY_API_KEY }}
+      - name: Update Redmine
+        run: bash .ci/scripts/update_redmine.sh
 
   vagrant:
     runs-on: ubuntu-20.04
