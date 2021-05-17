@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - '*'
-    paths-ignore:
-      - 'docs/**'
 jobs:
   molecule:
     runs-on: ubuntu-latest
