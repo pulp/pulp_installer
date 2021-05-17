@@ -1,9 +1,6 @@
 ---
 name: Pulp PR
-on:
-  pull_request:
-    paths-ignore:
-      - 'docs/**'
+on: pull_request
 jobs:
   git-check:
     runs-on: ubuntu-latest
