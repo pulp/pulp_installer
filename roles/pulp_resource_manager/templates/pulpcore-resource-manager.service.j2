@@ -14,11 +14,15 @@ User={{ pulp_user }}
 Group={{ pulp_group }}
 WorkingDirectory=/var/run/pulpcore-resource-manager/
 RuntimeDirectory=pulpcore-resource-manager
+{% if __pulp_version is version('3.13', '>=') -%}
+ExecStart={{ __pulp_daemons_dir }}/pulpcore-worker --resource-manager
+{%- else -%}
 ExecStart={{ __pulp_daemons_dir }}/rq worker \
           -w pulpcore.tasking.worker.PulpWorker -n resource-manager \
           --pid=/var/run/pulpcore-resource-manager/resource-manager.pid \
           -c 'pulpcore.rqconfig' \
           --disable-job-desc-logging
+{%- endif %}
 
 # Enables tracking of process resource consumption at a unit & cgroup level.
 CPUAccounting=yes
