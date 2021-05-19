@@ -41,5 +41,9 @@ __pulp_version: '{{ pulpcore_version | default("3.12.2") }}'
 __pulp_old_artifact_dir: "{{ pulp_user_home | regex_replace('\\/$', '')  }}/artifact"
 __pulp_artifact_dir: "{{ pulp_media_root | regex_replace('\\/$', '')  }}/artifact"
 
+__galaxy_profile: '{{ galaxy_profile | default("standalone") }}'
+__galaxy_dev_source_path: '{{ galaxy_dev_source_path | default("pulpcore:pulp_ansible:pulp_container:galaxy_ng:galaxy-importer") }}'
+__galaxy_lock_requirements: '{{ galaxy_lock_requirements | default(0) }}'
+
 # Pulps own replacement for django-admin setup in the proper environment
 pulp_django_admin_path: "{{ pulp_install_dir }}/bin/pulpcore-manager"

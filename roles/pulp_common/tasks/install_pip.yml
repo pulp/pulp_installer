@@ -300,6 +300,10 @@
       when: item.value.source_dir is defined
       environment:
         SETUPTOOLS_USE_DISTUTILS: stdlib
+        # Galaxy variables for custom installation
+        COMPOSE_PROFILE: '{{ __galaxy_profile }}'
+        DEV_SOURCE_PATH: '{{ __galaxy_dev_source_path }}'
+        LOCK_REQUIREMENTS: '{{ __galaxy_lock_requirements }}'
       notify:
         - Collect static content
         - Restart all Pulp services
