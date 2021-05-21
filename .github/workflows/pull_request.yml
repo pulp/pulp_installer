@@ -41,7 +41,7 @@ jobs:
             python: "2.7"
             toxpy: "27"
           - test_type: source-static
-            ansible: "3.0"
+            ansible: "4.0"
             python: "3.9"
             toxpy: "39"
           - test_type: packages-static
@@ -57,7 +57,7 @@ jobs:
             python: "3.8"
             toxpy: "38"
           - test_type: packages-dynamic
-            ansible: "3.0"
+            ansible: "4.0"
             python: "3.9"
             toxpy: "39"
           - test_type: release-upgrade
@@ -114,7 +114,7 @@ jobs:
           pip install ansible-core
       - name: Install Molecule
         run: |
-          pip install "molecule!=3.3.1" docker molecule-docker ansible-lint[yamllint]
+          pip install "molecule!=3.3.1" docker molecule-docker "ansible-lint[yamllint] < 5.0.10"
           MOLECULE_PATH=$(pip show molecule | grep Location | cut -d' ' -f2)
           sed -i "/tasks:/i collections:" $MOLECULE_PATH/molecule_docker/playbooks/create.yml
           sed -i "/collections:/a - community.docker" $MOLECULE_PATH/molecule_docker/playbooks/create.yml
