@@ -32,7 +32,7 @@ Role Variables
     immediately before the venv is created. You will need to download it 1st (with
     ansible-galaxy.) Needed because many plugins will have OS dependencies in C.
     See `prereq_pip_packages` also.
-    * `collectstatic`: Optional. Boolean that specifies if the static for a plugin should be collected.
+    * `collectstatic`: Optional. Boolean that specifies if the static files for a plugin should be collected.
     If set to false the plugin name will be passed as `--ignore` at collectstatic time.
     * **Example**:
     ```yaml
@@ -73,7 +73,7 @@ Role Variables
   This variable will be set as the value of `CONTENT_HOST` as the base path to build content URLs.
 * `pulp_install_object_storage`: The preferred object storage. Defaults to `filesystem`.
 * `pulp_settings`: A nested dictionary that is used to add custom values to the user's
-    `setting.py`, which will override any default values set by pulpcore. The keys of this
+    `settings.py`, which will override any default values set by pulpcore. The keys of this
     dictionary are variable names, and the values should be expressed using the [Dynaconf syntax](
     https://dynaconf.readthedocs.io/en/latest/guides/environment_variables.html#precedence-and-type-casting)
     Please see [pulpcore configuration
