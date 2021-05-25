@@ -14,7 +14,9 @@ jobs:
         with:
           python-version: 3.8
       - name: Install ansible
-        run: pip install -U ansible docker
+        run: |
+          pip install -U ansible docker
+          ansible-galaxy collection install --force community.docker
       - name: Build image
         env:
           DOCKER_BOT_PASSWORD: ${{ secrets.DOCKER_BOT_PASSWORD }}
