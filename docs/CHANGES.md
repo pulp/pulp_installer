@@ -13,6 +13,41 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.13.0 (2021-05-26)
+===================
+
+
+Features
+--------
+
+- Adding support to Fedora 34
+  [#8688](https://pulp.plan.io/issues/8688)
+
+
+Bugfixes
+--------
+
+- Append missing slash to the token_server path.
+  [#8763](https://pulp.plan.io/issues/8763)
+
+
+Improved Documentation
+----------------------
+
+- Provide a much better explanation of customizing your installation, and how to use variables, in the new documentation section "Customizing Your Pulp Deployment".
+  [#8552](https://pulp.plan.io/issues/8552)
+
+
+Devel
+-----
+
+- Adding release script
+  [#7961](https://pulp.plan.io/issues/7961)
+
+
+----
+
+
 3.12.2 (2021-04-30)
 ===================
 
