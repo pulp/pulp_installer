@@ -5,9 +5,9 @@ The Pulp 3 Ansible installer is a collection of Ansible roles that you can use t
 
 Each Ansible role installs and configures a component of Pulp.
 
-This version of the installer, 3.12.2, installs Pulp 3.12.2 specifically.
+This version of the installer, 3.13.0, installs Pulp 3.13.0 specifically.
 
-If run against an older version of Pulp 3, it will upgrade it to 3.12.2.
+If run against an older version of Pulp 3, it will upgrade it to 3.13.0.
 
 ---
 **Didn't find what you need to get started?**
