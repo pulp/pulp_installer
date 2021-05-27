@@ -1,10 +1,33 @@
 ---
 name: Pulp CI
-on:
-  push:
-    branches:
-      - '*'
+on: pull_request
 jobs:
+  git-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.1
+      - run: |
+          git fetch --prune --unshallow
+      - name: Set up Python
+        uses: actions/setup-python@v2
+      - name: Install requests
+        run: pip install requests
+      - name: Check commit message
+        env:
+          GITHUB_CONTEXT: ${{ github.event.pull_request.commits_url }}
+        run: |
+          for sha in $(curl $GITHUB_CONTEXT | jq '.[].sha' | sed 's/"//g')
+          do
+            python .github/validate_commit_message.py $sha
+            VALUE=$?
+            if [ "$VALUE" -gt 0 ]; then
+              exit $VALUE
+            fi
+          done
+        shell: bash
+      - name: Check submodule status
+        run: |
+          .ci/submodule_check.sh
   molecule:
     runs-on: ubuntu-latest
     strategy:
@@ -18,9 +41,9 @@ jobs:
             python: "2.7"
             toxpy: "27"
           - test_type: source-static
-            ansible: "2.9"
-            python: "3.6"
-            toxpy: "36"
+            ansible: "3.0"
+            python: "3.9"
+            toxpy: "39"
           - test_type: packages-static
             ansible: "2.10"
             python: "3.7"
@@ -34,9 +57,9 @@ jobs:
             python: "3.8"
             toxpy: "38"
           - test_type: packages-dynamic
-            ansible: "2.9"
-            python: "3.7"
-            toxpy: "37"
+            ansible: "3.0"
+            python: "3.9"
+            toxpy: "39"
           - test_type: release-upgrade
             ansible: "2.9"
             python: "2.7"
@@ -63,7 +86,7 @@ jobs:
         if: matrix.test_type == 'release-upgrade' || matrix.test_type == 'source-upgrade'
         run: |
           docker pull quay.io/pulp/pulp-ci-dbuster:3.0.0
-          docker pull quay.io/pulp/pulp_rpm-ci-f31:3.1.0
+          docker pull quay.io/pulp/pulp_rpm-ci-f33:3.9.0
           docker pull quay.io/pulp/pulp_rpm-ci-c7:3.1.0
       - name: Pulling images for distro packages upgrades
         if: matrix.test_type == 'packages-upgrade'
@@ -72,6 +95,48 @@ jobs:
           docker pull quay.io/pulp/pulp-ci-pkgs-c8:3.3.1
       - name: Run tox
         run: tox -e "py${{ matrix.toxpy }}-ansible${{ matrix.ansible }}-${{ matrix.test_type }}"
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+        shell: bash
+  core:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.1
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+      - name: Install Ansible
+        run: |
+          pip install --upgrade pip
+          sudo apt remove ansible
+          pip install ansible-core
+      - name: Install Molecule
+        run: |
+          pip install "molecule!=3.3.1" docker molecule-docker "ansible-lint[yamllint] < 5.0.10"
+          ansible-galaxy collection install --force community.docker
+      - name: Install Collection
+        run: |
+          make vendor
+          make install
+          mkdir -p ~/.ansible/collections/ansible_collections/pulp/pulp_installer
+          cp -r ./build/collections/ansible_collections/pulp/pulp_installer/* ~/.ansible/collections/ansible_collections/pulp/pulp_installer
+          ansible-galaxy collection install --requirements-file requirements.yml
+          rm -rf ~/.ansible/collections/ansible_collections/community/general
+          ls -al ~/.ansible/collections/ansible_collections
+          ls -al ~/.ansible/collections/ansible_collections/community
+      - name: Adapting playbooks to use collection
+        run: |
+          sed -i "/roles:/i collections:" playbooks/example-source/playbook.yml
+          sed -i "/collections:/a - pulp.pulp_installer" playbooks/example-source/playbook.yml
+          sed -i "s/collections:/  collections:/g" playbooks/example-source/playbook.yml
+          sed -i "s/- pulp.pulp_installer/    - pulp.pulp_installer/g" playbooks/example-source/playbook.yml
+      - name: Molecule Test
+        run: |
+          ansible --version
+          env | grep ANSIBLE
+          molecule test --scenario-name source-static
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
