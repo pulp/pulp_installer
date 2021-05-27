@@ -1,5 +1,5 @@
 ---
-name: Pulp PR
+name: Pulp CI
 on: pull_request
 jobs:
   git-check:
