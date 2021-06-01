@@ -9,6 +9,8 @@ pulp_install_plugins:
   #   source_dir: "/home/vagrant/devel/pulp-2to3-migration"
   # pulp-ansible:
   #   source_dir: "/home/vagrant/devel/pulp_ansible"
+  #   # git_url: "https://github.com/pulp/pulp_ansible"  # optional git repo
+  #   # git_revision: "0.7.3"  # optional specific branch/tag/commit
   # pulp-certguard:
   #   source_dir: "/home/vagrant/devel/pulp-certguard"
   # pulp-container:
@@ -35,6 +37,10 @@ pulp_user: "vagrant"
 developer_user: "vagrant"
 developer_user_home: "/home/vagrant"
 pulp_source_dir: "/home/vagrant/devel/pulpcore"
+
+# Optional git specific branch
+# pulp_git_url: "https://github.com/pulp/pulpcore"
+# pulp_git_revision: "3.11"  # branch/tag/commit
 
 # # Uncomment to prevent https configuration
 # pulp_webserver_disable_https: true

@@ -49,6 +49,10 @@ Role Variables
         prereq_role: "pulp.pulp_four_role" # role to run immediately before the venv is created
       pulp-five:
         collectstatic: false
+      pulp-six:
+        source_dir: "/path/to/source/code/"
+        git_url: "https://github..."  # Optional. URL to the git repo from where plugin will be pulled.
+        git_revision: "v3.1.1"   # Optional. The specific git branch/tag/commit to be cheked out.
     ```
 * `pulp_cache_dir`: Location of Pulp cache. Defaults to "/var/lib/pulp/tmp".
 * `pulp_config_dir`: Directory which will contain Pulp configuration files.
@@ -60,6 +64,15 @@ Role Variables
 * `pulp_source_dir`: Optional. Absolute path to pulpcore source code. If
   present, pulpcore will be installed from source in editable mode. Also accepts
   a pip VCS URL, to (for example) install the master branch.
+* `pulp_git_url`: Optional. URL to the git repository from where pulpcore will be checked out if
+  doesn't exists already on `source_dir`.
+  > **WARNING** when `pulp_git_url` is defined this role will clone the repo if doesn't already
+  > exist in the `pulp_source_dir` location and also checkout/update to specified `pulp_git_revision` if
+  > provided. In the case of existing local repo with unstaged changes the update will NOT be forced.
+  > For development purposes the recommendation is to NOT provide `pulp_git_url` and manage local
+  > branches manually.
+* `pulp_git_revision`: Optional. The specific git branch/tag/commit to be cheked out
+  if git_url is provided.
 * `pulp_user`: User that owns and runs Pulp. Defaults to "pulp".
 * `pulp_user_id`: Integer value of uid for the `pulp_user`. Defaults to nothing and uid is assigned
   by the system.
