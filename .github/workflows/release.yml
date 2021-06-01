@@ -17,20 +17,12 @@ jobs:
             ansible: "2.9"
             python: "2.7"
             toxpy: "27"
-          - test_type: source-static
-            ansible: "2.9"
-            python: "3.6"
-            toxpy: "36"
           - test_type: packages-static
             ansible: "2.10"
             python: "3.7"
             toxpy: "37"
           - test_type: release-dynamic
             ansible: "2.10"
-            python: "3.8"
-            toxpy: "38"
-          - test_type: source-dynamic
-            ansible: "2.9"
             python: "3.8"
             toxpy: "38"
           - test_type: packages-dynamic
@@ -41,10 +33,6 @@ jobs:
             ansible: "2.9"
             python: "2.7"
             toxpy: "27"
-          - test_type: source-upgrade
-            ansible: "2.10"
-            python: "3.6"
-            toxpy: "36"
           - test_type: packages-upgrade
             ansible: "2.10"
             python: "3.6"
