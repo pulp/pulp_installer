@@ -216,6 +216,18 @@
         - Collect static content
         - Restart all Pulp services
 
+    - name: Clone or Checkout pulpcore source git repo
+      git:
+        repo: '{{ pulp_git_url }}'
+        dest: '{{ pulp_source_dir }}'
+        clone: yes
+        force: no
+        version: '{{ pulp_git_revision | default("master") }}'
+        update: yes
+      when: pulp_git_url is defined and pulp_source_dir is defined
+      tags:
+        - molecule-idempotence-notest
+
     - name: Install pulpcore package from source
       pip:
         name: '{{ pulp_source_dir }}'
@@ -279,6 +291,19 @@
       notify:
         - Collect static content
         - Restart all Pulp services
+
+    - name: Clone or Checkout pulp plugins source git repos
+      git:
+        repo: '{{ item.value.git_url }}'
+        dest: '{{ item.value.source_dir }}'
+        clone: yes
+        force: no
+        version: '{{ item.value.git_revision | default("master") }}'
+        update: yes
+      with_dict: '{{ pulp_install_plugins_normalized }}'
+      when: item.value.git_url is defined and item.value.source_dir is defined
+      tags:
+        - molecule-idempotence-notest
 
     - name: Install Pulp plugins from source
       pip:
