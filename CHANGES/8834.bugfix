@@ -1,1 +1,0 @@
-Enable installing in FIPS mode whenever installing from RPM packages (pulp_install_source == "packages"), which may be patched for FIPS mode.

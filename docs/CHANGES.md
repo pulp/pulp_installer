@@ -13,6 +13,27 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.11.2-1 (2021-06-02)
+=====================
+
+
+Bugfixes
+--------
+
+- Enable installing in FIPS mode whenever installing from RPM packages (pulp_install_source == "packages"), which may be patched for FIPS mode.
+  [#8834](https://pulp.plan.io/issues/8834)
+
+
+Devel
+-----
+
+- When CI runs for a tag (release), only run pip release and package tests, not source (devel) tests.
+  [#6550](https://pulp.plan.io/issues/6550)
+
+
+----
+
+
 3.11.2 (2021-05-26)
 
 No significant changes.
