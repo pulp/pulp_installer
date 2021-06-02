@@ -1,0 +1,1 @@
+When CI runs for a tag (release), only run pip release and package tests, not source (devel) tests.
