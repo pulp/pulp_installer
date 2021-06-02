@@ -74,6 +74,12 @@ pulpcore_selinux_version = input(
     "Please enter the pulpcore-selinux version e.g. (1.2.4): "
 )
 
+if not release_version:
+    raise RuntimeError("pulp_installer version not provided")
+
+if not pulpcore_version:
+    raise RuntimeError("pulpcore version not provided")
+
 issues_to_close = []
 for filename in Path(f"{plugin_path}/CHANGES").rglob("*"):
     if filename.stem.isdigit():
@@ -117,13 +123,14 @@ sed(
         "roles/pulp_common/vars/main.yml",
     ]
 )
-sed(
-    [
-        "-i",
-        f"/^__pulp_selinux_version/s/{previous_selinux_version}/{pulpcore_selinux_version}/",
-        "roles/pulp_common/defaults/main.yml",
-    ]
-)
+if pulpcore_selinux_version:
+    sed(
+        [
+            "-i",
+            f"/^__pulp_selinux_version/s/{previous_selinux_version}/{pulpcore_selinux_version}/",
+            "roles/pulp_common/defaults/main.yml",
+        ]
+    )
 sed(["-i", f"/^version/s/{previous_installer_version}/{release_version}/", "galaxy.yml"])
 prelude = "This version of the installer, "
 sed(
