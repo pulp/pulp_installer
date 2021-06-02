@@ -38,7 +38,7 @@
 - name: Check required roles if FIPS detected
   assert:
     that:
-      - "'pulp_devel' in role_names"
+      - ('pulp_devel' in role_names) or (pulp_install_source == 'packages')
     fail_msg: >
       Pulp cannot run in a FIPS environment because Django (a dependency) is not FIPS
       compatible
