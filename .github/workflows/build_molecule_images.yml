@@ -12,11 +12,14 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: 3.8
+          python-version: 3.9
       - name: Install ansible
         run: |
-          pip install -U ansible docker
+          pip install --upgrade pip
+          sudo apt remove ansible
+          pip install -U wheel ansible docker six
           ansible-galaxy collection install --force community.docker
+          ansible --version
       - name: Build image
         env:
           DOCKER_BOT_PASSWORD: ${{ secrets.DOCKER_BOT_PASSWORD }}
