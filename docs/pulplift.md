@@ -41,7 +41,8 @@ Setting up a pulp development environment
 -----------------------------------------
 
 After you've set up the git submodules as outlined in the Setup section, you will need to
-[clone the source code](https://docs.pulpproject.org/en/master/nightly/contributing/dev-setup.html#get-the-source).
+[clone the source code](https://docs.pulpproject.org/en/master/nightly/contributing/dev-setup.html#get-the-source)
+in the parent directory of the `pulp_installer` clone.
 
 If you have any custom configuration options **including plugin choice**,
 see "Configuration" section below.
@@ -83,7 +84,7 @@ vagrant up pulp3-sandbox-centos7
 Source boxes, such as `pulp3-source-centos7` can be used to do an install of pulp with developer tools & helper scripts/aliases for developers.
 
 The example [configuration](#Configuration) requires that the `pulpcore` git repo directory and plugin git repo directories (e.g. `pulp_file`) exist in folders,
-under the same parent folder as `pulplift`, so they can be mounted on the box.
+under the same parent folder as `pulp_installer`, as they will be mounted on the box.
 
 If using libvirt, the [vagrant-sshfs](https://github.com/dustymabe/vagrant-sshfs#install-plugin) plugin must be installed to mount.
 
