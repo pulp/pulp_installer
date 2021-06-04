@@ -14,21 +14,6 @@
         home: '{{ developer_user_home }}'
       when: developer_user is defined
 
-    - name: Clone pulp repository
-      git:
-        repo: 'https://github.com/pulp/pulpcore.git'
-        dest: '{{ pulp_source_dir }}'
-        version: master
-        update: yes
-
-    - name: Clone pulp plugin repositories
-      git:
-        repo: '{{ item.value.git_repo | default( "https://github.com/pulp/" + item.key | replace("-", "_") ) }}'
-        dest: '{{ item.value.source_dir }}'
-        version: master
-        update: yes
-      with_dict: '{{ pulp_install_plugins }}'
-
     - name: Make devel directory world-writable
       file:
         path: /var/lib/pulp/
