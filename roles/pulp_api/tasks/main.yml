@@ -7,7 +7,6 @@
         ports: '{{ pulp_api_bind.split(":")[1] }}'
         proto: tcp
         setype: pulpcore_port_t
-      become: true
       when:
         - not (pulp_api_bind.startswith('unix:'))
         - ansible_facts.os_family == 'RedHat'
@@ -21,7 +20,6 @@
         owner: root
         group: root
         mode: 0644
-      become: true
       notify: Restart pulpcore-api.service
 
     - name: Set the pulpcore-api service state
@@ -30,12 +28,10 @@
         state: started
         enabled: true
         daemon_reload: true
-      become: true
 
     - name: Ensure python-cryptography is installed
       package:
         name: '{{ pulp_python_cryptography }}'
-      become: true
 
     - name: Create cert directory to hold token authentication key
       file:
@@ -44,23 +40,22 @@
         owner: "{{ pulp_user }}"
         group: "{{ pulp_group }}"
         mode: 0700
-      become: true
 
-    - import_tasks: generate_token_auth_key.yml
-      when: pulp_token_auth_key is undefined
+  become: true
 
-    - import_tasks: import_token_auth_key.yml
-      when: pulp_token_auth_key is defined
+- import_tasks: generate_token_auth_key.yml
+  when: pulp_token_auth_key is undefined
 
-    - name: Extract token authentication public key
-      openssl_publickey:
-        path: "{{ pulp_certs_dir }}/token_public_key.pem"
-        privatekey_path: "{{ pulp_certs_dir }}/token_private_key.pem"
-        owner: "{{ pulp_user }}"
-        group: "{{ pulp_group }}"
-      become: true
-      become_user: "{{ pulp_user }}"
-      when:
-        - (ansible_version.major > 2) or (ansible_version.major == 2 and ansible_version.minor >= 9)
+- import_tasks: import_token_auth_key.yml
+  when: pulp_token_auth_key is defined
 
-  when: pulp_install_api_service | bool
+- name: Extract token authentication public key
+  openssl_publickey:
+    path: "{{ pulp_certs_dir }}/token_public_key.pem"
+    privatekey_path: "{{ pulp_certs_dir }}/token_private_key.pem"
+    owner: "{{ pulp_user }}"
+    group: "{{ pulp_group }}"
+  become: true
+  become_user: "{{ pulp_user }}"
+  when:
+    - (ansible_version.major > 2) or (ansible_version.major == 2 and ansible_version.minor >= 9)
