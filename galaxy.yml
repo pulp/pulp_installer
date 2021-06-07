@@ -10,7 +10,7 @@ namespace: pulp
 name: pulp_installer
 
 # The version of the collection. Must be compatible with semantic versioning
-version: 3.11.2-1
+version: 3.11.2-2
 
 # The path to the Markdown (.md) readme file. This path is relative to the root of the collection
 readme: README.md
