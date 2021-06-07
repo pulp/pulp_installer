@@ -39,6 +39,9 @@
         dest: "{{ inspec_download_source_dir }}"
         sha256sum: "{{ inspec_download_sha256sum }}"
         mode: 0755
+      retries: 3
+      register: download_result
+      until: download_result is succeeded
 
     - name: Install Inspec (apt)
       apt:
