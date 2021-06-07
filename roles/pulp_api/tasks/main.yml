@@ -1,6 +1,8 @@
 ---
 # tasks file for pulp_api
-- block:
+
+- name: Non-key-related pulp-api install tasks
+  block:
 
     - name: Apply the SELinux type to the TCP port that pulpcore-api listens on
       seport:
@@ -59,3 +61,18 @@
   become_user: "{{ pulp_user }}"
   when:
     - (ansible_version.major > 2) or (ansible_version.major == 2 and ansible_version.minor >= 9)
+
+- name: Import Pulp Database Encryption Key
+  copy:
+    src: "{{ pulp_db_fields_key }}"
+    dest: "{{ __pulp_db_fields_key_path }}"
+    owner: "{{ pulp_user }}"
+    group: "{{ pulp_group }}"
+    mode: 0600
+    remote_src: "{{ pulp_db_fields_key_remote }}"
+  notify: Restart all Pulp services
+  when: pulp_db_fields_key | length
+
+- import_tasks: generate_database_fields_key.yml
+  when:
+    - not pulp_db_fields_key | length
