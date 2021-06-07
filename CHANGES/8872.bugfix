@@ -1,0 +1,2 @@
+Ensure we clean the static folder before running collectstatic. This prevents
+some upgrade issues.
