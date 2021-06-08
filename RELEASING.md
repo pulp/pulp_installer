@@ -11,13 +11,15 @@ Release Guide
 1. Create a PR with all the changes above and merge it after a review.
 1. Tag this commit with the name of the release, e.g. 3.8.0.
 1. Create a release on github based on the tag.
-1. Upload the pulp_installer collection to the Galaxy.
+1. Go to https://github.com/pulp/pulp_installer/actions/workflows/release.yml and monitor the job
+1. After the job is finished, confirm the collection is present at https://galaxy.ansible.com/pulp/pulp_installer
 1. Change the status of all issues that were referenced in the change log for this release to
    CLOSED - CURRENTRELEASE.
 
 
-Uploading a collection to the Galaxy
-------------------------------------
+## Manually uploading a collection to the Galaxy
+
+For older releases of pulp_installer, you may have to manually upload the collection to galaxy.ansible.com.
 
 1. Prepare a tarball of the pulp_insaller collection (from inside the root of the collection, run `ansible-galaxy collection build`).\
    **NOTE**: ansible-galaxy>=2.9 is required.\
