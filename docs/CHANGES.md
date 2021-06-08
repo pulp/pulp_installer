@@ -13,6 +13,21 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.11.2-2 (2021-06-07)
+=====================
+
+
+Bugfixes
+--------
+
+- Ensure we clean the static folder before running collectstatic. This prevents
+  some upgrade issues.
+  [#8872](https://pulp.plan.io/issues/8872)
+
+
+----
+
+
 3.11.2-1 (2021-06-02)
 =====================
 
