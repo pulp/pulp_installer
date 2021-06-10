@@ -7,6 +7,10 @@
   when:
     - ansible_facts.distribution == 'Debian'
     - ansible_facts['distribution_major_version'] == "10"
+  retries: "{{ pulp_devel_package_retries }}"
+  delay: 12
+  register: result
+  until: result is succeeded
 
 - name: Ensure podman repository (Debian-specific)
   apt_repository:
@@ -16,6 +20,10 @@
   when:
     - ansible_facts.distribution == 'Debian'
     - ansible_facts['distribution_major_version'] == "10"
+  retries: "{{ pulp_devel_package_retries }}"
+  delay: 12
+  register: result
+  until: result is succeeded
 
 - name: Ensure backports repository (Debian-specific)
   apt_repository:
