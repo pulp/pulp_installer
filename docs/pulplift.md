@@ -83,7 +83,7 @@ vagrant up pulp3-sandbox-centos7
 
 Source boxes, such as `pulp3-source-centos7` can be used to do an install of pulp with developer tools & helper scripts/aliases for developers.
 
-The example [configuration](#Configuration) requires that the `pulpcore` git repo directory and plugin git repo directories (e.g. `pulp_file`) exist in folders,
+The example [configuration](#configuration) requires that the `pulpcore` git repo directory and plugin git repo directories (e.g. `pulp_file`) exist in folders,
 under the same parent folder as `pulp_installer`, as they will be mounted on the box.
 
 If using libvirt, the [vagrant-sshfs](https://github.com/dustymabe/vagrant-sshfs#install-plugin) plugin must be installed to mount.
