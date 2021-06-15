@@ -1,0 +1,2 @@
+---
+- import_tasks: galaxy_importer.yml
