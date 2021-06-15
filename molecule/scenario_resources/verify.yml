@@ -62,6 +62,13 @@
         state: present
       when: ansible_facts.distribution == 'Fedora'
 
+    - name: Update systemd to resolve inspec being unable to inspect it
+      package:
+        name: systemd
+        state: latest  # noqa 403
+      when: (ansible_facts.distribution == 'Debian' and ansible_facts.distribution_major_version == '10') or
+            (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8')
+
     # Undeclared by the package, and not documented:
     # https://docs.chef.io/inspec/resources/port/
     - name: Install netstat dependency for inspec's port listening tests
