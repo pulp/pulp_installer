@@ -1,0 +1,27 @@
+---
+galaxy_info:
+  author: Galaxy Team
+  description: A role to setup galaxy_ng & galaxy_importer post install tasks
+  issue_tracker_url: https://issues.redhat.com/projects/AAH
+  license: GPL-2.0-or-later
+  company: Red Hat
+  min_ansible_version: 2.9
+  platforms:
+    - name: Debian
+      versions:
+        - buster
+    - name: Fedora
+      versions:
+        - 32
+        - 33
+        - 34
+    - name: EL
+      versions:
+        - 7
+        - 8
+  galaxy_tags:
+    - pulp
+    - pulpcore
+    - galaxy
+    - galaxyng
+  dependencies: []

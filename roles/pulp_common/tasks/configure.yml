@@ -36,4 +36,9 @@
         group: root
         mode: "0440"
 
+    - name: Include galaxy_ng post install role
+      include_role:
+        name: galaxy_post_install
+      when: pulp_install_plugins_normalized['galaxy-ng'] is defined
+
   become: true
