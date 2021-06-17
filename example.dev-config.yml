@@ -53,4 +53,5 @@ pulp_settings:
   content_origin: "{{ pulp_webserver_disable_https | default(false) | ternary('http', 'https') }}://{{ ansible_fqdn }}"
   allowed_export_paths: ["/tmp"]
   allowed_import_paths: ["/tmp"]
+  use_new_worker_type: true
 ...
