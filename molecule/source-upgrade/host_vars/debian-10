@@ -3,6 +3,7 @@ pulp_install_plugins:
   pulp-file:
     upgrade: true
     git_url: "https://github.com/pulp/pulp_file"
+    git_revision: "1.6"
     source_dir: "/var/lib/pulp/devel/pulp_file"
   # pulp-rpm:
   #   upgrade: true

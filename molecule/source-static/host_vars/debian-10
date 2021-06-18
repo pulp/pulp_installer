@@ -15,6 +15,7 @@ pulp_install_plugins:
   pulp-file:
     git_url: "https://github.com/pulp/pulp_file"
     source_dir: "/var/lib/pulp/devel/pulp_file"
+    git_revision: "1.6"
   # pulp-gem:
   #   source_dir: "/var/lib/pulp/devel/pulp_gem"
   # pulp-maven:

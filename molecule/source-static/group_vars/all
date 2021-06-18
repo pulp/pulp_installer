@@ -2,7 +2,7 @@
 pulp_default_admin_password: password
 pulp_source_dir: '/var/lib/pulp/devel/pulpcore'
 pulp_git_url: "https://github.com/pulp/pulpcore"
-pulp_git_revision: "master"
+pulp_git_revision: "3.7"
 pulp_api_bind: "unix:/var/run/pulpcore-api/pulpcore-api.sock"
 pulp_content_bind: "unix:/var/run/pulpcore-content/pulpcore-content.sock"
 pulp_install_plugins:
@@ -20,7 +20,7 @@ pulp_install_plugins:
   #   source_dir: "/var/lib/pulp/devel/pulp_deb"
   pulp-file:
     git_url: "https://github.com/pulp/pulp_file"
-    git_revision: "master"
+    git_revision: "1.6"
     source_dir: "/var/lib/pulp/devel/pulp_file"
   # pulp-gem:
   #   source_dir: "/var/lib/pulp/devel/pulp_gem"
@@ -32,7 +32,7 @@ pulp_install_plugins:
   #   source_dir: "/var/lib/pulp/devel/pulp_python"
   pulp-rpm:
     git_url: "https://github.com/pulp/pulp_rpm"
-    git_revision: "master"
+    git_revision: "3.11"
     source_dir: "/var/lib/pulp/devel/pulp_rpm"
 developer_user_home: /var/lib/pulp
 developer_user: pulp
