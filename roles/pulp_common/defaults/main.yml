@@ -24,6 +24,7 @@ pulp_use_system_wide_pkgs: false
 prereq_pip_packages:
   - Jinja2
   - pygments
+  - "psycopg2!=2.9,!=2.9.1"
 pulp_rhel_codeready_repo:
   - codeready-builder-for-rhel-8-x86_64-rpms
   - rhui-codeready-builder-for-rhel-8-rhui-rpms

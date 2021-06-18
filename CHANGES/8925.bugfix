@@ -1,0 +1,1 @@
+Fix pulp_installer being unable to install pulpcore from source ("AssertionError: database connection isn't set to UTC" during "pulp_database_config : Run database migrations") by preventing the pulpcore dependency psycopg2 from being either version 2.9 or 2.9.1.
