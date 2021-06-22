@@ -1,0 +1,4 @@
+[galaxy-importer]
+{% for key, value in galaxy_importer_settings.items() %}
+{{ key | upper }} = {{ value }}
+{% endfor %}
