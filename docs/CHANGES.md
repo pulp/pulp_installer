@@ -13,6 +13,34 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.11.2-4 (2021-06-24)
+=====================
+
+
+Features
+--------
+
+- Add git repo and revision to pulcore and plugin installer.
+  [#6547](https://pulp.plan.io/issues/6547)
+
+
+Bugfixes
+--------
+
+- Fix pulp_installer being unable to install pulpcore from source ("AssertionError: database connection isn't set to UTC" during "pulp_database_config : Run database migrations") by preventing the pulpcore dependency psycopg2 from being either version 2.9 or 2.9.1.
+  [#8925](https://pulp.plan.io/issues/8925)
+
+
+Devel
+-----
+
+- Fix upgrade CI tests failing on Debian 10 & CentOS 8 during verification by upgrading systemd.
+  [#8887](https://pulp.plan.io/issues/8887)
+
+
+----
+
+
 3.11.2-2 (2021-06-07)
 =====================
 
