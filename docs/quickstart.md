@@ -96,3 +96,5 @@ This Getting Started guide is not exhaustive. See [Customizing Your Pulp Deploym
 for an explanation of the variables (`vars:`) you can put within the example playbook.
 
 Also see [Object Storage](objectstorage.md) and [Let's Encrypt](letsencrypt.md) for setting up either of those 2 integrations.
+
+After you have installed Pulp, you might like to also install the [Pulp 3 CLI](https://github.com/pulp/pulp-cli/blob/develop/docs/quickstart.md) so that you can use CLI commands.
