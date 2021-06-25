@@ -1,0 +1,1 @@
+Fix installation of molecule on python 2 by limiting the python 2 version of ruamel.yaml.clib to 0.2.2.
