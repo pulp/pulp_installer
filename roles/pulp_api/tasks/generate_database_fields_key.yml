@@ -41,7 +41,7 @@
 - name: Ensure correct permissions on new Pulp Database Encryption Key
   file:
     path: '{{ __pulp_db_fields_key_path }}'
-    owner: "{{ pulp_user }}"
+    owner: 'root'
     group: "{{ pulp_group }}"
-    mode: 0600
+    mode: 0640
   become: true
