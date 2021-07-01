@@ -1,1 +1,0 @@
-Remove the deprecated variable pulp_install_api_service. (It was previously stated to be removed in #7005, but was actually deprecated.)
