@@ -30,7 +30,7 @@
     result.json.redis_connection.connected and
     (
       result.json.online_workers | map(attribute='name') | select('match', '^resource-manager$') | list | count > 0 or
-      pulp_settings.use_new_worker_type | default(false)
+      pulp_settings.use_new_worker_type | default(true)
     ) and
     result.json.online_workers | map(attribute='name') | select('match', '^[0-9]+@.*$') | list | count > 0
   delay: 6
