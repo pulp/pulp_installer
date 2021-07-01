@@ -13,6 +13,48 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.14.0 (2021-07-01)
+
+Features
+--------
+
+- Add git repo and revision to pulcore and plugin installer.
+  [#6547](https://pulp.plan.io/issues/6547)
+- Create or import a key for pulp-api to use when encrypting sensitive db fields. Introduces new variables `pulp_db_fields` & `pulp_db_fields_key_remote`.
+  [#8704](https://pulp.plan.io/issues/8704)
+
+
+Bugfixes
+--------
+
+- Enable installing in FIPS mode whenever installing from RPM packages (pulp_install_source == "packages"), which may be patched for FIPS mode.
+  [#8834](https://pulp.plan.io/issues/8834)
+- Ensure we clean the static folder before running collectstatic. This prevents
+  some upgrade issues.
+  [#8872](https://pulp.plan.io/issues/8872)
+- Fix installation of molecule on python 2 by limiting the python 2 version of ruamel.yaml.clib to 0.2.2.
+  [#8977](https://pulp.plan.io/issues/8977)
+
+
+Deprecations and Removals
+-------------------------
+
+- Remove the deprecated variable pulp_install_api_service. (It was previously stated to be removed in #7005, but was actually deprecated.)
+  [#8871](https://pulp.plan.io/issues/8871)
+
+
+Devel
+-----
+
+- When CI runs for a tag (release), only run pip release and package tests, not source (devel) tests.
+  [#6550](https://pulp.plan.io/issues/6550)
+- Fix upgrade CI tests failing on Debian 10 & CentOS 8 during verification by upgrading systemd.
+  [#8887](https://pulp.plan.io/issues/8887)
+
+
+----
+
+
 3.13.0 (2021-05-26)
 ===================
 
