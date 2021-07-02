@@ -6,6 +6,7 @@
     get_checksum: false
     get_mime: false
   register: __pulp_db_fields_key_file
+  become: true
 
 # A theoretically better approach would be to use the jinja2 filter
 # `b64encode` and not have to install `openssl`.
