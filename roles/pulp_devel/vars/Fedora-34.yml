@@ -11,3 +11,4 @@ pulp_devel_distro_pkgs:
   - ripgrep
   - vim-enhanced
   - ruby-devel
+  - crun
