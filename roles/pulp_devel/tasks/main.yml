@@ -69,4 +69,32 @@
     src: motd
     dest: /etc/motd
   become: true
+
+- name: Check SELinux logs
+  stat:
+    path: "/var/log/audit/audit.log"
+  register: selinuxlog
+
+- name: SELinux Analyze
+  shell: |
+    set -o pipefail
+    sealert --analyze=/var/log/audit/audit.log | grep "SELinux is preventing"
+  args:
+    # Debian defaults to bourne, but it doesn't understand pipefail.
+    executable: /bin/bash
+  changed_when: false
+  register: selinux_analyze
+  check_mode: false
+  become: true
+  when:
+    - selinuxlog.stat.exists
+    - ansible_facts.os_family == "RedHat"
+
+- name: SELinux status
+  debug:
+    var: selinux_analyze.stdout_lines
+  when:
+    - ansible_facts.os_family == "RedHat"
+    - selinuxlog.stat.exists
+    - selinux_analyze.stdout
 ...
