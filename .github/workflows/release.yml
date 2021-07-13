@@ -94,5 +94,9 @@ jobs:
           make dist
       - name: Deploy Ansible Collection
         run: make publish GALAXY_API_KEY=${{ secrets.GALAXY_API_KEY }}
+      - name: Run publish docs script
+        env:
+          PULP_DOCS_KEY: ${{ secrets.PULP_DOCS_KEY }}
+        run: .ci/scripts/publish_docs.sh ${{ github.ref }}
       - name: Update Redmine
         run: bash .ci/scripts/update_redmine.sh
