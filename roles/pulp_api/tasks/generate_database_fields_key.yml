@@ -29,7 +29,8 @@
   shell: >-
     set -o pipefail &&
     umask 0077 &&
-    openssl rand -base64 32 > {{ __pulp_db_fields_key_path }}
+    openssl rand -base64 32
+    | tr '+/' '-_' > {{ __pulp_db_fields_key_path }}
   args:
     # Debian defaults to bourne, but it doesn't understand pipefail.
     executable: /bin/bash
@@ -41,7 +42,7 @@
 - name: Ensure correct permissions on new Pulp Database Encryption Key
   file:
     path: '{{ __pulp_db_fields_key_path }}'
-    owner: "{{ pulp_user }}"
+    owner: 'root'
     group: "{{ pulp_group }}"
-    mode: 0600
+    mode: 0640
   become: true
