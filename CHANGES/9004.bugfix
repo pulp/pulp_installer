@@ -1,1 +1,0 @@
-Fix failure on task `pulp_api : Check for existing Pulp Database Encryption Key` when connecting to the ansible-managed system as a user account other than root.

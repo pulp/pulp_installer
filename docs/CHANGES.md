@@ -13,6 +13,26 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.14.2 (2021-07-13)
+===================
+
+
+Bugfixes
+--------
+
+- Fix failure on task `pulp_api : Check for existing Pulp Database Encryption Key` when connecting to the ansible-managed system as a user account other than root.
+  [#9004](https://pulp.plan.io/issues/9004)
+
+
+Misc
+----
+
+- [#9007](https://pulp.plan.io/issues/9007)
+
+
+----
+
+
 3.14.1 (2021-07-08)
 ===================
 
