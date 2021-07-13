@@ -8,3 +8,4 @@ pulp_devel_distro_pkgs:
   - python3-virtualenv-clone
   - vim-enhanced
   - ruby-devel
+  - setroubleshoot

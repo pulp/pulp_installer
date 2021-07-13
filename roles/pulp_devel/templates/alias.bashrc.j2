@@ -149,6 +149,11 @@ pyclean () {
 }
 _pyclean_help="Cleanup extra python files"
 
+pselinux () {
+        sealert --analyze=/var/log/audit/audit.log | grep "SELinux is preventing"
+}
+_pselinux_help="Display SELinux errors"
+
 pbindings(){
     CURRENT_DIR=$(pwd)
     lang="${2:-python}"

@@ -15,6 +15,7 @@
       - gnupg
       - rubygems
       - npm
+      - rsyslog
     state: present
   retries: "{{ pulp_devel_package_retries }}"
   register: result
