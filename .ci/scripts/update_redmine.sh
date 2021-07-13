@@ -17,6 +17,11 @@ export RELEASE=$(echo $COMMIT_MSG | awk '{print $2}')
 export MILESTONE_URL=$(echo $COMMIT_MSG | grep -o "Redmine Milestone: .*" | awk '{print $3}')
 export REDMINE_QUERY_URL=$(echo $COMMIT_MSG | grep -o "Redmine Query: .*" | awk '{print $3}')
 
+if [[ "$REDMINE_QUERY_URL" == "https://pulp.plan.io/issues?set_filter=1&status_id=*&issue_id=" ]]; then
+  echo "No issues! $REDMINE_QUERY_URL"
+  exit 0
+fi
+
 echo "Releasing $RELEASE"
 echo "Milestone URL: $MILESTONE_URL"
 echo "Query: $REDMINE_QUERY_URL"
