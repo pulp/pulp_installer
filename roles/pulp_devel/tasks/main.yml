@@ -74,6 +74,7 @@
   stat:
     path: "/var/log/audit/audit.log"
   register: selinuxlog
+  become: true
 
 - name: SELinux Analyze
   shell: |
