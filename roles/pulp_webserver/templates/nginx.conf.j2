@@ -125,7 +125,9 @@ http {
 {% if not pulp_webserver_disable_https | bool %}
     server {
         listen {{ pulp_webserver_http_port }} default_server;
+        {% if ansible_facts['all_ipv6_addresses'] is defined and ansible_facts['all_ipv6_addresses'] | length > 0 -%}
         listen [::]:{{ pulp_webserver_http_port }} default_server;
+        {%- endif %}
         server_name _;
         return 301 https://$host$request_uri;
     }
