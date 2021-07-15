@@ -43,6 +43,8 @@
   environment:
     LC_ALL: en_US.UTF-8
     LANG: en_US.UTF-8
+    SETUPTOOLS_USE_DISTUTILS: stdlib
+    PATH: "{{ pulp_path }}"
   failed_when: '{{ failed_condition | default("compatibility.rc != 0") }}'
   changed_when: false
   become: true
