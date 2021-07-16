@@ -66,6 +66,7 @@ In the following example, a multitude of variables are set:
 
 ```
   vars:
+    pulpcore_update: true
     pulp_workers: 4
     pulp_install_plugins:
       pulp-container: {}
@@ -85,6 +86,8 @@ In the following example, a multitude of variables are set:
       azure_location: 'the folder within the container where your pulp objects will be stored'
       default_file_storage: 'storages.backends.azure_storage.AzureStorage'
 ```
+
+`pulpcore_update` is set to `true` which means that if pulpcore 3.16 is already installed, it will be upgraded to the latest patch release 3.16.z.
 
 `pulp_workers`, is set to `4`, which means that 4 worker processes will be started for processing jobs on a multi-core system. It replaces the default value of 2.
 
@@ -138,7 +141,7 @@ Recommended Workflows for Pulpcore & Plugin Versioning
 Initial installation:
 
 1. Make sure you are running the latest version of the installer, which installs pulpcore's
-   latest version.
+   latest 3.y release.
 1. Confirm that all the latest stable releases of your desired plugins are compatible with
    pulpcore's latest version , such as by reading the release announcement email thread for
    pulpcore's latest version, reading the plugins README, or as a last resort, reading their `setup.py`.
@@ -164,6 +167,8 @@ Upgrading your installation:
 1. If they are not all compatible yet, **wait** for the plugins to be updated for
    compatibility.
 1. Upgrade `pulp_installer` to the latest version.
+1. Set `pulpcore_update` to `true`. This will ensure that even if you are on the same minor release, the latest 
+   patch release will be installed.
 1. Set `pulp_install_plugins` with each plugin listed as a key, and with each plugin having a key under it called `upgrade` set to the value `true`.
 1. Re-run `pulp_installer`.
 1. Make sure to save your variables/playbook for later usage.
@@ -171,6 +176,7 @@ Upgrading your installation:
 Example `pulp_install_plugins`:
 ```
   vars:
+    pulpcore_update: true
     pulp_install_plugins:
       pulp-container:
          upgrade: true
@@ -178,6 +184,58 @@ Example `pulp_install_plugins`:
          upgrade: true
       pulp-rpm:
          upgrade: true
+```
+
+### Latest patch releases for minor releases of pulpcore and plugins
+
+Initial installation:
+
+1. Make sure you are running the latest version of the installer, which installs pulpcore's
+   latest 3.y release.
+1. Confirm that all the latest stable releases of your desired plugins are compatible with
+   pulpcore's latest version , such as by reading the release announcement email thread for
+   pulpcore's latest version, reading the plugins README, or as a last resort, reading their `setup.py`.
+1. Set `pulp_install_plugins` with each plugin listed as a key. For each each plugin add a key under it
+   called `version` set to the disired minor version of a plugin.
+1. Run `pulp_installer`.
+1. Make sure to save your variables/playbook for later usage.
+
+Example `pulp_install_plugins`:
+```
+  vars:
+    pulp_install_plugins:
+      pulp-container:
+        version: "2.8"
+      pulp-file:
+        version: "1.9"
+      pulp-rpm:
+        version: "3.15"
+```
+
+Upgrading your installation:
+
+1. Use the same version of `pulp_installer` that was used for the initial installation.
+1. Set `pulpcore_update` to `true`. This will upgrade your `pulpcore` package to the latest patch release.
+1. Set `pulp_install_plugins` with each plugin listed as a key. For each each plugin add a key under it
+   called `version` set to the currently install `x.y` plugin version. Add a key called `upgrade` set to
+   the value `true`.
+1. Re-run `pulp_installer`.
+1. Make sure to save your variables/playbook for later usage.
+
+Example `pulp_install_plugins`:
+```
+  vars:
+    pulpcore_update: true
+    pulp_install_plugins:
+      pulp-container:
+        version: "2.8"
+        upgrade: true
+      pulp-file:
+        version: "1.9"
+        upgrade: true
+      pulp-rpm:
+        version: "3.15"
+        upgrade: true
 ```
 
 ### Specifying Exact Versions with Reproducibility:

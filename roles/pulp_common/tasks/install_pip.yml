@@ -209,14 +209,10 @@
 
     - name: Install pulpcore via PyPI
       pip:
-        name: "pulpcore{{ '['+ pulp_install_object_storage +']' if pulp_install_object_storage != 'filesystem' else '' }}"
+        name: "pulpcore{{ '['+ pulp_install_object_storage +']' if pulp_install_object_storage != 'filesystem' else '' }}{% if __pulpcore_version | wordcount >2 %}=={{ __pulpcore_version }}{% else %}~={{ __pulpcore_version }}.0{% endif %}"
         # pulp_upgrade true/false -> ansible pip module latest/present ->
         # pip command "install --upgrade"/"install"
-        # Commented out because:
-        # "version is incompatible with state=latest"
-        # But we still need to handle upgrading dependencies.
-        # state: "{{ pulp_upgrade | ternary('latest','present') }}"
-        version: '{{ __pulp_version }}'
+        state: '{{ (pulpcore_update == true) | ternary("latest", "present") }}'
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
       when: pulp_source_dir is undefined
@@ -269,9 +265,10 @@
         clients: "{{ pulp_install_dir }}/bin/pip"
       register: pip_pkgs
 
-    - name: Set __pulp_version to the pulpcore that was installed
+    - name: Set __pulpcore_version to the pulpcore that was installed
       set_fact:
-        __pulp_version: "{{ pip_pkgs.packages[pulp_install_dir + '/bin/pip'].pulpcore[0].version }}"
+        __pulpcore_version: "{{ pip_pkgs.packages[pulp_install_dir + '/bin/pip'].pulpcore[0].version }}"
+      when: pulp_source_dir is defined
 
     - name: Patch md5usedforsecurity in Django (devel only)
       shell: |
@@ -300,13 +297,10 @@
 
     - name: Install Pulp plugins via PyPI
       pip:
-        name: '{{ item.key }}'
-        # item.upgrade true/false -> ansible pip module latest/present ->
-        # pip command "install --upgrade"/"install"
-        state: "{{ item.value.upgrade | default(false) | ternary('latest','present','present') }}"
-        # TODO: Handle the fact that "version is incompatible with state=latest"
-        # through proper means, rather than just telling users not to set both.
-        version: '{{ item.value.version | default(omit) }}'
+        name: "{{ item.key }}{% if item.value.version is defined %}{% if item.value.version|wordcount > 2 %}=={{ item.value.version }}{% else %}~={{ item.value.version }}.0{% endif %}{% endif %}"
+        # item.upgrade true/false -> ansible pip module latest / present
+        # pip command "install --upgrade install"
+        state: "{{ (item.value.upgrade | default(false) == true) | ternary('latest', 'present') }}"
         extra_args: "-c {{ pulp_install_dir }}/pip_constraints_for_plugins.txt"
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'

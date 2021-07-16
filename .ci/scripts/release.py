@@ -107,8 +107,8 @@ git.commit("-m", f"Building changelog for {release_version}\n\n[noissue]")
 
 # Second commit: release
 with open("roles/pulp_common/vars/main.yml") as f:
-    __pulp_version = yaml.safe_load(f)["__pulp_version"]
-    previous_pulpcore_version = __pulp_version.split('"')[1]
+    __pulpcore_version = yaml.safe_load(f)["__pulpcore_version"]
+    previous_pulpcore_version = __pulpcore_version.split('"')[1]
 
 with open("roles/pulp_common/defaults/main.yml") as f:
     previous_selinux_version = yaml.safe_load(f)["__pulp_selinux_version"]
@@ -119,7 +119,7 @@ with open("galaxy.yml") as f:
 sed(
     [
         "-i",
-        f"/^__pulp_version:/s/{previous_pulpcore_version}/{pulpcore_version}/",
+        f"/^__pulpcore_version:/s/{previous_pulpcore_version}/{pulpcore_version}/",
         "roles/pulp_common/vars/main.yml",
     ]
 )

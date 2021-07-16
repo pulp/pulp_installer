@@ -1,0 +1,1 @@
+`pulp_version` variable has been replaced with `pulpcore_version`.

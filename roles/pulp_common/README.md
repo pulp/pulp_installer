@@ -121,6 +121,9 @@ Role Variables
 * `pulp_certs_dir`: Path where to generate or drop the TLS certificates & keys for authentication
   tokens. Not used directly by pulp_common, but by roles that depend on it. Defaults to
   '{{ pulp_config_dir }}/certs' .
+* `pulpcore_update`: Boolean that specifies whether the pulpcore package should be updated to the
+  latest bug fix release within the minor release specified by `pulpcore_version`. Defaults
+  to `false`.
 
 Role Variables if installing from RPMs
 --------------------------------------
@@ -172,9 +175,9 @@ If it is set to "packages", the following variables are used, or behave *differe
 Role Variables for advanced usage
 ---------------------------------
 
-* `pulpcore_version`: Specify a specific version of pulpcore one would like to install or upgrade to.
-   By default the installer will do the right thing by using the version of pulpcore it is designed
-   for and tested with. It is strongly advised against setting.
+* `pulpcore_version`: Specify a minor version of pulpcore (e.g.: `3.15`) one would like to install or upgrade to.
+   By default the installer will do the right thing by using the minor version of pulpcore it is designed
+   for and tested with. This can also be a specific patch release (e.g.: `3.15.2`).
 * `pulp_service_timeout`: Set timeout value for pulp services. Defaults to 90.
 
 Shared Variables

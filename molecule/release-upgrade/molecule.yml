@@ -58,8 +58,6 @@ scenario:
     - create
     - prepare
     - converge
-    - idempotence
-    - check
     - side_effect
     - verify
 verifier:

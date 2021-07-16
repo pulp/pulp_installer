@@ -30,7 +30,7 @@
   become: true
   when:
     - ansible_facts.services['pulpcore-resource-manager.service'] is defined
-    - __pulp_version is version('3.14', '>=')
+    - __pulpcore_version is version('3.14', '>=')
 
 - name: Get already existing workers
   set_fact:

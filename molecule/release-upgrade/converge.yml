@@ -1,1 +1,144 @@
-../../playbooks/example-use/playbook.yml
+---
+- hosts: all
+  tasks:
+    - set_fact:
+        pulpcore_version: "3.14.5"
+    - set_fact:
+        pulp_install_plugins:
+          pulp_file:
+            version: "1.8.0"
+          pulp_rpm:
+            version: "3.13.0"
+      when: ansible_facts.os_family == 'RedHat'
+    - set_fact:
+        pulp_install_plugins:
+          pulp_file:
+            version: "1.8.0"
+      when: ansible_facts.os_family == 'Debian'
+    - include_role:
+        name: pulp_all_services
+    - name: Obtain list of packages & versions in the venv after install
+      pip_package_info:
+        clients: "/usr/local/lib/pulp/bin/pip"
+      register: pip_pkgs
+    - name: Assert pulpcore==3.14.5, pulp-file=1.8.0
+      assert:
+        that:
+          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulpcore'][0].version is version("3.14.5", "=")
+          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-file'][0].version is version("1.8.0", "=")
+    - name: Assert pulp-rpm==3.13.0
+      assert:
+        that:
+          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-rpm'][0].version is version("3.13.0", "=")
+      when: ansible_facts.os_family == 'RedHat'
+
+- hosts: all
+  tasks:
+    - set_fact:
+        pulpcore_version: "3.14"
+        pulpcore_update: false
+    - set_fact:
+        pulp_install_plugins:
+          pulp_file:
+            version: "1.8"
+            upgrade: false
+          pulp_rpm:
+            version: "3.13"
+            upgrade: false
+      when: ansible_facts.os_family == 'RedHat'
+    - set_fact:
+        pulp_install_plugins:
+          pulp_file:
+            version: "1.8"
+            upgrade: fasle
+      when: ansible_facts.os_family == 'Debian'
+    - include_role:
+        name: pulp_common
+    - name: Obtain list of packages & versions in the venv after install
+      pip_package_info:
+        clients: "/usr/local/lib/pulp/bin/pip"
+      register: pip_pkgs
+    - name: Assert pulpcore==3.14.5, pulp-file=1.8.0
+      assert:
+        that:
+          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulpcore'][0].version is version("3.14.5", "=")
+          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-file'][0].version is version("1.8.0", "=")
+    - name: Assert pulp-rpm==3.13.0
+      assert:
+        that:
+          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-rpm'][0].version is version("3.13.0", "=")
+      when: ansible_facts.os_family == 'RedHat'
+
+- hosts: all
+  tasks:
+    - set_fact:
+        pulpcore_version: "3.14"
+        pulpcore_update: true
+    - set_fact:
+        pulp_install_plugins:
+          pulp_file:
+            version: "1.8"
+            upgrade: true
+          pulp_rpm:
+            version: "3.13"
+            upgrade: true
+      when: ansible_facts.os_family == 'RedHat'
+    - set_fact:
+        pulp_install_plugins:
+          pulp_file:
+            version: "1.8"
+            upgrade: true
+      when: ansible_facts.os_family == 'Debian'
+    - include_role:
+        name: pulp_common
+    - name: Obtain list of packages & versions in the venv after install
+      pip_package_info:
+        clients: "/usr/local/lib/pulp/bin/pip"
+      register: pip_pkgs
+    - name: Assert pulpcore==3.14.6, pulp-file==1.8.2
+      assert:
+        that:
+          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulpcore'][0].version is version("3.14.6", ">=")
+          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-file'][0].version is version("1.8.2", ">=")
+    - name: Assert pulp-rpm==3.13.3
+      assert:
+        that:
+          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-rpm'][0].version is version("3.13.3", ">=")
+      when: ansible_facts.os_family == 'RedHat'
+
+- hosts: all
+  tasks:
+    - set_fact:
+        pulpcore_version: "3.15"
+        pulpcore_update: false
+    - set_fact:
+        pulp_install_plugins:
+          pulp_file:
+            version: "1.9"
+            upgrade: false
+          pulp_rpm:
+            version: "3.15"
+            upgrade: false
+      when: ansible_facts.os_family == 'RedHat'
+    - set_fact:
+        pulp_install_plugins:
+          pulp_file:
+            version: "1.9"
+            upgrade: fasle
+      when: ansible_facts.os_family == 'Debian'
+    - include_role:
+        name: pulp_common
+    - name: Obtain list of packages & versions in the venv after install
+      pip_package_info:
+        clients: "/usr/local/lib/pulp/bin/pip"
+      register: pip_pkgs
+    - name: Assert pulpcore==3.15.2, pulp-file=1.9.1
+      assert:
+        that:
+          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulpcore'][0].version is version("3.15.2", ">=")
+          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-file'][0].version is version("1.9.1", ">=")
+    - name: Assert pulp-rpm==3.15.0
+      assert:
+        that:
+          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-rpm'][0].version is version("3.15.0", ">=")
+      when: ansible_facts.os_family == 'RedHat'

@@ -140,8 +140,8 @@
   package_facts:
     manager: "auto"
 
-- name: Set __pulp_version to the RPM that was installed
+- name: Set __pulpcore_version to the RPM that was installed
   set_fact:
-    __pulp_version: "{{ ansible_facts.packages[pulp_pkg_pulpcore_name].0.version }}"
+    __pulpcore_version: "{{ ansible_facts.packages[pulp_pkg_pulpcore_name].0.version }}"
   when: pulpcore_version | default('') | length == 0
 ...

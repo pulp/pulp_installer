@@ -34,6 +34,7 @@
 
 - name: Run pip-compile to check pulpcore/plugin compatibility
   command: '{{ pulp_install_dir }}/bin/pip-compile
+{% if pulpcore_update|default(false, true) %} -P pulpcore {% endif %}
 {% for plugin, value in pulp_install_plugins_normalized.items() %}
 {% if value["upgrade"]|default(false, true) %} -P {{ plugin }} {% endif %}
 {% endfor %}'
