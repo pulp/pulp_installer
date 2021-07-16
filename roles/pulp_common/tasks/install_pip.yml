@@ -148,7 +148,7 @@
   when:
     - pulp_source_dir is undefined
     - pulp_install_plugins_normalized | dict2items | selectattr('value.prereq_role', 'defined') | list | count > 0
-    - pulp_install_plugins_normalized['pulp-rpm'] is defined
+      or pulp_install_plugins_normalized['pulp-rpm'] is defined
 
 - name: Include pulp-rpm prereq role
   include_role:
@@ -166,16 +166,17 @@
 
 # No loop over pulp_install_plugins_normalized; let's run this only once.
 # Also, this time it must succeed, a return code of 0.
-- name: Re-run preflight check after plugin prereq roles
+- name: Re-run preflight check after plugin prereq roles (if needed)
   include_tasks: preflight_function.yml
   vars:
     failed_condition: >
       (compatibility.rc != 0) and
       ("AttributeError: module \'setuptools.build_meta\' has no attribute \'__legacy__\'" not in compatibility.stderr)
-  # if it didn't succeed last time
+  # The "compatibility" lines make it so we only re-run if it ran into a build error the 1st time
   when:
     - pulp_source_dir is undefined
     - pulp_install_plugins_normalized | dict2items | selectattr('value.prereq_role', 'defined') | list | count > 0
+      or pulp_install_plugins_normalized['pulp-rpm'] is defined
     - compatibility is defined
     - compatibility.rc is defined
     - compatibility.rc != 0
