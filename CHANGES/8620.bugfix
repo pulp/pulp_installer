@@ -1,0 +1,1 @@
+Ensures that the pulpcore SELinux module is installed immediately after it is compiled. 
