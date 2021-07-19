@@ -70,6 +70,12 @@ publish: $(NAMESPACE)-$(NAME)-$(VERSION).tar.gz
 clean:
 	rm -rf build
 
+servedocs:
+	mkdocs serve
+
+site:
+	mkdocs build
+
 FORCE:
 
 .PHONY: help dist vendor install lint sanity test publish FORCE
