@@ -1,8 +1,11 @@
 ---
 pulp_preq_packages:
-  - python36
-  - python36-devel
+  # pip module doc: "The interpreter used by Ansible (see ansible_python_interpreter) requires the
+  # setuptools package, regardless of the version of pip set with the executable option."
   - python-setuptools
+  - rh-python38-python
+  - rh-python38-python-devel
+  - rh-python38-python-setuptools
   - libselinux-python  # For ansible itself
   - policycoreutils-python  # For ansible itself
   - rh-postgresql10-postgresql-devel
@@ -12,6 +15,6 @@ pulp_preq_packages:
   - sudo
   - gnupg2             # For the signing service via the gpg python module
 
-pulp_python_interpreter: /usr/bin/python3.6
+pulp_python_interpreter: '/opt/rh/rh-python38/root/usr/bin/python3.8'
 pulp_python_cryptography:
   - python-cryptography

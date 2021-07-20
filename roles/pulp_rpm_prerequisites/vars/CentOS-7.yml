@@ -22,7 +22,7 @@ rpm_prereq_packages:
   - ninja-build
   - openssl-devel
   - pycairo-devel
-  - python36-devel
+  - rh-python38-python-devel
   - rpm-devel
   - sqlite-devel
   - xz-devel
