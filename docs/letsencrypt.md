@@ -36,7 +36,7 @@ HTTP 01 verification.
 The 3rd-party role listed below,
 [lexa-uw.letsencrypt](https://galaxy.ansible.com/lexa-uw/letsencrypt), is an example. The variables listed below are meant for it, and can serve as a guide for other roles.
 
-You can learn more about the variables on the [roles section](https://pulp-installer.readthedocs.io/en/latest/roles/pulp/#role-variables)
+You can learn more about the variables on the [roles section](https://docs.pulpproject.org/pulp_installer/roles/pulp_common/#role-variables)
 
 1 -  Install the `pulp_installer` collection:
 ```

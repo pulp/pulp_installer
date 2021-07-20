@@ -2,7 +2,7 @@ pulp_health_check
 =================
 
 Verify if Pulp Services are up and listening.
-Note: this role is meant to be run on the host that [pulp_api](https://pulp-installer.readthedocs.io/en/latest/roles/pulp_api/) is run against
+Note: this role is meant to be run on the host that [pulp_api](https://docs.pulpproject.org/pulp_installer/roles/pulp_api/) is run against
 
 Shared Variables
 ----------------
