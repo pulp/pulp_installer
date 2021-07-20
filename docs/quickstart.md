@@ -31,7 +31,8 @@ they can be set in the playbook. See the Ansible docs for more flexible idiomati
 Example Playbook for Installing Plugins
 ---------------------------------------
 As an example, we are going to write a playbook for installing `pulp_container` and `pulp_rpm`.
-You can learn more about the variables on the [roles section](https://pulp-installer.readthedocs.io/en/latest/roles/pulp/#role-variables)
+
+You can learn more about the variables on the [roles section](https://docs.pulpproject.org/pulp_installer/roles/pulp_common/#role-variables)
 
 1 -  Install the `pulp_installer` collection:
 ```

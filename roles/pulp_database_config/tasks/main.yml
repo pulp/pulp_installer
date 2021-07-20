@@ -12,7 +12,7 @@
       set it in your variables
       (e.g. pulp_installer/playbooks/example-use/group_vars/all)
       and run pulp_installer again.
-      See https://pulp-installer.readthedocs.io/en/latest/ or
+      See https://docs.pulpproject.org/pulp_installer/ or
       pulp_installer/roles/pulp/README.md for more info.
   loop:
     - pulp_default_admin_password
