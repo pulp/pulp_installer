@@ -49,7 +49,7 @@
   include_tasks: ambiguously-named-repo.yml
   loop: "{{ rhel7_optional_repo }}"
   loop_control:
-    loop_var: __pulp_common_repo
+    loop_var: __ambiguously_named_repo
   when:
     - ansible_facts.distribution == "RedHat"
     - ansible_facts.distribution_major_version|int == 7
@@ -57,7 +57,7 @@
     - rhel7_optional_repo is not none
     - rhel7_optional_repo | length > 0
     # Prevents running again once completed.
-    - ambiguously_named_repo_enabled is not defined
+    - __pulp_common_repo_enabled is not defined
 
 # Note: There are at least 3 needs for this repo:
 # 1. pulp_devel needs it for at least python-django-bash-completion
@@ -73,7 +73,7 @@
   include_tasks: ambiguously-named-repo.yml
   loop: "{{ pulp_rhel_codeready_repo }}"
   loop_control:
-    loop_var: __pulp_common_repo
+    loop_var: __ambiguously_named_repo
   when:
     - ansible_facts.distribution == "RedHat"
     - ansible_facts.distribution_major_version|int >= 8
@@ -81,7 +81,7 @@
     - pulp_rhel_codeready_repo is not none
     - pulp_rhel_codeready_repo | length > 0
     # Prevents running again once completed.
-    - ambiguously_named_repo_enabled is not defined
+    - __pulp_common_repo_enabled is not defined
 
 # Corresponds to the rhel8+ CodeReady Linux Builder repo
 # Foreman reminds you to wear a yellow hardhat when using power tools.

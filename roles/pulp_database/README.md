@@ -23,6 +23,10 @@ Role Variables
     docs](https://docs.pulpproject.org/en/master/nightly/installation/configuration.html#databases) or
     [Django docs](https://docs.djangoproject.com/en/2.1/ref/settings/#databases) for more
     information.
+* `pulp_rhel7_scl_repo`: List of possible names for the rhel7 SCL (Software Collections) repo
+  to enable. Once the 1st name is enabled (or found to already be enabled),
+  no further names are attempted.
+  Defaults to  ["rhui-rhel-server-rhui-rhscl-7-rpms", "rhel-server-rhscl-7-rpms", "rhel-workstation-rhscl-7-rpms"] Note: This is not needed for CentOS 7, where the repos are enabled by installing `centos-release-*` packages.
 
 Shared Variables
 ----------------

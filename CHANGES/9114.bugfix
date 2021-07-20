@@ -1,0 +1,1 @@
+Fix pulp_database being incompatible with RHEL7 (since 3.11.0) by enabling the RHEL7 SCL repo on it. Introduces the new variable `rhel7_scl_repo`.

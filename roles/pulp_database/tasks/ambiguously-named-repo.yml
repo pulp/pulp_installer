@@ -1,6 +1,6 @@
 ---
-# NOTE: Keep in sync with pulp_database/tasks/ambiguously-named.repo.yml
-# NOTE: __pulp_common_repo_enabled is named specific to this version of ambiguously-named.repo.yml , since it
+# NOTE: Keep in sync with pulp_common/tasks/ambiguously-named.repo.yml
+# NOTE: __pulp_database_repo_enabled is named specific to this version of ambiguously-named.repo.yml , since it
 # would bleed over into other runs of other ambiguously-named.repo.yml files.
 
 - name: "Determine which file in /etc/yum.repos.d/ has the {{ __ambiguously_named_repo }} repo"
@@ -18,5 +18,5 @@
     value: "1"
     no_extra_spaces: true
   when: repo_file.rc == 0
-  register: "__pulp_common_repo_enabled"
+  register: "__pulp_database_repo_enabled"
   become: true
