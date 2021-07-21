@@ -10,3 +10,5 @@ build/
 
 # Ignores for Vagrant related items
 .vagrant/
+
+vagrant/boxes.d/*-local.yaml
