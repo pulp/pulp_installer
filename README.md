@@ -5,7 +5,7 @@ Pulp 3 Ansible Installer
 
 A collection of roles to install or upgrade Pulp 3. Can also reconfigure or add plugins to an existing install.
 
-See [https://pulp-installer.readthedocs.io](https://pulp-installer.readthedocs.io) for full documentation.
+See [https://docs.pulpproject.org/pulp_installer](https://docs.pulpproject.org/pulp_installer/) for full documentation.
 
 
 How to File an Issue
@@ -29,7 +29,7 @@ descriptions of all the fields and how they are used.
 Get Help
 --------
 
-Documentation: https://pulp-installer.readthedocs.io/en/latest/
+Documentation: https://docs.pulpproject.org/pulp_installer/
 
 Issue Tracker: https://pulp.plan.io
 

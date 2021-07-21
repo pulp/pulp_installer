@@ -52,7 +52,7 @@ WRT to #2, the large data structure variables are `pulp_settings` & `pulp_instal
 WRT to #3, the large data structure variable is `pulp_install_plugins`.
 
 Because the Pulp installer is composed of Ansible roles, you can use the variables for each of these roles to customize your Pulp installation.
-For example, if you want to specify firewall requirements, edit the corresponding firewall variables associated with the [pulp_webserver](https://pulp-installer.readthedocs.io/en/latest/roles/pulp_webserver/#pulp_webserver) role.
+For example, if you want to specify firewall requirements, edit the corresponding firewall variables associated with the [pulp_webserver](https://docs.pulpproject.org/pulp_installer/roles/pulp_webserver/#pulp_webserver) role.
 [Each role](index.md#roles) documents all the variables that it uses, including variables used by
 other Pulp Installer roles ("Shared Variables.")
 
@@ -128,7 +128,7 @@ from being installed or upgraded to an incompatible state.
 
 Thus you, yourself, must research plugin compatibility with the pulpcore version whenever you are
 installing one or more plugins. With each plugin release, the plugin compatibility is announced as
-part of the release announcement and included in the documentation for the specific plugin. 
+part of the release announcement and included in the documentation for the specific plugin.
 
 Recommended Workflows for Pulpcore & Plugin Versioning
 ------------------------------------------------------
