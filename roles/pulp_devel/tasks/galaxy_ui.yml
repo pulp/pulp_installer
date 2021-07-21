@@ -65,6 +65,6 @@
 
 - name: Download galaxy ui from github
   shell:
-    cmd: python setup.py prepare_static
+    cmd: python setup.py prepare_static --force-download-ui
     chdir: '{{ pulp_install_plugins["galaxy-ng"]["source_dir"] }}'
-  when: __galaxy_ui_source is defined and __galaxy_ui_source == "precompiled"
+  when: __galaxy_ui_source is not defined or __galaxy_ui_source == "precompiled"
