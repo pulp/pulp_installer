@@ -12,3 +12,8 @@ build/
 .vagrant/
 
 vagrant/boxes.d/*-local.yaml
+
+# Vim temporary/swap files
+*~
+*.swp
+*.swo
