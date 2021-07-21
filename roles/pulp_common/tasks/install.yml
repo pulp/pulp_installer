@@ -9,6 +9,16 @@
       # This is a lie, but necessary for Idempotence test
       changed_when: False
 
+    - name: Enable Python 3.8 module stream
+      command: dnf -y module enable python38
+      args:
+        warn: false
+      register: python38_module_enable
+      when:
+        - ansible_facts.distribution in ['RedHat', 'CentOS']
+        - ansible_facts.distribution_major_version | int == 8
+      changed_when: "'Enabling module streams' in python38_module_enable.stdout"
+
     - name: Install prerequisites
       package:
         name: '{{ pulp_preq_packages }}'
