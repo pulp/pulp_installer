@@ -2,6 +2,8 @@ Release Guide
 =============
 
 1. Ensure that pulpcore of the corresponding version is available on PyPI.
+1. Create/activate a virtualenv, with the script's dependencies installed (`pip install
+   python-redmine GitPython sh`)
 1. Run the release script (`python .ci/scripts/release.py`).
 1. Check the updated version in the `galaxy.yml` and in the `roles/pulp_common/{vars,defaults}/main.yml`.
 1. Check references to current and previous versions in `docs/index.md`\
