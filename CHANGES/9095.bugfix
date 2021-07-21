@@ -1,1 +1,0 @@
-Fixed the pre-flight check not being run when pulp-rpm is being installed, and `prereq_role` isn't explicitly specified.
