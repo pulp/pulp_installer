@@ -1,1 +1,0 @@
-Fixed the pre-flight check accidentally producing an error (and accidentally enforcing) on EL7 when not installing pulp-rpm. This bug was introduced in 3.11.0.

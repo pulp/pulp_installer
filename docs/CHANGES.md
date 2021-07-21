@@ -13,6 +13,26 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.14.2-1 (2021-07-21)
+=====================
+
+
+Bugfixes
+--------
+
+- Add ipv6 check for roles/pulp_webserver/templates/nginx.conf.j2 redirect rule using ansible facts
+  [#9089](https://pulp.plan.io/issues/9089)
+- Fixed the pre-flight check accidentally producing an error (and accidentally enforcing) on EL7 when not installing pulp-rpm. This bug was introduced in 3.11.0.
+  [#9093](https://pulp.plan.io/issues/9093)
+- Fixed the pre-flight check not being run when pulp-rpm is being installed, and `prereq_role` isn't explicitly specified.
+  [#9095](https://pulp.plan.io/issues/9095)
+- Fix pulp_database being incompatible with RHEL7 (since 3.11.0) by enabling the RHEL7 SCL repo on it. Introduces the new variable `rhel7_scl_repo`.
+  [#9114](https://pulp.plan.io/issues/9114)
+
+
+----
+
+
 3.14.2 (2021-07-13)
 ===================
 
