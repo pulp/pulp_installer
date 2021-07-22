@@ -53,7 +53,7 @@
           file:
             path: '{{ pulp_install_plugins["galaxy-ng"]["source_dir"] }}/galaxy_ng/app/static/galaxy_ng'
             state: directory
-        
+
         - name: Copying Ansible Hub UI to galaxy_ng static dir
           copy:
             src: '{{ hub_ui_path }}/dist/'
