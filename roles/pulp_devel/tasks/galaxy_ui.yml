@@ -48,10 +48,12 @@
           when:
             - is_hub_installed.stat.exists or ansible_hub_ui_git is defined
             - is_hub_installed.stat.exists or ansible_hub_ui_git.changed
+
         - name: Creates galaxy_ng static dir
           file:
             path: '{{ pulp_install_plugins["galaxy-ng"]["source_dir"] }}/galaxy_ng/app/static/galaxy_ng'
             state: directory
+        
         - name: Copying Ansible Hub UI to galaxy_ng static dir
           copy:
             src: '{{ hub_ui_path }}/dist/'
@@ -64,7 +66,7 @@
   when: __galaxy_ui_source is defined and __galaxy_ui_source == "source"
 
 - name: Download galaxy ui from github
-  shell:
+  command:
     cmd: python setup.py prepare_static --force-download-ui
     chdir: '{{ pulp_install_plugins["galaxy-ng"]["source_dir"] }}'
   when: __galaxy_ui_source is not defined or __galaxy_ui_source == "precompiled"
