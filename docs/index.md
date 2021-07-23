@@ -32,7 +32,7 @@ Ensure that your server, AKA the Ansible [managed node](https://docs.ansible.com
 runs one of these currently supported operating systems:
 
 - CentOS 7 or 8
-- Debian Buster (needs `allow_world_readable_tmpfiles = True` in ansible.cfg)
+- Debian Bullseye (needs `allow_world_readable_tmpfiles = True` in ansible.cfg)
 - Fedora 32 or later
 
 The server cannot provide any other HTTP (port 80, 443) service on the same hostname as Pulp's API. The only

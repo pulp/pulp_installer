@@ -9,6 +9,6 @@ molecule_images:
   - name: fedora-34
     image: fedora:34
     command: /usr/sbin/init
-  - name: debian-10
-    image: debian:10
+  - name: debian-11
+    image: debian:testing
     command: /sbin/init

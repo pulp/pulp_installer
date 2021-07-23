@@ -25,7 +25,7 @@
       # when: ansible_os_family == "RedHat" and ansible_distribution_major_version >= "7"
       when: ansible_os_family == "RedHat"
 
-    - name: Setting variables (Debian 9 / 10 / Ubuntu 18.04)
+    - name: Setting variables (Debian 11)
       set_fact:
         inspec_download_url: "https://packages.chef.io/files/stable/inspec/3.9.3/ubuntu/18.04/inspec_3.9.3-1_amd64.deb"
         inspec_download_sha256sum: 757dd2366a3932adc5fcc9382b30d77de6cc33152585f4c9f94f8918d9d349a7
@@ -107,11 +107,17 @@
       when: item.rc != 0
       with_items: "{{ test_results.results }}"
 
-    - name: Install dependency for RAM usage check
+    - name: Install dependency for RAM usage check (RedHat)
       yum:
         name: procps-ng
         state: present
       when: ansible_facts.os_family == 'RedHat'
+
+    - name: Install dependency for RAM usage check (Debian)
+      apt:
+        name: procps
+        state: present
+      when: ansible_facts.os_family == 'Debian'
 
     - name: Check RAM usage
       command: free -m

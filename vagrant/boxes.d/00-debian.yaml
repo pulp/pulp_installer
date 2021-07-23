@@ -1,5 +1,5 @@
-debian10:
-  box_name: 'debian/buster64'
+debian11:
+  box_name: 'debian/bullseye64'
   # box_check_update: false
   image_name: !ruby/regexp '/Debian 10.*/'
   pty: true

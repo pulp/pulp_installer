@@ -50,7 +50,7 @@ jobs:
       - name: Pulling images for PyPI upgrades
         if: matrix.test_type == 'release-upgrade' || matrix.test_type == 'source-upgrade'
         run: |
-          docker pull quay.io/pulp/pulp-ci-dbuster:3.0.0
+          docker pull quay.io/pulp/pulp-ci-dbullseye:3.14.3
           docker pull quay.io/pulp/pulp_rpm-ci-f33:3.9.0
           docker pull quay.io/pulp/pulp_rpm-ci-c7:3.1.0
       - name: Pulling images for distro packages upgrades

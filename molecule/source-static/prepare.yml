@@ -22,12 +22,6 @@
         recurse: true
       become: true
 
-    - name: Hot patch redis-server service for docker operation (Debian)
-      copy:
-        src: debian-redis-server.service
-        dest: /etc/systemd/system/redis-server.service
-      when: ansible_distribution == "Debian"
-
     - name: Ensure dnf is not installed, which would conflict with ansible-pulp-rpm
       yum:
         name:
