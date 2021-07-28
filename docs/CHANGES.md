@@ -13,6 +13,32 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.7.7 (2021-07-28)
+==================
+
+
+Features
+--------
+
+- Add git repo and revision to pulcore and plugin installer.
+  [#6547](https://pulp.plan.io/issues/6547)
+
+
+Bugfixes
+--------
+
+- Fix the "markuppy" `pkg_resources.DistributionNotFound` error on the task
+  `pulp_common : Collect static content`.
+  This occurs when installing from RPM packages on EL8 (ever since EPEL8 released
+  python-tablib-3.0.0-1.el8 on approximately 2021-07-23).
+  [#9166](https://pulp.plan.io/issues/9166)
+- If you upgrade from older pulpcore to pulpcore 3.7 from RPMs, `pulp_common: Collect static content` may fail due to dynaconf being too old (3.0.0rc1 is older than 3.0.0 final). If this happens, you can now workaround it by setting `pulp_pkg_upgrade_all: true` (or upgrading the RPM "python3-dynaconf").
+  [#9181](https://pulp.plan.io/issues/9181)
+
+
+----
+
+
 3.7.6 (2021-04-29)
 ==================
 
