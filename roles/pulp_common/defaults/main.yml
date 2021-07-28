@@ -21,6 +21,8 @@ pulp_user_home: '/var/lib/pulp'
 pulp_media_root: '/var/lib/pulp/media'
 pulp_pip_editable: yes
 pulp_use_system_wide_pkgs: false
+pulp_log_dir: '/var/log'
+pulp_log_file: 'pulp_audit.log'
 prereq_pip_packages:
   - Jinja2
   - pygments

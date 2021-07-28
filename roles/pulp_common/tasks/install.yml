@@ -156,6 +156,15 @@
         group: '{{ pulp_group }}'
         mode: "u+rwx,g+rwx,o+rx"
 
+    - name: Create log file for Pulp
+      file:
+        path: '{{ pulp_log_dir }}/{{ pulp_log_file }}'
+        state: touch
+        owner: '{{ pulp_user }}'
+        group: '{{ pulp_group }}'
+        mode: "u+rw"
+        # when: pulp_generate_audit_logs is defined?
+
     # If so, owner will be apache
     - name: Check if we have Pulp 2 installed
       stat:
