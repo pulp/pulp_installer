@@ -19,3 +19,25 @@
       when:
         - ansible_os_family == "RedHat"
         - ansible_distribution_major_version|int == 7
+
+    # Needed for the 1st time we run a package or apt task
+    - name: Update apt package index
+      apt:
+        update_cache: yes
+      when: ansible_facts.distribution == 'Debian' and ansible_facts.distribution_major_version == '10'
+      # We aren't really changing the system, so let's minimize the reporting of CHANGED tasks.
+      changed_when: False
+
+    # Probably needed due to a mismatch of systemd versions/capabilities between the Ubuntu GHA
+    # host and the container
+    - name: Update systemd to fix the Ansible systemd module
+      package:
+        name: systemd
+        state: latest  # noqa 403
+      when: (ansible_facts.distribution == 'Debian' and ansible_facts.distribution_major_version == '10') or
+            (ansible_facts.distribution == 'Fedora' and ansible_facts.distribution_major_version == '31')
+
+    # Possibly not necessary
+    - name: Make the systemd update take effect
+      systemd:
+        daemon_reexec: true
