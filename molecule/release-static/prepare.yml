@@ -7,6 +7,20 @@
         dest: /etc/systemd/system/redis-server.service
       when: ansible_distribution == "Debian"
 
+    # These 2 tasks exist in playbooks/example-use/playbook.yml , but we need
+    # them here so that yum/dnf commands can succeed.
+    - name: Check if pulpcore repo exists
+      stat:
+        path: /etc/yum.repos.d/pulpcore.repo
+      register: pulpcorerepo
+
+    - name: Remove pulpcore fedorapeople
+      lineinfile:
+        path: /etc/yum.repos.d/pulpcore.repo
+        regexp: 'fedorapeople'
+        line: "baseurl = {{ pulp_pkg_repo }}"
+      when: pulpcorerepo.stat.exists
+
     - name: Ensure dnf is not installed, which would conflict with ansible-pulp-rpm
       yum:
         name:
