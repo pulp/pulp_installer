@@ -1,0 +1,4 @@
+Add CI-only workaround for the following issue: pulp-installer doesn't not properly test
+upgrading RPM packages when `pulp_pkg_repo` (the repo URL) is set to a new value.
+The workaround is to delete the old repo file (`/etc/yum.repos.d/pulpcore.repo)
+during the molecule prepare phase.

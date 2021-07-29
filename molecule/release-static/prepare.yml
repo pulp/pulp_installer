@@ -19,3 +19,9 @@
       when:
         - ansible_os_family == "RedHat"
         - ansible_distribution_major_version|int == 7
+
+    # The task to add the repo doesn't upgrade it, so we have to remove it.
+    - name: Remove old pulpcore package repo
+      file:
+        path: /etc/yum.repos.d/pulpcore.repo
+        state: absent
