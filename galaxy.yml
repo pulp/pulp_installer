@@ -10,7 +10,7 @@ namespace: pulp
 name: pulp_installer
 
 # The version of the collection. Must be compatible with semantic versioning
-version: 3.7.6
+version: 3.7.7
 
 # The path to the Markdown (.md) readme file. This path is relative to the root of the collection
 readme: README.md
@@ -58,7 +58,7 @@ dependencies: {}
 repository: https://github.com/pulp/pulp_installer
 
 # The URL to any online docs
-documentation: https://pulp-installer.readthedocs.io/
+documentation: https://docs.pulpproject.org/pulp_installer/
 
 # The URL to the homepage of the collection/project
 homepage: https://pulpproject.org/

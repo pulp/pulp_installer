@@ -2,7 +2,7 @@
 site_name: Pulp Installer
 site_description: Pulp 3 Ansible Installer
 site_author: Pulp Team
-site_url: https://pulp-installer.readthedocs.io/
+site_url: https://docs.pulpproject.org/pulp_installer/
 repo_name: pulp/pulp_installer
 repo_url: https://github.com/pulp/pulp_installer
 theme: readthedocs

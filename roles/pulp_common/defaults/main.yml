@@ -14,7 +14,7 @@ pulp_upgrade: false
 #  they are confident that this version of pulp_installer is compatible with
 #  pulp_version.
 #  Ignored if pulp_source_dir is set
-pulp_version: "3.7.6"
+pulp_version: "3.7.7"
 pulp_user: pulp
 pulp_user_id:
 pulp_group: pulp
@@ -51,6 +51,7 @@ pulp_pkg_undeclared_deps:
   - python3-djangorestframework
   - python3-djangorestframework-queryfields
   - python3-markuppy  # Because of https://bugzilla.redhat.com/show_bug.cgi?id=1986965
+  - python3-dynaconf  # Because the 3.0.0 rc1 RPM is not new enough for pulpcore 3.7 which depends on it, but rpm thinks it is.
 pulp_pkg_upgrade_all: false
 pulp_upgraded_manually: false
 

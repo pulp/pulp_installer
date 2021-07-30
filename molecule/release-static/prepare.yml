@@ -7,6 +7,20 @@
         dest: /etc/systemd/system/redis-server.service
       when: ansible_distribution == "Debian"
 
+    # These 2 tasks exist in playbooks/example-use/playbook.yml , but we need
+    # them here so that yum/dnf commands can succeed.
+    - name: Check if pulpcore repo exists
+      stat:
+        path: /etc/yum.repos.d/pulpcore.repo
+      register: pulpcorerepo
+
+    - name: Remove pulpcore fedorapeople
+      lineinfile:
+        path: /etc/yum.repos.d/pulpcore.repo
+        regexp: 'fedorapeople'
+        line: "baseurl = {{ pulp_pkg_repo }}"
+      when: pulpcorerepo.stat.exists
+
     - name: Ensure dnf is not installed, which would conflict with ansible-pulp-rpm
       yum:
         name:
@@ -19,3 +33,27 @@
       when:
         - ansible_os_family == "RedHat"
         - ansible_distribution_major_version|int == 7
+
+    # Needed for the 1st time we run a package or apt task
+    - name: Update apt package index
+      apt:
+        update_cache: yes
+      when: ansible_facts.distribution == 'Debian' and ansible_facts.distribution_major_version == '10'
+      # We aren't really changing the system, so let's minimize the reporting of CHANGED tasks.
+      changed_when: False
+
+    # Probably needed due to a mismatch of systemd versions/capabilities between the Ubuntu GHA
+    # host and the container
+    - name: Update systemd to fix the Ansible systemd module, and inspec (verify phase)
+      package:
+        name: systemd
+        state: latest  # noqa 403
+      # Fixes ansible systemd module on Debian & Fedora, fixes inspec on EL8
+      when: (ansible_facts.distribution == 'Debian' and ansible_facts.distribution_major_version == '10') or
+            (ansible_facts.distribution == 'Fedora' and ansible_facts.distribution_major_version == '31') or
+            (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8')
+
+    # Possibly not necessary
+    - name: Make the systemd update take effect
+      systemd:
+        daemon_reexec: true
