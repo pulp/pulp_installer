@@ -50,6 +50,7 @@ pulp_pkg_undeclared_deps:
   - pulpcore-selinux
   - python3-djangorestframework
   - python3-djangorestframework-queryfields
+  - python3-markuppy  # Because of https://bugzilla.redhat.com/show_bug.cgi?id=1986965
 pulp_pkg_upgrade_all: false
 pulp_upgraded_manually: false
 
