@@ -30,12 +30,14 @@
 
     # Probably needed due to a mismatch of systemd versions/capabilities between the Ubuntu GHA
     # host and the container
-    - name: Update systemd to fix the Ansible systemd module
+    - name: Update systemd to fix the Ansible systemd module, and inspec (verify phase)
       package:
         name: systemd
         state: latest  # noqa 403
+      # Fixes ansible systemd module on Debian & Fedora, fixes inspec on EL8
       when: (ansible_facts.distribution == 'Debian' and ansible_facts.distribution_major_version == '10') or
-            (ansible_facts.distribution == 'Fedora' and ansible_facts.distribution_major_version == '31')
+            (ansible_facts.distribution == 'Fedora' and ansible_facts.distribution_major_version == '31') or
+            (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8')
 
     # Possibly not necessary
     - name: Make the systemd update take effect
