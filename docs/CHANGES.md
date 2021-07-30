@@ -13,6 +13,19 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.7.7-1 (2021-07-30)
+====================
+
+
+Misc
+----
+
+- Adding `requires_ansible` metadata [#8337](https://pulp.plan.io/issues/8337)
+
+
+----
+
+
 3.7.7 (2021-07-28)
 ==================
 
