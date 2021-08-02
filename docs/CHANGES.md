@@ -13,6 +13,29 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.11.2-5 (2021-08-02)
+
+Bugfixes
+--------
+
+- Add ipv6 check for roles/pulp_webserver/templates/nginx.conf.j2 redirect rule using ansible facts
+  [#9089](https://pulp.plan.io/issues/9089)
+- Fix the "markuppy" `pkg_resources.DistributionNotFound` error on the task
+  `pulp_common : Collect static content`.
+  This occurs when installing from RPM packages on EL8 (ever since EPEL8 released
+  python-tablib-3.0.0-1.el8 on approximately 2021-07-23).
+  [#9166](https://pulp.plan.io/issues/9166)
+
+
+Misc
+----
+
+- [#8977](https://pulp.plan.io/issues/8977)
+
+
+----
+
+
 3.11.2-4 (2021-06-24)
 =====================
 
