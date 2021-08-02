@@ -26,9 +26,9 @@ lint: |
   pre_build_image: true
 platforms:
   - <<: *platform_base
-    name: debian-10
+    name: debian-11
     # molecule often fails to pull, so we pull all images in .travis.yml
-    image: quay.io/pulp/pulp-ci-dbuster:3.0.0
+    image: quay.io/pulp/pulp-ci-dbullseye:3.14.3
     command: /sbin/init
   - <<: *platform_base
     name: fedora-33

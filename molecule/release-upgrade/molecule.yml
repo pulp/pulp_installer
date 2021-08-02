@@ -31,8 +31,8 @@ platforms:
     image: quay.io/pulp/pulp_rpm-ci-c7:3.1.0
     command: /sbin/init
   - <<: *platform_base
-    name: debian-10
-    image: quay.io/pulp/pulp-ci-dbuster:3.0.0
+    name: debian-11
+    image: quay.io/pulp/pulp-ci-dbullseye:3.14.3
     command: /sbin/init
   - <<: *platform_base
     name: fedora-33

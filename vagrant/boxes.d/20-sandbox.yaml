@@ -54,8 +54,8 @@ pulp3-sandbox-centos8-stream:
     playbook: "vagrant/playbooks/user-sandbox.yml"
     galaxy_role_file: "requirements.yml"
 
-pulp3-sandbox-debian10:
-  box: 'debian10'
+pulp3-sandbox-debian11:
+  box: 'debian11'
   memory: 4096
   ansible:
     playbook: "vagrant/playbooks/user-sandbox.yml"

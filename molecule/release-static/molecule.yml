@@ -34,8 +34,8 @@ platforms:
     image: pulp/molecule_centos8
     command: /sbin/init
   - <<: *platform_base
-    name: debian-10
-    image: pulp/molecule_debian10
+    name: debian-11
+    image: pulp/molecule_debian11
     command: /sbin/init
   - <<: *platform_base
     name: fedora-34

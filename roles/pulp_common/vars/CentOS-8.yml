@@ -1,1 +1,17 @@
-Fedora.yml
+---
+pulp_preq_packages:
+  - python38
+  - python38-devel
+  - python3-libselinux  # For ansible itself
+  - python3-policycoreutils  # For ansible itself
+  - gcc                 # For psycopg2
+  - make                # For make docs, and SELinux policy install
+  - libpq-devel         # Renamed/Split version of postgresql-devel
+  - git                 # For source install, and SELinux policy install
+  - sudo
+  - gnupg2              # For the signing service via the gpg python module
+
+# Pulp requires Python 3.8+.
+pulp_python_interpreter: /usr/bin/python3.8
+pulp_python_cryptography:
+  - python3-cryptography

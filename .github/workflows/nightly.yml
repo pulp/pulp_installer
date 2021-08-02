@@ -62,7 +62,7 @@ jobs:
       - name: Pulling images for PyPI upgrades
         if: matrix.test_type == 'release-upgrade' || matrix.test_type == 'source-upgrade'
         run: |
-          docker pull quay.io/pulp/pulp-ci-dbuster:3.0.0
+          docker pull quay.io/pulp/pulp-ci-dbullseye:3.14.3
           docker pull quay.io/pulp/pulp_rpm-ci-f33:3.9.0
           docker pull quay.io/pulp/pulp_rpm-ci-c7:3.1.0
       - name: Pulling images for distro packages upgrades
@@ -94,7 +94,7 @@ jobs:
           - test_type: pulp3-source-centos8-fips
           - test_type: pulp3-source-centos7-fips
           - test_type: pulp3-source-fedora34
-          - test_type: pulp3-source-debian10
+          - test_type: pulp3-source-debian11
           - test_type: pulp2-nightly-pulp3-source-centos7
     steps:
       - uses: actions/checkout@v2.3.1

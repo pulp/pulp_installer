@@ -195,8 +195,8 @@ pulp3-source-centos8-stream:
     playbook: "vagrant/playbooks/source-install.yml"
     galaxy_role_file: "requirements.yml"
 
-pulp3-source-debian10:
-  box: 'debian10'
+pulp3-source-debian11:
+  box: 'debian11'
   sshfs:
     host_path: '..'
     guest_path: '/home/vagrant/devel'
