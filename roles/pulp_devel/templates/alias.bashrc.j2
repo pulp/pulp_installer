@@ -46,7 +46,7 @@ pclean() {
     pdbreset
     sudo rm -rf {{ pulp_media_root }}/*
     redis-cli FLUSHALL
-    {{ pulp_django_admin_path }} collectstatic --noinput --link
+    {{ pulp_django_admin_path }} collectstatic --clear --noinput --link
 }
 _pclean_help="Restore pulp to a clean-installed state"
 # can get away with not resetting terminal settings here since it gets reset in phelp
@@ -172,7 +172,7 @@ pbindings(){
 
     if [ $comp != 'pulpcore' ]
     then
-        PULP_URL="{{ pulp_webserver_disable_https | default(false) | ternary('http', 'https') }}://{{ ansible_fqdn }}" ./generate.sh "$comp" "$lang" ${@:3}
+        PULP_URL="{{ pulp_webserver_disable_https | default(false) | ternary('http', 'https') }}://{{ ansible_fqdn }}" ./generate.sh pulpcore "$lang" ${@:3}
         case "$lang" in
             python)
                 pip install ./pulpcore-client
