@@ -27,7 +27,7 @@
   "pulp": {
     "auth": [
       "admin",
-      {{ pulp_default_admin_password | default("password") }}
+      "{{ pulp_default_admin_password | default('password') }}"
     ],
     "selinux enabled": false,
     "version": "3"
