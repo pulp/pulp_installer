@@ -1,0 +1,1 @@
+Add configuration needed for Galaxy api access log
