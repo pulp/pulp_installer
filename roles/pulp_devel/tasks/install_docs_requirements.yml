@@ -7,7 +7,7 @@
     virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
   when: pulp_source_dir is defined
 
-- name: Install requirements for testing locally
+- name: Install pulpcore requirements for testing locally
   pip:
     requirements: '{{ pulp_source_dir }}/test_requirements.txt'
     state: present
@@ -16,6 +16,18 @@
   when: pulp_source_dir is defined
   environment:
     SETUPTOOLS_USE_DISTUTILS: stdlib
+
+- name: Install plugin requirements for testing locally
+  pip:
+    requirements: '{{ item.value.source_dir }}/functest_requirements.txt'
+    state: present
+    virtualenv: '{{ pulp_install_dir }}'
+    virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+  with_dict: '{{ pulp_install_plugins_normalized }}'
+  when: item.value.source_dir is defined
+  environment:
+    SETUPTOOLS_USE_DISTUTILS: stdlib
+  ignore_errors: yes
 
 - name: Install requirements for developer scripts
   pip:
