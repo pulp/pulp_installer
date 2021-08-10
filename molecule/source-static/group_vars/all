@@ -20,7 +20,7 @@ pulp_install_plugins:
   #   source_dir: "/var/lib/pulp/devel/pulp_deb"
   pulp-file:
     git_url: "https://github.com/pulp/pulp_file"
-    git_revision: "master"
+    git_revision: "main"
     source_dir: "/var/lib/pulp/devel/pulp_file"
   # pulp-gem:
   #   source_dir: "/var/lib/pulp/devel/pulp_gem"
