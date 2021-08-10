@@ -7,3 +7,5 @@ ansible_python_interpreter: auto
 
 # Limit the actual tasks of the role to be run on only 1 node in a cluster deployment.
 __pulp_database_config_run_once: true
+
+pulp_db_fields_key: ''

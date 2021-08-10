@@ -14,12 +14,6 @@ Role Variables
 * `pulp_token_auth_key`: Location of the openssl private key (in pem format) to use for token
   authentication. If not specified, a new key wil be generated. (Only generated if one doesn't
   exist.)
-* `pulp_db_fields_key`: Relative or absolute path to the Fernet symmetric encryption key
-   one wants to import. It is used to encrypt certain fields in the database (such as credentials.)
-   If not specified, a new key will be generated. (Only generated if one doesn't exist.)
-* `pulp_db_fields_key_remote`: Whether or not the `pulp_database_fields_key`
-  are on the pulp-api system (`true`) or on the ansible management node (`false`).
-  Defaults to `false`.
 
 Shared variables
 ----------------
