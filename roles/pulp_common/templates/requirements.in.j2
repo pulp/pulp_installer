@@ -1,7 +1,7 @@
 pulpcore=={{ __pulp_version }}
 {% for plugin, value in pulp_install_plugins_normalized.items() %}
 {% if value['source_dir'] is defined and value['git_url'] is defined-%}
-git+{{ value['git_url']}}@{{ value['git_revision'] | default('master') }}#egg={{ plugin }}
+git+{{ value['git_url']}}{{ value['git_revision'] | ternary('@', '') }}{{ value['git_revision'] }}#egg={{ plugin }}
 {% elif value['source_dir'] is defined -%}
 -e {{ value['source_dir'] }}
 {% else -%}
