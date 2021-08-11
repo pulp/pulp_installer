@@ -77,3 +77,4 @@
     owner: 'root'
     group: "{{ pulp_group }}"
     mode: 0640
+  become: true
