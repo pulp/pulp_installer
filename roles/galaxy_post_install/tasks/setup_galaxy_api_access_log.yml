@@ -27,13 +27,16 @@
       path: /etc/default/pulpcore-api
     register: stat_result2
 
+  - name: Populate service facts
+    service_facts:
+
   - name: Set environment variable for Galaxy api access logging
     lineinfile:
       path: /etc/default/pulpcore-api
       line: GALAXY_ENABLE_API_ACCESS_LOG={{ pulp_settings['galaxy_enable_api_access_log'] | default(False) }}
       insertafter: EOF
       state: present
-    notify: Restart pulpcore-api.service
+    notify: Restart pulpcore-api.service post galaxy
     failed_when: not stat_result2.stat.exists
     when:
       - stat_result2.stat.exists
