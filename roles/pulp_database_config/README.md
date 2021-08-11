@@ -14,6 +14,9 @@ Role Variables
 * `pulp_default_admin_password`: Initial password for the Pulp admin. Only affects Pulp
   during initial install, not upgrades/updates or re-running the installer for any other
   reason. **Required**.
+* `pulp_db_fields_key`: Relative or absolute path to the Fernet symmetric encryption key
+   one wants to import. It is used to encrypt certain fields in the database (such as credentials.)
+   If not specified, a new key will be generated. (Only generated if one doesn't exist.)
 
 Shared Variables
 ----------------
@@ -28,6 +31,9 @@ variables which are documented in that role:
 * `pulp_django_admin_paths`
 * `pulp_settings_file`
 * `pulp_user`
+* `pulp_certs_dir`: Path where to generate or drop the keys for authentication token and database fields. Defaults to
+  '{{ pulp_config_dir }}/certs' .
+* `pulp_config_dir`
 
 This role understands how to talk to the database server via `pulp_settings_file`,
 which is written to disk in the `pulp_common` role, and whose relevant

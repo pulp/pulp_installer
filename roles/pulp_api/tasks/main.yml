@@ -62,17 +62,18 @@
   when:
     - (ansible_version.major > 2) or (ansible_version.major == 2 and ansible_version.minor >= 9)
 
-- name: Import Pulp Database Encryption Key
+- name: Get the database fields key from the pulp_database_config node
+  command: "cat {{ __pulp_db_fields_key_path }}"
+  delegate_to: "{{ __pulp_real_sole_database_config_host }}"
+  register: pulp_db_fields_key_content
+  changed_when: false
+  check_mode: false
+  become: true
+
+- name: Copy Pulp Database Encryption Key from pulp_database_config node
   copy:
-    src: "{{ pulp_db_fields_key }}"
+    content: "{{ pulp_db_fields_key_content.stdout }}"
     dest: "{{ __pulp_db_fields_key_path }}"
     owner: 'root'
     group: "{{ pulp_group }}"
     mode: 0640
-    remote_src: "{{ pulp_db_fields_key_remote }}"
-  notify: Restart all Pulp services
-  when: pulp_db_fields_key | length
-
-- import_tasks: generate_database_fields_key.yml
-  when:
-    - not pulp_db_fields_key | length

@@ -1,4 +1,8 @@
 ---
+- name: Set config fact
+  set_fact:
+    __pulp_real_sole_database_config_host: "{{ inventory_hostname }}"
+
 - name: Check if required variables are set
   assert:
     that:
@@ -21,6 +25,29 @@
 
 - name: Flush handlers
   meta: flush_handlers
+
+- name: Create cert directory to hold token authentication key
+  file:
+    path: "{{ pulp_certs_dir }}"
+    state: directory
+    owner: "{{ pulp_user }}"
+    group: "{{ pulp_group }}"
+    mode: 0700
+  become: true
+
+- name: Import Pulp Database Encryption Key
+  copy:
+    src: "{{ pulp_db_fields_key }}"
+    dest: "{{ __pulp_db_fields_key_path }}"
+    owner: 'root'
+    group: "{{ pulp_group }}"
+    mode: 0640
+  notify: Restart all Pulp services
+  when: pulp_db_fields_key | length
+
+- import_tasks: generate_database_fields_key.yml
+  when:
+    - not pulp_db_fields_key | length
 
 - block:
     - name: Run database migrations

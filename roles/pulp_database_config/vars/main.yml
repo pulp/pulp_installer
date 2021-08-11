@@ -1,1 +1,2 @@
 ---
+__pulp_db_fields_key_path: '{{ pulp_certs_dir }}/database_fields.symmetric.key'
