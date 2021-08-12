@@ -8,7 +8,7 @@ pulp_install_plugins:
 pulp_settings:
   secret_key: secret
   content_origin: "https://{{ ansible_fqdn }}"
-pulp_pkg_repo: "https://yum.theforeman.org/pulpcore/3.7/el{{ ansible_distribution_major_version }}/$basearch/"
+pulp_pkg_repo: "https://yum.theforeman.org/pulpcore/3.9/el{{ ansible_distribution_major_version }}/$basearch/"
 # Setting this not because it should have any effect, but to test that it
 # doesn't:
 pulp_pkg_upgrade_all: true
