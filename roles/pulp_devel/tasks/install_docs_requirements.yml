@@ -27,7 +27,7 @@
   when: item.value.source_dir is defined
   environment:
     SETUPTOOLS_USE_DISTUTILS: stdlib
-  ignore_errors: yes
+  ignore_errors: yes  # noqa ignore-errors
 
 - name: Install requirements for developer scripts
   pip:
