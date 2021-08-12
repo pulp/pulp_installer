@@ -13,6 +13,20 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.14.4 (2021-08-12)
+===================
+
+
+Features
+--------
+
+- Add configuration needed for Galaxy api access log
+  [#9177](https://pulp.plan.io/issues/9177)
+
+
+----
+
+
 3.14.3-1 (2021-08-04)
 =====================
 
