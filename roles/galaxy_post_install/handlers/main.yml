@@ -1,2 +1,10 @@
 ---
 # handlers for galaxy post install
+- name: Restart pulpcore-api.service post galaxy
+  systemd:
+    name: pulpcore-api.service
+    enabled: true
+    state: restarted
+    daemon_reload: true
+  become: true
+  when: ansible_facts.services['pulpcore-api.service'] is defined
