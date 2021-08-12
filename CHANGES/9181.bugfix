@@ -1,1 +1,0 @@
-If you upgrade from older pulpcore to pulpcore 3.7 from RPMs, `pulp_common: Collect static content` may fail due to dynaconf being too old (3.0.0rc1 is older than 3.0.0 final). If this happens, you can now workaround it by setting `pulp_pkg_upgrade_all: true` (or upgrading the RPM "python3-dynaconf").

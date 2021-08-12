@@ -1,1 +1,0 @@
-Add ipv6 check for roles/pulp_webserver/templates/nginx.conf.j2 redirect rule using ansible facts
