@@ -1,1 +1,0 @@
-Fix occasional failures on the tasks `pulp-webserver: Symlink Apache snippets` & `pulp-webserver: Symlink nginx snippets`.

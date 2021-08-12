@@ -1,3 +1,0 @@
-Ensure the requirements.in points to proper value fo the plugin when git_url
-is specified. Given this is run before the plugins is actually clone,
-source_dir repo is not yet available at that stage.

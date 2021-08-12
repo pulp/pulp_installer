@@ -13,6 +13,48 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.14.4 (2021-08-12)
+===================
+
+
+Features
+--------
+
+- Add configuration needed for Galaxy api access log
+  [#9177](https://pulp.plan.io/issues/9177)
+
+
+----
+
+
+3.14.3-1 (2021-08-04)
+=====================
+
+
+Bugfixes
+--------
+
+- Fix occasional failures on the tasks `pulp-webserver: Symlink Apache snippets` & `pulp-webserver: Symlink nginx snippets`.
+  [#9139](https://pulp.plan.io/issues/9139)
+- Fix the "markuppy" `pkg_resources.DistributionNotFound` error on the task
+  `pulp_common : Collect static content`.
+  This occurs when installing from RPM packages on EL8 (ever since EPEL8 released
+  python-tablib-3.0.0-1.el8 on approximately 2021-07-23).
+  [#9166](https://pulp.plan.io/issues/9166)
+
+
+Devel
+-----
+
+- Ensure the requirements.in points to proper value fo the plugin when git_url
+  is specified. Given this is run before the plugins is actually clone,
+  source_dir repo is not yet available at that stage.
+  [#9141](https://pulp.plan.io/issues/9141)
+
+
+----
+
+
 3.14.3 (2021-07-23)
 ===================
 
