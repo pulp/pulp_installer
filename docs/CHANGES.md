@@ -13,6 +13,43 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.9.1-2 (2021-08-12)
+
+Features
+--------
+
+- Add git repo and revision to pulcore and plugin installer.
+  [#6547](https://pulp.plan.io/issues/6547)
+
+
+Bugfixes
+--------
+
+- Fixed inability to install on CentOS 8.3 or CentOS Stream due to the newly renamed "powertools" repo
+  (formerly "PowerTools") not being enabled by the installer.
+  [#8407](https://pulp.plan.io/issues/8407)
+- Only listen IPv6 when it is configured on the managed host
+  [#8536](https://pulp.plan.io/issues/8536)
+- Add ipv6 check for roles/pulp_webserver/templates/nginx.conf.j2 redirect rule using ansible facts
+  [#9089](https://pulp.plan.io/issues/9089)
+- Fix the "markuppy" `pkg_resources.DistributionNotFound` error on the task
+  `pulp_common : Collect static content`.
+  This occurs when installing from RPM packages on EL8 (ever since EPEL8 released
+  python-tablib-3.0.0-1.el8 on approximately 2021-07-23).
+  [#9166](https://pulp.plan.io/issues/9166)
+- If you upgrade from older pulpcore to pulpcore 3.7 from RPMs, `pulp_common: Collect static content` may fail due to dynaconf being too old (3.0.0rc1 is older than 3.0.0 final). If this happens, you can now workaround it by setting `pulp_pkg_upgrade_all: true` (or upgrading the RPM "python3-dynaconf").
+  [#9181](https://pulp.plan.io/issues/9181)
+
+
+Misc
+----
+
+- [#8337](https://pulp.plan.io/issues/8337)
+
+
+----
+
+
 3.9.1-1 (2021-01-27)
 ====================
 

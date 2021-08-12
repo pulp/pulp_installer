@@ -1,4 +1,0 @@
-Fix the "markuppy" `pkg_resources.DistributionNotFound` error on the task
-`pulp_common : Collect static content`.
-This occurs when installing from RPM packages on EL8 (ever since EPEL8 released
-python-tablib-3.0.0-1.el8 on approximately 2021-07-23).
