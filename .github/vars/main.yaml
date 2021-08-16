@@ -10,5 +10,5 @@ molecule_images:
     image: fedora:34
     command: /usr/sbin/init
   - name: debian-11
-    image: debian:testing
+    image: debian:bullseye
     command: /sbin/init
