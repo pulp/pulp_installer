@@ -14,5 +14,8 @@ exclude_paths:
   - ./.vagrant/
   - ./molecule/
   - ./.cache/roles/geerlingguy.postgresql/
+  - ./.cache/ansible-lint/
+  - ../../.cache/ansible-lint/
+  - ../../../.cache/ansible-lint/
   - ./example.dev-config.yml
   - ./docs/
