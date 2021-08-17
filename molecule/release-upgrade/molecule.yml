@@ -32,7 +32,7 @@ platforms:
     command: /sbin/init
   - <<: *platform_base
     name: debian-11
-    image: quay.io/pulp/pulp-ci-dbullseye:3.14.3
+    image: quay.io/pulp/pulp-ci-dbullseye:3.14.4
     command: /sbin/init
   - <<: *platform_base
     name: fedora-33
