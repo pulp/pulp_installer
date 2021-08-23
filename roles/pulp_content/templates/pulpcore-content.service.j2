@@ -4,6 +4,7 @@ After=network-online.target
 Wants=network-online.target
 
 [Service]
+Type=notify
 Environment="DJANGO_SETTINGS_MODULE=pulpcore.app.settings"
 Environment="PULP_SETTINGS={{ pulp_settings_file }}"
 Environment="PATH={{ pulp_install_dir }}/bin:{{ default_bin_path }}"
