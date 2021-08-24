@@ -6,7 +6,7 @@ pulp_install_plugins:
   pulp-file:
     upgrade: true
   pulp-rpm:
-    upgrade: true
+    version: 3.14.0
 pulp_settings:
   secret_key: secret
   content_origin: "https://{{ ansible_fqdn }}"

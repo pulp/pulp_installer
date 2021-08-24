@@ -20,6 +20,8 @@
     name:
       - 'centos-release-scl-rh'
       - 'centos-release-scl'
+    state: present
+  become: yes
   when:
     - ansible_facts.distribution == "CentOS"
     - ansible_facts.distribution_major_version|int == 7
