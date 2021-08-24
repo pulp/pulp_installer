@@ -1,0 +1,1 @@
+Update pulpcore-selinux policies to 1.2.5. Adds support for Type=notify systemd Services (#9271). Hides a harmless SELinux denial from the audit logs when accessing /etc/httpd/mime.types on some systems like EL7 without `mailcap` installed.
