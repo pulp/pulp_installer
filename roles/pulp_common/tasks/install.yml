@@ -3,8 +3,7 @@
   block:
 
     - name: Update apt package index
-      apt:
-        update_cache: yes
+      raw: apt-get update --allow-releaseinfo-change
       when: ansible_facts.distribution == 'Debian'
       # This is a lie, but necessary for Idempotence test
       changed_when: False
