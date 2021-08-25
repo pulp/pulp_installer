@@ -13,6 +13,19 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.14.5 (2021-08-24)
+===================
+
+Features
+--------
+
+- Have systemd manage the pulpcore-api and pulpcore-content services as type=notify rather than type=simple. This means systemd will better understand whether the service is up and running before it lists it as "running".
+  [#9271](https://pulp.plan.io/issues/9271)
+
+
+----
+
+
 3.14.4 (2021-08-12)
 ===================
 
@@ -347,7 +360,7 @@ Devel
 Features
 --------
 
-- Added support for upgrading to pulpcore 3.10. 
+- Added support for upgrading to pulpcore 3.10.
 
   The installer moves an existing 'artifact' directory inside the MEDIA_ROOT path.
   [#8011](https://pulp.plan.io/issues/8011)
