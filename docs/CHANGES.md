@@ -13,6 +13,41 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.15.0 (2021-08-26)
+===================
+
+
+Features
+--------
+
+- Added support for Python 3.8 as needed by pulpcore 3.15.
+  [#9127](https://pulp.plan.io/issues/9127)
+- Updated minimum supported version of Debian to 11 (Bullseye). 
+  Debian 10 does not provide Python 3.8+ which is needed for pulpcore 3.15 and Django 3.2.
+  [#9136](https://pulp.plan.io/issues/9136)
+
+
+Bugfixes
+--------
+
+- Generate DB fields encryption key before migrations
+  [#9200](https://pulp.plan.io/issues/9200)
+- Update pulpcore-selinux policies to 1.2.5. Adds support for Type=notify systemd Services (#9271). Hides a harmless SELinux denial from the audit logs when accessing /etc/httpd/mime.types on some systems like EL7 without `mailcap` installed.
+  [#9272](https://pulp.plan.io/issues/9272)
+
+
+Deprecations and Removals
+-------------------------
+
+- Removed support for Debian 10 due to lack of Python 3.8+ in that distribution.
+  [#9136](https://pulp.plan.io/issues/9136)
+- `pulp_db_fields_key_remote` is no longer available
+  [#9200](https://pulp.plan.io/issues/9200)
+
+
+----
+
+
 3.14.5 (2021-08-24)
 ===================
 

@@ -1,1 +1,0 @@
-Removed support for Debian 10 due to lack of Python 3.8+ in that distribution.
