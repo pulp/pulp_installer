@@ -268,3 +268,8 @@ pminio(){
     _paction restart
 }
 _pminio_help="Switch to minio for S3 testing. For stopping it: pminio stop"
+
+pdb() {
+    pgcli -U pulp -h localhost
+}
+_pdb_help="Open a pgcli console to the pulp database"
