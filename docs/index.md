@@ -5,9 +5,9 @@ The Pulp 3 Ansible installer is a collection of Ansible roles that you can use t
 
 Each Ansible role installs and configures a component of Pulp.
 
-This version of the installer, 3.14.5, installs Pulp 3.14.5 specifically.
+This version of the installer, 3.15.0, installs Pulp 3.15.0 specifically.
 
-If run against an older version of Pulp 3, it will upgrade it to 3.14.5.
+If run against an older version of Pulp 3, it will upgrade it to 3.15.0.
 
 ---
 **Didn't find what you need to get started?**
@@ -41,7 +41,7 @@ long as the `apache` webserver is deployed for both.
 
 NOTE: These server requirements assume you are deploying Pulp to a single server. If you are deploying it
 to a cluster (with multiple tiers), the hardware requirements will differ, and only the webserver
-(pulp_webserver role) will have the service limitation. Each node must run a supported operating
+(`pulp_webserver` role) will have the service limitation. Each node must run a supported operating
 system from the list above, but each node can run a different OS.
 
 The Ansible collection requires [geerlingguy.postgresql](https://galaxy.ansible.com/geerlingguy/postgresql) role,
@@ -86,11 +86,11 @@ Roles
 - [pulp_workers](roles/pulp_workers): install, configure, and set the state of pulp workers.
 - [pulp_devel](roles/pulp_devel): installs useful tools and adds some config files for a Pulp 3 development environment.
 
-pulp_installer also is equipped with these prereq roles that perform additional tasks to install specific plugins:
+`pulp_installer` also is equipped with these prereq roles that perform additional tasks to install specific plugins:
 
 - [pulp_rpm_prerequisites](/prereq_roles/pulp_rpm_prerequisites): installs prerequisites for pulp-rpm plugin use
 
-pulp_installer also provides the following meta roles, which depend on a set of other roles. These provide
+`pulp_installer` also provides the following meta roles, which depend on a set of other roles. These provide
 the convenience of writing playbooks that specify one role, rather than a list of roles that often changes.
 
 - [pulp_all_services](meta_roles/pulp_all_services/): A role to install all Pulp services (first-party & third-party) on a single host.

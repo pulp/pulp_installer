@@ -61,6 +61,21 @@
     # when permissive or enforcing. That would be stored in .mode & .config_mode
     - ansible_facts.selinux.status == "enabled"
 
+- name: Check if venv already exists
+  stat:
+    path: "{{ pulp_install_dir }}/pyvenv.cfg"
+  register: previous_venv
+
+# Adding --upgrade to pip.virtualenv_command didn't work
+# Need to run it as command
+- name: Upgrade venv
+  command: "{{ pulp_python_interpreter }} -m venv --upgrade {{ pulp_install_dir }}"
+  when: previous_venv.stat.exists
+  tags:
+    - molecule-idempotence-notest
+  become: true
+  become_user: '{{ pulp_user }}'
+
 - name: Create pulp install dir
   file:
     path: '{{ pulp_install_dir }}'
