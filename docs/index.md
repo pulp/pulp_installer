@@ -88,7 +88,7 @@ Roles
 
 `pulp_installer` also is equipped with these prereq roles that perform additional tasks to install specific plugins:
 
-- [pulp_rpm_prerequisites](/prereq_roles/pulp_rpm_prerequisites): installs prerequisites for pulp-rpm plugin use
+- [pulp_rpm_prerequisites](prereq_roles/pulp_rpm_prerequisites): installs prerequisites for pulp-rpm plugin use
 
 `pulp_installer` also provides the following meta roles, which depend on a set of other roles. These provide
 the convenience of writing playbooks that specify one role, rather than a list of roles that often changes.
