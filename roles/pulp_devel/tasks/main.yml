@@ -53,6 +53,14 @@
   become: true
   become_user: "{{ developer_user }}"
 
+- name: Set crypto policy for Fedora (to allow using CDN certificates)
+  become: true
+  command: update-crypto-policies --set LEGACY
+  when:
+    - ansible_facts.distribution == "Fedora"
+  tags:
+    - molecule-idempotence-notest
+
 - name: Initialize galaxy data
   shell: >-
       source {{ developer_user_home }}/.bashrc.d/alias.bashrc

@@ -5,6 +5,13 @@
     dest: "{{ developer_user_home }}/.vimrc"
     force: no
 
+- name: Create ~/.pgpass if not already present
+  copy:
+    src: files/pgpass
+    dest: "{{ developer_user_home }}/.pgpass"
+    force: yes
+    mode: 0600
+
 - name: Create ~/.netrc if not already present
   template:
     src: templates/netrc.j2
