@@ -26,26 +26,26 @@ Before you install Pulp, review the [architecture and component documentation](h
 The Ansible [control node](https://docs.ansible.com/ansible/2.5/network/getting_started/basic_concepts.html#control-node)
 (i.e., your workstation) must have Python 3 and Ansible (>= 2.9) installed.
 
-Ensure that your server meets the [hardware requirements](https://docs.pulpproject.org/pulpcore/components.html#hardware-requirements) to install and run Pulp.
+Ensure that the server you use for Pulp, the Ansible [managed node](https://docs.ansible.com/ansible/2.5/network/getting_started/basic_concepts.html#managed-nodes),
+meets the [hardware requirements](https://docs.pulpproject.org/pulpcore/components.html#hardware-requirements) to install and run Pulp.
 
-Ensure that your server, AKA the Ansible [managed node](https://docs.ansible.com/ansible/2.5/network/getting_started/basic_concepts.html#managed-nodes),
-runs one of these currently supported operating systems:
+Ensure that the server runs one of these currently supported operating systems:
 
 - CentOS 7 or 8
 - Debian Buster (needs `allow_world_readable_tmpfiles = True` in ansible.cfg)
 - Fedora 32 or later
 
-The server cannot provide any other HTTP (port 80, 443) service on the same hostname as Pulp's API. The only
-exception is Pulp 2. The REST APIs for Pulp 2 and Pulp 3 can be served on the same hostname as
+The server cannot provide any other HTTP service (port 80, 443) on the same host name as Pulp's API. The only
+exception is Pulp 2. The REST APIs for Pulp 2 and Pulp 3 can be served on the same host name as
 long as the `apache` webserver is deployed for both.
 
 NOTE: These server requirements assume you are deploying Pulp to a single server. If you are deploying it
 to a cluster (with multiple tiers), the hardware requirements will differ, and only the webserver
-(pulp_webserver role) will have the service limitation. Each node must run a supported operating
+(pulp webserver role) will have the service limitation. Each node must run a supported operating
 system from the list above, but each node can run a different OS.
 
 The Ansible collection requires [geerlingguy.postgresql](https://galaxy.ansible.com/geerlingguy/postgresql) role,
-which you can install on the Ansible control node from ansible-galaxy.
+which you can install on the Ansible control node from ansible-galaxy:
 
 ```
 ansible-galaxy install geerlingguy.postgresql
@@ -59,12 +59,15 @@ These roles can be used against any managed node and are highly configurable.  K
 be helpful, but even if you are new to Ansible, this section will get you started, or you can try
 the Vagrant installations to bypass the Ansible boilerplate.
 
-First, you will need to configure SSH between your control node and your managed node. When you can
-SSH into the managed node without a password, you are ready to move to the next step.
+On the managed node, ensure SSH is running and enable password-less login from the control node:
 
-Next, add the managed node's hostname or IP address to `/etc/ansible/hosts`.
+```
+ssh-copy-id <managed_node_username>@<managed_node>
+```
 
-Ensure that Ansible can communicate with the managed node.
+On the control node, add the managed node's host name or IP address to `/etc/ansible/hosts`.
+
+Ensure that Ansible on the control node can communicate with the managed node:
 
 ```
 ansible all -m ping -u <managed_node_username>
@@ -75,18 +78,18 @@ Roles
 
 `pulp_installer` is equipped with the following roles:
 
-- [pulp_common](roles/pulp_common): installs shared components of the Pulp 3 services from PyPi or source and provides basic config
-- [pulp_api](roles/pulp_api): install, configure, and set the state of pulp API service
+- [pulp_common](roles/pulp_common): installs shared components of the Pulp 3 services from PyPi or source and provides basic configuration.
+- [pulp_api](roles/pulp_api): install, configure, and set the state of pulp API service.
 - [pulp_content](roles/pulp_content): install, configure, and set the state of pulp content app.
-- [pulp_database](roles/pulp_database): install a suitable database server for Pulp 3
-- [pulp_database_config](roles/pulp_database_config): configure the database for Pulp 3
-- [pulp_redis](roles/pulp_redis): install and start Redis, and install RQ in the Pulp virtualenv.
-- [pulp_resource_manager](roles/pulp_resource_manager): install, configure, and set the state of the pulp resouce manager.
+- [pulp_database](roles/pulp_database): install a suitable database server for Pulp 3.
+- [pulp_database_config](roles/pulp_database_config): configure the database for Pulp 3.
+- [pulp_redis](roles/pulp_redis): install and start Redis, and install RQ in the Pulp virtual environment.
+- [pulp_resource_manager](roles/pulp_resource_manager): install, configure, and set the state of the pulp resource manager.
 - [pulp_webserver](roles/pulp_webserver): install, configure, start, and enable a web server.
 - [pulp_workers](roles/pulp_workers): install, configure, and set the state of pulp workers.
-- [pulp_devel](roles/pulp_devel): installs useful tools and adds some config files for a Pulp 3 development environment.
+- [pulp_devel](roles/pulp_devel): installs useful tools and adds some configuration files for a Pulp 3 development environment.
 
-pulp_installer also is equipped with these prereq roles that perform additional tasks to install specific plugins:
+pulp_installer also is equipped with these roles that perform additional tasks to install specific plugins:
 
 - [pulp_rpm_prerequisites](/prereq_roles/pulp_rpm_prerequisites): installs prerequisites for pulp-rpm plugin use
 

@@ -85,16 +85,16 @@ vim install.yml
 ```
 4 - Run the playbook:
 ```
-ansible-playbook install.yml -u <managed_node_username> --ask-become-pass -i <pulp-server-name>,
+ansible-playbook install.yml -u <managed_node_username> --ask-become-pass --inventory <pulp-server-name>,
 ```
 <script id="asciicast-335829" src="https://asciinema.org/a/335829.js" async data-autoplay="true" data-speed="2"></script>
 
 Further Customization
 ---------------------
 
-This Getting Started guide is not exhaustive. See [Customizing Your Pulp Deployment](customizing.md)
+See [Customizing Your Pulp Deployment](customizing.md)
 for an explanation of the variables (`vars:`) you can put within the example playbook.
 
-Also see [Object Storage](objectstorage.md) and [Let's Encrypt](letsencrypt.md) for setting up either of those 2 integrations.
+See [Object Storage](objectstorage.md) and [Let's Encrypt](letsencrypt.md) for setting up either of those integrations.
 
-After you have installed Pulp, you might like to also install the [Pulp 3 CLI](https://github.com/pulp/pulp-cli/blob/develop/docs/quickstart.md) so that you can use CLI commands.
+For optional CLI command support, see [Pulp 3 CLI](https://github.com/pulp/pulp-cli/blob/develop/docs/quickstart.md).
