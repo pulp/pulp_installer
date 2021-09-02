@@ -4,7 +4,7 @@ pulp_default_admin_password: password
 pulp_upgrade: true
 pulp_install_plugins:
   pulp-file:
-    upgrade: true
+    version: 1.8.2
   pulp-rpm:
     version: 3.14.0
 pulp_settings:
