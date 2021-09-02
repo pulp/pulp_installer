@@ -9,7 +9,8 @@ pulp_install_plugins:
   # pulp-container: {}
   # pulp-cookbook: {}
   # pulp-deb: {}
-  pulp-file: {}
+  pulp-file:
+    version: 1.8.2
   # pulp-gem: {}
   # pulp-maven: {}
   # pulp-npm: {}
