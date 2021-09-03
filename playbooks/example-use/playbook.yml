@@ -50,6 +50,8 @@
         regexp: 'fedorapeople'
         line: "baseurl = {{ pulp_pkg_repo }}"
       when: pulpcorerepo.stat.exists
+  collections:
+    - pulp.pulp_installer
   roles:
     - pulp_all_services
   environment:
