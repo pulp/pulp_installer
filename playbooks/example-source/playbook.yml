@@ -34,6 +34,8 @@
           - pulp_settings.azure_location is defined
           - pulp_settings.default_file_storage is defined
       when: pulp_install_object_storage == "azure"
+  collections:
+    - pulp.pulp_installer
   roles:
     - pulp_all_services
     - pulp_devel
