@@ -11,3 +11,4 @@ pulp_devel_distro_pkgs:
   - software-properties-common
   - ruby-dev
   - jnettop
+  - nmap
