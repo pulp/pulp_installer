@@ -5,6 +5,7 @@ pulp_devel_distro_pkgs:
   - fd-find
   - fzf
   - nc
+  - nmap
   - python-django-bash-completion
   - python3-setuptools
   - python3-virtualenvwrapper
