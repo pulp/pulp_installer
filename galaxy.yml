@@ -54,6 +54,8 @@ tags:
 # range specifiers can be set and are separated by ','
 dependencies:
   ansible.posix: "*"
+  community.postgresql: "*"
+  community.crypto: ">=1.0.0"
 
 # The URL of the originating SCM repository
 repository: https://github.com/pulp/pulp_installer

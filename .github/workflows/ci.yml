@@ -103,6 +103,14 @@ jobs:
   core:
     runs-on: ubuntu-latest
     needs: git-check
+    strategy:
+      fail-fast: false
+      # Testing different python versions because of
+      # https://pulp.plan.io/issues/5768#note-17
+      matrix:
+        include:
+          - ansible_core: ansible-core
+          - ansible_core: git+https://github.com/ansible/ansible.git
     steps:
       - uses: actions/checkout@v2.3.1
       - name: Set up Python
@@ -113,31 +121,17 @@ jobs:
         run: |
           pip install --upgrade pip
           sudo apt remove ansible
-          pip install ansible-core
+          pip install ${{ matrix.ansible_core }}
       - name: Install Molecule
-        run: |
-          pip install "molecule!=3.3.1" docker molecule-docker "ansible-lint[yamllint] < 5.0.10"
-          ansible-galaxy collection install --force community.docker
-      - name: Install Collection
+        run: pip install "molecule!=3.3.1" docker molecule-docker ansible-lint[yamllint]
+      - name: Setting pulp.pulp_installer collection
         run: |
           make vendor
           make install
-          mkdir -p ~/.ansible/collections/ansible_collections/pulp/pulp_installer
-          cp -r ./build/collections/ansible_collections/pulp/pulp_installer/* ~/.ansible/collections/ansible_collections/pulp/pulp_installer
-          ansible-galaxy collection install --requirements-file requirements.yml
-          rm -rf ~/.ansible/collections/ansible_collections/community/general
-          ls -al ~/.ansible/collections/ansible_collections
-          ls -al ~/.ansible/collections/ansible_collections/community
-      - name: Adapting playbooks to use collection
-        run: |
-          sed -i "/roles:/i collections:" playbooks/example-source/playbook.yml
-          sed -i "/collections:/a - pulp.pulp_installer" playbooks/example-source/playbook.yml
-          sed -i "s/collections:/  collections:/g" playbooks/example-source/playbook.yml
-          sed -i "s/- pulp.pulp_installer/    - pulp.pulp_installer/g" playbooks/example-source/playbook.yml
+          ansible-galaxy collection install -p build/collections --force community.docker
       - name: Molecule Test
         run: |
           ansible --version
-          env | grep ANSIBLE
           molecule test --scenario-name source-static
         env:
           PY_COLORS: '1'

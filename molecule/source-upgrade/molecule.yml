@@ -36,10 +36,13 @@ platforms:
     command: /usr/sbin/init
 provisioner:
   name: ansible
+  env:
+    ANSIBLE_COLLECTIONS_PATH: $PWD/build/collections  # for ansible >= 2.10.0.dev0
+    ANSIBLE_COLLECTIONS_PATHS: $PWD/build/collections
   config_options:
     defaults:
       stdout_callback: debug
-      callback_whitelist: profile_tasks
+      callback_enabled: profile_tasks
   inventory:
     links:
       host_vars: ../scenario_resources/host_vars/
