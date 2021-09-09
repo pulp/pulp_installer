@@ -28,7 +28,7 @@
         basic_constraints: 'CA:TRUE'
 
     - name: Generate CA certificate
-      openssl_certificate:
+      x509_certificate:
         path: '{{ pulp_certs_dir }}/root.crt'
         csr_path: '{{ pulp_certs_dir }}/root.csr'
         privatekey_path: '{{ pulp_certs_dir }}/root.key'
@@ -66,7 +66,7 @@
         group: "{{ pulp_group }}"
 
     - name: Generate certificates
-      openssl_certificate:
+      x509_certificate:
         path: '{{ pulp_certs_dir }}/pulp_webserver.crt'
         csr_path: '{{ pulp_certs_dir }}/pulp_webserver.csr'
         privatekey_path: '{{ pulp_certs_dir }}/pulp_webserver.key'

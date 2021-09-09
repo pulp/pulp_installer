@@ -55,7 +55,7 @@ tags:
 dependencies:
   ansible.posix: "*"
   community.postgresql: "*"
-  community.crypto: "*"
+  community.crypto: ">=1.0.0"
 
 # The URL of the originating SCM repository
 repository: https://github.com/pulp/pulp_installer

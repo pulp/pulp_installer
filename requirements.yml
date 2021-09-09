@@ -4,6 +4,7 @@ roles:
   - geerlingguy.postgresql
 collections:
   - ansible.posix
-  - community.crypto
+  - name: community.crypto
+    version: ">=1.0.0"
   - community.general
   - community.postgresql
