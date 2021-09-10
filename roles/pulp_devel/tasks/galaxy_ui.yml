@@ -14,21 +14,11 @@
         path: '{{ developer_user_home }}/devel/ansible-hub-ui'
       register: is_hub_installed
 
-    - name: UI from devel path
-      set_fact:
-        hub_ui_path: '{{ is_hub_installed.stat.path }}'
-      when: is_hub_installed.stat.exists
-
-    - name: UI from git
-      set_fact:
-        hub_ui_path: '{{ pulp_user_home }}/ansible-hub-ui'
-      when: not is_hub_installed.stat.exists
-
     - block:
         - name: Cloning Ansible Hub UI
           git:
             repo: 'https://github.com/ansible/ansible-hub-ui.git'
-            dest: '{{ hub_ui_path }}'
+            dest: '{{ developer_user_home }}/devel/ansible-hub-ui'
             force: yes
             version: master
             update: yes
@@ -39,12 +29,12 @@
 
         - name: Install packages based on package.json
           npm:
-            path: '{{ hub_ui_path }}'
+            path: '{{ developer_user_home }}/devel/ansible-hub-ui'
 
         - name: Building Ansible Hub UI
           command: npm run build-standalone
           args:
-            chdir: '{{ hub_ui_path }}'
+            chdir: '{{ developer_user_home }}/devel/ansible-hub-ui'
           when:
             - is_hub_installed.stat.exists or ansible_hub_ui_git is defined
             - is_hub_installed.stat.exists or ansible_hub_ui_git.changed
@@ -56,8 +46,9 @@
 
         - name: Copying Ansible Hub UI to galaxy_ng static dir
           copy:
-            src: '{{ hub_ui_path }}/dist/'
+            src: '{{ developer_user_home }}/devel/ansible-hub-ui/dist/'
             dest: '{{ pulp_install_plugins["galaxy-ng"]["source_dir"] }}/galaxy_ng/app/static/galaxy_ng'
+            group: '{{ pulp_group }}'
             remote_src: yes
       become: yes
       become_user: '{{ pulp_user }}'
@@ -67,6 +58,8 @@
 
 - name: Download galaxy ui from github
   command:
-    cmd: python setup.py prepare_static --force-download-ui
+    cmd: "{{ pulp_install_dir }}/bin/python setup.py prepare_static --force-download-ui"
     chdir: '{{ pulp_install_plugins["galaxy-ng"]["source_dir"] }}'
   when: __galaxy_ui_source is not defined or __galaxy_ui_source == "precompiled"
+  tags:
+    - molecule-idempotence-notest

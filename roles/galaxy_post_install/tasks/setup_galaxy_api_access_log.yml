@@ -7,6 +7,8 @@
       owner: '{{ pulp_user }}'
       group: '{{ pulp_group }}'
       mode: "u+rw"
+    tags:
+      - molecule-idempotence-notest
 
   - name: Verify /etc/default/pulpcore-api exists
     stat:

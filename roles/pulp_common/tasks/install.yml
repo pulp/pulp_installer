@@ -216,6 +216,8 @@
         group: '{{ pulp_group }}'
         recurse: true
         follow: false
+      tags:
+        - molecule-idempotence-notest
 
   become: true
 
