@@ -245,3 +245,280 @@ Example `pulp_install_plugins` (with bogus version values):
       pulp-rpm:
          version: "7.8.9"
 ```
+
+Deployment Scenarios
+--------------------
+
+In this section, you can find information and Ansible playbook examples that demonstrate how to
+configure the following installation scenarios:
+
+* [A single “all-in-one” Pulp server that includes the database, redis, and webserver.](#all-in-one-pulp-server-example)
+* [Pulp on one server, while using existing servers for the database, redis, and webserver.](#pulp-server-with-existing-infrastructure)
+* [Pulp on one server, with the database, redis & webserver on separate servers.](#pulp-with-separate-servers-for-services)
+* [Each and every Pulp service on a separate server.](#separate-servers-for-each-and-every-service)
+
+Depending on your requirements for high availability and better scalability, you might like to
+customize your installations according to these examples.
+
+
+#### 'All in One Pulp Server' Example
+
+This deployment consists of installing a single server that contains all Pulp services, including
+the database, redis & webserver.
+
+```
+---
+- hosts: example-pulp-server
+  vars:
+    pulp_default_admin_password: << YOUR PASSWORD FOR THE PULP APPLICATION HERE >>
+    pulp_settings:
+      secret_key: << YOUR SECRET HERE >>
+      content_origin: "http://"
+    pulp_install_plugins:
+      pulp-container: {}
+      pulp-rpm: {}
+  roles:
+    - pulp_all_services
+  environment:
+    DJANGO_SETTINGS_MODULE: pulpcore.app.settings
+```    
+
+#### Pulp Server with Existing Infrastructure
+
+This deployment consists of a single Pulp server that relies on an existing database and existing redis server. No new servers are used or created.
+
+```
+---
+- hosts: example-pulp-server
+  vars:
+    pulp_default_admin_password: << YOUR PASSWORD FOR THE PULP APPLICATION HERE >>
+    pulp_content_bind: example-pulp-server:24816
+    pulp_api_bind: example-pulp-server:24817
+    pulp_settings:
+      secret_key: << YOUR SECRET HERE >>
+      content_origin: "http://example-webserver.fqdn"
+      redis_host: example-existing-redis-server
+      redis_port: 6379
+      redis_password: << YOUR REDIS PASSWORD HERE >>
+      databases:
+        default:
+          HOST: example-existing-postgres-server
+          ENGINE: django.db.backends.postgresql_psycopg2
+          NAME: pulp
+          USER: pulp
+          PASSWORD: << YOUR DATABASE PASSWORD HERE >>
+    pulp_install_plugins:
+      pulp-container: {}
+      pulp-rpm: {}
+  roles:
+    - pulp_services
+    - pulp_webserver
+  environment:
+    DJANGO_SETTINGS_MODULE: pulpcore.app.settings
+```
+
+#### Pulp with Separate Servers for Services
+
+This scenario has the following layout:
+
+* Pulp on one server
+* The database on a second server
+* redis on a third server
+* The webserver on a fourth server
+
+Note that `pulp_webserver` still depends on `pulp_common` to provide the python packages for the
+per-plugin webserver snippets. This means that the webserver will have pulpcore and all plugins
+installed on it but no code will be running.
+
+```
+---
+- hosts: example-postgres-server
+  vars:
+    pulp_settings:
+      databases:
+        default:
+          HOST: example-postgres-server
+          NAME: pulp
+          USER: pulp
+          PASSWORD: << YOUR DATABASE PASSWORD HERE >>
+  roles:
+    - pulp_database
+
+- hosts: example-redis-server
+  vars:
+    pulp_redis_bind: 'example-redis-server:6379'
+  roles:
+    - pulp_redis
+
+- hosts: example-pulp-server
+  vars:
+    pulp_default_admin_password: << YOUR PASSWORD FOR THE PULP APPLICATION HERE >>
+    pulp_content_bind: example-pulp-server:24816
+    pulp_api_bind: example-pulp-server:24817
+    pulp_settings:
+      secret_key: << YOUR SECRET HERE >>
+      content_origin: "http://example-webserver.fqdn"
+      redis_host: example-redis-server
+      redis_port: 6379
+      databases:
+        default:
+          HOST: example-postgres-server
+          ENGINE: django.db.backends.postgresql_psycopg2
+          NAME: pulp
+          USER: pulp
+          PASSWORD: << YOUR DATABASE PASSWORD HERE >>
+    pulp_install_plugins:
+      pulp-container: {}
+      pulp-rpm: {}
+  roles:
+    - pulp_services
+  environment:
+    DJANGO_SETTINGS_MODULE: pulpcore.app.settings
+
+- hosts: example-webserver
+  vars:
+    pulp_content_bind: example-pulp-server:24816
+    pulp_api_bind: example-pulp-server:24817
+  roles:
+    - pulp_webserver
+  environment:
+    DJANGO_SETTINGS_MODULE: pulpcore.app.settings
+```
+
+#### Separate Servers for Each and Every service
+
+In this deployment, every single service is deployed on its own server.
+
+Note that `pulp_webserver` still depends on `pulp_common` to provide the python packages for the
+per-plugin webserver snippets. This means that the webserver will have pulpcore and all plugins
+installed on it but no code will be running.
+
+In this example, there are two Pulp worker servers.
+
+```
+---
+- hosts: example-postgres-server
+  vars:
+    pulp_settings:
+      databases:
+        default:
+          HOST: example-postgres-server
+          NAME: pulp
+          USER: pulp
+          PASSWORD: << YOUR DATABASE PASSWORD HERE >>
+  roles:
+    - pulp_database
+
+- hosts: example-redis-server
+  vars:
+    pulp_redis_bind: 'example-redis-server:6379'
+  roles:
+    - pulp_redis
+
+- hosts: example-pulp-api-server
+  vars:
+    pulp_default_admin_password: << YOUR PASSWORD FOR THE PULP APPLICATION HERE >>
+    pulp_api_bind: example-pulp-api-server:24817
+    pulp_settings:
+      secret_key: << YOUR SECRET HERE >>
+      content_origin: "http://example-webserver.fqdn"
+      redis_host: example-redis-server
+      redis_port: 6379
+      databases:
+        default:
+          HOST: example-postgres-server
+          ENGINE: django.db.backends.postgresql_psycopg2
+          NAME: pulp
+          USER: pulp
+          PASSWORD: << YOUR DATABASE PASSWORD HERE >>
+    pulp_install_plugins:
+      pulp-container: {}
+      pulp-rpm: {}
+  roles:
+    - pulp_api
+    - pulp_database_config
+  environment:
+    DJANGO_SETTINGS_MODULE: pulpcore.app.settings
+
+- hosts: example-pulp-content-server
+  vars:
+    pulp_content_bind: example-pulp-content-server:24816
+    pulp_settings:
+      secret_key: << YOUR SECRET HERE >>
+      content_origin: "http://example-webserver.fqdn"
+      redis_host: example-redis-server
+      redis_port: 6379
+      databases:
+        default:
+          HOST: example-postgres-server
+          ENGINE: django.db.backends.postgresql_psycopg2
+          NAME: pulp
+          USER: pulp
+          PASSWORD: << YOUR DATABASE PASSWORD HERE >>
+    pulp_install_plugins:
+      pulp-container: {}
+      pulp-rpm: {}
+  roles:
+   - pulp_content
+  environment:
+    DJANGO_SETTINGS_MODULE: pulpcore.app.settings
+
+- hosts:
+   - example-pulp-worker-server1
+   - example-pulp-worker-server2
+  vars:
+   pulp_settings:
+     secret_key: << YOUR SECRET HERE >>
+     content_origin: "http://example-webserver.fqdn"
+     redis_host: example-redis-server
+     redis_port: 6379
+     databases:
+       default:
+         HOST: example-postgres-server
+         ENGINE: django.db.backends.postgresql_psycopg2
+         NAME: pulp
+         USER: pulp
+         PASSWORD: << YOUR DATABASE PASSWORD HERE >>
+   pulp_install_plugins:
+     pulp-container: {}
+     pulp-rpm: {}
+  roles:
+   - pulp_workers
+  environment:
+    DJANGO_SETTINGS_MODULE: pulpcore.app.settings
+
+- hosts: example-resource-manager-server
+  vars:
+   pulp_settings:
+     secret_key: << YOUR SECRET HERE >>
+     content_origin: "http://example-webserver.fqdn"
+     redis_host: example-redis-server
+     redis_port: 6379
+     databases:
+       default:
+         HOST: example-postgres-server
+         ENGINE: django.db.backends.postgresql_psycopg2
+         NAME: pulp
+         USER: pulp
+         PASSWORD: << YOUR DATABASE PASSWORD HERE >>
+   pulp_install_plugins:
+     pulp-container: {}
+     pulp-rpm: {}
+  roles:
+   - pulp_resource_manager
+  environment:
+    DJANGO_SETTINGS_MODULE: pulpcore.app.settings
+
+- hosts: example-webserver
+  vars:
+   pulp_content_bind: example-pulp-server:24816
+   pulp_api_bind: example-pulp-server:24817
+  roles:
+   - pulp_webserver
+  environment:
+    DJANGO_SETTINGS_MODULE: pulpcore.app.settings
+```
+
+Note that the `example-pulp-api-server` is also used to to run `pulp_database_config`.
+This means that it will create and migrate the database for Pulp.
+The name `example-pulp-api-server` follows an Ansible standard that implies that more can be added at a later stage.
