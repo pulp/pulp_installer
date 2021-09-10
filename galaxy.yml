@@ -75,6 +75,7 @@ build_ignore:
   - .travis.yml
   - .travis
   - .vagrant
+  - molecule
   - CHANGES
   - pulp_installer
   - .gitignore
