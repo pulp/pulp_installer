@@ -47,11 +47,11 @@ pulp_pkg_pulpcore_name: "{{ pulp_pkg_name_prefix }}pulpcore"
 pulp_pkg_repo:
 pulp_pkg_repo_gpgcheck: True
 pulp_pkg_undeclared_deps:
-  - python3-psycopg2
   - pulpcore-selinux
-  - python3-djangorestframework
-  - python3-djangorestframework-queryfields
-  - python3-markuppy  # Because of https://bugzilla.redhat.com/show_bug.cgi?id=1986965
+  - "{{ pulp_pkg_name_prefix }}psycopg2"
+  - "{{ pulp_pkg_name_prefix }}djangorestframework"
+  - "{{ pulp_pkg_name_prefix }}djangorestframework-queryfields"
+  - "{{ pulp_pkg_name_prefix }}markuppy"  # Because of https://bugzilla.redhat.com/show_bug.cgi?id=1986965
 pulp_pkg_upgrade_all: false
 __pulp_pkg_repo_name: "pulpcore"
 __pulp_pkg_repo_gpgkey: "{{ pulp_pkg_repo.rstrip('/') }}/../../GPG-RPM-KEY-pulpcore"

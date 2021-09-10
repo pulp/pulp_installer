@@ -130,7 +130,7 @@
 
     - name: "Install gunicorn via {{ ansible_facts.pkg_mgr }} packages"
       package:
-        name: python3-gunicorn
+        name: "{{ pulp_pkg_name_prefix }}gunicorn"
         state: present
 
   become: true
