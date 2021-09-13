@@ -13,6 +13,26 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.15.2+1 (2021-09-10)
+=====================
+
+
+Misc
+----
+
+- [#9321](https://pulp.plan.io/issues/9321), [#9359](https://pulp.plan.io/issues/9359)
+
+
+Devel
+-----
+
+- Run pulp_installer collection on pulplift
+  [#9371](https://pulp.plan.io/issues/9371)
+
+
+----
+
+
 3.15.2 (2021-09-02)
 ===================
 
@@ -45,7 +65,7 @@ Features
 
 - Added support for Python 3.8 as needed by pulpcore 3.15.
   [#9127](https://pulp.plan.io/issues/9127)
-- Updated minimum supported version of Debian to 11 (Bullseye). 
+- Updated minimum supported version of Debian to 11 (Bullseye).
   Debian 10 does not provide Python 3.8+ which is needed for pulpcore 3.15 and Django 3.2.
   [#9136](https://pulp.plan.io/issues/9136)
 
