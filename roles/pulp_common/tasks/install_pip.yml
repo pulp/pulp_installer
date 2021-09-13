@@ -274,7 +274,7 @@
         django_location=$({{ pulp_install_dir }}/bin/pip3 show Django | grep Location | cut -d' ' -f2)
         sed -i 's/hashlib.md5()/hashlib.md5(usedforsecurity=False)/' "$django_location/django/db/backends/utils.py"
       when:
-        - "'pulp_devel' in role_names or 'pulp.pulp_installer.pulp_devel' in role_names"
+        - developer_user is defined or developer_user_home is defined
         - ansible_facts.distribution in ['RedHat', 'CentOS'] or ansible_facts.python_version is version('3.9', '>=')
       check_mode: false
       changed_when: false

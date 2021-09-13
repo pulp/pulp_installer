@@ -54,7 +54,7 @@
           - pulp_settings.aws_s3_region_name is defined
           - pulp_settings.media_root is defined
           - pulp_settings.default_file_storage is defined
-      when: pulp_install_object_storage == "s3"
+      when: pulp_install_object_storage is defined and pulp_install_object_storage == "s3"
 
     - name: Check (Azure) storage backend is configured.
       assert:
@@ -66,16 +66,20 @@
           - pulp_settings.azure_overwrite_files is defined
           - pulp_settings.azure_location is defined
           - pulp_settings.default_file_storage is defined
-      when: pulp_install_object_storage == "azure"
+      when: pulp_install_object_storage is defined and pulp_install_object_storage == "azure"
 
     - include_tasks: pre_tasks/vagrant-workarounds.yml
       vars:
         source_workarounds: true
     - include_tasks: pre_tasks/selinux-workarounds.yml
-  collections:
-    - pulp.pulp_installer
-  roles:
-    - pulp_all_services
-    - pulp_devel
+
+    - name: Dynamically include pulp.pulp_installer roles
+      include_role:
+        name: "pulp.pulp_installer.{{ roleinputvar }}"
+      loop:
+        - pulp_all_services
+        - pulp_devel
+      loop_control:
+        loop_var: roleinputvar
   environment:
     DJANGO_SETTINGS_MODULE: pulpcore.app.settings

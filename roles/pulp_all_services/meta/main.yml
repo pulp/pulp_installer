@@ -28,3 +28,9 @@ dependencies:
   - pulp_services
   - pulp_health_check
   - pulp_webserver
+# When dynamically including roles,  it only installs the collection dependencies
+# for the role that you explicitly specify.
+collections:
+  - ansible.posix  # dependency for pulp_webserver
+  - community.crypto  # dependency for pulp_webserver
+  - community.postgresql   # dependency for pulp_database
