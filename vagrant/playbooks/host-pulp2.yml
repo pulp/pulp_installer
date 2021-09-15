@@ -35,7 +35,7 @@
           - pulp_settings.aws_s3_region_name is defined
           - pulp_settings.media_root is defined
           - pulp_settings.default_file_storage is defined
-      when: pulp_install_object_storage == "s3"
+      when: pulp_install_object_storage is defined and pulp_install_object_storage == "s3"
 
     - name: Check (Azure) storage backend is configured.
       assert:
@@ -47,7 +47,7 @@
           - pulp_settings.azure_overwrite_files is defined
           - pulp_settings.azure_location is defined
           - pulp_settings.default_file_storage is defined
-      when: pulp_install_object_storage == "azure"
+      when: pulp_install_object_storage is defined and pulp_install_object_storage == "azure"
 
   roles:
     - role: geerlingguy.docker
