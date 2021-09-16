@@ -11,20 +11,55 @@
         msg: >
           "You must update Ansible to at least 2.8 to use this version of Pulp 3 Installer."
   tasks:
-    - name: Dynamically include individual roles
+    - debug:
+        var: groups
+    - debug:
+        var: inventory_hostname
+
+    - name: Dynamically include DB roles
+      include_role:
+        name: pulp_common
+      when: inventory_hostname in groups.pulp
+
+    - name: Dynamically include DB roles
       include_role:
         name: "{{ roleinputvar }}"
       loop:
         - pulp_database
-        - pulp_redis
         - pulp_database_config
-        - pulp_api
+      loop_control:
+        loop_var: roleinputvar
+      when: inventory_hostname in groups.db
+
+    - name: Dynamically include content roles
+      include_role:
+        name: "{{ roleinputvar }}"
+      loop:
+        - pulp_redis
         - pulp_content
-        - pulp_resource_manager
-        - pulp_workers
+      loop_control:
+        loop_var: roleinputvar
+      when: inventory_hostname in groups.content
+
+    - name: Dynamically include api roles
+      include_role:
+        name: "{{ roleinputvar }}"
+      loop:
+        - pulp_api
         - pulp_health_check
         - pulp_webserver
       loop_control:
         loop_var: roleinputvar
+      when: inventory_hostname in groups.api
+
+    - name: Dynamically include worker roles
+      include_role:
+        name: "{{ roleinputvar }}"
+      loop:
+        - pulp_resource_manager
+        - pulp_workers
+      loop_control:
+        loop_var: roleinputvar
+      when: inventory_hostname in groups.worker
   environment:
     DJANGO_SETTINGS_MODULE: pulpcore.app.settings

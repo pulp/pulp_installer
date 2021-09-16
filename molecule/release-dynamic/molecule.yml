@@ -26,21 +26,59 @@ lint: |
   pre_build_image: true
 platforms:
   - <<: *platform_base
-    name: centos-7
+    name: pulp-api-centos7
     image: pulp/molecule_centos7
     command: /sbin/init
+    groups:
+      - pulp
+      - api
   - <<: *platform_base
-    name: centos-8
+    name: pulp-content-centos7
+    image: pulp/molecule_centos7
+    command: /sbin/init
+    groups:
+      - pulp
+      - content
+  - <<: *platform_base
+    name: pulp-worker-centos7
+    image: pulp/molecule_centos7
+    command: /sbin/init
+    groups:
+      - pulp
+      - worker
+  - <<: *platform_base
+    name: pulp-db-centos7
+    image: pulp/molecule_centos7
+    command: /sbin/init
+    groups:
+      - db
+  - <<: *platform_base
+    name: pulp-api-centos8
     image: pulp/molecule_centos8
     command: /sbin/init
+    groups:
+      - pulp
+      - api
   - <<: *platform_base
-    name: debian-11
-    image: pulp/molecule_debian11
+    name: pulp-content-centos8
+    image: pulp/molecule_centos8
     command: /sbin/init
+    groups:
+      - pulp
+      - content
   - <<: *platform_base
-    name: fedora-34
-    image: pulp/molecule_fedora34
-    command: /usr/sbin/init
+    name: pulp-worker-centos8
+    image: pulp/molecule_centos8
+    command: /sbin/init
+    groups:
+      - pulp
+      - worker
+  - <<: *platform_base
+    name: pulp-db-centos8
+    image: pulp/molecule_centos8
+    command: /sbin/init
+    groups:
+      - db
 provisioner:
   name: ansible
   env:
@@ -57,7 +95,6 @@ provisioner:
 scenario:
   test_sequence:
     - dependency
-    - lint
     - syntax
     - create
     - prepare
