@@ -12,3 +12,4 @@ pulp_devel_distro_pkgs:
   - ruby-dev
   - jnettop
   - nmap
+  - crun
