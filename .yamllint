@@ -29,3 +29,5 @@ ignore: |
   roles/ansible-role-postgresql
   vagrant
   docs
+  build/collections/ansible_collections/ansible
+  build/collections/ansible_collections/community
