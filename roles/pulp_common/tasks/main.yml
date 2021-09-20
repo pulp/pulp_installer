@@ -101,3 +101,21 @@
 - import_tasks: repos.yml
 - import_tasks: install.yml
 - import_tasks: configure.yml
+
+- name: Install pulpcore service
+  template:
+    src: pulpcore.service.j2
+    dest: /lib/systemd/system/pulpcore.service
+    owner: root
+    group: root
+    mode: 0644
+  become: true
+  notify: Restart all Pulp services
+
+- name: Set state of pulpcore app
+  systemd:
+    daemon_reload: true
+    name: pulpcore.service
+    state: started
+    enabled: true
+  become: true

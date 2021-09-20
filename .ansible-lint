@@ -17,5 +17,6 @@ exclude_paths:
   - ./.cache/ansible-lint/
   - ../../.cache/ansible-lint/
   - ../../../.cache/ansible-lint/
+  - ../../../.cache/ansible-compat/
   - ./example.dev-config.yml
   - ./docs/

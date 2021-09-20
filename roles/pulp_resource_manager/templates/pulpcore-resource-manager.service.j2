@@ -2,6 +2,10 @@
 Description=Pulp Resource Manager
 After=network-online.target
 Wants=network-online.target
+# When systemd stops or restarts the meta pulpcore.service, the action is propagated to this service
+PartOf=pulpcore.service
+# Start this service after the pulpcore.service starts
+After=pulpcore.service
 
 [Service]
 Environment="DJANGO_SETTINGS_MODULE=pulpcore.app.settings"
