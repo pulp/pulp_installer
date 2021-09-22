@@ -13,6 +13,20 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.15.2-2 (2021-09-22)
+=====================
+
+
+Features
+--------
+
+- Added a single systemd service to restart Pulp
+  [#7006](https://pulp.plan.io/issues/7006)
+
+
+----
+
+
 3.15.2+1 (2021-09-10)
 =====================
 
