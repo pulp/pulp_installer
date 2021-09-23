@@ -281,7 +281,7 @@ the database, redis & webserver.
     - pulp_all_services
   environment:
     DJANGO_SETTINGS_MODULE: pulpcore.app.settings
-```    
+```
 
 #### Pulp Server with Existing Infrastructure
 
@@ -484,28 +484,6 @@ In this example, there are two Pulp worker servers.
      pulp-rpm: {}
   roles:
    - pulp_workers
-  environment:
-    DJANGO_SETTINGS_MODULE: pulpcore.app.settings
-
-- hosts: example-resource-manager-server
-  vars:
-   pulp_settings:
-     secret_key: << YOUR SECRET HERE >>
-     content_origin: "http://example-webserver.fqdn"
-     redis_host: example-redis-server
-     redis_port: 6379
-     databases:
-       default:
-         HOST: example-postgres-server
-         ENGINE: django.db.backends.postgresql_psycopg2
-         NAME: pulp
-         USER: pulp
-         PASSWORD: << YOUR DATABASE PASSWORD HERE >>
-   pulp_install_plugins:
-     pulp-container: {}
-     pulp-rpm: {}
-  roles:
-   - pulp_resource_manager
   environment:
     DJANGO_SETTINGS_MODULE: pulpcore.app.settings
 

@@ -20,7 +20,6 @@
         - pulp_database_config
         - pulp_api
         - pulp_content
-        - pulp_resource_manager
         - pulp_workers
         - pulp_health_check
         - pulp_webserver

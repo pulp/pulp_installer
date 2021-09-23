@@ -34,6 +34,26 @@
 - name: Get services
   service_facts:
 
+- name: pulpcore resource manager
+  block:
+
+    - name: Disable pulpcore-resource-manager service
+      systemd:
+        name: pulpcore-resource-manager.service
+        state: stopped
+        enabled: false
+        daemon_reload: true
+
+    - name: Remove pulpcore-resource-manager service
+      file:
+        path: /lib/systemd/system/pulpcore-resource-manager.service
+        state: absent
+
+  become: true
+  when:
+    - ansible_facts.services['pulpcore-resource-manager.service'] is defined
+    - __pulp_version is version('3.14', '>=')
+
 - name: Get already existing workers
   set_fact:
     __pulp_workers_worker_svcs: '{{ __pulp_workers_worker_svcs|default([]) + [ item | regex_search("(?<=pulpcore-worker@)\d+(?=\.service$)") ] }}'
