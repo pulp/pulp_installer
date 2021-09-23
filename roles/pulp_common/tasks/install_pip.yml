@@ -275,6 +275,10 @@
         clients: "{{ pulp_install_dir }}/bin/pip"
       register: pip_pkgs
 
+    - name: Set __pulp_version to the pulpcore that was installed
+      set_fact:
+        __pulp_version: "{{ pip_pkgs.packages[pulp_install_dir + '/bin/pip'].pulpcore[0].version }}"
+
     - name: Patch md5usedforsecurity in Django (devel only)
       shell: |
         django_location=$({{ pulp_install_dir }}/bin/pip3 show Django | grep Location | cut -d' ' -f2)
