@@ -20,7 +20,6 @@ subject to change over time:
   - pulp_database_config (implicitly)
   - pulp_api (implicitly)
   - pulp_content (implicitly)
-  - pulp_resource_manager (implicitly)
   - pulp_workers (implicitly)
   - pulp_common (implicitly)
 

@@ -23,7 +23,6 @@ nav:
       - Pulp Database Configuration: roles/pulp_database_config.md
       - Pulp Devel: roles/pulp_devel.md
       - Pulp Redis: roles/pulp_redis.md
-      - Pulp Resource Manager: roles/pulp_resource_manager.md
       - Pulp Webserver: roles/pulp_webserver.md
       - Pulp Workers: roles/pulp_workers.md
       - Pulp Health Check: roles/pulp_health_check.md

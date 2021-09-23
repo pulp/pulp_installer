@@ -26,5 +26,4 @@ dependencies:
   - pulp_database_config
   - pulp_api
   - pulp_content
-  - pulp_resource_manager
   - pulp_workers
