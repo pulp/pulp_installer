@@ -19,7 +19,6 @@ subject to change over time:
   - pulp_database_config
   - pulp_api
   - pulp_content
-  - pulp_resource_manager
   - pulp_workers
   - pulp_common (implicitly)
 
@@ -27,12 +26,12 @@ Example Usage
 -------------
 
 1. Install your own PostgreSQL server.
-1. Install your own Redis server.
-1. Run the example playbook below against a Pulp host.
-1. Install your own webserver (nginx or apache). Consult the pulp_webserver role for
+2. Install your own Redis server.
+3. Run the example playbook below against a Pulp host.
+4. Install your own webserver (nginx or apache). Consult the pulp_webserver role for
    the necessary config that is not plugin specific.
-1. On the Pulp host, check if any plugins have webserver snippets, like in the command seen below.
-1. Copy over & install any webserver snippets to the webserver.
+5. On the Pulp host, check if any plugins have webserver snippets, like in the command seen below.
+6. Copy over & install any webserver snippets to the webserver.
 
 Here is an example command & output for checking if any plugins have any webserver snippets.
 ```

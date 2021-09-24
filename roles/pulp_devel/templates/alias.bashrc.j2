@@ -1,7 +1,7 @@
 # If adding new functions to this file, note that you can add help text to the function
 # by defining a variable with name _<function>_help containing the help text
 
-SERVICES=("pulpcore-content {% for num in range(pulp_workers) %}pulpcore-worker@{{ num + 1 }} {% endfor %}pulpcore-resource-manager pulpcore-api")
+SERVICES=$(systemctl --type=service | grep pulpcore | cut -d' ' -f1)
 
 _paction() {
     echo systemctl $@ ${SERVICES}

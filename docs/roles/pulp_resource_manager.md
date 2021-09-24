@@ -1,1 +1,0 @@
-../../roles/pulp_resource_manager/README.md
