@@ -7,6 +7,13 @@
   when: ansible_facts.distribution == 'Ubuntu'
   become: yes
 
+- name: Set client_max_body_size
+  set_fact:
+    pulp_client_max_body_size: 10m
+  when:
+    - pulp_client_max_body_size == "1m"
+    - developer_user is defined or developer_user_home is defined
+
 - block:
 
     - name: Install Nginx
