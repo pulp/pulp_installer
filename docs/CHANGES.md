@@ -13,6 +13,21 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.14.7-1 (2021-09-30)
+=====================
+
+
+Features
+--------
+
+- Add SELinux support for the pulp-2to3-migration plugin by updating pulpcore-selinux (SELinux
+  policies) to 1.2.6
+  [#9468](https://pulp.plan.io/issues/9468)
+
+
+----
+
+
 3.14.7 (2021-09-30)
 ===================
 

@@ -2,6 +2,30 @@
 - hosts:
     - all
   tasks:
+    - name: Update apt package index
+      raw: apt-get update --allow-releaseinfo-change
+      when: ansible_facts.distribution == 'Debian'
+      # This is a lie, but necessary for Idempotence test
+      changed_when: False
+      when:
+        - ansible_os_family == "Debian"
+        - ansible_distribution_major_version|int == 10
+
+    # otherwise, the certificate for download.opensuse.org (for pulp_devel)
+    # is not recognized for the old debian:10 contianer for source-upgrade.
+    # Merely updating some packages like "ca-certificates" was insufficient
+    - name: Ensure Debian 10 is up-to-date
+      apt:
+        upgrade: dist
+        update_cache: yes
+      retries: 5
+      delay: 12
+      register: result
+      until: result is succeeded
+      when:
+        - ansible_os_family == "Debian"
+        - ansible_distribution_major_version|int == 10
+
     - name: Install required packages
       package:
         name:
