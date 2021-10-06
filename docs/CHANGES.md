@@ -13,6 +13,42 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.16.0 (2021-10-06)
+===================
+
+
+Features
+--------
+
+- Added support for specifying a minor version for `pulpcore_version`. A single version of pulp_installer can be used to
+  install all bug fix releases within a minor release of pulpcore.
+  [#8847](https://pulp.plan.io/issues/8847)
+- Add SELinux support for the pulp-2to3-migration plugin by updating pulpcore-selinux (SELinux
+  policies) to 1.2.6
+  [#9468](https://pulp.plan.io/issues/9468)
+
+
+Deprecations and Removals
+-------------------------
+
+- `pulp_version` variable has been replaced with `pulpcore_version`.
+  [#8847](https://pulp.plan.io/issues/8847)
+- Ensure resource manager is not started for pulpcore >= 3.16
+  [#9386](https://pulp.plan.io/issues/9386)
+
+
+Devel
+-----
+
+- Fix systemctl aliases from pulp_devel
+  [#9460](https://pulp.plan.io/issues/9460)
+- Set `client_max_body_size` to 10m for dev environments
+  [#9463](https://pulp.plan.io/issues/9463)
+
+
+----
+
+
 3.15.2-2 (2021-09-22)
 =====================
 
