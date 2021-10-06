@@ -1,4 +1,4 @@
-![Pulp CI](https://github.com/pulp/pulp_installer/workflows/Pulp%20CI/badge.svg)
+[![Pulp CI](https://github.com/pulp/pulp_installer/actions/workflows/ci.yml/badge.svg)](https://github.com/pulp/pulp_installer/actions/workflows/ci.yml)
 
 Pulp 3 Ansible Installer
 ========================
@@ -33,7 +33,7 @@ Documentation: https://docs.pulpproject.org/pulp_installer/
 
 Issue Tracker: https://pulp.plan.io
 
-We have enabled [GitHub Discussions](https://github.com/pulp/community/discussions).
+Forum: [https://discourse.pulpproject.org/](https://discourse.pulpproject.org/).
 
 Join [**pulp** on Matrix](https://matrix.to/#/!HWvLQmBGVPfJfTQBAu:matrix.org?via=libera.chat&via=matrix.org&via=ctrl-c.liu.se) for User support
 
