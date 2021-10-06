@@ -120,6 +120,9 @@ There are other (intentional) differences between tests:
    only did, `dynamic` because they will become containers soon anyway to test cluster installs.)
 1. `dynamic` - Due to a limitation of Ansible 2.8 with collections, these are not tested with
    Ansible 2.8.
+1. The `release-upgrade` scenario uses its own `converge.yml` playbook instead of the default one
+   used by all other scenarios. This playbook upgrades a Pulp installation multiple times to ensure
+   that all upgrade scenarios work correctly. 
 
 To test both webserver solutions we testing `apache` as webserver with
 
