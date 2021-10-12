@@ -268,3 +268,60 @@ pminio(){
     _paction restart
 }
 _pminio_help="Switch to minio for S3 testing. For stopping it: pminio stop"
+
+pazurite(){
+    if [ "$1" = 'stop' ]
+    then
+        sudo bash -c "sed -i '/AZURE_ACCOUNT_KEY/d' /etc/pulp/settings.py"
+        sudo bash -c "sed -i '/AZURE_ACCOUNT_NAME/d' /etc/pulp/settings.py"
+        sudo bash -c "sed -i '/AWS_STORAGE_BUCKET_NAME/d' /etc/pulp/settings.py"
+        sudo bash -c "sed -i '/AZURE_CONTAINER/d' /etc/pulp/settings.py"
+        sudo bash -c "sed -i '/AZURE_LOCATION/d' /etc/pulp/settings.py"
+        sudo bash -c "sed -i '/AZURE_OVERWRITE_FILES/d' /etc/pulp/settings.py"
+        sudo bash -c "sed -i '/AZURE_URL_EXPIRATION_SECS/d' /etc/pulp/settings.py"
+        sudo bash -c "sed -i '/AZURE_CONNECTION_STRING/d' /etc/pulp/settings.py"
+        sudo bash -c "sed -i '/DEFAULT_FILE_STORAGE/d' /etc/pulp/settings.py"
+        sudo bash -c "sed -i '/MEDIA_ROOT/d' /etc/pulp/settings.py"
+        podman stop pulp-azurite && podman rm pulp-azurite
+        echo "The azurite instance has been torn down. It's recommended that you run 'pclean' now."
+    else
+        export AZURE_CONNECTION_STRING="DefaultEndpointsProtocol={{ pulp_scheme }};AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint={{ pulp_scheme }}://pulp-azurite:10000/devstoreaccount1;"
+        if grep -q azurite  /etc/hosts
+        then
+            echo "OK";
+        else
+            echo 127.0.0.1   pulp-azurite | sudo tee -a /etc/hosts
+        fi
+        {{ pulp_python_interpreter | replace('python', 'pip') }} install azure-cli
+        {% if pulp_scheme == "http" %}
+        podman run -d -p 10000:10000 --name pulp-azurite mcr.microsoft.com/azure-storage/azurite azurite-blob --blobHost 0.0.0.0
+        {% else %}
+        CURRENT_DIR=$(pwd)
+        mkdir -p $HOME/azurite
+        cd $HOME/azurite
+        openssl req -newkey rsa:2048 -x509 -nodes -keyout azkey.pem -new -out azcert.pem -sha256 -days 365 -addext "subjectAltName=DNS:pulp-azurite" -subj "/C=CO/ST=ST/L=LO/O=OR/OU=OU/CN=CN"
+        AZCERTIFI=$({{ pulp_python_interpreter }} -c 'import certifi; print(certifi.where())')
+        cat $HOME/azurite/azcert.pem | sudo tee -a $AZCERTIFI
+        CERTIFI=$({{ pulp_install_dir }}/bin/python -c 'import certifi; print(certifi.where())')
+        cat $HOME/azurite/azcert.pem | sudo tee -a $CERTIFI
+        CERT=$(python -c 'import ssl; print(ssl.get_default_verify_paths().openssl_cafile)')
+        cat $CERTIFI | sudo tee -a $CERT
+        cd $CURRENT_DIR
+        podman run -d -p 10000:10000 --name pulp-azurite -v $HOME/azurite:/etc/pulp mcr.microsoft.com/azure-storage/azurite azurite-blob --blobHost 0.0.0.0 --cert /etc/pulp/azcert.pem --key /etc/pulp/azkey.pem
+        {% endif %}
+        az storage container create --name pulp-test --connection-string $AZURE_CONNECTION_STRING
+        echo "Declaring Azure environment variables..."
+        echo "AZURE_CONNECTION_STRING = '$AZURE_CONNECTION_STRING'" | sudo tee -a /etc/pulp/settings.py
+        echo "AZURE_ACCOUNT_KEY = 'Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw=='" | sudo tee -a /etc/pulp/settings.py
+        sudo bash -c "echo AZURE_ACCOUNT_NAME = \'devstoreaccount1\' >> /etc/pulp/settings.py"
+        sudo bash -c "echo AZURE_CONTAINER = \'pulp-test\' >> /etc/pulp/settings.py"
+        sudo bash -c "echo AZURE_LOCATION = \'pulp3\' >> /etc/pulp/settings.py"
+        sudo bash -c "echo AZURE_OVERWRITE_FILES = True >> /etc/pulp/settings.py"
+        sudo bash -c "echo AZURE_URL_EXPIRATION_SECS = 120 >> /etc/pulp/settings.py"
+        sudo bash -c "echo DEFAULT_FILE_STORAGE = \'storages.backends.azure_storage.AzureStorage\' >> /etc/pulp/settings.py"
+        sudo bash -c "echo MEDIA_ROOT = \'\' >> /etc/pulp/settings.py"
+        echo "The azurite instance has been setup. It's recommended that you run 'pclean' now."
+    fi
+    _paction restart
+}
+_pazurite_help="Switch to Azurite for Azure testing. For stopping it: pazurite stop"

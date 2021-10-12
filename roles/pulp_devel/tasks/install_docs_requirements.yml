@@ -37,9 +37,9 @@
     virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
   when: pulp_source_dir is defined
 
-- name: Install requirements for S3 tests
+- name: Install requirements for Azure/S3 tests
   pip:
-    name: django-storages[boto3]
+    name: django-storages[boto3, azure]
     state: present
     virtualenv: '{{ pulp_install_dir }}'
     virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
