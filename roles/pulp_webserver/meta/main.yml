@@ -2,7 +2,7 @@
 galaxy_info:
   author: Pulp Team
   description: A role to setup a web server as a proxy for both Pulp 3's pulpcore-content & pulpcore-api services
-  issue_tracker_url: https://pulp.plan.io/projects/pulp/issues/new
+  issue_tracker_url: https://github.com/pulp/pulp_installer/issues/new
   license: GPL-2.0-or-later
   company: Red Hat
   min_ansible_version: 2.9

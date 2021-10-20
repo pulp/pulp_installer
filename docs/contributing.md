@@ -7,7 +7,7 @@ Pull Request Checklist
 (or let CI run the tests for you if you are certain it is idempotent.)
 If a task cannot be made idempotent, add the tag [molecule-idempotence-notest](https://github.com/ansible-community/molecule/issues/816#issuecomment-573319053).
 2. Unless a change is small or doesn't affect users, create an issue on
-https://pulp.plan.io/projects/pulp . Set the Category to "Installer".
+https://github.com/pulp/pulp_installer/issues . Set the Category to "Installer".
 3. Add [a changelog update.](https://docs.pulpproject.org/contributing/git.html#changelog-update)
 4. Write an excellent [Commit Message.](https://docs.pulpproject.org/contributing/git.html#commit-message)
 Make sure you reference and link to the issue.
@@ -122,7 +122,7 @@ There are other (intentional) differences between tests:
    Ansible 2.8.
 1. The `release-upgrade` scenario uses its own `converge.yml` playbook instead of the default one
    used by all other scenarios. This playbook upgrades a Pulp installation multiple times to ensure
-   that all upgrade scenarios work correctly. 
+   that all upgrade scenarios work correctly.
 
 To test both webserver solutions we testing `apache` as webserver with
 
