@@ -99,7 +99,6 @@ jobs:
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
-          MOLECULE_VERBOSITY: 1
         shell: bash
   core:
     runs-on: ubuntu-latest
@@ -137,5 +136,4 @@ jobs:
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
-          MOLECULE_VERBOSITY: 1
         shell: bash
