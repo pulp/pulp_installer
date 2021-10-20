@@ -67,7 +67,7 @@ documentation: https://docs.pulpproject.org/pulp_installer/
 homepage: https://pulpproject.org/
 
 # The URL to the collection issue tracker
-issues: https://pulp.plan.io/projects/pulp/issues?query_id=156
+issues: https://github.com/pulp/pulp_installer/issues
 
 build_ignore:
   - .ci

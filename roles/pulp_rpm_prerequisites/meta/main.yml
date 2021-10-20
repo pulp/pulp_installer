@@ -3,7 +3,7 @@ galaxy_info:
   author: Pulp Team
   description: Support role to install the prerequisites for pulp_rpm
   company: Red Hat
-  issue_tracker_url: https://pulp.plan.io/projects/pulp_rpm/issues
+  issue_tracker_url: https://github.com/pulp/pulp_installer/issues/new
   license: GPL-2.0-or-later
   min_ansible_version: 2.9
   #

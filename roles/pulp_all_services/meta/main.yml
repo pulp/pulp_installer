@@ -2,7 +2,7 @@
 galaxy_info:
   author: Pulp Team
   description: A role to install all Pulp services (first-party & third-party) on a single host.
-  issue_tracker_url: https://pulp.plan.io/projects/pulp/issues/new
+  issue_tracker_url: https://github.com/pulp/pulp_installer/issues/new
   license: GPL-2.0-or-later
   company: Red Hat
   min_ansible_version: 2.9
