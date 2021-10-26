@@ -39,7 +39,7 @@
 
 - name: Install requirements for Azure/S3 tests
   pip:
-    name: django-storages[boto3, azure]
+    name: django-storages[boto3, azure]>=1.12.2
     state: present
     virtualenv: '{{ pulp_install_dir }}'
     virtualenv_command: '{{ pulp_python_interpreter }} -m venv'

@@ -290,6 +290,16 @@
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
       when: pip_pkgs.packages[pulp_install_dir + '/bin/pip'].dynaconf[0].version is version("3.1.1", "<")
 
+    - name: Upgrade django-storages if it is older than 1.12.2
+      pip:
+        name: django-storages>=1.12.2
+        state: present
+        virtualenv: '{{ pulp_install_dir }}'
+        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+      when:
+        - pip_pkgs.packages[pulp_install_dir + '/bin/pip']['django-storages'] is defined
+        - pip_pkgs.packages[pulp_install_dir + '/bin/pip']['django-storages'][0].version is version("1.12.2", "<")
+
     - name: Create constraints file to lock the django and pulpcore version when plugins are installed
       template:
         src: "pip_constraints_for_plugins.txt.j2"
