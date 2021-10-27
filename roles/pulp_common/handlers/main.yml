@@ -33,6 +33,9 @@
 
 - name: Collect static content
   command: "{{ pulp_django_admin_path }} collectstatic --clear --noinput --link {{ pulp_collectstatic_ignore_list }}"
+  # When run against the same FS, we do not want the multiple nodes'
+  # commands to conflict with eachother. It sometimes happens.
+  throttle: 1
   register: staticresult
   changed_when: "staticresult.stdout is not search('\n0 static files')"
   become: true
