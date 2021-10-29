@@ -1,4 +1,5 @@
 ---
+pulp_pkg_name_prefix: "python38-"
 pulp_preq_packages:
   - python38
   - python38-devel

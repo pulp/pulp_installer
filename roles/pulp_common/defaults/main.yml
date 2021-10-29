@@ -42,7 +42,6 @@ epel_release_packages:
 # set it, and even then we may just help them to append to a list.
 pulp_irregularly_named_plugins:
   - galaxy-ng
-pulp_pkg_name_prefix: "python3-"
 pulp_pkg_pulpcore_name: "{{ pulp_pkg_name_prefix }}pulpcore"
 pulp_pkg_repo:
 pulp_pkg_repo_gpgcheck: True

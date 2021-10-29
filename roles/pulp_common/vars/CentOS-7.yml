@@ -1,4 +1,5 @@
 ---
+pulp_pkg_name_prefix: "tfm-pulpcore-python3-"
 pulp_preq_packages:
   # pip module doc: "The interpreter used by Ansible (see ansible_python_interpreter) requires the
   # setuptools package, regardless of the version of pip set with the executable option."
