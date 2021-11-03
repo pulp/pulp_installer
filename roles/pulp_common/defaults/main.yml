@@ -46,7 +46,6 @@ pulp_pkg_pulpcore_name: "{{ pulp_pkg_name_prefix }}pulpcore"
 pulp_pkg_repo:
 pulp_pkg_repo_gpgcheck: True
 pulp_pkg_undeclared_deps:
-  - pulpcore-selinux
   - "{{ pulp_pkg_name_prefix }}psycopg2"
   - "{{ pulp_pkg_name_prefix }}djangorestframework"
   - "{{ pulp_pkg_name_prefix }}djangorestframework-queryfields"
