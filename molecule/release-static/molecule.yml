@@ -38,8 +38,8 @@ platforms:
     image: pulp/molecule_debian11
     command: /sbin/init
   - <<: *platform_base
-    name: fedora-34
-    image: pulp/molecule_fedora34
+    name: fedora-35
+    image: pulp/molecule_fedora35
     command: /usr/sbin/init
 provisioner:
   name: ansible
