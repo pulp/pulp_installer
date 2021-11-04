@@ -1,27 +1,3 @@
-pulp3-source-fedora32:
-  box: 'fedora32'
-  sshfs:
-    host_path: '..'
-    guest_path: '/home/vagrant/devel'
-    reverse: False
-  memory: 6144
-  cpus: 4
-  ansible:
-    playbook: "vagrant/playbooks/source-install.yml"
-    galaxy_role_file: "requirements.yml"
-
-pulp3-source-fedora33:
-  box: 'fedora33'
-  sshfs:
-    host_path: '..'
-    guest_path: '/home/vagrant/devel'
-    reverse: False
-  memory: 6144
-  cpus: 4
-  ansible:
-    playbook: "vagrant/playbooks/source-install.yml"
-    galaxy_role_file: "requirements.yml"
-
 pulp3-source-fedora34:
   box: 'fedora34'
   sshfs:
