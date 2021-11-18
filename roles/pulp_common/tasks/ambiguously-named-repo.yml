@@ -17,6 +17,7 @@
     option: enabled
     value: "1"
     no_extra_spaces: true
+    mode: '0644'
   when: repo_file.rc == 0
   register: "__pulp_common_repo_enabled"
   become: true

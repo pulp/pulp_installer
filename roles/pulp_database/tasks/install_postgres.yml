@@ -66,6 +66,7 @@
       template:
         src: templates/postgresql_scl_profile.j2
         dest: "{{ postgresql_profile_path }}"
+        mode: '0644'
 
     - name: Create SCL symlinks
       file:
@@ -85,6 +86,7 @@
         src: "{{ postgresql_previous_data_dir }}"
         remote_src: yes
         dest: "{{ postgresql_data_dir.replace('data', 'backup') }}"
+        mode: '0644'
       check_mode: false
       when:
         - previous_pgdata_dir_version.stat.exists

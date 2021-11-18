@@ -19,8 +19,10 @@
     file:
       path: "{{ developer_user_home }}/.config/pulp"
       state: directory
+      mode: '0755'
 
   - name: Configure CLI
     template:
       src: templates/cli.settings.toml.j2
       dest: "{{ developer_user_home }}/.config/pulp/settings.toml"
+      mode: '0664'

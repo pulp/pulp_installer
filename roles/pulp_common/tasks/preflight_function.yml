@@ -28,6 +28,7 @@
     dest: '{{ pulp_install_dir }}/requirements.txt.orig'
     remote_src: true
     backup: true
+    mode: '0644'
   changed_when: false
   become: true
   become_user: '{{ pulp_user }}'

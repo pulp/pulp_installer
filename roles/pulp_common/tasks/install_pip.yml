@@ -82,6 +82,7 @@
     state: directory
     owner: '{{ pulp_user }}'
     group: '{{ pulp_group }}'
+    mode: '0755'
   become: true
 
 - name: Prepare the virtualenv itself
@@ -126,6 +127,7 @@
       template:
         src: templates/requirements.in.j2
         dest: "{{ pulp_install_dir }}/requirements.in"
+        mode: '0644'
 
     - name: Install pip-tools, which provides pip-compile to check version compatibility
       pip:
@@ -294,6 +296,7 @@
       template:
         src: "pip_constraints_for_plugins.txt.j2"
         dest: "{{ pulp_install_dir }}/pip_constraints_for_plugins.txt"
+        mode: '0644'
 
     - name: Install Pulp plugins via PyPI
       pip:

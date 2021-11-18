@@ -4,11 +4,13 @@
     file:
       path: "{{ developer_user_home }}/.bashrc.d/"
       state: directory
+      mode: '0775'
 
   - name: Define developer aliases in ~/.bashrc.d/
     template:
       src: templates/alias.bashrc.j2
       dest: "{{ developer_user_home }}/.bashrc.d/alias.bashrc"
+      mode: '0644'
 
   - name: Source developer aliases in ~/.bashrc.d/
     blockinfile:
@@ -19,6 +21,7 @@
             . "$file"
           done
         fi
+      mode: '0644'
       marker: "# {mark} Ansible managed block: source bashrc.d/"
       create: yes
 
@@ -26,11 +29,13 @@
     template:
       src: templates/django.bashrc.j2
       dest: '{{ developer_user_home }}/.bashrc.d/django.bashrc'
+      mode: '0644'
 
   - name: Add virtualenv supplemental bashrc
     template:
       src: templates/venv.bashrc.j2
       dest: '{{ developer_user_home }}/.bashrc.d/venv.bashrc'
+      mode: '0644'
     when: ansible_facts.distribution != 'Ubuntu'
 
   - name: Install bindings requirements for testing locally
@@ -46,12 +51,14 @@
     copy:
       src: files/fzf.bashrc
       dest: '{{ developer_user_home }}/.bashrc.d/fzf.bashrc'
+      mode: '0644'
     when: ansible_facts.distribution == 'Fedora'
 
   - name: Add pulp_cli bashrc
     copy:
       src: files/pulp_cli.bashrc
       dest: '{{ developer_user_home }}/.bashrc.d/pulp_cli.bashrc'
+      mode: '0644'
 
   when: pulp_devel_supplement_bashrc |bool
 ...

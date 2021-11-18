@@ -20,6 +20,7 @@
     section: registries.search
     option: registries
     value: "['docker.io', 'quay.io']"
+    mode: '0644'
   become: yes
   when: ansible_facts.distribution == 'Debian'
 
@@ -30,6 +31,7 @@
     section: registries.insecure
     option: registries
     value: "['localhost:24817']"
+    mode: '0644'
   become: yes
   when:
     - ansible_facts.distribution == 'Debian'
