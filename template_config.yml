@@ -23,7 +23,7 @@ plugin_dash_short: installer
 plugin_name: pulp_installer
 plugin_snake: pulp_installer
 pulp_settings: null
-pulpcore_branch: master
+pulpcore_branch: main
 pydocstyle: false
 pypi_username: null
 stable_branch: null

@@ -229,7 +229,7 @@
         dest: '{{ pulp_source_dir }}'
         clone: yes
         force: no
-        version: '{{ pulp_git_revision | default("master") }}'
+        version: '{{ pulp_git_revision | default("main") }}'
         update: yes
       when: pulp_git_url is defined and pulp_source_dir is defined
       tags:

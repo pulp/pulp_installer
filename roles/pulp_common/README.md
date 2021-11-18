@@ -27,7 +27,7 @@ Role Variables
     Defaults to "false".
     * `source_dir`: Optional. Absolute path to the plugin source code. If present,
   plugin will be installed from source in editable mode.
-  Also accepts a pip VCS URL, to (for example) install the master branch.
+  Also accepts a pip VCS URL, to (for example) install the main branch.
     * `prereq_role`: Optional. Name of (or folder path to) Ansible role to run
     immediately before the venv is created. You will need to download it 1st (with
     ansible-galaxy.) Needed because many plugins will have OS dependencies in C.
@@ -63,7 +63,7 @@ Role Variables
 * `pulp_media_root`: `MEDIA_ROOT` for `pulpcore`. Defaults to "/var/lib/pulp/media".
 * `pulp_source_dir`: Optional. Absolute path to pulpcore source code. If
   present, pulpcore will be installed from source in editable mode. Also accepts
-  a pip VCS URL, to (for example) install the master branch.
+  a pip VCS URL, to (for example) install the main branch.
 * `pulp_git_url`: Optional. URL to the git repository from where pulpcore will be checked out if
   doesn't exists already on `source_dir`.
   > **WARNING** when `pulp_git_url` is defined this role will clone the repo if doesn't already
@@ -90,7 +90,7 @@ Role Variables
     dictionary are variable names, and the values should be expressed using the [Dynaconf syntax](
     https://dynaconf.readthedocs.io/en/latest/guides/environment_variables.html#precedence-and-type-casting)
     Please see [pulpcore configuration
-    docs](https://docs.pulpproject.org/en/master/nightly/installation/configuration.html#id2) for
+    docs](https://docs.pulpproject.org/en/main/nightly/installation/configuration.html#id2) for
     documentation on the possible variable names and their values.
   * `pulp_settings.content_origin`: **Required**. The URL to the pulp_content
     host that clients will access, and that will be appended to in HTTP

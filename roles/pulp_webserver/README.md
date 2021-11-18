@@ -46,7 +46,7 @@ Plugin Webserver Configs
 The installer symlinks config fragments from plugin Python packages to either nginx or apache during
 installation. These fragments typically provide additional url routing to either the Pulp API or
 Pulp Content App. pulp_ansible has an example of such configs [here](https://github.com/pulp/
-pulp_ansible/tree/master/pulp_ansible/app/webserver_snippets).
+pulp_ansible/tree/main/pulp_ansible/app/webserver_snippets).
 
 The Nginx config provides definitions for the location of the Pulp Content App and the Pulp API as
 pulp-api and pulp-content respectively. To route the url `/pulp_ansible/galaxy/` to the Pulp API you
