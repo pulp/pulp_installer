@@ -2,9 +2,16 @@ describe directory('/etc/') do
   its('owner') { should eq 'root' }
 end
 
-describe directory('/var/lib/pulp/') do
-  its('owner') { should eq 'pulp' }
-  its('group') { should eq 'pulp' }
+describe.one do
+  describe directory('/var/lib/pulp/') do
+    its('owner') { should eq 'pulp' }
+    its('group') { should eq 'pulp' }
+  end
+
+  describe directory('/opt/pulp/home/') do
+    its('owner') { should eq 'pulp' }
+    its('group') { should eq 'pulp' }
+  end
 end
 
 ['pulpcore-api','pulpcore-content', 'pulpcore-worker@1', 'pulpcore-worker@2'].each do |pservice|

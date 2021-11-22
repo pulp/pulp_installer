@@ -1,0 +1,1 @@
+Fixed pulp_installer failing when variables like `pulp_user_home` are set by specifying them in `/etc/pulp/settings.py`
