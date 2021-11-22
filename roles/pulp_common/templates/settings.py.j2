@@ -1,3 +1,10 @@
 {% for setting, value in __pulp_common_merged_pulp_settings.items() %}
 {{ setting | upper }} = {{ value | string | capitalize if value | string in ["True", "False"] else value | to_json }}
 {% endfor %}
+{# https://github.com/pulp/pulpcore/blob/master/pulpcore/app/settings.py#L37-L38 #}
+DEPLOY_ROOT = "{{ pulp_user_home }}"
+MEDIA_ROOT = "{{ pulp_media_root }}"
+STATIC_ROOT = "{{ pulp_user_home }}/assets"
+WORKING_DIRECTORY = "{{ pulp_user_home }}/tmp"
+FILE_UPLOAD_TEMP_DIR = "{{ pulp_user_home }}/tmp"
+DB_ENCRYPTION_KEY = "{{ pulp_certs_dir }}/database_fields.symmetric.key"

@@ -74,3 +74,8 @@
   environment:
     PULP_SETTINGS: "{{ pulp_settings_file }}"
     LD_LIBRARY_PATH: "{{ pulp_ld_library_path }}"
+    PULP_DEPLOY_ROOT: "{{ pulp_user_home }}"
+    PULP_MEDIA_ROOT: "{{ pulp_media_root }}"
+    PULP_STATIC_ROOT: "{{ pulp_user_home }}/assets"
+    PULP_WORKING_DIRECTORY: "{{ pulp_user_home }}/tmp"
+    PULP_FILE_UPLOAD_TEMP_DIR: "{{ pulp_user_home }}/tmp"

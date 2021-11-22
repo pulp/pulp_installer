@@ -34,7 +34,12 @@ pulp_install_plugins:
     git_url: "https://github.com/pulp/pulp_rpm"
     git_revision: "master"
     source_dir: "/var/lib/pulp/devel/pulp_rpm"
-developer_user_home: /var/lib/pulp
+pulp_media_root: /opt/pulp/media
+pulp_cache_dir: /opt/pulp/cache
+pulp_user_home: /opt/pulp/home
+pulp_install_dir: /opt/pulp/lib
+pulp_config_dir: /opt/pulp/etc
+developer_user_home: /opt/pulp/devel
 developer_user: pulp
 pulp_settings:
   secret_key: secret
