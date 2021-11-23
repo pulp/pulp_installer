@@ -59,6 +59,7 @@
         conf_file: "{{ __dnf_conf.path | default(omit) }}"
         # update_only is a needed part of installing older updates
         update_only: true
+        exclude: '{{ pulp_pkg_exclude | default(omit) }}'
       notify:
         - Collect static content
         - Restart all Pulp services
@@ -75,6 +76,7 @@
       package:
         name: "{{ pulp_pkg_undeclared_deps }}"
         state: "{{ pulp_pkg_upgrade_all | ternary('latest','present') }}"
+        exclude: '{{ pulp_pkg_exclude | default(omit) }}'
       notify:
         - Collect static content
         - Restart all Pulp services
@@ -87,6 +89,7 @@
           = {{ pulpcore_version }}
           {%- endif -%}
         state: "{{ pulp_pkg_upgrade_all | ternary('latest','present') }}"
+        exclude: '{{ pulp_pkg_exclude | default(omit) }}'
       notify:
         - Collect static content
         - Restart all Pulp services
