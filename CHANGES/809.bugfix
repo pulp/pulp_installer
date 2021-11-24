@@ -1,0 +1,1 @@
+When installing in "packages" mode on EL7, workaround upgrading RPM packages by ignoring the latest libcomps. (Fixes error with upgrading python2-libcomps.)

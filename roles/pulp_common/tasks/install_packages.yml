@@ -63,6 +63,9 @@
       notify:
         - Collect static content
         - Restart all Pulp services
+      tags:
+        # When upgrading from very early RPMs (like 3.3), this task happens twice
+        - molecule-idempotence-notest
 
   become: true
   when:
@@ -102,6 +105,7 @@
           = {{ __pulp_common_package.value.version }}
           {%- endif -%}
         state: "{{ pulp_pkg_upgrade_all | ternary('latest','present') }}"
+        exclude: '{{ pulp_pkg_exclude | default(omit) }}'
       # We use pulp_install_plugins rather than pulp_install_plugins_normalized
       # so that users can specify package names with underscores if distros
       # require it.
