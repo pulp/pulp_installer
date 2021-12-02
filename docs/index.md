@@ -5,7 +5,7 @@ The Pulp 3 Ansible installer is a collection of Ansible roles that you can use t
 
 Each Ansible role installs and configures a component of Pulp.
 
-This version of the installer, 3.16, installs the latest release of pulpcore 3.16.z. 
+This version of the installer, 3.16, installs the latest release of pulpcore 3.16.z.
 
 If run against an older version of Pulp 3, it will upgrade it to 3.16.z.
 
@@ -16,7 +16,7 @@ If run again, the installed version of pulpcore 3.16 is not updated unless `pulp
 
 We are actively trying to make our documentation as complete and user-friendly as possible.
 If you experience any difficulties or have any feedback, write to `pulp-list@redhat.com`.
-[Documentation PRs](https://github.com/pulp/pulp_installer/edit/master/docs/index.md) are always welcome.
+[Documentation PRs](https://github.com/pulp/pulp_installer/edit/main/docs/index.md) are always welcome.
 ---
 
 

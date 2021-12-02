@@ -41,7 +41,7 @@ Setting up a pulp development environment
 -----------------------------------------
 
 After you've set up the git submodules as outlined in the Setup section, you will need to
-[clone the source code](https://docs.pulpproject.org/en/master/nightly/contributing/dev-setup.html#get-the-source)
+[clone the source code](https://docs.pulpproject.org/en/main/nightly/contributing/dev-setup.html#get-the-source)
 in the parent directory of the `pulp_installer` clone.
 
 If you have any custom configuration options **including plugin choice**,
@@ -54,7 +54,7 @@ vagrant up pulp3-source-fedora32
 ```
 
 For more information about the development environment,
-please look into the [pulp_devel](https://github.com/pulp/pulp_installer/tree/master/roles/pulp_devel) role.
+please look into the [pulp_devel](https://github.com/pulp/pulp_installer/tree/main/roles/pulp_devel) role.
 See also [pulp_installer](https://github.com/pulp/pulp_installer#roles).
 
 Available Boxes
@@ -178,7 +178,7 @@ Now you have the `slow_pool`.
 
 For pulp_installer this can only be done on the vagrant "box definition" itself. The
 `local.dev-config.yml` and `local.user-config.yml` files only specifies Ansible variables. These are
-not the same as Vagrant box definitions, which for [the pulp_installer live here](https://github.com/pulp/pulp_installer/tree/master/vagrant/boxes.d)
+not the same as Vagrant box definitions, which for [the pulp_installer live here](https://github.com/pulp/pulp_installer/tree/main/vagrant/boxes.d)
 
 This is documentation for libvirt backends, and we're going to be using the `storage_pool_name`
 which is an option for `libvirt_options`. The docs referring to this are [here](https://github.com/vagrant-libvirt/vagrant-libvirt#provider-options).

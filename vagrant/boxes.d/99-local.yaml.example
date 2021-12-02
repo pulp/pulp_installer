@@ -24,7 +24,7 @@ centos7-pulp3-github:
     galaxy_role_file: "pulp_installer/requirements.yml"
     verbose: vv
     variables:
-      pulp_requirements_dir: "https://raw.githubusercontent.com/pulp/pulpcore/master/"
+      pulp_requirements_dir: "https://raw.githubusercontent.com/pulp/pulpcore/main/"
       pulp_source_dir: "git+https://github.com/pulp/pulpcore.git#egg=pulpcore"
       pulp_install_plugins:
         pulp-file:
