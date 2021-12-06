@@ -59,9 +59,13 @@
         conf_file: "{{ __dnf_conf.path | default(omit) }}"
         # update_only is a needed part of installing older updates
         update_only: true
+        exclude: '{{ pulp_pkg_exclude | default(omit) }}'
       notify:
         - Collect static content
         - Restart all Pulp services
+      tags:
+        # When upgrading from very early RPMs (like 3.3), this task happens twice
+        - molecule-idempotence-notest
 
   become: true
   when:
@@ -75,6 +79,7 @@
       package:
         name: "{{ pulp_pkg_undeclared_deps }}"
         state: "{{ pulp_pkg_upgrade_all | ternary('latest','present') }}"
+        exclude: '{{ pulp_pkg_exclude | default(omit) }}'
       notify:
         - Collect static content
         - Restart all Pulp services
@@ -87,6 +92,7 @@
           = {{ pulpcore_version }}
           {%- endif -%}
         state: "{{ pulp_pkg_upgrade_all | ternary('latest','present') }}"
+        exclude: '{{ pulp_pkg_exclude | default(omit) }}'
       notify:
         - Collect static content
         - Restart all Pulp services
@@ -99,6 +105,7 @@
           = {{ __pulp_common_package.value.version }}
           {%- endif -%}
         state: "{{ pulp_pkg_upgrade_all | ternary('latest','present') }}"
+        exclude: '{{ pulp_pkg_exclude | default(omit) }}'
       # We use pulp_install_plugins rather than pulp_install_plugins_normalized
       # so that users can specify package names with underscores if distros
       # require it.

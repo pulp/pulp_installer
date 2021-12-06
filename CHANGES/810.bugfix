@@ -1,0 +1,1 @@
+When installing in "packages" mode on EL8, fix upgrading from RPMs prior to 3.8 by excluding the no-longer-needed dependency python3-drf-yasg from upgrade.

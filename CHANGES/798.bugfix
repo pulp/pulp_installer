@@ -1,0 +1,1 @@
+When installing from packages, fix pulpcore getting upgraded prematurely during "pulp_common : Install the Pulp undeclared yum package dependencies" by no longer installing pulpcore-selinux there. pulpcore-selinux will be installed as a declared dependency of pulpcore.
