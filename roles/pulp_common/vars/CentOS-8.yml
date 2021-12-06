@@ -1,4 +1,6 @@
 ---
+pulp_pkg_exclude: "python3-drf-yasg"  # Fixes upgrading from pre-3.8. It would depend on python3-django.
+pulp_pkg_name_prefix: "python38-"
 pulp_preq_packages:
   - python38
   - python38-devel

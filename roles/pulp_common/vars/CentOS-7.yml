@@ -1,4 +1,10 @@
 ---
+# Fixes upgrading from older repos. libcomps-0.1.8-14.el7.x86_64 does not include a python2 subpackage.
+pulp_pkg_exclude:
+  - tfm-pulpcore-python3-libcomps-0.1.18-1.el7.x86_64
+  - libcomps-devel-0.1.18-1.el7.x86_64
+  - libcomps-0.1.18-1.el7.x86_64
+pulp_pkg_name_prefix: "tfm-pulpcore-python3-"
 pulp_preq_packages:
   # pip module doc: "The interpreter used by Ansible (see ansible_python_interpreter) requires the
   # setuptools package, regardless of the version of pip set with the executable option."

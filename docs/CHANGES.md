@@ -13,6 +13,52 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.15.2-3 (2021-12-06)
+=====================
+
+
+Features
+--------
+
+- Add SELinux support for the pulp-2to3-migration plugin by updating pulpcore-selinux (SELinux
+  policies) to 1.2.6
+  [#9468](https://pulp.plan.io/issues/9468)
+
+
+Bugfixes
+--------
+
+- Fix `pulp_common : Collect static content` sporadically failing when using a shared filesystem (.e.g, NFS) for `/var/lib/pulp` by running it sequentially across multiple Pulp nodes.
+  [#790](https://github.com/pulp/pulp_installer/issues/790)
+- Update packages mode support for Pulp 3.15 by changing the default package name prefix (`pulp_pkg_name_prefix`) from `python3-` to `tfm-pulpcore-python3-`.
+  [#795](https://github.com/pulp/pulp_installer/issues/795)
+- When installing from packages, fix pulpcore getting upgraded prematurely during "pulp_common : Install the Pulp undeclared yum package dependencies" by no longer installing pulpcore-selinux there. pulpcore-selinux will be installed as a declared dependency of pulpcore.
+  [#798](https://github.com/pulp/pulp_installer/issues/798)
+- When installing in "packages" mode on EL7, workaround upgrading RPM packages by ignoring the latest libcomps. (Fixes error with upgrading python2-libcomps.)
+  [#809](https://github.com/pulp/pulp_installer/issues/809)
+- When installing in "packages" mode on EL8, fix upgrading from RPMs prior to 3.8 by excluding the no-longer-needed dependency python3-drf-yasg from upgrade.
+  [#810](https://github.com/pulp/pulp_installer/issues/810)
+
+
+Deprecations and Removals
+-------------------------
+
+- Ensure resource manager is not started for pulpcore >= 3.16
+  [#9386](https://pulp.plan.io/issues/9386)
+
+
+Devel
+-----
+
+- Fix systemctl aliases from pulp_devel
+  [#9460](https://pulp.plan.io/issues/9460)
+- Set `client_max_body_size` to 10m for dev environments
+  [#9463](https://pulp.plan.io/issues/9463)
+
+
+----
+
+
 3.15.2-2 (2021-09-22)
 =====================
 
