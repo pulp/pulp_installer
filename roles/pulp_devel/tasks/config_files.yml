@@ -4,6 +4,7 @@
     src: files/vimrc
     dest: "{{ developer_user_home }}/.vimrc"
     force: no
+    mode: '0644'
 
 - name: Create ~/.pgpass if not already present
   copy:

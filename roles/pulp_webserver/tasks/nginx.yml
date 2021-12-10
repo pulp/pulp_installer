@@ -25,6 +25,7 @@
       template:
         src: nginx.conf.j2
         dest: /etc/nginx/nginx.conf
+        mode: '0644'
       notify: reload nginx
 
     - name: Find pulp obsolete symlinks
@@ -46,6 +47,7 @@
       file:
         path: "/etc/nginx/pulp/"
         state: directory
+        mode: '0755'
 
     # FIXME: The ansible output here over the results is very ugly.
     # It may be a lot cleaner if we were to use the command module,

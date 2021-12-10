@@ -102,6 +102,7 @@
         option: enabled
         value: "1"
         no_extra_spaces: true
+        mode: '0644'
       when: repo_file.rc == 0
       become: true
 
@@ -119,6 +120,7 @@
         option: enabled
         value: 1
         no_extra_spaces: true
+        mode: '0644'
       when: repo_file.rc == 0
       become: true
 
@@ -130,6 +132,7 @@
   template:
     src: pulpcore.repo.j2
     dest: /etc/yum.repos.d/pulpcore.repo
+    mode: '0644'
 
   when:
     - ansible_facts.os_family == "RedHat"
