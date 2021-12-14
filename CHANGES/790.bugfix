@@ -1,1 +1,0 @@
-Fix `pulp_common : Collect static content` sporadically failing when using a shared filesystem (.e.g, NFS) for `/var/lib/pulp` by running it sequentially across multiple Pulp nodes.

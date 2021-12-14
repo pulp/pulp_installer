@@ -13,6 +13,56 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.17.0 (2021-12-14)
+
+Features
+--------
+
+- Add Fedora 35 support
+  [#799](https://github.com/pulp/pulp-operator/issues/799)
+- Setting explicit permissions to files we modify or copy by installation process. Default is world readable (644 or 755).
+  [#800](https://github.com/pulp/pulp-operator/issues/800)
+- Update SELinux policies to 1.2.7. Adds support for Pulp 3 connecting to remote repos through Squid and other web proxies.
+  [#9450](https://pulp.plan.io/issues/9450)
+
+
+Bugfixes
+--------
+
+- Fix `pulp_common : Collect static content` sporadically failing when using a shared filesystem (.e.g, NFS) for `/var/lib/pulp` by running it sequentially across multiple Pulp nodes.
+  [#790](https://github.com/pulp/pulp-operator/issues/790)
+- Update packages mode support for Pulp 3.15 by changing the default package name prefix (`pulp_pkg_name_prefix`) from `python3-` to `tfm-pulpcore-python3-`.
+  [#795](https://github.com/pulp/pulp-operator/issues/795)
+- When installing from packages, fix pulpcore getting upgraded prematurely during "pulp_common : Install the Pulp undeclared yum package dependencies" by no longer installing pulpcore-selinux there. pulpcore-selinux will be installed as a declared dependency of pulpcore.
+  [#798](https://github.com/pulp/pulp-operator/issues/798)
+- Fixed pulp_installer failing when variables like `pulp_user_home` are set by specifying them in `/etc/pulp/settings.py`
+  [#801](https://github.com/pulp/pulp-operator/issues/801)
+- When installing in "packages" mode on EL7, workaround upgrading RPM packages by ignoring the latest libcomps. (Fixes error with upgrading python2-libcomps.)
+  [#809](https://github.com/pulp/pulp-operator/issues/809)
+- When installing in "packages" mode on EL8, fix upgrading from RPMs prior to 3.8 by excluding the no-longer-needed dependency python3-drf-yasg from upgrade.
+  [#810](https://github.com/pulp/pulp-operator/issues/810)
+
+
+Deprecations and Removals
+-------------------------
+
+- Removed the use_new_worker_type from dev-playbook example. And adjusted the resource-manager test
+  in the health checks.
+  [#9158](https://pulp.plan.io/issues/9158)
+
+
+Devel
+-----
+
+- Added `pazurite` alias for enabling Azurite tests
+  [#9499](https://pulp.plan.io/issues/9499)
+- Fixed pulplift for installations with ansible 2.9
+  [#9520](https://pulp.plan.io/issues/9520)
+
+
+----
+
+
 3.16.0 (2021-10-06)
 ===================
 
