@@ -92,8 +92,8 @@ jobs:
       - name: Pulling images for distro packages upgrades
         if: matrix.test_type == 'packages-upgrade'
         run: |
-          docker pull quay.io/pulp/pulp-ci-pkgs-c7:3.3.1
-          docker pull quay.io/pulp/pulp-ci-pkgs-c8:3.3.1
+          docker pull quay.io/pulp/pulp-ci-pkgs-c7:3.7.9
+          docker pull quay.io/pulp/pulp-ci-pkgs-c8:3.7.9
       - name: Run tox
         run: tox -e "py${{ matrix.toxpy }}-ansible${{ matrix.ansible }}-${{ matrix.test_type }}"
         env:

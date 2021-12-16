@@ -10,4 +10,4 @@ pulp_install_plugins:
 pulp_settings:
   secret_key: secret
   content_origin: "https://{{ ansible_fqdn }}"
-pulp_pkg_repo: "https://yum.theforeman.org/pulpcore/3.15/el{{ ansible_distribution_major_version }}/$basearch/"
+pulp_pkg_repo: "https://yum.theforeman.org/pulpcore/3.16/el{{ ansible_distribution_major_version }}/$basearch/"
