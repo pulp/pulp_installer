@@ -134,7 +134,22 @@ RPM packages instead if this variable is set. Other distro packaging formats may
   (RPM) "packages".
   Defaults to "pip".
 
-If it is set to "packages", the following variables are used, or behave *differently* from above:
+If it is set to "packages", the installer is in *packges mode*, which has the following **limitations**:
+
+* The packages are only built for CentOS/RHEL 7 and CentOS/RHEL 8.
+* Not all plugins are available from the default repo. To determine which plugins are available,
+  follow [this link](https://yum.theforeman.org/pulpcore/), browse to the repo for your
+  Pulp version and distribution, and search for "pulp-".
+* The default repo (from yum.theforeman.org, see `pulp_pkg_repo`) is not tested for every possible
+  pulpcore usage, and is thus not officially supported by the Foreman project.
+* pulp_installer may install/upgrade to an older minor branch of pulpcore.
+  E.g., if pulp_installer is version 3.9.z, it may install Pulp 3.8 instead. See `pulp_pkg_repo`.
+* The version of Pulp installed/upgraded to may be changed to the current minor branch during any
+  pulp_installer micro release.
+  E.g., pulp_installer 3.9.0 may install/upgrade to Pulp 3.8, while
+  pulp_installer 3.9.1 may install/upgrade to Pulp 3.9.
+
+Furthermore, the following variables are used, or behave *differently* from above:
 
 * `pulp_install_plugins`: **Required** A nested dictionary of plugins to install & their installation options.
     * *Dictionary Key*: **Required**. The plugin name.
@@ -159,9 +174,10 @@ If it is set to "packages", the following variables are used, or behave *differe
   appended to in order to install "pulpcore" and the plugins. Defaults to "python3-".
 * `pulp_pkg_pulpcore_name`: The entire name of the Linux distro (RPM) package for pulpcore.
   Defaults to: "python3-pulpcore"
-* `pulp_pkg_repo`: yum/dnf package repo to add to the system before installing Pulp
-  Consists simply of the URL to the repo. Defaults to nothing. Does not support any other repo
-  type yet.
+* `pulp_pkg_repo`: yum/dnf package repo to add to the system to install Pulp from.
+  Consists simply of the URL to the repo. Does not support any other repo type yet.
+  Defaults to either the corresponding  minor branch (3.y) repo from `yum.theforeman.org`, or an older
+  minor branch. See the **limitations** above.
 * `pulp_pkg_repo_gpgcheck`: Whether the package signatures should be checked or not. Defaults to `True`.
 * `pulp_pkg_undeclared_deps`: Additional Linux distro (RPM) packages to install before installing pulpcore.
   See `defaults/main.yml` for default values.
