@@ -29,6 +29,9 @@ __pulp_common_pulp_settings_defaults:
       NAME: pulp
       USER: pulp
       PASSWORD: pulp
+  redis_host: localhost
+  redis_port: 6379
+  cache_enabled: True
   private_key_path: "{{ pulp_certs_dir }}/token_private_key.pem"
   public_key_path: "{{ pulp_certs_dir }}/token_public_key.pem"
   token_server: "{{ pulp_webserver_disable_https | default(false) | ternary('http', 'https') }}://{{ ansible_facts.fqdn }}/token/"
