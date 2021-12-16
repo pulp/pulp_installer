@@ -36,7 +36,7 @@
 - name: Install libseccomp2 from backports (Debian-specific)
   apt:
     name:
-      - libseccomp2=2.4*
+      - libseccomp2=2.5*
     default_release: buster-backports
     state: present
   retries: "{{ pulp_devel_package_retries }}"
