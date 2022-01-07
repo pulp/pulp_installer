@@ -36,7 +36,7 @@ __pulp_common_pulp_settings_defaults:
 
 __pulp_common_merged_pulp_settings: "{{ __pulp_common_pulp_settings_defaults | combine(pulp_settings, recursive=True) }}"
 
-__pulp_version: '{{ pulpcore_version | default("3.14.9") }}'
+__pulp_version: '{{ pulpcore_version | default("3.14.10") }}'
 
 __pulp_old_artifact_dir: "{{ pulp_user_home | regex_replace('\\/$', '')  }}/artifact"
 __pulp_artifact_dir: "{{ pulp_media_root | regex_replace('\\/$', '')  }}/artifact"
