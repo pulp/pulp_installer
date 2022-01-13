@@ -43,8 +43,10 @@ test: $(MANIFEST)
 $(MANIFEST): $(NAMESPACE)-$(NAME)-$(VERSION).tar.gz
 	ansible-galaxy collection install -p build/collections $< --force
 
+# We cannot use a single `install -DT` command here because MacOS `install` lacks `-D` & `-T`.
 build/src/%: %
-	install -m 644 -DT $< $@
+	install -m 755 -d $(@D)
+	install -m 644 $< $@
 
 $(NAMESPACE)-$(NAME)-$(VERSION).tar.gz: $(addprefix build/src/,$(DEPENDENCIES))
 	ansible-galaxy collection build build/src --force

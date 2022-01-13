@@ -1,0 +1,1 @@
+Fix building the collection failing on MacOS due to an `install` command error.
