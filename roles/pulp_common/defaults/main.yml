@@ -44,7 +44,7 @@ epel_release_packages:
 pulp_irregularly_named_plugins:
   - galaxy-ng
 pulp_pkg_pulpcore_name: "{{ pulp_pkg_name_prefix }}pulpcore"
-pulp_pkg_repo:
+pulp_pkg_repo: "https://yum.theforeman.org/pulpcore/3.16/el{{ ansible_distribution_major_version }}/$basearch/"
 pulp_pkg_repo_gpgcheck: True
 pulp_pkg_undeclared_deps:
   - "{{ pulp_pkg_name_prefix }}psycopg2"
