@@ -1,6 +1,7 @@
 ---
 # vars needed for 'rh-postgresql10' SCL
 __postgresql_version: "10"
+__postgresql_unix_socket_directories_mode: "0755"
 postgresql_user: postgres
 postgresql_packages:
   - rh-postgresql10
