@@ -25,3 +25,6 @@ galaxy_info:
 dependencies: []
 collections:
   - community.postgresql
+  # Workaround a bug in geerlingguy.postgresql when using ansible-core
+  # https://github.com/geerlingguy/ansible-role-postgresql/pull/203
+  - community.general
