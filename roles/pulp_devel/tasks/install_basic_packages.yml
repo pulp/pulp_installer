@@ -1,25 +1,61 @@
 ---
-- name: Install several useful packages (distro-agnostic)
-  package:
-    name:
-      - dstat
-      - git
-      - htop
-      - iotop
-      - jq
-      - ncdu
-      - tmux
-      - tree
-      - wget
-      - curl
-      - gnupg
-      - rubygems
-      - npm
-      - rsyslog
-    state: present
-  retries: "{{ pulp_devel_package_retries }}"
-  register: result
-  until: result is succeeded
+- name: Install several useful packages (with workarounds)
+  block:
+    - name: Install several useful packages (distro-agnostic)
+      package:
+        name:
+          - dstat
+          - git
+          - htop
+          - iotop
+          - jq
+          - ncdu
+          - tmux
+          - tree
+          - wget
+          - curl
+          - gnupg
+          - rubygems
+          - npm
+          - rsyslog
+        state: present
+      retries: "{{ pulp_devel_package_retries }}"
+      register: result
+      until: result is succeeded
+  rescue:
+    - name: Workaround the node.js temporary retirement
+      yum:
+        name:
+          - https://kojipkgs.fedoraproject.org//packages/nodejs/16.13.2/2.el7/noarch/nodejs-docs-16.13.2-2.el7.noarch.rpm
+          - https://kojipkgs.fedoraproject.org//packages/nodejs/16.13.2/2.el7/x86_64/nodejs-16.13.2-2.el7.x86_64.rpm
+          - https://kojipkgs.fedoraproject.org//packages/nodejs/16.13.2/2.el7/x86_64/nodejs-full-i18n-16.13.2-2.el7.x86_64.rpm
+          - https://kojipkgs.fedoraproject.org//packages/nodejs/16.13.2/2.el7/x86_64/nodejs-libs-16.13.2-2.el7.x86_64.rpm
+          - https://kojipkgs.fedoraproject.org//packages/nodejs/16.13.2/2.el7/x86_64/npm-8.1.2-1.16.13.2.2.el7.x86_64.rpm
+      when:
+        - ansible_facts.os_family == 'RedHat'
+        - ansible_facts.distribution_major_version|int == 7
+
+    - name: Install several useful packages (distro-agnostic)
+      package:
+        name:
+          - dstat
+          - git
+          - htop
+          - iotop
+          - jq
+          - ncdu
+          - tmux
+          - tree
+          - wget
+          - curl
+          - gnupg
+          - rubygems
+          - npm
+          - rsyslog
+        state: present
+      retries: "{{ pulp_devel_package_retries }}"
+      register: result
+      until: result is succeeded
 
 - name: Install several useful packages (distro-specific)
   package:
