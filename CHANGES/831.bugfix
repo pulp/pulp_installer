@@ -1,0 +1,1 @@
+Workaround the geerlingguy.postgresql role failing to find the locale_gen module (and thus ansible runs failing) when using ansible-core.
