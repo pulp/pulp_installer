@@ -4,4 +4,5 @@ pulp_devel_distro_pkgs:
   - python-virtualenvwrapper
   - ruby-devel
   - jnettop
+  - rubygems
   - setroubleshoot

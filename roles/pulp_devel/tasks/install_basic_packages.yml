@@ -15,7 +15,6 @@
           - wget
           - curl
           - gnupg
-          - rubygems
           - npm
           - rsyslog
         state: present
@@ -49,7 +48,6 @@
           - wget
           - curl
           - gnupg
-          - rubygems
           - npm
           - rsyslog
         state: present

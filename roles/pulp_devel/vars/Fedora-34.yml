@@ -11,6 +11,7 @@ pulp_devel_distro_pkgs:
   - python3-virtualenvwrapper
   - ripgrep
   - vim-enhanced
+  - rubygems
   - ruby-devel
   - crun
   - setroubleshoot
