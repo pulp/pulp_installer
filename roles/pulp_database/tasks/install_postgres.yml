@@ -125,6 +125,9 @@
       become_user: "{{ postgresql_user }}"
       vars:
         ansible_ssh_pipelining: true
+      environment:
+        LC_ALL: en_US.UTF-8
+        LANG: en_US.UTF-8
 
   become: yes
   when:
