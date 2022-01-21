@@ -9,6 +9,7 @@ pulp_devel_distro_pkgs:
   - ripgrep
   - vim
   - software-properties-common
+  - ruby
   - ruby-dev
   - jnettop
   - nmap
