@@ -52,12 +52,9 @@
     # FIXME: The ansible output here over the results is very ugly.
     # It may be a lot cleaner if we were to use the command module,
     # above and/or create a temporary data structure.
-    #
-    # We use "first" because sometimes the stdout has a 2nd line with "\u001b[0m"
-    # which is a color ANSI color code.
     - name: Symlink Apache snippets
       file:
-        src: "{{ __pulp_webserver_snippet.stdout_lines | first }}"
+        src: "{{ __pulp_webserver_snippet.stdout | trim | regex_replace('\\s+.*$', '') }}"
         dest: "{{ pulp_webserver_apache_snippets_dir }}/{{ __pulp_webserver_snippet.__pulp_webserver_plugin.key | regex_replace('-', '_') }}.conf"
         state: link
       loop: '{{ snippets.results }}'
