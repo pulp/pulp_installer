@@ -99,7 +99,7 @@ pulp2-nightly-pulp3-source-fips-a:
 pulp2-nightly-pulp3-source-fips-b:
   provider: docker
   docker_options:
-    image: docker.io/pulp/vagrant-pulp2:latest
+    image: ghcr.io/pulp/vagrant-pulp2:latest
     cmd:
       - /usr/sbin/init
     has_ssh: True

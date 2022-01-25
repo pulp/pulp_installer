@@ -6,9 +6,6 @@ molecule_images:
   - name: centos-8
     image: centos:8
     command: /sbin/init
-  - name: fedora-34
-    image: fedora:34
-    command: /usr/sbin/init
   - name: fedora-35
     image: fedora:35
     command: /usr/sbin/init
