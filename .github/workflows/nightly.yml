@@ -122,3 +122,25 @@ jobs:
       - name: After failure
         if: failure()
         run: .github/workflows/scripts/after_failure.sh ${{ matrix.test_type }}
+  lint:
+    runs-on: ubuntu-latest
+    needs: git-check
+    strategy:
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v2.3.1
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+      - name: Install Ansible
+        run: |
+          pip install --upgrade pip
+          sudo apt remove ansible
+          pip install ansible-core
+      - name: Install Ansible-lint
+        run: |
+          pip install ansible-lint[yamllint]
+      - name: Lint test
+        run: |
+          ansible-lint
