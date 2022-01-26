@@ -14,8 +14,9 @@
 
     - name: Log into DockerHub
       docker_login:
+        registry_url: ghcr.io
         username: pulpbot
-        password: "{{ lookup('env','DOCKER_BOT_PASSWORD') }}"
+        password: "{{ lookup('env','GITHUB_TOKEN') }}"
 
     - name: Build molecule image
       docker_image:
@@ -33,7 +34,7 @@
     - name: Push molecule image
       docker_image:
         name: "molecule_{{ item.name | replace('-', '') }}"
-        repository: "docker.io/pulp/molecule_{{ item.name | replace('-', '') }}"
+        repository: "ghcr.io/pulp/molecule_{{ item.name | replace('-', '') }}"
         tag: latest
         push: true
         source: local
@@ -54,7 +55,7 @@
     - name: Push vagrant image for pulp2-nightly-pulp3-source-fips-b
       docker_image:
         name: "vagrant-pulp2"
-        repository: "docker.io/pulp/vagrant-pulp2"
+        repository: "ghcr.io/pulp/vagrant-pulp2"
         tag: latest
         push: true
         source: local

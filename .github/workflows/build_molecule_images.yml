@@ -23,6 +23,6 @@ jobs:
           ansible --version
       - name: Build image
         env:
-          DOCKER_BOT_PASSWORD: ${{ secrets.DOCKER_BOT_PASSWORD }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           ansible-playbook ./.github/build_container.yaml
