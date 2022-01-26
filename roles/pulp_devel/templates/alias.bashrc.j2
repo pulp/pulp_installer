@@ -325,3 +325,10 @@ pazurite(){
     _paction restart
 }
 _pazurite_help="Switch to Azurite for Azure testing. For stopping it: pazurite stop"
+
+ptest () {
+    comp="${1:-pulpcore}"
+    pytest -v -r sx --color=yes --suppress-no-test-exit-code --pyargs "$comp".tests.functional -m parallel -n 8
+    pytest -v -r sx --color=yes --pyargs "$comp".tests.functional -m "not parallel"
+}
+_ptests_help="Run the functional tests for pulpcore or a pulp plugin. Example `ptest pulpcore` or `ptest pulp_file`"
