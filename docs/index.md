@@ -15,7 +15,8 @@ If run again, the installed version of pulpcore 3.17.0 is not updated unless `pu
 **Didn't find what you need to get started?**
 
 We are actively trying to make our documentation as complete and user-friendly as possible.
-If you experience any difficulties or have any feedback, write to `pulp-list@redhat.com`.
+If you experience any difficulties or have any feedback, please post to our [community forum](https://discourse.pulpproject.org/) and let us know.
+We would be very happy to hear from you.
 [Documentation PRs](https://github.com/pulp/pulp_installer/edit/main/docs/index.md) are always welcome.
 ---
 
