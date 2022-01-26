@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: Pulp Team
-  description: A role to install Pulp's first-party services on a single host.
+  description: A role to setup Pulp 3's Resource Manager service
   issue_tracker_url: https://pulp.plan.io/projects/pulp/issues/new
   license: GPL-2.0-or-later
   company: Red Hat
@@ -23,8 +23,4 @@ galaxy_info:
     - pulp
     - pulpcore
 dependencies:
-  - pulp_database_config
-  - pulp_api
-  - pulp_content
-  - pulp_resource_manager
-  - pulp_workers
+  - pulp_common

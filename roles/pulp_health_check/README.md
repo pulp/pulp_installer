@@ -13,9 +13,6 @@ When not used together, this role provides identical defaults.
 
 * `pulp_api_bind`: Set the host the reverse proxy should connect to for the API server. Defaults
   to `127.0.0.1:24817`.
-* `pulpcore_version`: Specify a minor version of pulpcore (e.g.: 3.15) one would like to install or upgrade to.
-   By default the installer will do the right thing by using the minor version of pulpcore it is designed
-   for and tested with. This can also be a specific patch release (e.g.: 3.15.2).
 
 Operating Systems Variables
 ---------------------------

@@ -7,7 +7,7 @@ describe directory('/var/lib/pulp/') do
   its('group') { should eq 'pulp' }
 end
 
-['pulpcore-api','pulpcore-content', 'pulpcore-worker@1', 'pulpcore-worker@2'].each do |pservice|
+['pulpcore-api','pulpcore-content','pulpcore-resource-manager', 'pulpcore-worker@1', 'pulpcore-worker@2'].each do |pservice|
   describe service(pservice) do
     it { should be_running }
     it { should be_enabled }

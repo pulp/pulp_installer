@@ -1,0 +1,20 @@
+---
+- block:
+
+    - name: Install service files
+      template:
+        src: pulpcore-resource-manager.service.j2
+        dest: /lib/systemd/system/pulpcore-resource-manager.service
+        owner: root
+        group: root
+        mode: 0644
+      notify: Restart pulpcore-resource-manager
+
+    - name: Set the pulpcore-resource-manager service state
+      systemd:
+        name: pulpcore-resource-manager.service
+        state: '{{ pulp_resource_manager_state }}'
+        enabled: '{{ pulp_resource_manager_enabled }}'
+        daemon_reload: true
+
+  become: true

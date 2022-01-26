@@ -81,6 +81,7 @@ Roles
 - [pulp_database](roles/pulp_database): install a suitable database server for Pulp 3
 - [pulp_database_config](roles/pulp_database_config): configure the database for Pulp 3
 - [pulp_redis](roles/pulp_redis): install and start Redis, and install RQ in the Pulp virtualenv.
+- [pulp_resource_manager](roles/pulp_resource_manager): install, configure, and set the state of the pulp resouce manager.
 - [pulp_webserver](roles/pulp_webserver): install, configure, start, and enable a web server.
 - [pulp_workers](roles/pulp_workers): install, configure, and set the state of pulp workers.
 - [pulp_devel](roles/pulp_devel): installs useful tools and adds some config files for a Pulp 3 development environment.
