@@ -13,6 +13,18 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.15.3 (2022-01-27)
+
+Bugfixes
+--------
+
+- Fix webservers symlinks
+  [#834](https://github.com/pulp/pulp_installer/issues/834)
+
+
+----
+
+
 3.15.2-3 (2021-12-06)
 =====================
 
