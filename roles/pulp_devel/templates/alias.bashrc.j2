@@ -332,3 +332,15 @@ ptest () {
     pytest -v -r sx --color=yes --pyargs "$comp".tests.functional -m "not parallel"
 }
 _ptests_help="Run the functional tests for pulpcore or a pulp plugin. Example `ptest pulpcore` or `ptest pulp_file`"
+
+pproxy () {
+    podman run -d -it -p 8899:8899 --name ciproxy --rm ghcr.io/abhinavsingh/proxy.py:latest --basic-auth foo:bar --hostname 0.0.0.0
+    export PULP_PROXY_TEST=enabled
+    if grep -q ciproxy  /etc/hosts
+    then
+        echo "OK";
+    else
+        echo 127.0.0.1   ciproxy | sudo tee -a /etc/hosts
+    fi
+}
+_pproxy_help="Run proxy.py for testing. With username=foo, password=bar, proxy_url=http://127.0.0.1:8899"
