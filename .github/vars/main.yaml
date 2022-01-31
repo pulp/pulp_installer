@@ -3,8 +3,8 @@ molecule_images:
   - name: centos-7
     image: centos:7
     command: /sbin/init
-  - name: centos-8
-    image: centos:8
+  - name: centos-stream8
+    image: centos:stream8
     command: /sbin/init
   - name: fedora-33
     image: fedora:33
