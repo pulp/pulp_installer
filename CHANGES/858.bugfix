@@ -1,0 +1,1 @@
+Fix pulp_installer failing on "pulp_common: Run pip-compile to check pulpcore/plugin compatibility" on most distros. This occurs with pip 22.0 (just released) and pip-tools 6.4.0 (several months old and incompatible), so we are fixing it by limiting pip to 21 for now.
