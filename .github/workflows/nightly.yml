@@ -124,7 +124,6 @@ jobs:
         run: .github/workflows/scripts/after_failure.sh ${{ matrix.test_type }}
   lint:
     runs-on: ubuntu-latest
-    needs: git-check
     strategy:
       fail-fast: false
     steps:
