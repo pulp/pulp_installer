@@ -53,13 +53,14 @@ provisioner:
       host_vars: ../scenario_resources/host_vars/
       group_vars: ../scenario_resources/group_vars/
 scenario:
+  # No idempotency because this scenario currently takes 1:05:43 long, much
+  # longer than the 2nd longest, release-dynamic, at 00:41:48.
   test_sequence:
     - dependency
     - syntax
     - create
     - prepare
     - converge
-    - idempotence
     - side_effect
     - verify
   playbooks:
