@@ -11,8 +11,8 @@ release_path = os.path.dirname(os.path.abspath(__file__))
 plugin_path = release_path.split("/.ci")[0]
 
 plugin_name = "pulp_installer"
-release_version = input("Please enter the pulp_installer version e.g. (3.12.0): ")
-pulpcore_version = input("Please enter the pulpcore version e.g. (3.12.0): ")
+release_version = input("Please enter the pulp_installer version e.g. (3.17.0): ")
+pulpcore_version = input("Please enter the pulpcore minor version e.g. (3.17): ")
 pulpcore_selinux_version = input(
     "Please enter the pulpcore-selinux version e.g. (1.2.4): "
 )
