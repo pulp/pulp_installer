@@ -13,3 +13,30 @@
       when:
         - ansible_os_family == "RedHat"
         - ansible_distribution_major_version|int == 7
+
+    - name: Migrate CentOS 8 to CentOS Stream 8
+      block:
+        - name: Get latest CentOS 8 GPG keys and its temporary dependency
+          dnf:
+            name:
+              - https://vault.centos.org/8.5.2111/BaseOS/x86_64/os/Packages/centos-gpg-keys-8-3.el8.noarch.rpm
+              - https://vault.centos.org/8.5.2111/BaseOS/x86_64/os/Packages/centos-linux-repos-8-3.el8.noarch.rpm
+            disablerepo:
+              - baseos
+              - appstream
+              - extras
+          when:
+            - ansible_distribution == "CentOS"
+            - ansible_distribution_version in ["8.3","8.4"]
+
+        - name: Switch to CentOS 8 Stream repos
+          command: dnf -y --disablerepo * --enablerepo extras swap centos-linux-repos centos-stream-repos
+
+        - name: Finish CentOS 8 Stream migration
+          dnf:
+              name:
+                - centos-stream-release
+                - centos-gpg-keys
+      when:
+        - ansible_distribution == "CentOS"
+        - ansible_distribution_version in ["8.3","8.4","8.5"]
