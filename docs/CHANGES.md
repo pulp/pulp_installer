@@ -13,6 +13,61 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.17.1 (2022-02-01)
+
+Features
+--------
+
+- Setting explicit permissions to files we modify or copy by installation process. Default is world readable (644 or 755).
+  [#800](https://github.com/pulp/pulp_installer/issues/800)
+- Set `pulp_pkg_repo` by default. Users can now install from packages merely by setting `pulp_install_source=packages`.
+  [#816](https://github.com/pulp/pulp_installer/issues/816)
+- Adds a `ptest` command to the pulp_devel role to run the functional tests for a specific project.
+  [#848](https://github.com/pulp/pulp_installer/issues/848)
+- Update SELinux policies to 1.2.7. Adds support for Pulp 3 connecting to remote repos through Squid and other web proxies.
+  [#9450](https://github.com/pulp/pulp_installer/issues/9450)
+
+
+Bugfixes
+--------
+
+- Fix building the collection failing on MacOS due to an `install` command error.
+  [#823](https://github.com/pulp/pulp_installer/issues/823)
+- Update pulpcore-selinux policies to 1.2.8. Fixes SELinux denials, and pulpcore-worker not starting when SELinux is enforcing, when using the new pulpcore tasking system.
+  [#826](https://github.com/pulp/pulp_installer/issues/826)
+- Workaround the geerlingguy.postgresql role failing to find the locale_gen module (and thus ansible runs failing) when using ansible-core.
+  [#831](https://github.com/pulp/pulp_installer/issues/831)
+- Fix pulp_installer failing to install rubygems on Debian 11 when using Ansible's main branch.
+  [#833](https://github.com/pulp/pulp_installer/issues/833)
+- Fix webservers symlinks
+  [#834](https://github.com/pulp/pulp_installer/issues/834)
+- Fix pulp_installer failing on "pulp_common: Run pip-compile to check pulpcore/plugin compatibility" on most distros. This occurs with pip 22.0 (just released) and pip-tools 6.4.0 (several months old and incompatible), so we are fixing it by limiting pip to 21 for now.
+  [#858](https://github.com/pulp/pulp_installer/issues/858)
+- Fixed a problem in pulp_installer 3.17.0 that it would only install pulpcore 3.17.0 rather than the latest 3.17.z micro release. pulp_installer 3.17.0 users can work around by setting the variable `pulpcore_version: 3.17`
+  [#862](https://github.com/pulp/pulp_installer/issues/862)
+
+
+Deprecations and Removals
+-------------------------
+
+- No longer support upgrading from packages prior to 3.6. Instead, users should download and run pulp_installer 3.14 with a 3.14 rpm repo, then upgrade to the current version.
+  [#814](https://github.com/pulp/pulp_installer/issues/814)
+- Ansible 2.9 and Python 2.7 are now further deprecated. We observed a bug whereby a pip_package_info task in the playbook fails after running the task `include_role: pulp_all_services`. The only fix for this bug is to upgrade to a known working and tested configuration like Python 3 and ansible-base 2.10+.
+  [#836](https://github.com/pulp/pulp_installer/issues/836)
+- CentOS 8 is now EOL, and thus Pulp no longer formally supports it. Pulp now only tests fresh installs with CentOS Stream 8, and with upgrades from CentOS 8 to CentOS Stream 8 (see migration instructions here https://centos.org/centos-stream/).
+  [#860](https://github.com/pulp/pulp_installer/issues/860)
+
+
+Devel
+-----
+
+- The installer is now tested against installing Pulp 3.16 RPM packages from theforeman.org .
+  [#811](https://github.com/pulp/pulp_installer/issues/811)
+
+
+----
+
+
 3.17.0 (2021-12-14)
 
 Features

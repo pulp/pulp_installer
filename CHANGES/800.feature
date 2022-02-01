@@ -1,1 +1,0 @@
-Setting explicit permissions to files we modify or copy by installation process. Default is world readable (644 or 755).

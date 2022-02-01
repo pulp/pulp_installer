@@ -1,1 +1,0 @@
-No longer support upgrading from packages prior to 3.6. Instead, users should download and run pulp_installer 3.14 with a 3.14 rpm repo, then upgrade to the current version.

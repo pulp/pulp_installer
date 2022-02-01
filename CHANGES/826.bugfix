@@ -1,1 +1,0 @@
-Update pulpcore-selinux policies to 1.2.8. Fixes SELinux denials, and pulpcore-worker not starting when SELinux is enforcing, when using the new pulpcore tasking system.
