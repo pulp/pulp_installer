@@ -1,0 +1,1 @@
+Fixed a problem in pulp_installer 3.17.0 that it would only install pulpcore 3.17.0 rather than the latest 3.17.z micro release. pulp_installer 3.17.0 users can work around by setting the variable `pulpcore_version: 3.17`
