@@ -13,6 +13,18 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.17.2 (2022-02-02)
+
+Bugfixes
+--------
+
+- Fixed a problem in pulp_installer 3.17.0 that it would only install pulpcore 3.17.0 rather than the latest 3.17.z micro release. pulp_installer 3.17.0 users can work around by setting the variable `pulpcore_version: 3.17`
+  [#862](https://github.com/pulp/pulp_installer/issues/862)
+
+
+----
+
+
 3.17.1 (2022-02-01)
 
 Features
