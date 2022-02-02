@@ -1,1 +1,0 @@
-Ansible 2.9 and Python 2.7 are now further deprecated. We observed a bug whereby a pip_package_info task in the playbook fails after running the task `include_role: pulp_all_services`. The only fix for this bug is to upgrade to a known working and tested configuration like Python 3 and ansible-base 2.10+.
