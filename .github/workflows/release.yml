@@ -100,7 +100,6 @@ jobs:
         run: .ci/scripts/publish_docs.sh ${GITHUB_REF##*/}
   lint:
     runs-on: ubuntu-latest
-    needs: git-check
     strategy:
       fail-fast: false
     steps:
