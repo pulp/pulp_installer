@@ -27,7 +27,7 @@
   until: >
     result.json is defined and
     result.json.database_connection.connected and
-    result.json.redis_connection.connected and
+    (result.json.redis_connection.connected or not pulp_cache_enabled) and
     (
       (result.json.versions | items2dict(key_name='component', value_name='version'))["core"] is version('3.16', '>=') or
       (

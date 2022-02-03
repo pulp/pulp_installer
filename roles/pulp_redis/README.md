@@ -6,6 +6,8 @@ Install and start Redis.
 Role Variables
 --------------
 
+* `pulp_cache_enabled`: Install and enable Redis as a cache. Defaults to `True` 
+  This option effectively disable or enable this role.
 * `pulp_redis_bind`: Interface and Port where Redis service will listen. One can specify a unix
    socket path instead (recommended value is `'unix:/var/run/redis/redis.sock'`). Defaults to `'127.0.0.1:6379'`.
 * `pulp_redis_package_name`: Name of the redis package server to install. Defaults to: `redis`
