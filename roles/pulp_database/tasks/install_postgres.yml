@@ -1,30 +1,10 @@
 ---
-# Try multiple possible names for the rhel7 SCL repo until it is found.
-# The query ensures that a single string rather than a list of strings is valid.
-- name: Find and enable the first found name of the RHEL7 SCL repo
-  include_tasks: ambiguously-named-repo.yml
-  loop: "{{ pulp_rhel7_scl_repo }}"
-  loop_control:
-    loop_var: __ambiguously_named_repo
-  when:
-    - ansible_facts.distribution == "RedHat"
-    - ansible_facts.distribution_major_version|int == 7
-    # Works for both strings and lists to make sure not empty
-    - pulp_rhel7_scl_repo is not none
-    - pulp_rhel7_scl_repo | length > 0
-    # Prevents running again once completed. Specific to the role name.
-    - __pulp_database_repo_enabled is not defined
 
-- name: Install SCL repo packages on CentOS 7
-  package:
-    name:
-      - 'centos-release-scl-rh'
-      - 'centos-release-scl'
-    state: present
-  become: yes
-  when:
-    - ansible_facts.distribution == "CentOS"
-    - ansible_facts.distribution_major_version|int == 7
+- name: Enable SCL repository
+  include_role:
+    name: pulp_repos
+  vars:
+    __pulp_rhel_scl_repo_enable_default: True
 
 - block:
     - name: Check if PostgreSQL < 10 is initialized.

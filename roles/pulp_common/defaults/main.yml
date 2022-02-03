@@ -25,18 +25,6 @@ pulpcore_update: false
 prereq_pip_packages:
   - Jinja2
   - pygments
-pulp_rhel_codeready_repo:
-  - codeready-builder-for-rhel-8-x86_64-rpms
-  - rhui-codeready-builder-for-rhel-8-rhui-rpms
-  - codeready-builder-for-rhel-8-rhui-rpms
-rhel7_optional_repo:
-  - rhui-rhel-7-server-rhui-optional-rpms
-  - rhel-7-server-rhui-optional-rpms
-  - rhel-7-server-optional-rpms
-  - rhel-7-workstation-optional-rpms
-epel_release_packages:
-  - epel-release
-  - "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_facts.distribution_major_version }}.noarch.rpm"
 # The names of any pip packages that are plugins but do not begin with "pulp-"
 # These are specified regardless of whether or not the user is installing it.
 # We will advertise this to users once we feel there is a need for them to ever
@@ -44,17 +32,19 @@ epel_release_packages:
 pulp_irregularly_named_plugins:
   - galaxy-ng
 pulp_pkg_pulpcore_name: "{{ pulp_pkg_name_prefix }}pulpcore"
-pulp_pkg_repo: "https://yum.theforeman.org/pulpcore/3.16/el{{ ansible_distribution_major_version }}/$basearch/"
-pulp_pkg_repo_gpgcheck: True
+
 pulp_pkg_undeclared_deps:
   - "{{ pulp_pkg_name_prefix }}psycopg2"
   - "{{ pulp_pkg_name_prefix }}djangorestframework"
   - "{{ pulp_pkg_name_prefix }}djangorestframework-queryfields"
   - "{{ pulp_pkg_name_prefix }}markuppy"  # Because of https://bugzilla.redhat.com/show_bug.cgi?id=1986965
 pulp_pkg_upgrade_all: false
-__pulp_pkg_repo_name: "pulpcore"
-__pulp_pkg_repo_gpgkey: "{{ pulp_pkg_repo.rstrip('/') }}/../../GPG-RPM-KEY-pulpcore"
 pulp_upgraded_manually: false
+
+# keep this two in sync with pulp_repos/defaults/main.yml
+# due to CI coverage test
+__pulp_pkg_repo_name: "pulpcore"
+pulp_pkg_repo: "https://yum.theforeman.org/pulpcore/3.16/el{{ ansible_distribution_major_version }}/$basearch/"
 
 # The order is significant; linear order to handle the dependency tree
 __pulp_selinux_policy_pkgs:
