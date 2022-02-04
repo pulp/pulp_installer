@@ -1,0 +1,1 @@
+Allow pulp to use pip>=22 again. This reverts the bugfix 'Fix pulp_installer failing on "pulp_common: Run pip-compile to check pulpcore/plugin compatibility" on most distros.' We can do this thanks to pip-tools 6.5.0 being released with pip 22 compatibility.
