@@ -6,7 +6,11 @@ pulp_seboolean_packages:
   - python3-libsemanage
 pulp_firewall_dependencies:
   - python3-firewall
-pulp_webserver_apache_package: mod_ssl
+pulp_webserver_apache_package:
+  - mod_ssl
+  # workaround an undeclared dependency, for the centos:8stream container image
+  # https://bugzilla.redhat.com/show_bug.cgi?id=2050888
+  - hostname
 pulp_webserver_apache_service: httpd
 pulp_webserver_apache_vhost_dir: /etc/httpd/conf.d
 pulp_webserver_apache_snippets_dir: /etc/httpd/pulp

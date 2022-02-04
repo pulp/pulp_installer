@@ -29,6 +29,8 @@
         - ansible_os_family == "RedHat"
         - ansible_distribution_major_version|int == 7
 
+    # Note: Technically these are only needed for the packages-upgrade scenario now, and it is
+    # CentOS 8.3
     - name: Migrate CentOS 8 to CentOS Stream 8
       block:
         - name: Get latest CentOS 8 GPG keys and its temporary dependency
