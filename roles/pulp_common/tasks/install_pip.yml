@@ -100,7 +100,7 @@
 
     - name: Upgrade to a recent edition of pip (supporting manylinux2014)
       pip:
-        name: pip>=21.1.1,<22.0
+        name: pip>=21.1.1
         state: present
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
