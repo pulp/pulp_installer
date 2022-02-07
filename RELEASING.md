@@ -2,6 +2,9 @@ Release Guide
 =============
 
 1. Ensure that pulpcore of the corresponding version is available on PyPI.
+1. If this is a .0 release, create a [noissue] commit that updates the final play in
+   molecule/release-upgrade/converge.yml with the latest pulpcore / pulp-file /
+   pulp-rpm versions (maintaining minor version strings vs micro version strings.)
 1. Create/activate a virtualenv, with the script's dependencies installed (`pip install
    GitPython sh`)
 1. Run the release script (`python .ci/scripts/release.py`).
