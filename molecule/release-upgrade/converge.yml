@@ -1,4 +1,5 @@
 ---
+# Test upgrade to specific micro versions
 - hosts: all
   tasks:
     - set_fact:
@@ -8,7 +9,7 @@
           pulp_file:
             version: "1.8.0"
           pulp_rpm:
-            version: "3.13.0"
+            version: "3.14.5"
       when: ansible_facts.os_family == 'RedHat'
     - set_fact:
         pulp_install_plugins:
@@ -29,9 +30,9 @@
     - name: Assert pulp-rpm==3.13.0
       assert:
         that:
-          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-rpm'][0].version is version("3.13.0", "=")
+          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-rpm'][0].version is version("3.14.5", "=")
       when: ansible_facts.os_family == 'RedHat'
-
+# Test not updating (upgrade=false on a branch)
 - hosts: all
   tasks:
     - set_fact:
@@ -43,7 +44,7 @@
             version: "1.8"
             upgrade: false
           pulp_rpm:
-            version: "3.13"
+            version: "3.14"
             upgrade: false
       when: ansible_facts.os_family == 'RedHat'
     - set_fact:
@@ -66,9 +67,9 @@
     - name: Assert pulp-rpm==3.13.0
       assert:
         that:
-          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-rpm'][0].version is version("3.13.0", "=")
+          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-rpm'][0].version is version("3.14.5", "=")
       when: ansible_facts.os_family == 'RedHat'
-
+# Test updates (upgrade=true on a branch)
 - hosts: all
   tasks:
     - set_fact:
@@ -80,7 +81,7 @@
             version: "1.8"
             upgrade: true
           pulp_rpm:
-            version: "3.13"
+            version: "3.14"
             upgrade: true
       when: ansible_facts.os_family == 'RedHat'
     - set_fact:
@@ -103,9 +104,9 @@
     - name: Assert pulp-rpm==3.13.3
       assert:
         that:
-          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-rpm'][0].version is version("3.13.3", ">=")
+          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-rpm'][0].version is version("3.14.12", ">=")
       when: ansible_facts.os_family == 'RedHat'
-
+# Test upgrading to latest version (new branches but upgrade=false)
 - hosts: all
   tasks:
     - set_fact:
