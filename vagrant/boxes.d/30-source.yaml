@@ -147,32 +147,20 @@ pulp3-source-centos7-fips:
     playbook: "vagrant/playbooks/source-install.yml"
     galaxy_role_file: "requirements.yml"
 
-pulp3-source-centos8:
-  box_name: 'centos/8'
-  sshfs:
-    host_path: '..'
-    guest_path: '/home/vagrant/devel'
-    reverse: False
-  memory: 6144
-  cpus: 4
-  ansible:
-    playbook: "vagrant/playbooks/source-install.yml"
-    galaxy_role_file: "requirements.yml"
-
-pulp3-source-centos8-fips:
-  box_name: 'pulp/centos8-fips'
-  sshfs:
-    host_path: '..'
-    guest_path: '/home/vagrant/devel'
-    reverse: False
-  memory: 6144
-  cpus: 4
-  ansible:
-    playbook: "vagrant/playbooks/source-install.yml"
-    galaxy_role_file: "requirements.yml"
-
 pulp3-source-centos8-stream:
   box_name: 'centos/stream8'
+  sshfs:
+    host_path: '..'
+    guest_path: '/home/vagrant/devel'
+    reverse: False
+  memory: 6144
+  cpus: 4
+  ansible:
+    playbook: "vagrant/playbooks/source-install.yml"
+    galaxy_role_file: "requirements.yml"
+
+pulp3-source-centos8-stream-fips:
+  box_name: 'pulp/centos-stream8-fips'
   sshfs:
     host_path: '..'
     guest_path: '/home/vagrant/devel'
