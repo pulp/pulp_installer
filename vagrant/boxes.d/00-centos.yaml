@@ -8,19 +8,14 @@ centos7:
     image_family: 'centos-7'
   pty:        true
 
-
 centos7-fips:
   box_name: 'pulp/centos7-fips'
   pty: true
 
-centos8:
-  box_name:   'centos/8'
-  pty:        true
-
-centos8-fips:
-  box_name:   'pulp/centos8-fips'
-  pty:        true
-
 centos8-stream:
   box_name:   'centos/stream8'
+  pty:        true
+
+centos8-stream-fips:
+  box_name:   'pulp/centos-stream8-fips'
   pty:        true

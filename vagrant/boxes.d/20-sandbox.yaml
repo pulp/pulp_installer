@@ -19,22 +19,15 @@ pulp3-sandbox-centos7-fips:
     playbook: "vagrant/playbooks/user-sandbox.yml"
     galaxy_role_file: "requirements.yml"
 
-pulp3-sandbox-centos8:
-  box_name: 'centos/8'
-  memory: 4096
-  ansible:
-    playbook: "vagrant/playbooks/user-sandbox.yml"
-    galaxy_role_file: "requirements.yml"
-
-pulp3-sandbox-centos8-fips:
-  box_name: 'pulp/centos8-fips'
-  memory: 4096
-  ansible:
-    playbook: "vagrant/playbooks/user-sandbox.yml"
-    galaxy_role_file: "requirements.yml"
-
 pulp3-sandbox-centos8-stream:
   box_name: 'centos/stream8'
+  memory: 4096
+  ansible:
+    playbook: "vagrant/playbooks/user-sandbox.yml"
+    galaxy_role_file: "requirements.yml"
+
+pulp3-sandbox-centos8-stream-fips:
+  box_name: 'pulp/centos-stream8-fips'
   memory: 4096
   ansible:
     playbook: "vagrant/playbooks/user-sandbox.yml"
