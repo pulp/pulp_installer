@@ -54,7 +54,7 @@
             upgrade: fasle
       when: ansible_facts.os_family == 'Debian'
     - include_role:
-        name: pulp_common
+        name: pulp_database_config
     - name: Obtain list of packages & versions in the venv after install
       pip_package_info:
         clients: "/usr/local/lib/pulp/bin/pip"
@@ -91,7 +91,7 @@
             upgrade: true
       when: ansible_facts.os_family == 'Debian'
     - include_role:
-        name: pulp_common
+        name: pulp_database_config
     - name: Obtain list of packages & versions in the venv after install
       pip_package_info:
         clients: "/usr/local/lib/pulp/bin/pip"
@@ -128,7 +128,7 @@
             upgrade: fasle
       when: ansible_facts.os_family == 'Debian'
     - include_role:
-        name: pulp_common
+        name: pulp_database_config
     - name: Obtain list of packages & versions in the venv after install
       pip_package_info:
         clients: "/usr/local/lib/pulp/bin/pip"
