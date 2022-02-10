@@ -5,6 +5,10 @@
     name: "pulpcore.service"
     state: restarted
   become: true
+  retries: 5
+  delay: 12
+  register: result
+  until: result is succeeded
 
 - name: Delete symlink from old artifact directory location
   file:

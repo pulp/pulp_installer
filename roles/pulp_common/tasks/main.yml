@@ -134,6 +134,6 @@
   # with the restarting of the service that just happened, and are thus
   # adding these retries.
   retries: 5
-  delay: 6
+  delay: 12
   register: result
   until: result is succeeded
