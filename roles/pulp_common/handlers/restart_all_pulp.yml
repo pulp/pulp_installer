@@ -1,10 +1,30 @@
 ---
-- name: Restart pulpcore service
-  systemd:
-    daemon_reload: true
-    name: "pulpcore.service"
-    state: restarted
-  become: true
+- name: Set state of pulpcore app (block)
+  block:
+    - name: Restart pulpcore service
+      systemd:
+        daemon_reload: true
+        name: "pulpcore.service"
+        state: restarted
+      become: true
+  rescue:
+    - name: Restart pulpcore service (retry)
+      systemd:
+        daemon_reload: true
+        name: "pulpcore.service"
+        state: restarted
+      become: true
+      retries: 5
+      delay: 12
+      register: result_restart_pulpcore
+      until: result is succeeded
+      tags:
+        - molecule-notest
+
+    - name: Print status of pulpcore services and fail
+      include_tasks: tasks/print_status_and_fail.yml
+      when:
+        - result_restart_pulpcore is not defined
 
 - name: Delete symlink from old artifact directory location
   file:
