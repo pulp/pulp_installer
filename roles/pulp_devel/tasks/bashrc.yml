@@ -38,13 +38,14 @@
       mode: '0644'
     when: ansible_facts.distribution != 'Ubuntu'
 
-  - name: Install bindings requirements for testing locally
+  - name: Install bindings requirements for testing locally # noqa no-changed-when
     shell: >-
       source {{ developer_user_home }}/.bashrc.d/alias.bashrc
       && source {{ developer_user_home }}/.bashrc.d/venv.bashrc
       && pbindings {{ item.key| replace("-", "_") }} python
     args:
       executable: /bin/bash
+    changed_when: false
     with_dict: "{{ pulp_install_plugins_normalized }}"
 
   - name: Add fzf bashrc

@@ -32,6 +32,9 @@
             src: /etc/dnf/dnf.conf
             dest: "{{ __dnf_conf.path }}"
             remote_src: true
+            mode: 0644
+            owner: root
+            group: root
           changed_when: false
 
         # The example being:
@@ -48,6 +51,9 @@
             option: best
             value: "False"
             no_extra_spaces: true
+            mode: 0644
+            owner: root
+            group: root
           changed_when: false
 
       when: ansible_pkg_mgr == "dnf"

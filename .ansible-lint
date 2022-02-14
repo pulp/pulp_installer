@@ -20,3 +20,4 @@ exclude_paths:
   - ../../../.cache/ansible-compat/
   - ./example.dev-config.yml
   - ./docs/
+  - ./pulp-ci/

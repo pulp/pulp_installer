@@ -39,12 +39,12 @@
             - is_hub_installed.stat.exists or ansible_hub_ui_git is defined
             - is_hub_installed.stat.exists or ansible_hub_ui_git.changed
 
-        - name: Creates galaxy_ng static dir
+        - name: Creates galaxy_ng static dir # noqa risky-file-permissions
           file:
             path: '{{ pulp_install_plugins["galaxy-ng"]["source_dir"] }}/galaxy_ng/app/static/galaxy_ng'
             state: directory
 
-        - name: Copying Ansible Hub UI to galaxy_ng static dir
+        - name: Copying Ansible Hub UI to galaxy_ng static dir # noqa risky-file-permissions
           copy:
             src: '{{ developer_user_home }}/devel/ansible-hub-ui/dist/'
             dest: '{{ pulp_install_plugins["galaxy-ng"]["source_dir"] }}/galaxy_ng/app/static/galaxy_ng'
