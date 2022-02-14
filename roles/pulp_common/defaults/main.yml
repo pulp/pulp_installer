@@ -25,6 +25,8 @@ pulpcore_update: false
 prereq_pip_packages:
   - Jinja2
   - pygments
+  # needed due to https://github.com/rsinger86/django-lifecycle/issues/101
+  - packaging
 pulp_rhel_codeready_repo:
   - codeready-builder-for-rhel-8-x86_64-rpms
   - rhui-codeready-builder-for-rhel-8-rhui-rpms
