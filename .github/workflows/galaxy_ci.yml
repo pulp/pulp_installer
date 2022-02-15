@@ -13,72 +13,24 @@ on:
     # * is a special character in YAML so you have to quote this string
     - cron: '15 2 * * *'
 jobs:
-  source:
+  molecule:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
-      # Testing different python versions because of
-      # https://pulp.plan.io/issues/5768#note-17
       matrix:
-        include:
-          - ansible_core: ansible-core
-          - ansible_core: git+https://github.com/ansible/ansible.git
+        test_type: ["source-galaxy","release-galaxy"]
+        ansible: ["ansible-core","git+https://github.com/ansible/ansible.git"]
     steps:
       - uses: actions/checkout@v2.3.1
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
           python-version: "3.9"
-      - name: Install Ansible
+      - name: Upgrade pip
         run: |
           pip install --upgrade pip
-          sudo apt remove ansible
-          pip install ${{ matrix.ansible_core }}
-      - name: Install Molecule
-        run: pip install "molecule!=3.3.1" docker molecule-docker
-      - name: Setting pulp.pulp_installer collection
-        run: |
-          make vendor
-          make install
-          ansible-galaxy collection install -p build/collections --force community.docker
-      - name: Molecule Test
-        run: |
-          ansible --version
-          molecule test --scenario-name source-galaxy
-        env:
-          PY_COLORS: '1'
-          ANSIBLE_FORCE_COLOR: '1'
-        shell: bash
-
-  released:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      # Testing different python versions because of
-      # https://pulp.plan.io/issues/5768#note-17
-      matrix:
-        include:
-          - ansible_core: ansible-core
-          - ansible_core: git+https://github.com/ansible/ansible.git
-    steps:
-      - uses: actions/checkout@v2.3.1
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: "3.9"
-      - name: Install Ansible
-        run: |
-          pip install --upgrade pip
-          sudo apt remove ansible
-          pip install ${{ matrix.ansible_core }}
-      - name: Install Molecule
-        run: pip install "molecule!=3.3.1" docker molecule-docker ansible-lint[yamllint]
-      - name: Setting pulp.pulp_installer collection
-        run: |
-          make vendor
-          make install
-          ansible-galaxy collection install -p build/collections --force community.docker
       - name: Get pulpcore version
+        if: matrix.test_type == 'release-galaxy'
         run: |
           python -m venv venv
           source venv/bin/activate
@@ -88,10 +40,60 @@ jobs:
           sed -i "s/PLACEHOLDER/$PULPCORE_VERSION/" molecule/release-galaxy/group_vars/all
           deactivate
           rm -rf venv
-      - name: Molecule Test
+      - name: Install Ansible, Molecule & molecule-docker
+        run: |
+          sudo apt remove ansible
+          pip install docker molecule molecule-docker ${{ matrix.ansible }}
+      - name: Setting pulp.pulp_installer collection
+        run: |
+          make vendor
+          make install
+          ansible-galaxy collection install -p build/collections --force community.docker
+        shell: bash
+      - name: Setting pulp.pulp_installer collection
+        run: |
+          make vendor
+          make install
+          ansible-galaxy collection install -p build/collections --force community.docker
+      - name: Molecule dependency
         run: |
           ansible --version
-          molecule test --scenario-name release-galaxy
+          molecule dependency --scenario-name ${{ matrix.test_type }}
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+        shell: bash
+      # Pulling images (for upgrades) sometimes fails the 1st time.
+      - name: Molecule create & prepare
+        run: |
+          ansible --version
+          molecule create --scenario-name ${{ matrix.test_type }} ||
+          molecule create --scenario-name ${{ matrix.test_type }}
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+        shell: bash
+      - name: Molecule converge
+        run: |
+          ansible --version
+          molecule converge --scenario-name ${{ matrix.test_type }}
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+        shell: bash
+      - name: Molecule idempotence
+        if: matrix.test_type != 'source-dynamic'
+        run: |
+          ansible --version
+          molecule idempotence --scenario-name ${{ matrix.test_type }}
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+        shell: bash
+      - name: Molecule verify
+        run: |
+          ansible --version
+          molecule verify --scenario-name ${{ matrix.test_type }}
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
