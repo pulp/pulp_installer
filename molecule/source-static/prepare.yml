@@ -42,6 +42,10 @@
               - baseos
               - appstream
               - extras
+          retries: 5
+          delay: 12
+          register: result
+          until: result is succeeded
           when:
             - ansible_distribution == "CentOS"
             - ansible_distribution_version in ["8.3","8.4"]
