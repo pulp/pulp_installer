@@ -6,11 +6,14 @@ on:
     paths:
       - 'roles/galaxy_post_install/**'
       - 'roles/pulp_devel/tasks/galaxy_ui.yml'
+      - '.github/workflows/galaxy_ci.yml'
+      - 'molecule/release-galaxy/**'
+      - 'molecule/source-galaxy/**'
   schedule:
     # * is a special character in YAML so you have to quote this string
     - cron: '15 2 * * *'
 jobs:
-  core:
+  source:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -41,9 +44,54 @@ jobs:
       - name: Molecule Test
         run: |
           ansible --version
-          cp .ci/assets/galaxy/group_vars/all molecule/source-static/group_vars/all
-          rm -rf molecule/source-static/host_vars
-          molecule test --scenario-name source-static
+          molecule test --scenario-name source-galaxy
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+        shell: bash
+
+  released:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      # Testing different python versions because of
+      # https://pulp.plan.io/issues/5768#note-17
+      matrix:
+        include:
+          - ansible_core: ansible-core
+          - ansible_core: git+https://github.com/ansible/ansible.git
+    steps:
+      - uses: actions/checkout@v2.3.1
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.9"
+      - name: Install Ansible
+        run: |
+          pip install --upgrade pip
+          sudo apt remove ansible
+          pip install ${{ matrix.ansible_core }}
+      - name: Install Molecule
+        run: pip install "molecule!=3.3.1" docker molecule-docker ansible-lint[yamllint]
+      - name: Setting pulp.pulp_installer collection
+        run: |
+          make vendor
+          make install
+          ansible-galaxy collection install -p build/collections --force community.docker
+      - name: Get pulpcore version
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install galaxy_ng
+          PULPCORE_VERSION=$(pip show pulpcore | sed -n -e "s/Version: //p")
+          echo "PULPCORE_VERSION=$PULPCORE_VERSION"
+          sed -i "s/PLACEHOLDER/$PULPCORE_VERSION/" molecule/release-galaxy/group_vars/all
+          deactivate
+          rm -rf venv
+      - name: Molecule Test
+        run: |
+          ansible --version
+          molecule test --scenario-name release-galaxy
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
