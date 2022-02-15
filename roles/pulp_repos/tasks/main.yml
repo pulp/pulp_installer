@@ -1,0 +1,181 @@
+---
+# enable additional repos needed by Pulp
+
+- name: Install of EPEL repository
+  block:
+    - name: Import required EPEL RPM GPG keys
+      rpm_key:
+        state: present
+        key: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_facts.distribution_major_version }}
+      when:
+        - (ansible_facts.distribution == 'CentOS') or (ansible_facts.distribution == 'RedHat')
+        - epel_release_packages is defined
+        - epel_release_packages is not none
+        - epel_release_packages | length > 0
+
+    # Break the loop once the first package name/URL in the list is found to be installed.
+    # The yum module with the yum backend (which wraps the yum command) uses
+    # rc=126 for package not found, or 0 for changed / already installed.
+    # The dnf backend can have different strings for the package not being found,
+    # and returns a generic rc of 1.
+    # If the package cannot be downloaded for an https URL, no rc is present.
+    # So let's just keep trying until success (rc 0).
+    - name: Install EPEL Release
+      yum:
+        name: "{{ item }}"
+        state: present
+      register: epel
+      when:
+        - (ansible_facts.distribution == 'CentOS') or (ansible_facts.distribution == 'RedHat')
+        # Works for both strings and lists to make sure not empty
+        - epel_release_packages is defined
+        - epel_release_packages is not none
+        - epel_release_packages | length > 0
+        - ( ansible_loop.first ) or (epel.rc | default(1) != 0)
+      failed_when:
+        - ansible_loop.last
+        - epel.rc | default(1) != 0
+      # Cast a single string as a list so that the loop will work.
+      # This will also convert a list to a list with 1 list in it, so flatten it
+      # so that the yum task will only operate on 1 item at a time.
+      loop: "{{ lookup('vars', 'epel_release_packages', wantlist=True) | flatten }}"
+      loop_control:
+        extended: True
+  become: true
+  when: __pulp_repos_epel_enable_default and pulp_repos_epel_enable and pulp_repos_enable
+
+# Try multiple possible names for the rhel7 optional repo until it is found.
+# The query ensures that a single string rather than a list of strings is valid.
+- name: Find and enable the first found name of the RHEL7 Optional repo
+  include_tasks: ambiguously-named-repo.yml
+  loop: "{{ rhel7_optional_repo }}"
+  loop_control:
+    loop_var: __ambiguously_named_repo
+  vars:
+    reg_variable: "__pulp_common_repo_enabled"
+  when:
+    - ansible_facts.distribution == "RedHat"
+    - ansible_facts.distribution_major_version|int == 7
+    # Works for both strings and lists to make sure not empty
+    - rhel7_optional_repo is not none
+    - rhel7_optional_repo | length > 0
+    # Prevents running again once completed.
+    - __pulp_common_repo_enabled is not defined
+    - __pulp_repos_rhel_optional_enable_default and pulp_repos_rhel_optional_enable and pulp_repos_enable
+
+# Note: There are at least 3 needs for this repo:
+# 1. pulp_devel needs it for at least python-django-bash-completion
+# 2. pulp_rpm_prerequisites needs it for at least file-devel,
+#    gobject-introspection-devel libmodulemd-devel, & their deps.
+# 3. EPEL technically requires it. And it has more than just devel headers,
+#    even fuse-sshfs.
+#
+# Try multiple possible names for the rhel8+ CodeReady Linux Builder repo until
+# it is found.
+# The query ensures that a single string rather than a list of strings is valid.
+- name: Find and enable the first found name of the RHEL CodeReady Builder repo
+  include_tasks: ambiguously-named-repo.yml
+  loop: "{{ pulp_rhel_codeready_repo }}"
+  loop_control:
+    loop_var: __ambiguously_named_repo
+  vars:
+    reg_variable: "__pulp_codeready_repo_enabled"
+  when:
+    - ansible_facts.distribution == "RedHat"
+    - ansible_facts.distribution_major_version|int >= 8
+    # Works for both strings and lists to make sure not empty
+    - pulp_rhel_codeready_repo is not none
+    - pulp_rhel_codeready_repo | length > 0
+    # Prevents running again once completed.
+    - __pulp_codeready_repo_enabled is not defined
+    - __pulp_repos_rhel_codeready_enable_default and pulp_repos_rhel_codeready_enable and pulp_repos_enable
+
+# Corresponds to the rhel8+ CodeReady Linux Builder repo
+# Foreman reminds you to wear a yellow hardhat when using power tools.
+- name: Enable the CentOS PowerTools repo
+  block:
+
+    - name: Determine which file in /etc/yum.repos.d/ has the CentOS 8.0 to 8.2 PowerTools repo
+      shell: grep -l -E "^\[PowerTools\]" /etc/yum.repos.d/*.repo
+      register: repo_file
+      changed_when: false
+      failed_when: false
+      check_mode: False
+
+    - name: Enable the CentOS PowerTools repo
+      ini_file:
+        path: "{{ repo_file.stdout }}"
+        section: "PowerTools"
+        option: enabled
+        value: "1"
+        no_extra_spaces: true
+        mode: '0644'
+      when: repo_file.rc == 0
+      become: true
+
+    - name: Determine which file in /etc/yum.repos.d/ has the CentOS 8.3+ or Stream powertools repo
+      shell: grep -l -E "^\[powertools\]" /etc/yum.repos.d/*.repo
+      register: repo_file
+      changed_when: false
+      failed_when: false
+      check_mode: False
+
+    - name: Enable the CentOS powertools repo
+      ini_file:
+        path: "{{ repo_file.stdout }}"
+        section: "powertools"
+        option: enabled
+        value: 1
+        no_extra_spaces: true
+        mode: '0644'
+      when: repo_file.rc == 0
+      become: true
+
+  when:
+    - ansible_facts.distribution == "CentOS"
+    - ansible_facts.distribution_major_version|int >= 8
+    - __pulp_repos_centos_powertools_repo_enable_default and pulp_repos_centos_powertools_repo_enable and pulp_repos_enable
+
+- name: Enable SCL repository
+  block:
+    # Try multiple possible names for the rhel7 SCL repo until it is found.
+    # The query ensures that a single string rather than a list of strings is valid.
+    - name: Find and enable the first found name of the RHEL7 SCL repo
+      include_tasks: ambiguously-named-repo.yml
+      loop: "{{ pulp_rhel7_scl_repo }}"
+      loop_control:
+        loop_var: __ambiguously_named_repo
+      vars:
+        reg_variable: "__pulp_database_repo_enabled"
+      when:
+        - ansible_facts.distribution == "RedHat"
+        - ansible_facts.distribution_major_version|int == 7
+        # Works for both strings and lists to make sure not empty
+        - pulp_rhel7_scl_repo is not none
+        - pulp_rhel7_scl_repo | length > 0
+        # Prevents running again once completed. Specific to the role name.
+        - __pulp_database_repo_enabled is not defined
+
+    - name: Install SCL repo packages on CentOS 7
+      package:
+        name:
+          - 'centos-release-scl-rh'
+          - 'centos-release-scl'
+        state: present
+      become: yes
+      when:
+        - ansible_facts.distribution == "CentOS"
+        - ansible_facts.distribution_major_version|int == 7
+  when: __pulp_rhel_scl_repo_enable_default and pulp_rhel_scl_repo_enable and pulp_repos_enable
+
+- name: "Configure {{ __pulp_pkg_repo_name }} RPM repository"
+  template:
+    src: pulpcore.repo.j2
+    dest: /etc/yum.repos.d/pulpcore.repo
+    mode: '0644'
+
+  when:
+    - ansible_facts.os_family == "RedHat"
+    - pulp_pkg_repo is not none
+    - __pulp_rhel_pulpcore_repo_enable_default and pulp_rhel_pulpcore_repo_enable and pulp_repos_enable
+  become: true

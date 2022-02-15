@@ -99,25 +99,7 @@ Role Variables
     of the pulp content host itself. Syntax is
     `(http|https)://(hostname|ip)[:port]`.
   * `pulp_settings.secret_key`: **Required**. Pulp's Django application `SECRET_KEY`.
-* `epel_release_packages`: List of strings (package names, URLs) to pass to
-  `yum install` to ensure that "epel-release" is installed.
-  Once the 1st string is found to be installed by yum, no further strings are
-  attempted.
-  Defaults to (on el7 for example): ["epel-release", "https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm"]
-  Set to an empty list `[]` if you wish to disable trying to install
-  epel-release, such as if you manually add the EPEL repo via your own
-  configuration or subscription-manager/katello.
-  Also accepts a single string or empty string.
-  Only affects CentOS/RHEL.
-* `rhel7_optional_repo`: List of possible names for the rhel7 optional repo
-  to enable. Once the 1st name is enabled (or found to already be enabled),
-  no further names are attempted.
-  Defaults to  ["rhui-rhel-7-server-rhui-optional-rpms", "rhel-7-server-optional-rpms", "rhel-7-workstation-optional-rpms"]
-  Set to an empty list `[]` if you wish to disable trying to enable the repo,
-  such as if you manually add the optional repo via your own configuration or
-  subscription-manager/katello.
-  Also accepts a single string or empty string.
-  Only affects RHEL7 (RHEL8 no longer has an optional repo.)
+
 * `pulp_certs_dir`: Path where to generate or drop the TLS certificates & keys for authentication
   tokens. Not used directly by pulp_common, but by roles that depend on it. Defaults to
   '{{ pulp_config_dir }}/certs' .

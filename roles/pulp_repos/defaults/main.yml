@@ -1,0 +1,43 @@
+---
+pulp_repos_enable: True
+
+__pulp_repos_epel_enable_default: False
+pulp_repos_epel_enable: True
+
+__pulp_repos_rhel_optional_enable_default: False
+pulp_repos_rhel_optional_enable: True
+
+__pulp_repos_rhel_codeready_enable_default: False
+pulp_repos_rhel_codeready_enable: True
+
+__pulp_repos_centos_powertools_repo_enable_default: False
+pulp_repos_centos_powertools_repo_enable: True
+
+__pulp_rhel_scl_repo_enable_default: False
+pulp_rhel_scl_repo_enable: True
+
+__pulp_rhel_pulpcore_repo_enable_default: False
+pulp_rhel_pulpcore_repo_enable: True
+
+__pulp_pkg_repo_name: "pulpcore"
+__pulp_pkg_repo_gpgkey: "{{ pulp_pkg_repo.rstrip('/') }}/../../GPG-RPM-KEY-pulpcore"
+
+pulp_pkg_repo: "https://yum.theforeman.org/pulpcore/3.16/el{{ ansible_distribution_major_version }}/$basearch/"
+pulp_pkg_repo_gpgcheck: True
+
+pulp_rhel_codeready_repo:
+  - codeready-builder-for-rhel-8-x86_64-rpms
+  - rhui-codeready-builder-for-rhel-8-rhui-rpms
+  - codeready-builder-for-rhel-8-rhui-rpms
+rhel7_optional_repo:
+  - rhui-rhel-7-server-rhui-optional-rpms
+  - rhel-7-server-rhui-optional-rpms
+  - rhel-7-server-optional-rpms
+  - rhel-7-workstation-optional-rpms
+epel_release_packages:
+  - epel-release
+  - "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_facts.distribution_major_version }}.noarch.rpm"
+pulp_rhel7_scl_repo:
+  - rhui-rhel-server-rhui-rhscl-7-rpms  # seen on RHEL7.7 on AWS
+  - rhel-server-rhscl-7-rpms
+  - rhel-workstation-rhscl-7-rpms

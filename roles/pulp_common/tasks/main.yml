@@ -109,7 +109,16 @@
   set_fact:
     default_bin_path: "{{ systemd_show_env_path.stdout }}"
 
-- import_tasks: repos.yml
+- name: Enable repositories needed by Pulp
+  include_role:
+    name: pulp_repos
+  vars:
+    __pulp_repos_centos_powertools_repo_enable_default: True
+    __pulp_repos_epel_enable_default: True
+    __pulp_repos_rhel_codeready_enable_default: True
+    __pulp_repos_rhel_optional_enable_default: True
+    __pulp_rhel_pulpcore_repo_enable_default: True
+
 - import_tasks: install.yml
 - import_tasks: configure.yml
 
