@@ -82,7 +82,6 @@ jobs:
           ANSIBLE_FORCE_COLOR: '1'
         shell: bash
       - name: Molecule idempotence
-        if: matrix.test_type != 'source-dynamic'
         run: |
           ansible --version
           molecule idempotence --scenario-name ${{ matrix.test_type }}

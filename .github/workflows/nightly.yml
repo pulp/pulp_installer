@@ -22,7 +22,7 @@ jobs:
             python: "2.7"
           - test_type: source-static
             ansible: "git+https://github.com/ansible/ansible.git"  # ansible-core
-            python: "3.9"
+            python: "3.10"
           - test_type: packages-static
             ansible: "ansible~=2.10.0"
             python: "3.7"
