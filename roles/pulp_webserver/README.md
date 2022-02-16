@@ -93,3 +93,5 @@ some of its variables.
   to '127.0.0.1:24816'.
 * `pulp_api_bind` Set the host the reverse proxy should connect to for the API server. Defaults
   to '127.0.0.1:24817'.
+* `pulp_settings`: A nested dictionary that is used to add custom values to the user's
+    `settings.py`.

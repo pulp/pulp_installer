@@ -191,7 +191,7 @@ pbindings(){
         rm -rf pulpcore-client
 
         # check server is up before proceeding in case server is autoreloading
-        for i in {1..5}; do http :24817/pulp/api/v3/status/ && break || sleep 5; done
+        for i in {1..5}; do http :24817{{ pulp_settings.api_root  | default("/pulp/") }}api/v3/status/ && break || sleep 5; done
     fi
 
     PULP_URL="{{ pulp_webserver_disable_https | default(false) | ternary('http', 'https') }}://{{ ansible_fqdn }}" ./generate.sh "$comp" "$lang" ${@:3}
