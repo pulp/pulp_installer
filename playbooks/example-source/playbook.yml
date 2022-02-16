@@ -39,5 +39,8 @@
   roles:
     - pulp_all_services
     - pulp_devel
+  post_tasks:
+    - name: Show longest running tasks
+      ansible.posix.profile_tasks:
   environment:
     DJANGO_SETTINGS_MODULE: pulpcore.app.settings
