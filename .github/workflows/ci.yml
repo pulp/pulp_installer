@@ -42,29 +42,29 @@ jobs:
       matrix:
         include:
           - test_type: release-static
-            ansible: "ansible~=2.9.0"
-            python: "2.7"
+            ansible: "ansible" # currently at 5.3.0
+            python: "3.9"
           - test_type: source-static
-            ansible: "git+https://github.com/ansible/ansible.git"  # ansible-core
-            python: "3.10"
+            ansible: "ansible" # currently at 5.3.0
+            python: "3.9"
           - test_type: packages-static
-            ansible: "ansible~=2.10.0"
-            python: "3.7"
+            ansible: "ansible" # currently at 5.3.0
+            python: "3.9"
           - test_type: release-dynamic
-            ansible: "ansible-core" # currently at 2.12.2
-            python: "3.8"
+            ansible: "ansible" # currently at 5.3.0
+            python: "3.9"
           # We skip source-dynamic for PR CI because no one probably does it.
           - test_type: packages-dynamic
             ansible: "ansible" # currently at 5.3.0
             python: "3.9"
           - test_type: release-upgrade
-            ansible: "ansible-core~=2.11.0" # used by ansible==4.10.0
-            python: "3.6"
+            ansible: "ansible"
+            python: "3.9"
           # We skip source-upgrade for PR CI because devs can always rebuild
           # their vagrant environments.
           - test_type: packages-upgrade
-            ansible: "ansible~=2.9.0"
-            python: "2.7"
+            ansible: "ansible"
+            python: "3.9"
     steps:
       - uses: actions/checkout@v2.3.1
       - name: Set up Python
