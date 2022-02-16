@@ -34,40 +34,18 @@ gpasswd --add "$(whoami)" docker
 They can have different packages installed, they can run different kernels,
 and so on.
 
-### Using Tox
-
-1. Install [tox](https://tox.readthedocs.io/en/latest/). This can be done
-   through the system package manager or into a virtualenv:
-
-   ```bash
-   python3 -m venv ~/.venvs/pulp_installer
-   pip install --upgrade pip
-   pip install tox
-   ```
-2. Install at least one of the Python interpreters listed in tox.ini. These are
-   currently Python 2.7 and 3.6.
-   **WARNING:** Anyone added to the docker group is root equivalent. More
-   information [here](https://github.com/docker/docker/issues/9976) and
-   [here](https://docs.docker.com/engine/security/security/).
-
-4. Run `tox`. If you only have a subset of the supported Python interpreters
-   available, specify which environments to exercise:
-
-   ```bash
-   tox -e py36
-   ```
-
 ### Using Molecule
 
 1. Install [molecule](https://molecule.readthedocs.io/en/latest/),
+molecule-docker, ansible
 and [ansible-lint](https://docs.ansible.com/ansible-lint/).
-It is recommended that you do so with `pip` in a virtualenv.
+It is recommended that you do so with `pip` in a virtualenv for Python 3.6+.
 
 2. Run molecule commands.
 
-   Test all scenarios on all hosts.
+   Test the default scenario, release-static, on all hosts (linux distros.)
    ```bash
-   molecule test --all
+   molecule test
    ```
 
    Test a specific scenario.
@@ -75,14 +53,24 @@ It is recommended that you do so with `pip` in a virtualenv.
    molecule test --scenario-name source
    ```
 
+   Test all scenarios on all hosts.
+   ```bash
+   molecule test --all
+   ```
+
    Use debug for increased verbosity.
    ```bash
-   molecule --debug test --all
+   molecule --debug test
    ```
 
    Create and provision, but don't run tests or destroy.
    ```bash
-   molecule converge --all
+   molecule create
+
+   ```
+   Run the main test phase "converge" after creating and provisioning.
+   ```bash
+   molecule converge
    ```
 
 ### Explanation of Different Molecule Scenarios
