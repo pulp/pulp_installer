@@ -120,7 +120,9 @@ jobs:
         shell: bash
       - name: Molecule idempotence
         # release-upgrade is multi-phase upgrading, a non-idempotent playbook
-        if: matrix.test_type != 'release-upgrade'
+        # release-dynamic takes the 2nd longest but is theoretically covered by
+        #   release-static and packages-dynamic
+        if: matrix.test_type != 'release-upgrade' && matrix.test_type != 'release-dynamic'
         run: |
           ansible --version
           molecule idempotence --scenario-name ${{ matrix.test_type }}
