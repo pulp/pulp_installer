@@ -1,5 +1,6 @@
 ---
 - hosts: all
+  force_handlers: True
   collections:
     - pulp.pulp_installer
   pre_tasks:

@@ -44,6 +44,7 @@ Here's an example playbook for using pulp_services in pulp_installer. It assumes
 
     ---
     - hosts: all
+      force_handlers: True
       vars:
         pulp_default_admin_password: << YOUR PASSWORD FOR THE PULP APPLICATION HERE >>
         pulp_settings:

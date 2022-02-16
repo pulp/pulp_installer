@@ -9,6 +9,7 @@ Example Usage
 
 ```yaml
 - hosts: all
+  force_handlers: True
   roles:
     - pulp_all_services
     - pulp_devel

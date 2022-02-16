@@ -327,6 +327,7 @@ the database, redis & webserver.
 ```
 ---
 - hosts: example-pulp-server
+  force_handlers: True
   vars:
     pulp_default_admin_password: << YOUR PASSWORD FOR THE PULP APPLICATION HERE >>
     pulp_settings:
@@ -348,6 +349,7 @@ This deployment consists of a single Pulp server that relies on an existing data
 ```
 ---
 - hosts: example-pulp-server
+  force_handlers: True
   vars:
     pulp_default_admin_password: << YOUR PASSWORD FOR THE PULP APPLICATION HERE >>
     pulp_content_bind: example-pulp-server:24816
@@ -391,6 +393,7 @@ installed on it but no code will be running.
 ```
 ---
 - hosts: example-postgres-server
+  force_handlers: True
   vars:
     pulp_settings:
       databases:
@@ -403,12 +406,14 @@ installed on it but no code will be running.
     - pulp_database
 
 - hosts: example-redis-server
+  force_handlers: True
   vars:
     pulp_redis_bind: 'example-redis-server:6379'
   roles:
     - pulp_redis
 
 - hosts: example-pulp-server
+  force_handlers: True
   vars:
     pulp_default_admin_password: << YOUR PASSWORD FOR THE PULP APPLICATION HERE >>
     pulp_content_bind: example-pulp-server:24816
@@ -434,6 +439,7 @@ installed on it but no code will be running.
     DJANGO_SETTINGS_MODULE: pulpcore.app.settings
 
 - hosts: example-webserver
+  force_handlers: True
   vars:
     pulp_content_bind: example-pulp-server:24816
     pulp_api_bind: example-pulp-server:24817
@@ -456,6 +462,7 @@ In this example, there are two Pulp worker servers.
 ```
 ---
 - hosts: example-postgres-server
+  force_handlers: True
   vars:
     pulp_settings:
       databases:
@@ -468,12 +475,14 @@ In this example, there are two Pulp worker servers.
     - pulp_database
 
 - hosts: example-redis-server
+  force_handlers: True
   vars:
     pulp_redis_bind: 'example-redis-server:6379'
   roles:
     - pulp_redis
 
 - hosts: example-pulp-api-server
+  force_handlers: True
   vars:
     pulp_default_admin_password: << YOUR PASSWORD FOR THE PULP APPLICATION HERE >>
     pulp_api_bind: example-pulp-api-server:24817
@@ -499,6 +508,7 @@ In this example, there are two Pulp worker servers.
     DJANGO_SETTINGS_MODULE: pulpcore.app.settings
 
 - hosts: example-pulp-content-server
+  force_handlers: True
   vars:
     pulp_content_bind: example-pulp-content-server:24816
     pulp_settings:
@@ -524,6 +534,7 @@ In this example, there are two Pulp worker servers.
 - hosts:
    - example-pulp-worker-server1
    - example-pulp-worker-server2
+  force_handlers: True
   vars:
    pulp_settings:
      secret_key: << YOUR SECRET HERE >>
@@ -546,6 +557,7 @@ In this example, there are two Pulp worker servers.
     DJANGO_SETTINGS_MODULE: pulpcore.app.settings
 
 - hosts: example-webserver
+  force_handlers: True
   vars:
    pulp_content_bind: example-pulp-server:24816
    pulp_api_bind: example-pulp-server:24817

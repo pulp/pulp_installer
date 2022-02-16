@@ -1,0 +1,1 @@
+Added `force_handlers: True` in every Playbook in order to flush handlers even if some tasks fail. Because we decided that this change will leave the system in a better more correct state if something went wrong.
