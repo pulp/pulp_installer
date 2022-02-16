@@ -170,9 +170,13 @@ pbindings(){
 
     workon pulp
 
+    if [[ -z "${PULP_API_ROOT}" ]]; then
+      PULP_API_ROOT=$(django-admin shell -c "from django.conf import settings;print(settings.API_ROOT)")
+    fi
+
     if [ $comp != 'pulpcore' ]
     then
-        PULP_URL="{{ pulp_webserver_disable_https | default(false) | ternary('http', 'https') }}://{{ ansible_fqdn }}" ./generate.sh pulpcore "$lang" ${@:3}
+        PULP_URL="{{ pulp_webserver_disable_https | default(false) | ternary('http', 'https') }}://{{ ansible_fqdn }}" PULP_API_ROOT="${PULP_API_ROOT}" ./generate.sh pulpcore "$lang" ${@:3}
         case "$lang" in
             python)
                 pip install ./pulpcore-client
@@ -191,10 +195,11 @@ pbindings(){
         rm -rf pulpcore-client
 
         # check server is up before proceeding in case server is autoreloading
-        for i in {1..5}; do http :24817{{ pulp_settings.api_root  | default("/pulp/") }}api/v3/status/ && break || sleep 5; done
+        for i in {1..5}; do http :24817${PULP_API_ROOT}api/v3/status/ && break || sleep 5; done
+
     fi
 
-    PULP_URL="{{ pulp_webserver_disable_https | default(false) | ternary('http', 'https') }}://{{ ansible_fqdn }}" ./generate.sh "$comp" "$lang" ${@:3}
+    PULP_URL="{{ pulp_webserver_disable_https | default(false) | ternary('http', 'https') }}://{{ ansible_fqdn }}" PULP_API_ROOT="${PULP_API_ROOT}" ./generate.sh "$comp" "$lang" ${@:3}
     case "$lang" in
         python)
             pip install ./${comp}-client
@@ -328,6 +333,12 @@ _pazurite_help="Switch to Azurite for Azure testing. For stopping it: pazurite s
 
 ptest () {
     comp="${1:-pulpcore}"
+
+    printf "Running tests using:\n\n"
+    echo "pytest -v -r sx --color=yes --suppress-no-test-exit-code --pyargs ${comp}.tests.functional -m parallel -n 8"
+    echo "pytest -v -r sx --color=yes --pyargs ${comp}.tests.functional -m \"not parallel\""
+    printf "\n\n"
+
     pytest -v -r sx --color=yes --suppress-no-test-exit-code --pyargs "$comp".tests.functional -m parallel -n 8
     pytest -v -r sx --color=yes --pyargs "$comp".tests.functional -m "not parallel"
 }
