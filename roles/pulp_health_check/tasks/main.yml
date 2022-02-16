@@ -17,7 +17,7 @@
 
 - name: Ensure Pulp is up and healthy
   uri:
-    url: "http://{{ __pulp_default_host if pulp_api_bind.startswith('unix:') else pulp_api_bind }}/pulp/api/v3/status/"
+    url: "http://{{ __pulp_default_host if pulp_api_bind.startswith('unix:') else pulp_api_bind }}{{ pulp_settings.api_root  | default('/pulp/') }}api/v3/status/"
     status_code: "200"
     unix_socket: "{{ pulp_api_bind | regex_replace('^unix:', '') if pulp_api_bind.startswith('unix:') else omit }}"
     # Alternate between 30 second timeouts and 5 second timeouts when handling the situation of
