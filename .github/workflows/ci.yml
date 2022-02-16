@@ -114,7 +114,7 @@ jobs:
         run: |
           ansible --version
           cd molecule/${{ matrix.test_type }}
-          ansible-playbook converge.yml -c docker $(docker ps --format "{{.Names}}" | tr "\n" ",")
+          ansible-playbook converge.yml -c docker -i $(docker ps --format "{{.Names}}" | tr "\n" ",")
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
