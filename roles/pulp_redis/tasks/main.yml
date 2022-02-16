@@ -1,4 +1,5 @@
 ---
+
 - name: Load OS specific variables
   include_vars: "{{ lookup('first_found', params) }}"
   vars:
@@ -46,3 +47,4 @@
         daemon_reload: yes
 
   become: true
+  when: pulp_cache_enabled
