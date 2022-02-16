@@ -113,7 +113,8 @@ jobs:
       - name: Molecule converge
         run: |
           ansible --version
-          molecule converge --scenario-name ${{ matrix.test_type }}
+          cd molecule/${{ matrix.test_type }}
+          ansible-playbook converge.yml -c docker $(docker ps --format "{{.Names}}" | tr "\n" ",")
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
