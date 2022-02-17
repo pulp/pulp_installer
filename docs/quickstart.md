@@ -72,13 +72,8 @@ vim install.yml
       # pulp-npm: {}
       # pulp-python: {}
       pulp-rpm: {}
-  # can be removed once this is resolved: https://pulp.plan.io/issues/8701
-  pre_tasks:
-    - name: install EPEL
-      yum:
-        name: epel-release
-      become: yes
   roles:
+    - pulp.pulp_installer.pulp_repos
     - pulp.pulp_installer.pulp_all_services
   environment:
     DJANGO_SETTINGS_MODULE: pulpcore.app.settings

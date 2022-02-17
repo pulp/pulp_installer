@@ -22,4 +22,6 @@ galaxy_info:
   galaxy_tags:
     - pulp
     - pulpcore
-dependencies: []
+dependencies:
+  - pulp_common
+  - pulp_repos

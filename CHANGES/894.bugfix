@@ -1,0 +1,1 @@
+Added `pulp.pulp_installer.pulp_repos` in `pulp_redis` dependencies and also in quickstart playbook example.
