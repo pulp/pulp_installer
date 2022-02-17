@@ -110,7 +110,7 @@ jobs:
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "Galaxy Installer CI ${{ job.status }}\nhttps://github.com/pulp/pulp_installer/runs/${{ github.run_id }}?check_suite_focus=true",
+                    "text": "Galaxy Installer CI ${{ job.status }}\nhttps://github.com/pulp/pulp_installer/runs/${{ github.run_id }}?check_suite_focus=true"
                   }
                 }
               ]
