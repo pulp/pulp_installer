@@ -93,15 +93,17 @@ jobs:
           ansible-galaxy collection install -p build/collections --force community.docker
         shell: bash
       - name: Molecule dependency
+        # Downloading dependencies sometimes fails the 1st time
         run: |
           ansible --version
+          molecule dependency --scenario-name ${{ matrix.test_type }} ||
           molecule dependency --scenario-name ${{ matrix.test_type }}
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
         shell: bash
-      # Pulling images (for upgrades) sometimes fails the 1st time.
       - name: Molecule create & prepare
+        # Pulling images (for upgrades) sometimes fails the 1st time.
         run: |
           ansible --version
           molecule create --scenario-name ${{ matrix.test_type }} ||
@@ -120,7 +122,9 @@ jobs:
         shell: bash
       - name: Molecule idempotence
         # release-upgrade is multi-phase upgrading, a non-idempotent playbook
-        if: matrix.test_type != 'release-upgrade'
+        # release-dynamic takes the 2nd longest but is theoretically covered by
+        #   release-static and packages-dynamic
+        if: matrix.test_type != 'release-upgrade' && matrix.test_type != 'release-dynamic'
         run: |
           ansible --version
           molecule idempotence --scenario-name ${{ matrix.test_type }}
