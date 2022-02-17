@@ -143,6 +143,3 @@
         that:
           - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-rpm'][0].version is version("3.17.0", ">=")
       when: ansible_facts.os_family == 'RedHat'
-  post_tasks:
-    - name: Show longest running tasks
-      ansible.posix.profile_tasks:
