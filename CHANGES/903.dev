@@ -1,0 +1,1 @@
+Fixed unexpected download failures when we have the message `Failure downloading`.
