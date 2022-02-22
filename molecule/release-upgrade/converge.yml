@@ -114,7 +114,7 @@
   force_handlers: True
   tasks:
     - set_fact:
-        pulpcore_version: "3.17"
+        pulpcore_version: "3.18"
         pulpcore_update: false
     - set_fact:
         pulp_install_plugins:
@@ -137,10 +137,10 @@
       pip_package_info:
         clients: "/usr/local/lib/pulp/bin/pip"
       register: pip_pkgs
-    - name: Assert pulpcore>=3.17.0, pulp-file>=1.10.0
+    - name: Assert pulpcore>=3.18.0, pulp-file>=1.10.0
       assert:
         that:
-          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulpcore'][0].version is version("3.17.0", ">=")
+          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulpcore'][0].version is version("3.18.0", ">=")
           - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-file'][0].version is version("1.10.0", ">=")
     - name: Assert pulp-rpm>=3.17.0
       assert:
