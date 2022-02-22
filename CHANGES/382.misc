@@ -1,2 +1,0 @@
-Used ``repr`` and ``empty`` filters from ``mdellweg.filters`` collection to improve the accuracy
-of some tests and transformations.

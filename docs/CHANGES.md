@@ -13,6 +13,50 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.18.0 (2022-02-22)
+
+Features
+--------
+
+- The Pulp API can now be rerooted using the new ``API_ROOT`` setting. By default it is set to
+  ``/pulp/``. Pulp appends the string ``api/v3/`` onto the value of ``API_ROOT``.
+  [#892](https://github.com/pulp/pulp_installer/issues/892)
+
+
+Bugfixes
+--------
+
+- Added `force_handlers: True` in every Playbook in order to flush handlers even if some tasks fail. Because we decided that this change will leave the system in a better more correct state if something went wrong.
+  [#829](https://github.com/pulp/pulp_installer/issues/829)
+- Removed extraneous use of become_user: root from devel role.
+  [#844](https://github.com/pulp/pulp_installer/issues/844)
+- Address failures on the task `pulp_common : Set state of pulpcore app` by having it do 5 retries over 60 seconds.
+  [#868](https://github.com/pulp/pulp_installer/issues/868),
+  [#886](https://github.com/pulp/pulp_installer/issues/886)
+- Allow pulp to use pip>=22 again. This reverts the bugfix 'Fix pulp_installer failing on "pulp_common: Run pip-compile to check pulpcore/plugin compatibility" on most distros.' We can do this thanks to pip-tools 6.5.0 being released with pip 22 compatibility.
+  [#876](https://github.com/pulp/pulp_installer/issues/876)
+- Fix `pulp_webserver : Start and enable Apache` failing on CentOS Stream 8 container images (quay.io/centos/centos:stream8).
+  [#878](https://github.com/pulp/pulp_installer/issues/878)
+
+
+Misc
+----
+
+- [#382](https://github.com/pulp/pulp_installer/issues/382)
+
+
+Devel
+-----
+
+- vagrant: Remove all EOL CentOS 8 (non-stream) boxes and environments, add centos8-stream-fips box and environments.
+  [#881](https://github.com/pulp/pulp_installer/issues/881)
+- Fixed unexpected download failures when we have the message `Failure downloading`.
+  [#903](https://github.com/pulp/pulp_installer/issues/903)
+
+
+----
+
+
 3.17.2 (2022-02-02)
 ===================
 
