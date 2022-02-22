@@ -32,6 +32,6 @@ nav:
       - Pulp All Services: meta_roles/pulp_all_services.md
       - Pulp Services: meta_roles/pulp_services.md
 markdown_extensions:
-  - pymdownx.superfences
   - toc:
-      permalink: True
+      permalink: "#"
+  - pymdownx.superfences
