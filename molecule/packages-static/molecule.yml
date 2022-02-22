@@ -32,8 +32,8 @@ platforms:
 provisioner:
   name: ansible
   env:
-    ANSIBLE_COLLECTIONS_PATH: $PWD/build/collections  # for ansible >= 2.10.0.dev0
-    ANSIBLE_COLLECTIONS_PATHS: $PWD/build/collections
+    ANSIBLE_COLLECTIONS_PATH: $PWD/build/collections:~/.ansible/collections:/usr/share/ansible/collections # for ansible >= 2.10.0.dev0
+    ANSIBLE_COLLECTIONS_PATHS: $PWD/build/collections:~/.ansible/collections:/usr/share/ansible/collections
     ANSIBLE_CALLBACKS_ENABLED: "profile_tasks,profile_roles"
     CALLBACKS_ENABLED: "profile_tasks,profile_roles"
   config_options:
