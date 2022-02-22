@@ -23,4 +23,4 @@ pulp_preq_packages:
 
 pulp_python_interpreter: '/opt/rh/rh-python38/root/usr/bin/python3.8'
 pulp_python_cryptography:
-  - python-cryptography
+  - python2-cryptography
