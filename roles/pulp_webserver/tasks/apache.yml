@@ -49,18 +49,17 @@
         state: directory
         mode: '0755'
 
-    # FIXME: The ansible output here over the results is very ugly.
-    # It may be a lot cleaner if we were to use the command module,
-    # above and/or create a temporary data structure.
     - name: Symlink Apache snippets
-      file:
-        src: "{{ __pulp_webserver_snippet.stdout | trim | regex_replace('\\s+.*$', '') }}"
-        dest: "{{ pulp_webserver_apache_snippets_dir }}/{{ __pulp_webserver_snippet.__pulp_webserver_plugin.key | regex_replace('-', '_') }}.conf"
-        state: link
-      loop: '{{ snippets.results }}'
+      script:
+        cmd: symlink_snippets.py {{ __pulp_webserver_plugin.key | regex_replace("-", "_") | quote }} {{ pulp_webserver_server }}.conf
+      args:
+        executable: '{{ (pulp_install_source == "packages") | ternary(pulp_python_interpreter, pulp_install_dir ~ "/bin/python") }}'
+      register: snippets
+      loop: '{{ pulp_install_plugins_normalized | dict2items }}'
       loop_control:
-        loop_var: __pulp_webserver_snippet
-      when: __pulp_webserver_snippet.rc == 0
+        loop_var: __pulp_webserver_plugin
+      changed_when: false
+      check_mode: false
       notify: reload apache
 
     - name: Start and enable Apache
