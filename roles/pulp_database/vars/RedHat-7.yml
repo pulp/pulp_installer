@@ -4,6 +4,7 @@ __postgresql_version: "10"
 __postgresql_unix_socket_directories_mode: "0755"
 postgresql_user: postgres
 postgresql_packages:
+  - scl-utils
   - rh-postgresql10
   - rh-postgresql10-postgresql
   - rh-postgresql10-postgresql-server
