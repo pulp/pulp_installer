@@ -46,6 +46,7 @@
           delay: 12
           register: result
           until: result is succeeded
+          failed_when: result is failed or "Failure downloading" in result.msg
           when:
             - ansible_distribution == "CentOS"
             - ansible_distribution_version in ["8.3","8.4"]
