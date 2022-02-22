@@ -17,6 +17,7 @@ Here's an example playbook for using pulp_rpm_prerequisites as part of pulp_inst
 
     ---
     - hosts: all
+      force_handlers: True
       vars:
         pulp_default_admin_password: << YOUR PASSWORD HERE >>
         pulp_settings:

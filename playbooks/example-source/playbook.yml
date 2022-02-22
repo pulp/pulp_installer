@@ -1,5 +1,6 @@
 ---
 - hosts: all
+  force_handlers: True
   pre_tasks:
     # The version string below is the highest of all those in roles' metadata:
     # "min_ansible_version". It needs to be kept manually up-to-date.

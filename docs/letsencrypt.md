@@ -64,6 +64,7 @@ vim install.yml
 ```yaml
 ---
 - hosts: << domain name >>
+  force_handlers: True
   vars:
     pulp_webserver_httpd_servername: "{{ inventory_hostname }}"
     lets_encrypt_hostname: "{{ inventory_hostname }}"
