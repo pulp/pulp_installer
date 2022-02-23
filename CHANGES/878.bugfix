@@ -1,1 +1,0 @@
-Fix `pulp_webserver : Start and enable Apache` failing on CentOS Stream 8 container images (quay.io/centos/centos:stream8).

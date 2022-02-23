@@ -1,1 +1,0 @@
-Address failures on the task `pulp_common : Set state of pulpcore app` by having it do 5 retries over 60 seconds.

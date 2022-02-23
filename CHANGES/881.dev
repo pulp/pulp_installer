@@ -1,1 +1,0 @@
-vagrant: Remove all EOL CentOS 8 (non-stream) boxes and environments, add centos8-stream-fips box and environments.
