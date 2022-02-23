@@ -118,24 +118,3 @@ jobs:
             }
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_PULP_CHANNEL }}
-  lint:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-    steps:
-      - uses: actions/checkout@v2.3.1
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: "3.9"
-      - name: Install Ansible
-        run: |
-          pip install --upgrade pip
-          sudo apt remove ansible
-          pip install ansible-core
-      - name: Install Ansible-lint
-        run: |
-          pip install ansible-lint[yamllint]
-      - name: Lint test
-        run: |
-          ansible-lint
