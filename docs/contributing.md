@@ -41,7 +41,11 @@ molecule-docker, ansible
 and [ansible-lint](https://docs.ansible.com/ansible-lint/).
 It is recommended that you do so with `pip` in a virtualenv for Python 3.6+.
 
-2. Run molecule commands.
+2. Install collection dependencies
+
+`ansible-galaxy collection install -r ./requirements.yml`
+
+3. Run molecule commands.
 
    Test the default scenario, release-static, on all hosts (linux distros.)
    ```bash

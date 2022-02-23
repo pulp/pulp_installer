@@ -6,7 +6,8 @@
   vars:
     __pulp_rhel_scl_repo_enable_default: True
 
-- block:
+- name: Check if PostgreSQL < 10 is in use
+  block:
     - name: Check if PostgreSQL < 10 is initialized.
       stat:
         path: "{{ postgresql_previous_data_dir }}/PG_VERSION"
@@ -18,24 +19,26 @@
       when: previous_pgdata_dir_version.stat.exists
       tags:
         - molecule-idempotence-notest
+  become: yes
+  when:
+    - ansible_facts.os_family == 'RedHat'
+    - ansible_facts.distribution_major_version|int == 7
 
-    - name: Stop PostgreSQL < 10 service
-      systemd:
-        name: "{{ postgresql_previous_daemon }}"
-        state: stopped
-        enabled: no
-      when:
-        - previous_pgdata_dir_version.stat.exists
-        - pg_version is defined
-        - pg_version.changed
-        - pg_version.stdout is version('10', '<')
+- name: Stop PostgreSQL < 10 service
+  systemd:
+    name: "{{ postgresql_previous_daemon }}"
+    state: stopped
+    enabled: no
+  when:
+    - ansible_facts.os_family == 'RedHat'
+    - ansible_facts.distribution_major_version|int == 7
+    - previous_pgdata_dir_version.stat.exists
+    - pg_version is defined
+    - pg_version.changed
+    - pg_version.stdout is version('10', '<')
 
-    - name: Install scl-utils
-      package:
-        name:
-          - 'scl-utils'
-        state: present
-
+- name: Install and enable the SCL to be used for postgresql commands in geerlingguy.postgresql
+  block:
     - name: Install PostgreSQL SCL
       yum:
         name: "{{ postgresql_packages }}"
@@ -47,6 +50,7 @@
         src: templates/postgresql_scl_profile.j2
         dest: "{{ postgresql_profile_path }}"
         mode: '0644'
+      become: yes
 
     - name: Create SCL symlinks
       file:
@@ -59,7 +63,13 @@
       register: symlink_result
       failed_when: "symlink_result is failed and 'refusing to convert from file to symlink' not in symlink_result.msg"
       check_mode: false
+  become: yes
+  when:
+    - ansible_facts.os_family == 'RedHat'
+    - ansible_facts.distribution_major_version|int == 7
 
+- name: Upgrade PostgreSQL < 10
+  block:
     # https://access.redhat.com/documentation/en-us/red_hat_software_collections/3/html/3.3_release_notes/chap-migration#sect-Migration-PostgreSQL-9_6-10
     - name: Backup previous PostgreSQL
       copy:
@@ -68,11 +78,6 @@
         dest: "{{ postgresql_data_dir.replace('data', 'backup') }}"
         mode: '0644'
       check_mode: false
-      when:
-        - previous_pgdata_dir_version.stat.exists
-        - pg_version is defined
-        - pg_version.changed
-        - pg_version.stdout is version('10', '<')
 
     - name: Check if PostgreSQL database is initialized.
       stat:
@@ -85,31 +90,14 @@
         && {{ postgresql_bin_path }}/postgresql-setup --upgrade --upgrade-from=rh-postgresql96-postgresql
       when:
         - not pgdata_dir_version.stat.exists
-        - previous_pgdata_dir_version.stat.exists
-        - pg_version is defined
-        - pg_version.changed
-        - pg_version.stdout is version('10', '<')
-
-    - name: Check if PostgreSQL database is initialized.
-      stat:
-        path: "{{ postgresql_data_dir }}/PG_VERSION"
-      register: pgdata_dir_version
-
-    - name: Ensure PostgreSQL database is initialized.
-      shell: >-
-        source scl_source enable rh-postgresql10
-        && {{ postgresql_bin_path }}/initdb -D {{ postgresql_data_dir }}
-      when:
-        - not pgdata_dir_version.stat.exists
-      become: true
-      become_user: "{{ postgresql_user }}"
-      vars:
-        ansible_ssh_pipelining: true
-
   become: yes
   when:
     - ansible_facts.os_family == 'RedHat'
     - ansible_facts.distribution_major_version|int == 7
+    - previous_pgdata_dir_version.stat.exists
+    - pg_version is defined
+    - pg_version.changed
+    - pg_version.stdout is version('10', '<')
 
 - block:
     - name: Install and configure PostgreSQL
