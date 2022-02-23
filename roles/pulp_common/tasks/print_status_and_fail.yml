@@ -4,56 +4,14 @@
 # Note: We do not use blocks because they do not work with handlers, and this
 # can be called from a handler
 
-- name: systemctl status pulpcore
-  command: systemctl status pulpcore
+- name: Get status of pulp services
+  script: scripts/print_status.sh
+  register: status
   become: true
-  ignore_errors: true
-  changed_when: false
-- name: journalctl -u pulpcore
-  command: journalctl -u pulpcore
-  become: true
-  ignore_errors: true
-  changed_when: false
-- name: systemctl status pulpcore-api
-  command: systemctl status pulpcore-api
-  become: true
-  ignore_errors: true
-  changed_when: false
-- name: journalctl -u pulpcore-api
-  command: journalctl -u pulpcore-api
-  become: true
-  ignore_errors: true
-  changed_when: false
-- name: systemctl status pulpcore-content
-  command: systemctl status pulpcore-content
-  become: true
-  ignore_errors: true
-  changed_when: false
-- name: journalctl -u pulpcore-content
-  command: journalctl -u pulpcore-content
-  become: true
-  ignore_errors: true
-  changed_when: false
-- name: systemctl status pulpcore-worker@1
-  command: systemctl status pulpcore-worker@1
-  become: true
-  ignore_errors: true
-  changed_when: false
-- name: journalctl -u pulpcore-worker@1
-  command: journalctl -u pulpcore-worker@1
-  become: true
-  ignore_errors: true
-  changed_when: false
-- name: systemctl status pulpcore-worker@2
-  command: systemctl status pulpcore-worker@2
-  become: true
-  ignore_errors: true
-  changed_when: false
-- name: journalctl -u pulpcore-worker@2ignore_errors
-  command: journalctl -u pulpcore-worker@2ignore_errors
-  become: true
-  ignore_errors: true
-  changed_when: false
+
+- name: show output of pulp services
+  debug:
+    var: status.stdout_lines
 
 - name: Fail
   fail:
