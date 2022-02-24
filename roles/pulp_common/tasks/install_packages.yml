@@ -66,7 +66,6 @@
         conf_file: "{{ __dnf_conf.path | default(omit) }}"
         # update_only is a needed part of installing older updates
         update_only: true
-        exclude: '{{ pulp_pkg_exclude | default(omit) }}'
       notify:
         - Collect static content
         - Restart all Pulp services
