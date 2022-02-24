@@ -59,7 +59,8 @@
   when:
     - ansible_facts.os_family == 'RedHat'
     # when permissive or enforcing. That would be stored in .mode & .config_mode
-    - ansible_facts.selinux.status == "enabled"
+    - pulp_install_selinux_policies|bool or
+      (ansible_facts.selinux.status == "enabled" and pulp_install_selinux_policies == "auto")
 
 - name: Check if venv already exists
   stat:
