@@ -2,6 +2,7 @@
 pulp_default_admin_password: password
 pulp_upgrade: true
 pulp_install_source: packages
+pulp_install_selinux_policies: True
 pulp_install_plugins:
   pulp-file:
   pulp-rpm:

@@ -1,5 +1,6 @@
 ---
-- block:
+- name: Prepare to install the Pulp packages
+  block:
     - name: "Enumerate the list of updates from the {{ __pulp_pkg_repo_name }} repo"
       yum:
         list: updates
@@ -78,7 +79,8 @@
     - pulp_pkg_repo is not none
     - pulp_pkg_upgrade_all
 
-- block:
+- name: Install the Pulp packages
+  block:
 
     - name: "Install the Pulp undeclared {{ ansible_facts.pkg_mgr }} package dependencies"
       package:
@@ -144,6 +146,16 @@
       package:
         name: "{{ pulp_pkg_name_prefix }}gunicorn"
         state: present
+
+    - name: "Install Pulp SELinux policies via {{ ansible_facts.pkg_mgr }}"
+      package:
+        name: "{{ pulp_pkg_selinux_name }}"
+        state: "{{ pulp_pkg_upgrade_all | ternary('latest','present') }}"
+      when:
+        - ansible_facts.os_family == 'RedHat'
+        # when permissive or enforcing. That would be stored in .mode & .config_mode
+        - pulp_install_selinux_policies|bool or
+          (ansible_facts.selinux.status == "enabled" and pulp_install_selinux_policies == "auto")
 
   become: true
 
