@@ -87,9 +87,11 @@ jobs:
           sudo apt remove ansible
           pip install docker molecule ${{ matrix.ansible }}
       - name: Setting pulp.pulp_installer collection
+        # Downloading dependencies sometimes fails the 1st time, so retry
         run: |
-          make vendor
-          make install
+          make vendor || make vendor
+          make install || make install
+          ansible-galaxy collection install -p build/collections --force community.docker ||
           ansible-galaxy collection install -p build/collections --force community.docker
         shell: bash
       - name: Molecule dependency
