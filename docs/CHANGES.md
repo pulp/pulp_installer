@@ -13,6 +13,27 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.18.1 (2022-02-28)
+
+Features
+--------
+
+- Optimize the role pulp_database for better performance.
+  [#908](https://github.com/pulp/pulp_installer/issues/908)
+- When in packages mode, install the package with the SELinux policies via an ansible task, rather than assuming it is a dependency (which is no longer the case.) The variable `pulp_pkg_selinux_name` was introduced to specify the name. Also introduce the variable `pulp_install_selinux_policies` to enable or disable installing the SELinux policies, regardless of whether in packages mode or pip mode.
+  [#916](https://github.com/pulp/pulp_installer/issues/916)
+
+
+Bugfixes
+--------
+
+- Fix being unable to install from katello's latest RPMs by no longer ignoring libcomps (reverts bugfix for #809)
+  [#913](https://github.com/pulp/pulp_installer/issues/913)
+
+
+----
+
+
 3.18.0 (2022-02-22)
 
 Features
