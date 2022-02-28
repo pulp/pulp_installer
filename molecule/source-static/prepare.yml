@@ -42,8 +42,8 @@
               - baseos
               - appstream
               - extras
-          retries: 5
-          delay: 12
+          retries: 50
+          delay: 6
           register: result
           until: result is succeeded
           failed_when: result is failed or "Failure downloading" in result.msg
