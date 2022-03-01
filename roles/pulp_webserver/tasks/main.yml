@@ -26,20 +26,6 @@
       {{ (pulp_install_source == "packages") | ternary(pulp_python_interpreter, pulp_install_dir ~ "/bin/python") }}
     verbosity: 1
 
-- name: "Check installed plugins for {{ pulp_webserver_server }} snippets"
-  script:
-    cmd: check_snippet.py {{ __pulp_webserver_plugin.key | regex_replace("-", "_") | quote }} {{ pulp_webserver_server }}.conf
-  args:
-    executable: '{{ (pulp_install_source == "packages") | ternary(pulp_python_interpreter, pulp_install_dir ~ "/bin/python") }}'
-  register: snippets
-  loop: '{{ pulp_install_plugins_normalized | dict2items }}'
-  loop_control:
-    loop_var: __pulp_webserver_plugin
-  failed_when: >
-    snippets.stderr is search("env: 'python': No such file or directory")
-  changed_when: false
-  check_mode: false
-
 - name: Create cert directory to hold SSL certificates
   file:
     path: "{{ pulp_certs_dir }}"
