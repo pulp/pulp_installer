@@ -1,0 +1,59 @@
+---
+dependency:
+  name: galaxy
+  options:
+    role-file: requirements.yml
+driver:
+  name: docker
+lint: |
+    ansible-lint
+# This is ignored by molecule, but can be reused in yaml
+.platform_base: &platform_base
+  privileged: False
+  volumes:
+    - /sys/fs/cgroup:/sys/fs/cgroup:ro
+  tmpfs:
+    # Fixes issues accessing .so files under /tmp during pip builds.
+    # https://github.com/docker/compose/issues/1339
+    - /tmp:exec,mode=1777
+    - /run
+    - /run/lock
+  capabilities:
+    - NET_ADMIN
+    - NET_RAW
+  pre_build_image: true
+platforms:
+  - <<: *platform_base
+    name: centos-7
+    image: ghcr.io/pulp/molecule_centos7
+    command: /sbin/init
+  - <<: *platform_base
+    name: centos-8
+    image: ghcr.io/pulp/molecule_centosstream8
+    command: /sbin/init
+provisioner:
+  name: ansible
+  env:
+    ANSIBLE_COLLECTIONS_PATH: $PWD/build/collections  # for ansible >= 2.10.0.dev0
+    ANSIBLE_COLLECTIONS_PATHS: $PWD/build/collections
+  config_options:
+    defaults:
+      stdout_callback: debug
+      callback_enabled: profile_tasks
+  inventory:
+    links:
+      host_vars: ../scenario_resources/host_vars/
+      group_vars: ../scenario_resources/group_vars/
+scenario:
+  test_sequence:
+    - dependency
+    - syntax
+    - create
+    - prepare
+    - converge
+    - idempotence
+    - side_effect
+    - verify
+verifier:
+  name: ansible
+  directory: tests

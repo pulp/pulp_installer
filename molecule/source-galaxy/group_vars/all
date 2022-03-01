@@ -4,9 +4,6 @@ pulp_source_dir: '/var/lib/pulp/devel/pulpcore'
 pulp_git_url: "https://github.com/pulp/pulpcore"
 pulp_pip_editable: true
 pulp_install_plugins:
-  galaxy-ng:
-    source_dir: "/var/lib/pulp/devel/galaxy_ng"
-    git_url: "https://github.com/ansible/galaxy_ng"
   galaxy-importer:
     source_dir: "/var/lib/pulp/devel/galaxy-importer"
     git_url: "https://github.com/ansible/galaxy-importer"
@@ -16,6 +13,9 @@ pulp_install_plugins:
   pulp-container:
     source_dir: "/var/lib/pulp/devel/pulp_container"
     git_url: "https://github.com/pulp/pulp_container"
+  galaxy-ng:
+    source_dir: "/var/lib/pulp/devel/galaxy_ng"
+    git_url: "https://github.com/ansible/galaxy_ng"
 developer_user_home: /var/lib/pulp
 developer_user: pulp
 pulp_settings:
@@ -27,8 +27,10 @@ pulp_settings:
   x_pulp_api_password: "{{ pulp_default_admin_password }}"
   x_pulp_api_prefix: "pulp_ansible/galaxy/automation-hub/api"
   galaxy_require_content_approval: "False"
+  galaxy_enable_api_access_log: true
   pulp_token_auth_disabled: "True"
   galaxy_api_default_distribution_base_path: "published"
+  rh_entitlement_required: insights
 
 # Galaxy Configuration
 # Set this __galaxy variables according to your needs.
