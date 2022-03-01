@@ -11,7 +11,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
       - name: Install requests
-        run: pip install requests
+        run: pip install requests pygithub
       - name: Check commit message
         env:
           GITHUB_CONTEXT: ${{ github.event.pull_request.commits_url }}
