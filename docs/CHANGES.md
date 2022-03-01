@@ -13,7 +13,28 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.15.3-1 (2022-03-01)
+=====================
+
+Bugfixes
+--------
+
+- Removed extraneous use of become_user: root from devel role.
+  [#844](https://pulp.plan.io/issues/844)
+
+
+Deprecations and Removals
+-------------------------
+
+- CentOS 8 is now EOL, and thus Pulp no longer formally supports it. Pulp now only tests fresh installs with CentOS Stream 8, and with upgrades from CentOS 8 to CentOS Stream 8 (see migration instructions here https://centos.org/centos-stream/).
+  [#860](https://pulp.plan.io/issues/860)
+
+
+----
+
+
 3.15.3 (2022-01-27)
+===================
 
 Bugfixes
 --------
