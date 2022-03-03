@@ -1,77 +1,27 @@
 ---
-name: Pulp CI
-on: pull_request
+name: Devel CI
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'roles/pulp_devel/**'
+      - '.github/workflows/galaxy_ci.yml'
+      - 'molecule/source-static/**'
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron: '15 2 * * *'
 jobs:
-  git-check:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2.3.1
-      - run: |
-          git fetch --prune --unshallow
-      - name: Set up Python
-        uses: actions/setup-python@v2
-      - name: Install PyGithub
-        run: pip install pygithub
-      - name: Check commit message
-        env:
-          GITHUB_CONTEXT: ${{ github.event.pull_request.commits_url }}
-        run: |
-          for sha in $(curl $GITHUB_CONTEXT | jq '.[].sha' | sed 's/"//g')
-          do
-            python .github/validate_commit_message.py $sha
-            VALUE=$?
-            if [ "$VALUE" -gt 0 ]; then
-              exit $VALUE
-            fi
-          done
-        shell: bash
-      - name: Check submodule status
-        run: |
-          .ci/submodule_check.sh
   molecule:
     runs-on: ubuntu-latest
-    needs: git-check
     strategy:
       fail-fast: false
-      # Testing different python versions because of
-      # https://pulp.plan.io/issues/5768#note-17
-      #
-      # Certain old versions are in distros:
-      # Fedora / EPEL8 / Ubuntu 20.04: ansible 2.9
-      # Debian 11 / Ubuntu 21.10: ansible 2.10
       matrix:
         include:
-          - test_type: release-static
-            ansible: "ansible~=2.9.0"
-            python: "2.7"
           - test_type: source-static
             ansible: "git+https://github.com/ansible/ansible.git"  # ansible-core
             python: "3.10"
-          - test_type: packages-static
-            ansible: "ansible~=2.10.0"
-            python: "3.7"
-          - test_type: release-dynamic
-            ansible: "ansible-core" # currently at 2.12.2
-            python: "3.8"
-          # We skip source-dynamic for PR CI because no one probably does it.
-          - test_type: packages-dynamic
-            ansible: "ansible" # currently at 5.3.0
-            python: "3.9"
-          - test_type: release-upgrade
-            ansible: "ansible-core~=2.11.0" # used by ansible==4.10.0
-            python: "3.6"
-          # We skip source-upgrade for PR CI because devs can always rebuild
-          # their vagrant environments.
-          - test_type: packages-upgrade
-            ansible: "ansible~=2.9.0"
-            python: "2.7"
     steps:
       - uses: actions/checkout@v2.3.1
-      # devel_ci.yml is where we run the devel role. For performance.
-      - name: Configure source-static to not run the devel role
-        if: matrix.test_type == 'source-static'
-        run: |
-          sed -i '/pulp_devel/d' molecule/source-static/converge.yml
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
@@ -147,25 +97,3 @@ jobs:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
         shell: bash
-  lint:
-    runs-on: ubuntu-latest
-    needs: git-check
-    strategy:
-      fail-fast: false
-    steps:
-      - uses: actions/checkout@v2.3.1
-      - name: Set up Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: "3.9"
-      - name: Install Ansible
-        run: |
-          pip install --upgrade pip
-          sudo apt remove ansible
-          pip install ansible-core
-      - name: Install Ansible-lint
-        run: |
-          pip install ansible-lint[yamllint]
-      - name: Lint test
-        run: |
-          ansible-lint
