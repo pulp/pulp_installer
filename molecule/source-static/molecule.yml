@@ -64,7 +64,6 @@ scenario:
     - verify
   playbooks:
     prepare: prepare.yml
-
 verifier:
   name: ansible
   directory: tests
