@@ -4,6 +4,7 @@ pulp_upgrade: true
 pulp_install_source: packages
 pulp_api_bind: "unix:/var/run/pulpcore-api/pulpcore-api.sock"
 pulp_content_bind: "unix:/var/run/pulpcore-content/pulpcore-content.sock"
+pulp_install_selinux_policies: True
 pulp_install_plugins:
   pulp-file:
   pulp-rpm:

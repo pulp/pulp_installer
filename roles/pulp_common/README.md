@@ -121,6 +121,9 @@ Role Variables
 * `pulp_certs_dir`: Path where to generate or drop the TLS certificates & keys for authentication
   tokens. Not used directly by pulp_common, but by roles that depend on it. Defaults to
   '{{ pulp_config_dir }}/certs' .
+* `pulp_install_selinux_policies`: Whether or not to download & install the SELinux policies.
+   This performs a operation with the `git clone` command. Accepts `True`, `False` or `auto`.
+   Defaults to `auto`, which installs when SELinux is enabled (permissive or enforcing.)
 
 Role Variables if installing from RPMs
 --------------------------------------
@@ -168,6 +171,9 @@ If it is set to "packages", the following variables are used, or behave *differe
   without using the installer. (e.g., you ran `yum update` and your Pulp installation is broken. Re-running the
   installer will fix it.)
   Defaults to `false`.
+* `pulp_pkg_selinux_name` The name of the package containing the SELinux policies to install. See
+  `pulp_install_selinux_policies`, except `git` is not used; the package manager is used instead.
+   Defaults to "pulpcore-selinux".
 
 Role Variables for advanced usage
 ---------------------------------
