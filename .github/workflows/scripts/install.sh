@@ -17,13 +17,13 @@ if grep -i focal /etc/os-release ; then
 fi
 
 # 2.2.9 is needed for proper CentOS8 support
-VAGRANT_DEB=vagrant_2.2.9+dfsg-1ubuntu1_all.deb
+VAGRANT_DEB=vagrant_2.2.19+dfsg-1ubuntu1_all.deb
 curl -L --output $VAGRANT_DEB http://mirrors.kernel.org/ubuntu/pool/universe/v/vagrant/$VAGRANT_DEB
 sudo apt install ./$VAGRANT_DEB
 rm ./$VAGRANT_DEB
 
-# Updating vagrant & vagrant-sshfs is necessary to support CentOS 7,8 without repos pre-configured.
-VAGRANT_SSHFS_DEB=vagrant-sshfs_1.3.5-1_all.deb
+# Updating vagrant & vagrant-sshfs is necessary to support CentOS 7,8,8-stream without repos pre-configured.
+VAGRANT_SSHFS_DEB=vagrant-sshfs_1.3.6-1_all.deb
 curl -L --output $VAGRANT_SSHFS_DEB http://mirrors.kernel.org/ubuntu/pool/universe/v/vagrant-sshfs/$VAGRANT_SSHFS_DEB
 sudo apt install ./$VAGRANT_SSHFS_DEB
 rm ./$VAGRANT_SSHFS_DEB
