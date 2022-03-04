@@ -35,9 +35,6 @@ pulp_irregularly_named_plugins:
 pulp_pkg_pulpcore_name: "{{ pulp_pkg_name_prefix }}pulpcore"
 
 pulp_pkg_undeclared_deps:
-  - "{{ pulp_pkg_name_prefix }}psycopg2"
-  - "{{ pulp_pkg_name_prefix }}djangorestframework"
-  - "{{ pulp_pkg_name_prefix }}djangorestframework-queryfields"
   - "{{ pulp_pkg_name_prefix }}markuppy"  # Because of https://bugzilla.redhat.com/show_bug.cgi?id=1986965
 pulp_pkg_selinux_name: "pulpcore-selinux"
 pulp_pkg_upgrade_all: false
