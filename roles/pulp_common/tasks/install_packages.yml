@@ -76,7 +76,6 @@
   become: true
   when:
     - ansible_facts.os_family == "RedHat"
-    - pulp_pkg_repo is not none
     - pulp_pkg_upgrade_all
 
 - name: Install the Pulp packages
