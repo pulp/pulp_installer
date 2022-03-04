@@ -50,7 +50,20 @@ else
   # vagrant sshfs --mount $1
 
   # Workaround a bug in libvirt 6.6.0 (20.04 + virtualization ppa) on non-btrfs.
-  sudo virsh pool-start default
+  if sudo virsh pool-start default ; then
+    :
+  else
+    sudo virsh pool-define /dev/stdin <<EOF
+<pool type='dir'>
+  <name>default</name>
+  <target>
+    <path>/var/lib/libvirt/images</path>
+  </target>
+</pool>
+EOF
+    sudo virsh pool-start default
+    virsh pool-autostart default
+  fi
   vagrant up --no-tty --machine-readable --no-destroy-on-error --no-provision $1 | grep -v -e '^\s*$'
 fi
 set +o pipefail
