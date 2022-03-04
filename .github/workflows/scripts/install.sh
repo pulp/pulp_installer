@@ -6,21 +6,24 @@ sudo apt update
 
 sudo apt install software-properties-common
 
-if grep -i focal /etc/os-release ; then
-  # Virtualization stack upgrades, has Qemu 5.0
-  sudo add-apt-repository ppa:jacob/virtualisation
+# Virtualization stack upgrades, has Qemu 5.0
+sudo add-apt-repository ppa:jacob/virtualisation
 
-  # Provides Qemu 5.2. It is needed because on Qemu 4.2 / 5.0 , CentOS 7 guests have a number
-  # of weird errors, including Postgres database creation and SSL certificate
-  # validation in curl and yum.
-  sudo add-apt-repository ppa:pulpproject/pulp-ci
+# Provides Qemu 5.2. It is needed because on Qemu 4.2 / 5.0 , CentOS 7 guests have a number
+# of weird errors, including Postgres database creation and SSL certificate
+# validation in curl and yum.
+sudo add-apt-repository ppa:pulpproject/pulp-ci
+
+# Provides a newer "vagrant" package that is compatible with Ubuntu 20.04
+sudo add-apt-repository ppa:tiagohillebrandt/vagrant
+
+if /bin/false ; then
+  # 2.2.9 is needed for proper CentOS8 support
+  VAGRANT_DEB=vagrant_2.2.19+dfsg-1ubuntu1_all.deb
+  curl -L --output $VAGRANT_DEB http://mirrors.kernel.org/ubuntu/pool/universe/v/vagrant/$VAGRANT_DEB
+  sudo apt install ./$VAGRANT_DEB
+  rm ./$VAGRANT_DEB
 fi
-
-# 2.2.9 is needed for proper CentOS8 support
-VAGRANT_DEB=vagrant_2.2.19+dfsg-1ubuntu1_all.deb
-curl -L --output $VAGRANT_DEB http://mirrors.kernel.org/ubuntu/pool/universe/v/vagrant/$VAGRANT_DEB
-sudo apt install ./$VAGRANT_DEB
-rm ./$VAGRANT_DEB
 
 # Updating vagrant & vagrant-sshfs is necessary to support CentOS 7,8,8-stream without repos pre-configured.
 VAGRANT_SSHFS_DEB=vagrant-sshfs_1.3.6-1_all.deb
