@@ -1,0 +1,52 @@
+---
+name: Vagrant CI
+on:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron: '15 0 * * *'
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/vagrant.yml'
+      - '.github/workflows/scripts/after_failure.sh'
+      - '.github/workflows/scripts/install.sh'
+      - '.github/workflows/scripts/script.sh'
+      - 'vagrant/**'
+jobs:
+  vagrant:
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - test_type: pulp3-source-centos8-stream-fips
+          - test_type: pulp3-source-centos7-fips
+          - test_type: pulp3-source-fedora34
+          - test_type: pulp3-source-debian11
+          - test_type: pulp2-nightly-pulp3-source-centos7
+    steps:
+      - uses: actions/checkout@v2.3.1
+        with:
+          submodules: true
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.7
+      - name: Install Vagrant
+        shell: bash
+        run: |
+          .github/workflows/scripts/install.sh ${{ matrix.test_type }}
+          # For the source tests
+          cd ..
+          git clone https://github.com/pulp/pulpcore
+          git clone https://github.com/pulp/pulp_file
+      - name: Run Vagrant
+        shell: bash
+        run: .github/workflows/scripts/script.sh ${{ matrix.test_type }}
+        env:
+          PY_COLORS: '1'
+          ANSIBLE_FORCE_COLOR: '1'
+          TERM: 'xterm-256color'
+      - name: After failure
+        if: failure()
+        run: .github/workflows/scripts/after_failure.sh ${{ matrix.test_type }}
