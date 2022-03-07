@@ -33,7 +33,9 @@ for plugin in plugins:
         os.symlink(snippet, f"/etc/nginx/pulp/{plugin}.conf")
         print("Symbolic link created successfully")
       except FileExistsError:
-        pass
+        if snippet != os.path.realpath(f"/etc/nginx/pulp/{plugin}.conf"):
+          os.unlink(f"/etc/nginx/pulp/{plugin}.conf")
+          os.symlink(snippet, f"/etc/nginx/pulp/{plugin}.conf")
       sys.stderr.write(f"{snippet}  and /etc/nginx/pulp/{plugin}.conf")
     elif "apache" in webserver_conf:
       for path in ["/etc/httpd", "/etc/apache2"]:
@@ -42,7 +44,9 @@ for plugin in plugins:
             os.symlink(snippet, f"{path}/pulp/{plugin}.conf")
             print("Symbolic link created successfully")
           except FileExistsError:
-            pass
+            if snippet != os.path.realpath(f"{path}/pulp/{plugin}.conf"):
+              os.unlink(f"{path}/pulp/{plugin}.conf")
+              os.symlink(snippet, f"{path}/pulp/{plugin}.conf")
     else:
       sys.stderr.write(f"Unknown webserver config {webserver_conf}")
       sys.exit(10)
