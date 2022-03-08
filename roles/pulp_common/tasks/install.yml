@@ -166,6 +166,14 @@
         group: '{{ pulp_group }}'
         mode: "u+rwx,g+rwx,o+rx"
 
+    - name: Create cert directory to hold token authentication key
+      file:
+        path: "{{ pulp_certs_dir }}"
+        state: directory
+        owner: "{{ pulp_user }}"
+        group: "{{ pulp_group }}"
+        mode: 0700
+
     # If so, owner will be apache
     - name: Check if we have Pulp 2 installed
       stat:
