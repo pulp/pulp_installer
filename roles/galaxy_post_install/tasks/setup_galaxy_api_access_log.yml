@@ -10,37 +10,18 @@
     tags:
       - molecule-idempotence-notest
 
-  - name: Verify /etc/default/pulpcore-api exists
-    stat:
-      path: /etc/default/pulpcore-api
-    register: stat_result
-
-  - name: Create /etc/default/pulpcore-api
-    file:
-      path: /etc/default/pulpcore-api
-      state: touch
-      owner: '{{ pulp_user }}'
-      group: '{{ pulp_group }}'
-      mode: "u+rw"
-    when: not stat_result.stat.exists
-
-  - name: Verify /etc/default/pulpcore-api exists
-    stat:
-      path: /etc/default/pulpcore-api
-    register: stat_result2
-
   - name: Populate service facts
     service_facts:
 
   - name: Set environment variable for Galaxy api access logging
     lineinfile:
       path: /etc/default/pulpcore-api
+      regexp: '^GALAXY_ENABLE_API_ACCESS_LOG='
       line: GALAXY_ENABLE_API_ACCESS_LOG={{ pulp_settings['galaxy_enable_api_access_log'] | default(False) }}
-      insertafter: EOF
-      state: present
+      create: True
+      owner: '{{ pulp_user }}'
+      group: '{{ pulp_group }}'
+      mode: "u+rw"
     notify: Restart pulpcore-api.service post galaxy
-    failed_when: not stat_result2.stat.exists
-    when:
-      - stat_result2.stat.exists
 
   become: true

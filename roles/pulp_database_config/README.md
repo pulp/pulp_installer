@@ -31,9 +31,17 @@ variables which are documented in that role:
 * `pulp_django_admin_paths`
 * `pulp_settings_file`
 * `pulp_user`
+* `pulp_user_home`
 * `pulp_certs_dir`: Path where to generate or drop the keys for authentication token and database fields. Defaults to
   '{{ pulp_config_dir }}/certs' .
 * `pulp_config_dir`
+* `pulp_scripts_dir`: The collection signing service script must exist under this directory
+  with the filename `collection_sign.sh` when `galaxy_create_default_collection_signing_service==true`.
+
+This role **is tightly coupled** with the required the `galaxy_post_install` role (which is called
+by pulp_common when galaxy-ng is an installed plugin) and uses some of variables which are
+documented in that role:
+*  `galaxy_create_default_collection_signing_service` Defaults to `false`.
 
 This role understands how to talk to the database server via `pulp_settings_file`,
 which is written to disk in the `pulp_common` role, and whose relevant

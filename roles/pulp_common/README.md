@@ -61,6 +61,12 @@ Role Variables
   dependencies. Defaults to "/usr/local/lib/pulp".
 * `pulp_user_home`: absolute path for pulp user home.
 * `pulp_media_root`: `MEDIA_ROOT` for `pulpcore`. Defaults to "/var/lib/pulp/media".
+* `pulp_certs_dir`: Path where to generate or drop the TLS certificates (see pulp_webserver role) &
+  keys for authentication tokens (see pulp_api role.) Also to where the user-provided gpg key for
+  the galaxy-ng collection signing service is placed (see galaxy_post_install role.) Defaults to
+  '{{ pulp_config_dir }}/certs' .
+* `pulp_scripts_dir`: Path to where user-provided scripts (needed by specific plugins) are located.
+  (see galaxy_post_install role.) Defaults to '{{ pulp_user_home }}/scripts'.
 * `pulp_source_dir`: Optional. Absolute path to pulpcore source code. If
   present, pulpcore will be installed from source in editable mode. Also accepts
   a pip VCS URL, to (for example) install the main branch.
@@ -100,9 +106,6 @@ Role Variables
     `(http|https)://(hostname|ip)[:port]`.
   * `pulp_settings.secret_key`: **Required**. Pulp's Django application `SECRET_KEY`.
 
-* `pulp_certs_dir`: Path where to generate or drop the TLS certificates & keys for authentication
-  tokens. Not used directly by pulp_common, but by roles that depend on it. Defaults to
-  '{{ pulp_config_dir }}/certs' .
 * `pulpcore_update`: Boolean that specifies whether the pulpcore package should be updated to the
   latest bug fix release within the minor release specified by `pulpcore_version`. Defaults
   to `false`.

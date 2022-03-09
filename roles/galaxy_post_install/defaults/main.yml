@@ -1,2 +1,3 @@
 ---
 galaxy_importer_settings: {}
+galaxy_create_default_collection_signing_service: false

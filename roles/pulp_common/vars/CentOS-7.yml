@@ -19,3 +19,5 @@ pulp_preq_packages:
 pulp_python_interpreter: '/opt/rh/rh-python38/root/usr/bin/python3.8'
 pulp_python_cryptography:
   - python2-cryptography
+# Used by galaxy_post_install, which doesn't have per-distro vars yet
+__pulp_gpg_inspect_command: "gpg --with-fingerprint"

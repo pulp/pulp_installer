@@ -20,6 +20,7 @@ pulp_group: pulp
 pulp_group_id:
 pulp_user_home: '/var/lib/pulp'
 pulp_media_root: '/var/lib/pulp/media'
+pulp_scripts_dir: '{{ pulp_user_home }}/scripts'
 pulp_pip_editable: yes
 pulp_use_system_wide_pkgs: false
 pulpcore_update: false

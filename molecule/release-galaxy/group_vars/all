@@ -16,3 +16,6 @@ pulp_settings:
   pulp_token_auth_disabled: "True"
   galaxy_api_default_distribution_base_path: "published"
   rh_entitlement_required: insights
+  # Enable these 2 settings once galax-ng 4.5 is out.
+  # galaxy_auto_sign_collections: true
+# galaxy_create_default_collection_signing_service: true
