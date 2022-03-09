@@ -9,3 +9,5 @@ ansible_python_interpreter: auto
 __pulp_database_config_run_once: true
 
 pulp_db_fields_key: ''
+
+galaxy_create_default_collection_signing_service: false

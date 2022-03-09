@@ -166,6 +166,14 @@
         group: '{{ pulp_group }}'
         mode: "u+rwx,g+rwx,o+rx"
 
+    - name: Create scripts directory to hold user-provided scripts
+      file:
+        path: "{{ pulp_scripts_dir }}"
+        state: directory
+        owner: "{{ pulp_user }}"
+        group: "{{ pulp_group }}"
+        mode: "u+rwx,g+rwx,o+rx"
+
     - name: Create cert directory to hold token authentication key
       file:
         path: "{{ pulp_certs_dir }}"

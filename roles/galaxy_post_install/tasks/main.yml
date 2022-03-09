@@ -1,3 +1,7 @@
 ---
 - import_tasks: galaxy_importer.yml
+
 - import_tasks: setup_galaxy_api_access_log.yml
+
+- include_tasks: signing_service.yml
+  when: galaxy_create_default_collection_signing_service

@@ -31,6 +31,7 @@ pulp_settings:
   pulp_token_auth_disabled: "True"
   galaxy_api_default_distribution_base_path: "published"
   rh_entitlement_required: insights
+  galaxy_auto_sign_collections: true
 
 # Galaxy Configuration
 # Set this __galaxy variables according to your needs.
@@ -40,3 +41,4 @@ __galaxy_profile: 'standalone'
 __galaxy_dev_source_path: 'pulpcore:pulp_ansible:pulp_container:galaxy_ng:galaxy-importer'
 # __galaxy_lock_requirements: Set to 0 to avoid pinning of galaxy_ng/setup.py versions
 __galaxy_lock_requirements: '0'
+galaxy_create_default_collection_signing_service: true
