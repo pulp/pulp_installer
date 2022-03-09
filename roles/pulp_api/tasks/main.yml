@@ -35,14 +35,6 @@
       package:
         name: '{{ pulp_python_cryptography }}'
 
-    - name: Create cert directory to hold token authentication key
-      file:
-        path: "{{ pulp_certs_dir }}"
-        state: directory
-        owner: "{{ pulp_user }}"
-        group: "{{ pulp_group }}"
-        mode: 0700
-
   become: true
 
 - import_tasks: generate_token_auth_key.yml

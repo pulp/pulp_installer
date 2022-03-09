@@ -106,6 +106,8 @@ Role Variables
     `(http|https)://(hostname|ip)[:port]`.
   * `pulp_settings.secret_key`: **Required**. Pulp's Django application `SECRET_KEY`.
 
+* `pulp_certs_dir`: Path where to generate or drop the TLS certificates, key for authentication
+  tokens, and the database fields encryption key. Defaults to '{{ pulp_config_dir }}/certs' .
 * `pulpcore_update`: Boolean that specifies whether the pulpcore package should be updated to the
   latest bug fix release within the minor release specified by `pulpcore_version`. Defaults
   to `false`.

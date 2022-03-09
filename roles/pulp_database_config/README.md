@@ -32,8 +32,8 @@ variables which are documented in that role:
 * `pulp_settings_file`
 * `pulp_user`
 * `pulp_user_home`
-* `pulp_certs_dir`: Path where to generate or drop the keys for authentication token and database fields. Defaults to
-  '{{ pulp_config_dir }}/certs' .
+* `pulp_certs_dir`: Path where to generate or drop the keys for database fields encryption.
+   Defaults to '{{ pulp_config_dir }}/certs' .
 * `pulp_config_dir`
 * `pulp_scripts_dir`: The collection signing service script must exist under this directory
   with the filename `collection_sign.sh` when `galaxy_create_default_collection_signing_service==true`.
