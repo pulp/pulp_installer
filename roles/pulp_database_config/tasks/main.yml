@@ -26,15 +26,6 @@
 - name: Flush handlers
   meta: flush_handlers
 
-- name: Create cert directory to hold token authentication key
-  file:
-    path: "{{ pulp_certs_dir }}"
-    state: directory
-    owner: "{{ pulp_user }}"
-    group: "{{ pulp_group }}"
-    mode: 0700
-  become: true
-
 - name: Import Pulp Database Encryption Key
   copy:
     src: "{{ pulp_db_fields_key }}"
