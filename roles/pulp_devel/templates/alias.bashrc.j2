@@ -297,7 +297,7 @@ pazurite(){
         else
             echo 127.0.0.1   pulp-azurite | sudo tee -a /etc/hosts
         fi
-        {{ pulp_python_interpreter | replace('python', 'pip') }} install azure-cli
+        {{ pulp_python_interpreter | replace('python', 'pip') }} install --user azure-cli
         {% if pulp_scheme == "http" %}
         podman run -d -p 10000:10000 --name pulp-azurite mcr.microsoft.com/azure-storage/azurite azurite-blob --blobHost 0.0.0.0
         {% else %}
