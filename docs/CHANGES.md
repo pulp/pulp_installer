@@ -13,6 +13,18 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.15.4-2 (2022-03-11)
+
+Bugfixes
+--------
+
+- Update webserver symlink when needed
+  [#939](https://pulp.plan.io/issues/939)
+
+
+----
+
+
 3.15.4-1 (2022-03-03)
 
 Bugfixes
