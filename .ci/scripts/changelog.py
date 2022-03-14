@@ -65,4 +65,4 @@ with open("docs/CHANGES.md", "w") as f:
     f.write(main_changelog)
 
 if to_add:
-    repo.git.commit("-m", "Update Changelog\n\n[noissue]", "CHANGES.md")
+    repo.git.commit("-m", "Update Changelog\n\n[noissue]", "docs/CHANGES.md")
