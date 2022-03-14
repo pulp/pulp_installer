@@ -269,6 +269,47 @@ Devel
 ----
 
 
+3.15.4 (2022-03-03)
+
+No significant changes.
+
+
+----
+
+
+3.15.3-1 (2022-03-01)
+=====================
+
+Bugfixes
+--------
+
+- Removed extraneous use of become_user: root from devel role.
+  [#844](https://pulp.plan.io/issues/844)
+
+
+Deprecations and Removals
+-------------------------
+
+- CentOS 8 is now EOL, and thus Pulp no longer formally supports it. Pulp now only tests fresh installs with CentOS Stream 8, and with upgrades from CentOS 8 to CentOS Stream 8 (see migration instructions here https://centos.org/centos-stream/).
+  [#860](https://pulp.plan.io/issues/860)
+
+
+----
+
+
+3.15.3 (2022-01-27)
+===================
+
+Bugfixes
+--------
+
+- Fix webservers symlinks
+  [#834](https://github.com/pulp/pulp_installer/issues/834)
+
+
+----
+
+
 3.15.2 (2021-09-02)
 ===================
 
@@ -322,6 +363,48 @@ Deprecations and Removals
   [#9136](https://pulp.plan.io/issues/9136)
 - `pulp_db_fields_key_remote` is no longer available
   [#9200](https://pulp.plan.io/issues/9200)
+
+
+----
+
+
+3.14.10 (2022-01-07)
+
+No significant changes.
+
+
+----
+
+
+3.14.9 (2022-01-07)
+
+No significant changes.
+
+
+----
+
+
+3.14.8 (2021-10-14)
+===================
+
+No significant changes.
+
+
+----
+
+
+3.14.9 (2022-01-07)
+
+No significant changes.
+
+
+----
+
+
+3.14.8 (2021-10-14)
+===================
+
+No significant changes.
 
 
 ----
@@ -661,6 +744,42 @@ Devel
 ----
 
 
+3.11.2 (2021-05-26)
+
+No significant changes.
+
+
+----
+
+
+3.11.1 (2021-04-30)
+===================
+
+
+Bugfixes
+--------
+
+- Only listen IPv6 when it is configured on the managed host
+  [#8536](https://pulp.plan.io/issues/8536)
+
+
+----
+
+
+3.11.1 (2021-04-30)
+===================
+
+
+Bugfixes
+--------
+
+- Only listen IPv6 when it is configured on the managed host
+  [#8536](https://pulp.plan.io/issues/8536)
+
+
+----
+
+
 3.11.0 (2021-03-16)
 ===================
 
@@ -937,6 +1056,63 @@ Misc
 ----
 
 
+3.7.8 (2021-08-25)
+
+No significant changes.
+
+
+----
+
+
+3.7.7-1 (2021-07-30)
+====================
+
+
+Misc
+----
+
+- Adding `requires_ansible` metadata [#8337](https://pulp.plan.io/issues/8337)
+
+
+----
+
+
+3.7.7 (2021-07-28)
+==================
+
+
+Features
+--------
+
+- Add git repo and revision to pulcore and plugin installer.
+  [#6547](https://pulp.plan.io/issues/6547)
+
+
+Bugfixes
+--------
+
+- Fix the "markuppy" `pkg_resources.DistributionNotFound` error on the task
+  `pulp_common : Collect static content`.
+  This occurs when installing from RPM packages on EL8 (ever since EPEL8 released
+  python-tablib-3.0.0-1.el8 on approximately 2021-07-23).
+  [#9166](https://pulp.plan.io/issues/9166)
+- If you upgrade from older pulpcore to pulpcore 3.7 from RPMs, `pulp_common: Collect static content` may fail due to dynaconf being too old (3.0.0rc1 is older than 3.0.0 final). If this happens, you can now workaround it by setting `pulp_pkg_upgrade_all: true` (or upgrading the RPM "python3-dynaconf").
+  [#9181](https://pulp.plan.io/issues/9181)
+
+
+----
+
+
+3.7.6 (2021-04-29)
+==================
+
+
+No significant changes.
+
+
+----
+
+
 3.7.5 (2021-04-12)
 ==================
 
@@ -1064,6 +1240,26 @@ Devel
   [#7456](https://pulp.plan.io/issues/7456)
 - CI: Do not install dnf on CentOS 7. So as to actually test yum (yum 3), like most users use.
   [#7473](https://pulp.plan.io/issues/7473)
+
+
+----
+
+
+3.6.5 (2020-11-11)
+==================
+
+
+This new version of pulp_installer only differs in that it installs the new version 3.6.5.post2 of pulpcore.
+
+
+----
+
+
+3.6.4 (2020-09-23)
+==================
+
+
+No significant changes, and is created as a compatibility release that can install pulpcore 3.6.4.
 
 
 ----
