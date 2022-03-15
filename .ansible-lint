@@ -3,6 +3,8 @@
 # systemctl subcommands that actually manage services.
 skip_list:
   - '303'
+  # Use module shortnames so long as we support Ansible 2.9
+  - 'fqcn-builtins'
 exclude_paths:
   - ./roles/ansible-role-postgresql/
   - ./roles/geerlingguy.postgresql/
