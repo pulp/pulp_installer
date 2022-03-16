@@ -8,8 +8,9 @@ PartOf=pulpcore.service
 After=pulpcore.service
 
 [Service]
-EnvironmentFile=-/etc/default/pulp-workers
-EnvironmentFile=-/etc/default/pulp-workers-%i
+EnvironmentFile=-/etc/default/pulpcore
+EnvironmentFile=-/etc/default/pulpcore-worker
+EnvironmentFile=-/etc/default/pulpcore-worker-%i
 Environment="DJANGO_SETTINGS_MODULE=pulpcore.app.settings"
 Environment="PULP_SETTINGS={{ pulp_settings_file }}"
 Environment="PATH={{ pulp_install_dir }}/bin:{{ default_bin_path }}"
