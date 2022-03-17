@@ -33,6 +33,9 @@
     owner: 'root'
     group: "{{ pulp_group }}"
     mode: 0640
+    serole: _default
+    setype: _default
+    seuser: _default
   notify: Restart all Pulp services
   when: pulp_db_fields_key | length
 

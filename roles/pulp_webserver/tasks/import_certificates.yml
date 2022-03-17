@@ -7,6 +7,9 @@
     group: "{{ pulp_group }}"
     mode: 0600
     remote_src: "{{ pulp_webserver_tls_files_remote }}"
+    serole: _default
+    setype: _default
+    seuser: _default
   notify: reload {{ pulp_webserver_server }}
 
 - name: Import specified TLS private key
@@ -17,4 +20,7 @@
     group: "{{ pulp_group }}"
     mode: 0600
     remote_src: "{{ pulp_webserver_tls_files_remote }}"
+    serole: _default
+    setype: _default
+    seuser: _default
   notify: reload {{ pulp_webserver_server }}

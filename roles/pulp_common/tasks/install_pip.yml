@@ -223,6 +223,7 @@
         SETUPTOOLS_USE_DISTUTILS: stdlib
         PATH: "{{ pulp_path }}"
       notify:
+        - Restore SELinux contexts on Pulp dirs that must exist
         - Collect static content
         - Restart all Pulp services
 
@@ -252,6 +253,7 @@
         SETUPTOOLS_USE_DISTUTILS: stdlib
         PATH: "{{ pulp_path }}"
       notify:
+        - Restore SELinux contexts on Pulp dirs that must exist
         - Collect static content
         - Restart all Pulp services
       # Editable pip installs are always changed, which fails molecule's idempotence test.

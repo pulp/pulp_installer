@@ -58,7 +58,8 @@ __pulp_selinux_label_dirs:
   - "{{ pulp_config_dir }}"
   - "{{ pulp_user_home }}"
 __pulp_selinux_label_dirs_optional:
-  # Depending on the roles applied yet whether or not Pulp is running, these may
-  # not exist, throwing error code 255 when a called command realizes nothing
-  # is present.
+  # Depending on the roles applied yet & whether or not Pulp is running, these
+  # may not exist, throwing error code 255 when a called command realizes
+  # nothing is present.
   - "/var/run/pulpcore*"
+  - "/var/log/galaxy_api_access.log"

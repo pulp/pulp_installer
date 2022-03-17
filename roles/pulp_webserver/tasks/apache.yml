@@ -48,6 +48,9 @@
         path: "{{ pulp_webserver_apache_snippets_dir }}"
         state: directory
         mode: '0755'
+        serole: _default
+        setype: _default
+        seuser: _default
 
     - name: Symlink Apache snippets
       script:

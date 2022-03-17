@@ -157,6 +157,9 @@
         owner: '{{ pulp_user }}'
         group: '{{ pulp_group }}'
         mode: "u+rwx,g+rwx,o+rx"
+        serole: _default
+        setype: _default
+        seuser: _default
 
     - name: Create cache dir for Pulp
       file:
@@ -165,6 +168,9 @@
         owner: '{{ pulp_user }}'
         group: '{{ pulp_group }}'
         mode: "u+rwx,g+rwx,o+rx"
+        serole: _default
+        setype: _default
+        seuser: _default
 
     - name: Create scripts directory to hold user-provided scripts
       file:
@@ -181,6 +187,9 @@
         owner: "{{ pulp_user }}"
         group: "{{ pulp_group }}"
         mode: 0700
+        serole: _default
+        setype: _default
+        seuser: _default
 
     # If so, owner will be apache
     - name: Check if we have Pulp 2 installed

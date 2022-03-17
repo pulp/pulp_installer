@@ -7,7 +7,9 @@
         owner: root
         group: '{{ pulp_group }}'
         mode: 0750
-      notify: Restore SELinux contexts on Pulp dirs that must exist
+        serole: _default
+        setype: _default
+        seuser: _default
 
     - name: Create configuration file for Pulp
       template:
@@ -17,6 +19,9 @@
         group: '{{ pulp_group }}'
         mode: 0640
         force: yes
+        serole: _default
+        setype: _default
+        seuser: _default
       notify: Restart all Pulp services
 
     - name: Create wrapper to call pulpcore-manager
@@ -35,6 +40,9 @@
         owner: root
         group: root
         mode: "0440"
+        serole: _default
+        setype: _default
+        seuser: _default
 
     - name: Include galaxy_ng post install role
       include_role:
