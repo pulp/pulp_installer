@@ -50,6 +50,9 @@
     owner: root
     group: root
     remote_src: "{{ pulp_webserver_tls_files_remote }}"
+    serole: _default
+    setype: _default
+    seuser: _default
   when: pulp_webserver_tls_custom_ca_cert is not mdellweg.filters.empty
   become: true
   notify: update ca trust
@@ -61,6 +64,9 @@
     mode: 0755
     owner: "{{ pulp_user }}"
     group: "{{ pulp_group }}"
+    serole: _default
+    setype: _default
+    seuser: _default
   become: true
   loop:
     - "{{ pulp_webserver_static_dir }}"

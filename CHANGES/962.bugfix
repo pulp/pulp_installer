@@ -1,0 +1,1 @@
+Fix SELinux errors due to labels not being set on multiple files created by the installer.

@@ -5,6 +5,9 @@
     mode: 0600
     owner: "{{ pulp_user }}"
     group: "{{ pulp_group }}"
+    serole: _default
+    setype: _default
+    seuser: _default
   become: true
 
 - name: Set permissions on galaxy signing service script
@@ -59,5 +62,8 @@
     owner: '{{ pulp_user }}'
     group: '{{ pulp_group }}'
     mode: "u+rw"
+    serole: _default
+    setype: _default
+    seuser: _default
   notify: Restart all Pulp services
   become: true

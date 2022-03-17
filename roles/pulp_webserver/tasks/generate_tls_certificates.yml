@@ -17,6 +17,9 @@
     - name: Generate CA key
       openssl_privatekey:
         path: '{{ pulp_certs_dir }}/root.key'
+        serole: _default
+        setype: _default
+        seuser: _default
 
     - name: Generate CA CSR
       openssl_csr:
@@ -26,6 +29,9 @@
         organization_name: Pulp
         country_name: US
         basic_constraints: 'CA:TRUE'
+        serole: _default
+        setype: _default
+        seuser: _default
 
     - name: Generate CA certificate
       x509_certificate:
@@ -33,6 +39,9 @@
         csr_path: '{{ pulp_certs_dir }}/root.csr'
         privatekey_path: '{{ pulp_certs_dir }}/root.key'
         provider: selfsigned
+        serole: _default
+        setype: _default
+        seuser: _default
   when: not __pulp_webserver_ca_cert.stat.exists
 
 - name: Look for webserver certificate
@@ -50,6 +59,9 @@
         path: '{{ pulp_certs_dir }}/pulp_webserver.key'
         owner: root
         group: "{{ pulp_group }}"
+        serole: _default
+        setype: _default
+        seuser: _default
 
     - name: Generate CSRs standalone
       openssl_csr:
@@ -64,6 +76,9 @@
           - serverAuth
         owner: root
         group: "{{ pulp_group }}"
+        serole: _default
+        setype: _default
+        seuser: _default
 
     - name: Generate certificates
       x509_certificate:
@@ -76,6 +91,9 @@
         ownca_not_after: '+824d'
         owner: root
         group: "{{ pulp_group }}"
+        serole: _default
+        setype: _default
+        seuser: _default
       notify: reload {{ pulp_webserver_server }}
   when: not __pulp_webserver_cert.stat.exists
 

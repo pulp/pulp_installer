@@ -48,6 +48,9 @@
         path: "/etc/nginx/pulp/"
         state: directory
         mode: '0755'
+        serole: _default
+        setype: _default
+        seuser: _default
 
     - name: Symlink nginx snippets
       script:

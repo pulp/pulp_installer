@@ -10,11 +10,17 @@
       path: "/etc/galaxy-importer/"
       state: directory
       mode: '0755'
+      serole: _default
+      setype: _default
+      seuser: _default
 
   - name: Write galaxy-importer config
     template:
       src: galaxy-importer.cfg.j2
       dest: /etc/galaxy-importer/galaxy-importer.cfg
       mode: '0644'
+      serole: _default
+      setype: _default
+      seuser: _default
 
   become: true

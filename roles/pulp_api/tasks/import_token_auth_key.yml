@@ -6,5 +6,8 @@
     owner: "{{ pulp_user }}"
     group: "{{ pulp_group }}"
     mode: 0600
+    serole: _default
+    setype: _default
+    seuser: _default
   become: true
   become_user: "{{ pulp_user }}"
