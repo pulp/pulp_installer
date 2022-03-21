@@ -1,16 +1,13 @@
 ---
-- hosts: all
+- hosts: centos-8
   force_handlers: True
   collections:
     - pulp.pulp_installer
   pre_tasks:
-    # The version string below is the highest of all those in roles' metadata:
-    # "min_ansible_version". It needs to be kept manually up-to-date.
-    - name: Verify Ansible meets min required version
-      assert:
-        that: "ansible_version.full is version_compare('2.8', '>=')"
-        msg: >
-          "You must update Ansible to at least 2.8 to use this version of Pulp 3 Installer."
+    - name: Install /usr/sbin/ip so that Ansible can enumerate the NICs
+      dnf:
+        name: iproute
+    - setup:
   tasks:
     - name: Dynamically include individual roles
       include_role:
@@ -18,6 +15,27 @@
       loop:
         - pulp_database
         - pulp_redis
+      loop_control:
+        loop_var: roleinputvar
+  environment:
+    DJANGO_SETTINGS_MODULE: pulpcore.app.settings
+
+- hosts: all
+  force_handlers: True
+  collections:
+    - pulp.pulp_installer
+  # pre_tasks:
+  #   - name: Add IP address of centos-8 to the hosts
+  #     lineinfile:
+  #       dest: /etc/hosts
+  #       regexp: ".*centos-8$"
+  #       line: "{{ hostvars['centos-8']['ansible_eth0']['ipv4']['address'] }} centos-8 "
+  #       state: present
+  tasks:
+    - name: Dynamically include individual roles
+      include_role:
+        name: "{{ roleinputvar }}"
+      loop:
         - pulp_database_config
         - pulp_api
         - pulp_content

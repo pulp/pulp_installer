@@ -47,6 +47,11 @@ jobs:
             python: "2.7"
     steps:
       - uses: actions/checkout@v2.3.1
+      - name: Configure the kernel to allow containers to talk to eachother
+        run: |
+          sudo sysctl net.bridge.bridge-nf-call-iptables=0
+          sudo sysctl net.bridge.bridge-nf-call-arptables=0
+          sudo sysctl net.bridge.bridge-nf-call-ip6tables=0
       - name: Set up Python
         uses: actions/setup-python@v2
         with:

@@ -1,5 +1,4 @@
 ---
-__pulp_database_config_run_once: false
 pulp_default_admin_password: password
 pulp_settings:
   secret_key: secret
