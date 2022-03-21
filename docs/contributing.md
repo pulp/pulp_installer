@@ -118,6 +118,22 @@ There are other (intentional) differences between tests:
 1. The `source-static` scenario defines paths different than the default for the following variables:
    `pulp_media_root`, `pulp_cache_dir`, `pulp_user_home`, `pulp_install_dir`, `pulp_config_dir` and
    `developer_user_home`.
+1. The `release-dynamic` scenario has a partial cluster design. All the hosts access pulp_database
+   and pulp_redis off of the centos-8 node.
+
+In order for release-dynamic to work on your local system, you must do the following to enable
+container networking:
+1. Run `firewall-cmd --zone=public --add-masquerade --permanent` (assuming your firewall zone is
+   `public`).
+1. Run
+   `firewall-cmd --permanent --zone=public --add-rich-rule='rule family=ipv4 source address=172.27.0.0/16 accept'`
+   (assuming your firewall zone is `public`).
+1. Create /etc/sysctl.d/10-allow_docker_networking.conf with and reboot:
+```
+net.bridge.bridge-nf-call-iptables=0
+net.bridge.bridge-nf-call-arptables=0
+net.bridge.bridge-nf-call-ip6tables=0
+```
 
 To test both webserver solutions we testing `apache` as webserver with
 
