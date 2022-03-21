@@ -118,6 +118,7 @@
     __pulp_repos_rhel_codeready_enable_default: True
     __pulp_repos_rhel_optional_enable_default: True
     __pulp_rhel_pulpcore_repo_enable_default: True
+    __pulp_rhel_scl_repo_enable_default: True
 
 - import_tasks: install.yml
 - import_tasks: configure.yml

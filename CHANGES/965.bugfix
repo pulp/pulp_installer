@@ -1,0 +1,1 @@
+Fix pulp_installer failing on `pulp_common: Install prerequisites` on EL7 when pulp_database was not applied.
