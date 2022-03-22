@@ -1,6 +1,56 @@
 ---
 # tasks file for pulp_api
 
+- name: Ensure python-cryptography is installed
+  package:
+    name: '{{ pulp_python_cryptography }}'
+  become: true
+
+- name: Create cert directory to hold token authentication key
+  file:
+    path: "{{ pulp_certs_dir }}"
+    state: directory
+    owner: "{{ pulp_user }}"
+    group: "{{ pulp_group }}"
+    mode: 0700
+  become: true
+
+- import_tasks: generate_token_auth_key.yml
+  when: pulp_token_auth_key is undefined
+
+- import_tasks: import_token_auth_key.yml
+  when: pulp_token_auth_key is defined
+
+- name: Extract token authentication public key
+  openssl_publickey:
+    path: "{{ pulp_certs_dir }}/token_public_key.pem"
+    privatekey_path: "{{ pulp_certs_dir }}/token_private_key.pem"
+    owner: "{{ pulp_user }}"
+    group: "{{ pulp_group }}"
+  become: true
+  become_user: "{{ pulp_user }}"
+  when:
+    - (ansible_version.major > 2) or (ansible_version.major == 2 and ansible_version.minor >= 9)
+
+- name: Get the database fields key from the pulp_database_config node
+  command: "cat {{ __pulp_db_fields_key_path }}"
+  delegate_to: "{{ hostvars['localhost']['pulp_database_config_host'] | default(inventory_hostname) }}"
+  run_once: "{{ __pulp_run_once }}"
+  register: pulp_db_fields_key_content
+  changed_when: false
+  check_mode: false
+  become: true
+
+- name: Copy Pulp Database Encryption Key from pulp_database_config node
+  copy:
+    content: "{{ pulp_db_fields_key_content.stdout }}"
+    dest: "{{ __pulp_db_fields_key_path }}"
+    owner: 'root'
+    group: "{{ pulp_group }}"
+    mode: 0640
+    backup: true
+  become: true
+
 - name: Non-key-related pulp-api install tasks
   block:
 
@@ -31,50 +81,4 @@
         enabled: true
         daemon_reload: true
 
-    - name: Ensure python-cryptography is installed
-      package:
-        name: '{{ pulp_python_cryptography }}'
-
-    - name: Create cert directory to hold token authentication key
-      file:
-        path: "{{ pulp_certs_dir }}"
-        state: directory
-        owner: "{{ pulp_user }}"
-        group: "{{ pulp_group }}"
-        mode: 0700
-
-  become: true
-
-- import_tasks: generate_token_auth_key.yml
-  when: pulp_token_auth_key is undefined
-
-- import_tasks: import_token_auth_key.yml
-  when: pulp_token_auth_key is defined
-
-- name: Extract token authentication public key
-  openssl_publickey:
-    path: "{{ pulp_certs_dir }}/token_public_key.pem"
-    privatekey_path: "{{ pulp_certs_dir }}/token_private_key.pem"
-    owner: "{{ pulp_user }}"
-    group: "{{ pulp_group }}"
-  become: true
-  become_user: "{{ pulp_user }}"
-  when:
-    - (ansible_version.major > 2) or (ansible_version.major == 2 and ansible_version.minor >= 9)
-
-- name: Get the database fields key from the pulp_database_config node
-  command: "cat {{ __pulp_db_fields_key_path }}"
-  delegate_to: "{{ __pulp_real_sole_database_config_host }}"
-  register: pulp_db_fields_key_content
-  changed_when: false
-  check_mode: false
-  become: true
-
-- name: Copy Pulp Database Encryption Key from pulp_database_config node
-  copy:
-    content: "{{ pulp_db_fields_key_content.stdout }}"
-    dest: "{{ __pulp_db_fields_key_path }}"
-    owner: 'root'
-    group: "{{ pulp_group }}"
-    mode: 0640
   become: true
