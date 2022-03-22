@@ -24,6 +24,8 @@ pulp_install_plugins:
   #   source_dir: "/var/lib/pulp/devel/pulp_maven"
   # pulp-npm:
   #   source_dir: "/var/lib/pulp/devel/pulp_npm"
+  # pulp-ostree:
+  #   source_dir: "/var/lib/pulp/devel/pulp_ostree"
   # pulp-python:
   #   source_dir: "/var/lib/pulp/devel/pulp_python"
   # pulp-rpm:
