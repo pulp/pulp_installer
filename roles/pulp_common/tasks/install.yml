@@ -2,13 +2,6 @@
 - name: General system changes before installation
   block:
 
-    - name: Update apt package index
-      apt:
-        update_cache: yes
-      when: ansible_facts.distribution == 'Debian'
-      # This is a lie, but necessary for Idempotence test
-      changed_when: False
-
     - name: Enable Python 3.8 module stream
       command: dnf -y module enable python38
       args:

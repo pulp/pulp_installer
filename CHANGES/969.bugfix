@@ -1,0 +1,1 @@
+Fix `pulp_common : Gather package facts` failing with a message like "no package manager found" when running pulp_common (e.g., pulp_api) against a minimal debian system.
