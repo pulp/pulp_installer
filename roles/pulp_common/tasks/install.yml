@@ -35,7 +35,7 @@
 
     - name: Get PATH
       shell: |
-        {% if 'rh-postgresql10' in ansible_facts.packages %}
+        {% if 'rh-postgresql10-runtime' in ansible_facts.packages %}
           source /opt/rh/rh-postgresql10/enable
         {% endif %}
         env | grep -E '^PATH=' | sed 's/PATH=//g'
@@ -51,7 +51,7 @@
 
     - name: Get LD_LIBRARY_PATH
       shell: |
-        {% if 'rh-postgresql10' in ansible_facts.packages %}
+        {% if 'rh-postgresql10-runtime' in ansible_facts.packages %}
           source /opt/rh/rh-postgresql10/enable
         {% endif %}
         env | grep -E '^LD_LIBRARY_PATH=' | sed 's/LD_LIBRARY_PATH=//g'
