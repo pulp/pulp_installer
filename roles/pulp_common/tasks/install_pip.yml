@@ -199,6 +199,14 @@
     - compatibility.rc is defined
     - compatibility.rc != 0
 
+- name: Install prereq packages for Ostree plugin
+  package:
+    name: '{{ pulp_ostree_prereq_packages }}'
+    state: present
+  become: yes
+  when:
+    - pulp_install_plugins_normalized['pulp-ostree'] is defined
+
 - name: Install Pulp via Pip
   block:
 

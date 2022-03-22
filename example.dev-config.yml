@@ -27,6 +27,8 @@ pulp_install_plugins:
   #   source_dir: "/home/vagrant/devel/pulp_maven"
   # pulp-npm:
   #   source_dir: "/home/vagrant/devel/pulp_npm"
+  # pulp-ostree:
+  #   source_dir: "/home/vagrant/devel/pulp_ostree"
   # pulp-python:
   #   source_dir: "/home/vagrant/devel/pulp_python"
   # pulp-rpm:

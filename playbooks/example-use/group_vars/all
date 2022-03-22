@@ -12,6 +12,7 @@ pulp_install_plugins:
   # pulp-gem: {}
   # pulp-maven: {}
   # pulp-npm: {}
+  # pulp-ostree: {}
   # pulp-python: {}
   # pulp-rpm: {}
 pulp_settings:

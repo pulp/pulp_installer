@@ -24,6 +24,13 @@ pulp_scripts_dir: '{{ pulp_user_home }}/scripts'
 pulp_pip_editable: yes
 pulp_use_system_wide_pkgs: false
 pulpcore_update: false
+pulp_ostree_prereq_packages:
+  - cairo-devel
+  - cairo-gobject-devel
+  - gobject-introspection-devel
+  - ostree
+  - ostree-libs
+  - python3-gobject
 prereq_pip_packages:
   - Jinja2
   - pygments
