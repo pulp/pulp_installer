@@ -1,4 +1,5 @@
 ---
 # defaults file for pulp_api
+__pulp_db_fields_key_path: '{{ pulp_certs_dir }}/database_fields.symmetric.key'
 pulp_api_bind: '127.0.0.1:24817'
 pulp_api_workers: 1
