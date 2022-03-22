@@ -74,3 +74,8 @@ __pulp_selinux_label_dirs_optional:
 __pulp_binaries:
   - "{{ pulp_install_dir }}/bin/gunicorn"
   - "{{ pulp_install_dir }}/bin/pulpcore-worker"
+
+# Limit running certain tasks to only 1 node in a cluster deployment.
+# Should only ever be set to false for molecule, where one ansible play
+# configures several independent pulp servers.
+__pulp_run_once: true
