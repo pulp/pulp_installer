@@ -107,6 +107,40 @@
       when: item.rc != 0
       with_items: "{{ test_results.results }}"
 
+    - name: Obtain 1 node's database fields encryption key
+      slurp:
+        src: "{{ pulp_config_dir | default('/etc/pulp') }}/certs/database_fields.symmetric.key"
+      run_once: true
+      delegate_to: "{{ groups['all'][0] }}"
+      register: primary_db_key
+
+    - debug:
+        var: primary_db_key
+
+    - name: Obtain the other nodes' database fields encryption keys
+      slurp:
+        src: "{{ pulp_config_dir | default('/etc/pulp') }}/certs/database_fields.symmetric.key"
+      register: db_key
+
+    - debug:
+        var: db_key
+
+    - name: Verify that the other nodes' database fields encryption keys are the same
+      assert:
+        that:
+          - primary_db_key.content == db_key.content
+      when:
+        - inventory_hostname != groups['all'][0]
+        - __pulp_run_once
+
+    - name: Verify that the other nodes' database fields encryption keys differ
+      assert:
+        that:
+          - primary_db_key.content != db_key.content
+      when:
+        - inventory_hostname != groups['all'][0]
+        - not __pulp_run_once
+
     - name: Install dependency for RAM usage check (RedHat)
       yum:
         name: procps-ng

@@ -1,5 +1,5 @@
 ---
-__pulp_database_config_run_once: true
+__pulp_run_once: true
 pulp_configure_firewall: none
 pulp_default_admin_password: password
 pulp_install_plugins:

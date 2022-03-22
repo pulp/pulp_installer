@@ -1,7 +1,169 @@
 ---
-- name: Set config fact
+
+# We have an eleborate system of several tasks designed to ensure that
+# hostvars['localhost']['pulp_database_config_host'] gets set
+# properly. It will desginate which host almost all of the role (and some tasks
+# in other roles) run under. In particularly, the task to generate the key,
+# or to copy the key from.
+#
+# It is based on these limitations/assumptions:
+# 1. pulp_database_config could be applied to say 3 hosts out of 5, but one
+# still needs to be the sole host to actually run this role.
+# 2. set_fact only sets *host* variables
+# 3. run_once with register creates a "play variable", which is not the same as
+# a "global variable" because it does not carry over into future plays.
+# 4. If we want to make a variable truly global, the best way to do it is to
+# put it on localhost. Then access hostvars['localhost']['var_name']
+# (This is better than creating a dummy host with set_host, which would affect
+# inventory variables such as groups['all'] and whenever we gather facts.
+# 5. We can access all hosts in the ansible "playbook run" via groups['all'].
+# This means all "plays", not just the current play (ansible_play_hosts).
+#
+# We have 9 scenarios for this eleborate system:
+# 1. The key does not exist yet at all - 1 host gets chosen.
+# Also, the key gets copied to the others in later roles.
+# 2. The key already exists on say 3 out of 5 hosts - the key is copied to
+# the others in later roles. (Like if a user expands their cluster by re-running
+# pulp_installer.)
+# 3. CI sets __pulp_run_once=false, for 1 play against several independent
+# hosts - each host generates their own unique keys, and runs the otherwise
+# uniquely run tasks. (Used by most molecule tests.)
+# 4. User sets pulp_database_config_host - gets exported to the global variable.
+# Then same as #1 or #2.
+# 5. The user accidentally runs pulp_database_config a 2nd time in their playbook
+# run - the global pulp_database_config_host has already been set the
+# 1st time, so it will not be overriden. The prior designated host is used
+# to re-run it.
+# 6. The existing keys are not identical - the key from 1 random host,
+# or the host specified in pulp_database_config_host, gets copied to the others
+# in later roles. Users will have to re-enter the passwords at runtime if they
+# were encrypted using a different key.
+# 7. The user runs pulp_database_config against hosts that lack the key, but
+# other hosts already have it - error and exit.
+# 8. The user sets pulp_database_config_host to a host that lacks the key,
+# but other hosts already have it - error and exit.
+# 9. The user sets pulp_db_fields_key - 1 host gets chosen.
+#
+# Users can override it by setting a global variable.
+
+
+- name: Set the sole host to run pulp_database_config if pulp_database_config_host is set as a play variable
   set_fact:
-    __pulp_real_sole_database_config_host: "{{ inventory_hostname }}"
+    pulp_database_config_host: "{{ pulp_database_config_host }}"
+  delegate_to: localhost
+  delegate_facts: true
+  run_once: true
+  when:
+    - hostvars['localhost']['pulp_database_config_host'] is not defined
+    - pulp_database_config_host is defined
+
+- name: Set the sole host to run pulp_database_config if any host has pulp_database_config_host set as a play variable
+  set_fact:
+    pulp_database_config_host: "{{ hostvars[item]['pulp_database_config_host'] }}"
+  with_items: "{{ groups['all'] }}"
+  delegate_to: localhost
+  delegate_facts: true
+  run_once: true
+  when:
+    - hostvars['localhost']['pulp_database_config_host'] is not defined
+    - hostvars[item]['pulp_database_config_host'] is defined
+
+- name: Pick & set the correct host to run pulp_database_config based on existing keys
+  block:
+
+    - name: Identify the hosts that currently have pulp_database_config applied to them
+      debug:
+        var: inventory_hostname
+      register: __pulp_database_config_host_temp
+      when:
+        - hostvars['localhost']['pulp_database_config_host'] is not defined
+
+    - name: Set a list of hosts that currently have pulp_database_config applied to them
+      set_fact:
+        # We do not use json_query because it requires jmespath on the control
+        # node. We should not introduce an addtl control node dependency
+        # unless there is a very compelling reason.
+        # __pulp_database_config_hosts: "{{ hostvars|json_query('*.__pulp_database_config_host_temp.inventory_hostname') }}"
+        __pulp_database_config_hosts: "{{ groups['all'] | map('extract', hostvars, '__pulp_database_config_host_temp') | select('defined') | list | map(attribute='inventory_hostname') | list }}"
+      delegate_to: localhost
+      delegate_facts: true
+      run_once: true
+      when:
+        - hostvars['localhost']['pulp_database_config_host'] is not defined
+
+    # This task must be run against all hosts, not just those running pulp_database_config.
+    # However, running it against all hosts produces a massive data structure where
+    # __pulp_db_fields_key_path.results has a list of dictionaries, with elements
+    # "item" (the inventory_hostname) and "stat".
+    - name: Check if any hosts already have the database fields encryption key
+      stat:
+        path: "{{ __pulp_db_fields_key_path }}"
+      register: __pulp_db_fields_key_stat
+      delegate_to: "{{ item }}"
+      with_items: "{{ groups['all'] }}"
+      become: true
+
+    - name: Fail if some hosts in the play have the key, but pulp_database_config_host does not
+      assert:
+        that: >
+          (__pulp_db_fields_key_stat.results | selectattr('stat.exists', 'equalto', true) | count == 0) or
+          (__pulp_db_fields_key_stat.results | selectattr('item', 'equalto', hostvars['localhost']['pulp_database_config_host']) | map(attribute='stat.exists'))
+        fail_msg: >
+          pulp_installer cannot continue because the host you have specified to run it
+          (`pulp_database_config_host=={{ hostvars['localhost']['pulp_database_config_host'] }}`)
+          does not have the database fields encryption key ({{ __pulp_db_fields_key_path }})
+          but some other hosts in the ansible playbook run
+          ({{ groups['all'] | difference(hostvars['localhost']['pulp_database_config_host']) }}) do.
+          Run pulp_database_config(or pulp_services, or pulp_all_services) against a host that does
+          have the key without setting `pulp_database_config_host`, or set
+          `pulp_database_config_host` to a host that has the key.
+      when:
+        - hostvars['localhost']['pulp_database_config_host'] is defined
+
+    - name: Pick & set the sole host used to run pulp_database_config, if any hosts have the key
+      set_fact:
+        pulp_database_config_host: "{{ item.item }}"
+      run_once: True
+      delegate_to: localhost
+      delegate_facts: yes
+      with_items: "{{ __pulp_db_fields_key_stat.results }}"
+      # We break the loop if the variable is already set, from this loop or by the user.
+      # We only set the variable if its a host where they exists.
+      when:
+        - hostvars['localhost']['pulp_database_config_host'] is not defined
+        - item.item in hostvars['localhost']['__pulp_database_config_hosts']
+        - item.stat.exists
+
+    - name: Fail if some hosts in the play have the key, but no hosts running pulp_database_config do
+      assert:
+        that: >
+          (__pulp_db_fields_key_stat.results | selectattr('stat.exists', 'equalto', True) | list | count == 0) or
+          (__pulp_db_fields_key_stat.results | selectattr('stat.exists', 'equalto', True) | list | selectattr('item', 'in', hostvars['localhost']['__pulp_database_config_hosts']) | list | count >= 1)
+        fail_msg: >
+          pulp_installer cannot continue because none of the hosts you are running
+          pulp_database_config (or pulp_services, or pulp_all_services) against have the
+          database fields encryption key ({{ __pulp_db_fields_key_path }}) but some other hosts
+          in the ansible playbook run
+          ({{ groups['all'] | difference(hostvars['localhost']['__pulp_database_config_hosts']) }}) do.
+          Run pulp_database_config against a host that does already have the key, or set
+          `pulp_database_config_host` to a host that has the key (which is an
+          alternative way to specify which host pulp_database_config runs against.)
+      when:
+        - hostvars['localhost']['pulp_database_config_host'] is not defined
+
+  when:
+    - __pulp_run_once
+    - not pulp_db_fields_key | length
+
+- name: Pick & set the sole host to run pulp_database_config if no host has the key, or if the key is to be imported
+  set_fact:
+    pulp_database_config_host: "{{ inventory_hostname }}"
+  run_once: true
+  delegate_to: localhost
+  delegate_facts: yes
+  when:
+    - __pulp_run_once
+    - hostvars['localhost']['pulp_database_config_host'] is not defined
 
 - name: Check if required variables are set
   assert:
@@ -22,6 +184,8 @@
     - pulp_default_admin_password
   loop_control:
     loop_var: __pulp_database_config_req_variable
+  run_once: "{{ __pulp_run_once }}"
+  delegate_to: "{{ hostvars['localhost']['pulp_database_config_host'] | default(inventory_hostname) }}"
 
 - name: Import Pulp Database Encryption Key
   copy:
@@ -33,14 +197,20 @@
     serole: _default
     setype: _default
     seuser: _default
+    backup: true
+  run_once: "{{ __pulp_run_once }}"
+  delegate_to: "{{ hostvars['localhost']['pulp_database_config_host'] | default(inventory_hostname) }}"
   notify: Restart all Pulp services
   when: pulp_db_fields_key | length
 
 - import_tasks: generate_database_fields_key.yml
+  run_once: "{{ __pulp_run_once }}"
+  delegate_to: "{{ hostvars['localhost']['pulp_database_config_host'] | default(inventory_hostname) }}"
   when:
     - not pulp_db_fields_key | length
 
-- block:
+- name: Run database migrations and manage the admin account
+  block:
     - name: Run database migrations
       command: '{{ pulp_django_admin_path }} migrate --no-input'
       register: result
@@ -59,7 +229,8 @@
       no_log: true
       when: (__pulp_database_config_admin_account_exists.stdout == "False" ) | default(false)
 
-  run_once: "{{ __pulp_database_config_run_once }}"
+  run_once: "{{ __pulp_run_once }}"
+  delegate_to: "{{ hostvars['localhost']['pulp_database_config_host'] | default(inventory_hostname) }}"
   become: true
   become_user: '{{ pulp_user }}'
   environment:
@@ -78,7 +249,8 @@
     {{ pulp_django_admin_path }} add-signing-service
     {{ __pulp_common_merged_pulp_settings.galaxy_collection_signing_service }}
     {{ pulp_scripts_dir }}/collection_sign.sh {{ galaxy_signing_key.stdout }}
-  run_once: "{{ __pulp_database_config_run_once }}"
+  run_once: "{{ __pulp_run_once }}"
+  delegate_to: "{{ hostvars['localhost']['pulp_database_config_host'] | default(inventory_hostname) }}"
   environment:
     PULP_SETTINGS: "{{ pulp_settings_file }}"
     LD_LIBRARY_PATH: "{{ pulp_ld_library_path }}"
