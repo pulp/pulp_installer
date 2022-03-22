@@ -65,6 +65,16 @@
     - ansible_facts.distribution == 'CentOS'
     - ansible_facts.distribution_version|float < 7.7
 
+# This has to be before we Gather package facts so that ansible's apt module
+# can install python3-apt.
+# Otherwise, gathering facts will fail if this is the 1st role run.
+- name: Update apt package index
+  apt:
+    update_cache: yes
+  when: ansible_facts.distribution == 'Debian'
+  # This is a lie, but necessary for Idempotence test
+  changed_when: False
+
 - name: Gather package facts
   package_facts:
     manager: "auto"
