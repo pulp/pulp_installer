@@ -15,8 +15,20 @@ Role Variables
   during initial install, not upgrades/updates or re-running the installer for any other
   reason. **Required**.
 * `pulp_db_fields_key`: Relative or absolute path to the Fernet symmetric encryption key
-   one wants to import. It is used to encrypt certain fields in the database (such as credentials.)
+   one wants to import. The path is on the Ansible management node.
+   It is used to encrypt certain fields in the database (such as credentials.)
    If not specified, a new key will be generated. (Only generated if one doesn't exist.)
+
+Role Variables for advanced usage
+---------------------------------
+
+* `pulp_database_config_host`: pulp_database_config is designed to be run against only 1
+  host. In the event that it is accidentally run against multiple hosts, this is the only
+  host that will run pulp_database_config's tasks that actually modify the state of the
+  host/application. Its database fields encryption key will be copied to all the other
+  hosts in later roles. If not specified, a host is randomly picked from suitable hosts
+  (hosts that already have the database fields encryption key.) If specified, it must
+  match the host's name in the Ansible inventory exactly.
 
 Shared Variables
 ----------------
@@ -48,3 +60,18 @@ which is written to disk in the `pulp_common` role, and whose relevant
 values are set via the following variables:
 
 * `pulp_settings_db_defaults`: See pulp_database README.
+
+Limitations
+-----------
+* pulp_database_config is designed to be run against only 1 host.
+
+If it is accidentally run against multiple hosts (which will happen if
+pulp_services is run against multiple hosts), 1 host will be picked to
+actually run the tasks in pulp_database_config.
+
+* pulp_database_config must be run against an existing host in a cluster if the
+cluster is being expanded with this ansible playbook run.
+
+For example, if you run pulp_database_config against host1 and host2, and you
+later re-run pulp_installer to add host3 to the cluster, then either host1
+or host2 must have pulp_database_config run against it.
