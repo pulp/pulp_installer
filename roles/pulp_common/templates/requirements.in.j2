@@ -15,3 +15,7 @@ pulpcore=={{ __pulp_version }}
 {% endif %}
 
 {%- endfor %}
+
+{% for package in prereq_pip_packages %}
+{{ package }}
+{% endfor %}
