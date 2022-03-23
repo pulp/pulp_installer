@@ -5,6 +5,10 @@
   tasks:
     - set_fact:
         pulpcore_version: "3.14.5"
+        prereq_pip_packages:
+          - Jinja2
+          - pygments
+          - redis==4.1.4  # Needed to avoid a pulpcore 3.14 version conflict for dependency async-timeout
     - set_fact:
         pulp_install_plugins:
           pulp_file:
