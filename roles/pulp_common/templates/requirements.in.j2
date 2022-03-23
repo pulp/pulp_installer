@@ -21,3 +21,7 @@ git+{{ value['git_url']}}{{ value['git_revision'] | ternary('@', '') }}{{ value[
 {% endif %}
 
 {%- endfor %}
+
+{% for package in prereq_pip_packages %}
+{{ package }}
+{% endfor %}
