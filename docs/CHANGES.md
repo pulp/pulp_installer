@@ -13,6 +13,45 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.18.2 (2022-03-23)
+
+Features
+--------
+
+- Update packages mode to install the 3.17 RPMs instead of 3.16.
+  [#920](https://github.com/pulp/pulp_installer/issues/920)
+- Implement the galaxy collection signing service. Introduces new variables `galaxy_create_default_collection_signing_service` and `pulp_settings.galaxy_collection_signing_service`.
+  [#951](https://github.com/pulp/pulp_installer/issues/951)
+- The Pulp services now accept environment variable overrides via /etc/default/pulpcore (all services, lowest priority), /etc/default/pulpcore-api, /etc/default/pulpcore-content, /etc/default/pulpcore-worker and /etc/default/pulpcore-worker-%i (the number of the worker service instance, highest priority.) /etc/default/pulp-workers and /etc/default/pulp-workers-%i no longer function.
+  [#961](https://github.com/pulp/pulp_installer/issues/961)
+- Add OSTree dependencies
+  [#967](https://github.com/pulp/pulp_installer/issues/967)
+
+
+Bugfixes
+--------
+
+- Enable EPEL for Redis role when needed.
+  [#894](https://github.com/pulp/pulp_installer/issues/894)
+- Update webserver symlink when needed
+  [#939](https://github.com/pulp/pulp_installer/issues/939)
+- Ensure certs directory is created
+  [#941](https://github.com/pulp/pulp_installer/issues/941)
+- Cleanup duplicate code to create /etc/pulp/certs
+  [#944](https://github.com/pulp/pulp_installer/issues/944)
+- Fix SELinux errors due to labels not being set on multiple files created by the installer.
+  [#962](https://github.com/pulp/pulp_installer/issues/962)
+- Fix pulp_installer failing on `pulp_common: Install prerequisites` on EL7 when pulp_database was not applied.
+  [#965](https://github.com/pulp/pulp_installer/issues/965)
+- Fix `pulp_common : Gather package facts` failing with a message like "no package manager found" when running pulp_common (e.g., pulp_api) against a minimal debian system.
+  [#969](https://github.com/pulp/pulp_installer/issues/969)
+- Fix `pulp_common Run pip-compile to check pulpcore/plugin compatibility` failing on EL7 when pulp_database is not run before pulp_common (e,g, pulp_api) is run.
+  [#973](https://github.com/pulp/pulp_installer/issues/973)
+
+
+----
+
+
 3.18.1 (2022-02-28)
 
 Features
