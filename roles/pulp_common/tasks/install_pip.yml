@@ -182,6 +182,14 @@
   when:
     - item.value.prereq_role is defined
 
+- name: Install prereq packages for Ostree plugin
+  package:
+    name: '{{ pulp_ostree_prereq_packages }}'
+    state: present
+  become: yes
+  when:
+    - pulp_install_plugins_normalized['pulp-ostree'] is defined
+
 # No loop over pulp_install_plugins_normalized; let's run this only once.
 # Also, this time it must succeed, a return code of 0.
 - name: Re-run preflight check after plugin prereq roles (if needed)
@@ -198,14 +206,6 @@
     - compatibility is defined
     - compatibility.rc is defined
     - compatibility.rc != 0
-
-- name: Install prereq packages for Ostree plugin
-  package:
-    name: '{{ pulp_ostree_prereq_packages }}'
-    state: present
-  become: yes
-  when:
-    - pulp_install_plugins_normalized['pulp-ostree'] is defined
 
 - name: Install Pulp via Pip
   block:
