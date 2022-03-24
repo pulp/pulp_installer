@@ -43,12 +43,14 @@
           file:
             path: '{{ pulp_install_plugins["galaxy-ng"]["source_dir"] }}/galaxy_ng/app/static/galaxy_ng'
             state: directory
+            mode: "u+rwx,g+rx,o+rx"
 
         - name: Copying Ansible Hub UI to galaxy_ng static dir  # noqa risky-file-permissions
           copy:
             src: '{{ developer_user_home }}/devel/ansible-hub-ui/dist/'
             dest: '{{ pulp_install_plugins["galaxy-ng"]["source_dir"] }}/galaxy_ng/app/static/galaxy_ng'
             group: '{{ pulp_group }}'
+            mode: "u+rwx,g+rx,o+rx"
             remote_src: yes
       become: yes
       become_user: '{{ pulp_user }}'
