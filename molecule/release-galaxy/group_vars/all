@@ -1,6 +1,10 @@
 ---
 pulp_default_admin_password: password
 pulpcore_version: "PLACEHOLDER"
+prereq_pip_packages:
+  - Jinja2
+  - pygments
+  - redis==4.1.4  # Needed to avoid a pulpcore 3.14 version conflict for dependency async-timeout
 pulp_install_plugins:
   galaxy-ng: {}
 pulp_settings:
