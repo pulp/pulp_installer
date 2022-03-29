@@ -23,7 +23,7 @@
     - name: Inspect galaxy signing service GPG key file
       shell: >
         {{ __pulp_gpg_inspect_command }}
-        /etc/pulp/certs/galaxy_signing_service.gpg | grep -m1 -o -E
+        {{ pulp_certs_dir }}/galaxy_signing_service.gpg | grep -m1 -o -E
         '[A-F0-9]{4} [A-F0-9]{4} [A-F0-9]{4} [A-F0-9]{4} [A-F0-9]{4}  [A-F0-9]{4} [A-F0-9]{4} [A-F0-9]{4} [A-F0-9]{4} [A-F0-9]{4}'
         | tr -d " "
       register: galaxy_signing_key
@@ -32,7 +32,7 @@
       check_mode: false
 
     - name: Import galaxy signing service GPG key file
-      command: gpg --batch --import /etc/pulp/certs/galaxy_signing_service.gpg
+      command: gpg --batch --import {{ pulp_certs_dir }}/galaxy_signing_service.gpg
       register: result
       # Imported successfully: rc 0
       # Already imported: rc 2
