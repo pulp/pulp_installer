@@ -37,7 +37,7 @@
       get_url:
         url: "{{ inspec_download_url }}"
         dest: "{{ inspec_download_source_dir }}"
-        sha256sum: "{{ inspec_download_sha256sum }}"
+        checksum: "sha256:{{ inspec_download_sha256sum }}"
         mode: 0755
       retries: 3
       register: download_result
