@@ -10,7 +10,12 @@
       when:
         - ansible_facts.distribution in ['RedHat', 'CentOS']
         - ansible_facts.distribution_major_version | int == 8
-      changed_when: "'Enabling module streams' in python38_module_enable.stdout"
+      changed_when:
+        - python38_module_enable.stdout is defined
+        - "'Enabling module streams' in python38_module_enable.stdout"
+      retries: 5
+      delay: 12
+      until: python38_module_enable is succeeded
 
     - name: Install prerequisites
       package:
