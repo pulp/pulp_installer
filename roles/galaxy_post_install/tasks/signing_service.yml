@@ -1,7 +1,8 @@
 ---
-- name: Set permissions on galaxy signing service gpg key file
-  file:
-    path: "{{ pulp_certs_dir }}/galaxy_signing_service.gpg"
+- name: Import the collection signing service gpg key file
+  copy:
+    src: "{{ galaxy_collection_signing_service_key }}"
+    dest: "{{ pulp_certs_dir }}/galaxy_signing_service.gpg"
     mode: 0600
     owner: "{{ pulp_user }}"
     group: "{{ pulp_group }}"
@@ -9,14 +10,56 @@
     setype: _default
     seuser: _default
   become: true
+  when: galaxy_collection_signing_service_key is defined
 
-- name: Set permissions on galaxy signing service script
-  file:
-    path: "{{ pulp_scripts_dir }}/collection_sign.sh"
+- block:
+    - name: Set permissions on the collection signing service gpg key file
+      file:
+        path: "{{ pulp_certs_dir }}/galaxy_signing_service.gpg"
+        mode: 0600
+        owner: "{{ pulp_user }}"
+        group: "{{ pulp_group }}"
+        serole: _default
+        setype: _default
+        seuser: _default
+      become: true
+  rescue:
+    - name: pulp_installer failure message
+      fail:
+        msg: >
+          "{{ pulp_certs_dir }}/galaxy_signing_service.gpg does not exist. Create a gpg
+          private key file and either place it there on {{ inventory_hostname }}, or
+          place it somehwere on the ansible management node and set the variable
+          galaxy_collection_signing_service_key=/path/to/file.gpg"
+  when: galaxy_collection_signing_service_key is undefined
+
+- name: Import the on the collection galaxy signing service script
+  copy:
+    src: "{{ galaxy_collection_signing_service_script }}"
+    dest: "{{ pulp_scripts_dir }}/collection_sign.sh"
     mode: 0750
     owner: "{{ pulp_user }}"
     group: "{{ pulp_group }}"
   become: true
+  when: galaxy_collection_signing_service_script is defined
+
+- block:
+    - name: Set permissions on the collection signing service script
+      file:
+        path: "{{ pulp_scripts_dir }}/collection_sign.sh"
+        mode: 0750
+        owner: "{{ pulp_user }}"
+        group: "{{ pulp_group }}"
+      become: true
+  rescue:
+    - name: pulp_installer failure message
+      fail:
+        msg: >
+          "{{ pulp_scripts_dir }}/collection_sign.sh does not exist. Obtain a galaxy collections
+          signing service script and either place it there on {{ inventory_hostname }}, or
+          place it somehwere on the ansible management node and set the variable
+          galaxy_collection_signing_service_script=/path/to/file.sh"
+  when: galaxy_collection_signing_service_script is undefined
 
 - name: Commands run as pulp_user
   block:
