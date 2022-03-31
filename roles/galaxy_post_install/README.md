@@ -7,9 +7,7 @@ It runs by default when `galaxy-ng` is part of `pulp_install_plugins` variable.
 
 `galaxy_importer_settings`: Key value dictionnary that contains the content of galaxy-importer.cfg to be overwritten.
 `galaxy_create_default_collection_signing_service` Boolean on whether or not to create collection
-  signing service. If set to true the script (default path: /var/lib/pulp/collection_sign.sh)
-  and the gpg key file (default path: /etc/pulp/certs/galaxy_signing_service.gpg) must exist,
-  you must place them there yourself. Defaults to `false`
+  signing service. See `Variables for the Signing Service`. Defaults to `false`
 `pulp_settings.galaxy_collection_signing_service`: The name of the default signing service to use
   if `galaxy_create_default_collection_signing_service==true`. Defaults to `ansible-default`.
 
@@ -18,17 +16,22 @@ It runs by default when `galaxy-ng` is part of `pulp_install_plugins` variable.
 This role **is tightly coupled** with the required the `pulp_common` role and uses some of
 variables which are documented in that role:
 
-* `pulp_certs_dir` The collection signing service gpg key file must exist under this directory with
-  the filename `galaxy_signing_service.gpg` when `galaxy_create_default_collection_signing_service==true`.
-* `pulp_scripts_dir`: The collection signing service script must exist under this directory
-  with the filename `collection_sign.sh` when `galaxy_create_default_collection_signing_service==true`.
+* `pulp_certs_dir`: The collection signing service gpg key file is placed under this directory.
+* `pulp_scripts_dir`: The collection signing service script is placed under this directory.
 
-## Required files for the signing service
+## Variables for the Signing Service
 
-If `galaxy_create_default_collection_signing_service==true`, the following files must exist on disk.
-These must exist on all pulp nodes (API, content & worker).
+If `galaxy_create_default_collection_signing_service==true`, the 2 files must either
+be specified by these variables:
 
-* `{{ pulp_scripts_dir }}/collection_sign.sh` (default: `/var/lib/pulp/scripts/collection_sign.sh`):
-  A script that performs the gpg signing of the collections.
+* `galaxy_collection_signing_service_key`:  Specify a filepath on the ansible management node.
+This is the gpg private key that will be imported to performan the gpg signing of the collections.
+Defaults to undefined.
+* `galaxy_collection_signing_service_script` Specify a filepath on the ansible management node.
+This is the script that performs the gpg signing of the collections. Defaults to undefined.
+
+Or they must exist on disk (on all pulp hosts e.g. API, content & worker) (these are the paths that
+the variables install them to):
+
 * `{{ pulp_certs_dir }}/galaxy_signing_service.gpg` (default: `/etc/pulp/certs/galaxy_signing_service.gpg`):
-  A gpg private key that will be imported to performan the gpg signing of the collections.
+* `{{ pulp_scripts_dir }}/collection_sign.sh` (default: `/var/lib/pulp/scripts/collection_sign.sh`):
