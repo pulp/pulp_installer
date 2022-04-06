@@ -13,6 +13,24 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.18.3 (2022-04-06)
+
+Features
+--------
+
+- Enable uploading the galaxy collections signing service script and gpg key files by introducing the 2 new variables `galaxy_collection_signing_service_key` and `galaxy_collection_signing_service_script`.
+  [#994](https://github.com/pulp/pulp_installer/issues/994)
+
+
+Misc
+----
+
+- [#971](https://github.com/pulp/pulp_installer/issues/971)
+
+
+----
+
+
 3.18.2 (2022-03-23)
 ===================
 
