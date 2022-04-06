@@ -1,6 +1,7 @@
 ---
 pulp_default_admin_password: password
 pulpcore_version: "PLACEHOLDER"
+__galaxy_build_signing_scripts: true
 prereq_pip_packages:
   - Jinja2
   - pygments
