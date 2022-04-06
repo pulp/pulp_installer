@@ -1,0 +1,92 @@
+---
+- name: Check if galaxy signing service gpg key exists
+  stat:
+    path: "{{ pulp_certs_dir }}/galaxy_signing_service.gpg"
+  register: stat_galaxy_signing_service
+
+- name: Generate galaxy signing service gpg key  # noqa no-changed-when
+  shell: |
+    cat >/tmp/gpg.txt <<EOF
+    %echo Generating a basic OpenPGP key
+    Key-Type: default
+    Key-Length: 4096
+    Subkey-Type: default
+    Subkey-Length: default
+    Name-Real: Joe Tester
+    Name-Comment: with no passphrase
+    Name-Email: joe@foo.bar
+    Expire-Date: 0
+    %no-ask-passphrase
+    %no-protection
+    # Do a commit here, so that we can later print "done" :-)
+    %commit
+    %echo done
+    EOF
+    GNUPGHOME=/tmp gpg --batch --gen-key /tmp/gpg.txt
+    GNUPGHOME=/tmp gpg --output {{ pulp_certs_dir }}/galaxy_signing_service.gpg --armor --export-secret-key
+    GNUPGHOME=/tmp gpg --output {{ pulp_certs_dir }}/galaxy_signing_service.asc --armor --export
+  when: not stat_galaxy_signing_service.stat.exists
+
+- name: Check if sample galaxy signing service script exists
+  stat:
+    path: "{{ pulp_scripts_dir }}/collection_sign.sh"
+  register: stat_collection_sign_script
+
+- name: Create sample galaxy signing service script (EL7)
+  copy:
+    content: |
+      #!/usr/bin/env bash
+
+      FILE_PATH=$1
+      SIGNATURE_PATH="$1.asc"
+
+      ADMIN_ID="$PULP_SIGNING_KEY_FINGERPRINT"
+      PASSWORD="password"
+
+      # Create a detached signature
+      gpg --quiet --batch --yes --passphrase \
+          $PASSWORD --homedir ~/.gnupg/ --detach-sign --default-key $ADMIN_ID \
+          --armor --output $SIGNATURE_PATH $FILE_PATH
+
+      # Check the exit status
+      STATUS=$?
+      if [ $STATUS -eq 0 ]; then
+          echo {\"file\": \"$FILE_PATH\", \"signature\": \"$SIGNATURE_PATH\"}
+      else
+          exit $STATUS
+      fi
+    dest: "{{ pulp_scripts_dir }}/collection_sign.sh"
+    mode: 0755
+  when:
+    - ansible_facts.os_family == 'RedHat'
+    - ansible_facts.distribution_major_version|int == 7
+    - not stat_collection_sign_script.stat.exists
+
+- name: Create sample galaxy signing service script
+  copy:
+    content: |
+      #!/usr/bin/env bash
+
+      FILE_PATH=$1
+      SIGNATURE_PATH="$1.asc"
+
+      ADMIN_ID="$PULP_SIGNING_KEY_FINGERPRINT"
+      PASSWORD="password"
+
+      # Create a detached signature
+      gpg --quiet --batch --pinentry-mode loopback --yes --passphrase \
+          $PASSWORD --homedir ~/.gnupg/ --detach-sign --default-key $ADMIN_ID \
+          --armor --output $SIGNATURE_PATH $FILE_PATH
+
+      # Check the exit status
+      STATUS=$?
+      if [ $STATUS -eq 0 ]; then
+          echo {\"file\": \"$FILE_PATH\", \"signature\": \"$SIGNATURE_PATH\"}
+      else
+          exit $STATUS
+      fi
+    dest: "{{ pulp_scripts_dir }}/collection_sign.sh"
+    mode: 0755
+  when:
+    - (ansible_facts.os_family != 'RedHat') or (ansible_facts.distribution_major_version|int != 7)
+    - not stat_collection_sign_script.stat.exists
