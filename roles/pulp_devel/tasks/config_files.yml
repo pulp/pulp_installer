@@ -32,4 +32,11 @@
     dest: "{{ developer_user_home }}/.config/pulp_smash/settings.json"
     force: yes
     mode: 0600
+
+- name: Create ~/.curlrc if not already present
+  copy:
+    src: files/curlrc
+    dest: "{{ developer_user_home }}/.curlrc"
+    force: no
+    mode: '0644'
 ...
