@@ -17,7 +17,7 @@ from github import Github
 
 
 NO_ISSUE = "[noissue]"
-CHANGELOG_EXTS = [".feature", ".bugfix", ".doc", ".removal", ".misc", ".deprecation"]
+CHANGELOG_EXTS = [".feature", ".bugfix", ".doc", ".removal", ".misc", ".deprecation", ".dev"]
 
 
 KEYWORDS = ["fixes", "closes"]
