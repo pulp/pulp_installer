@@ -35,3 +35,4 @@ markdown_extensions:
   - toc:
       permalink: "#"
   - pymdownx.superfences
+  - admonition
