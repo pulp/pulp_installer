@@ -47,7 +47,7 @@
     - include_tasks: prepare_signing_service.yml
       when:
         - developer_user is defined or developer_user_home is defined or __galaxy_build_signing_scripts is defined
-        - galaxy_create_default_collection_signing_service
+        - galaxy_create_default_collection_signing_service | default(false)
 
     - name: Include galaxy_ng post install role
       include_role:
