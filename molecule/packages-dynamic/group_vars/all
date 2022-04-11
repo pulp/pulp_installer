@@ -13,3 +13,4 @@ pulp_settings:
 # doesn't:
 pulp_pkg_upgrade_all: true
 pulp_webserver_server: apache
+pulp_install_dir: /opt/pulp/lib

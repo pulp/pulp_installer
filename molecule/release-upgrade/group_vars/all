@@ -3,3 +3,4 @@ pulp_default_admin_password: password
 pulp_settings:
   secret_key: secret
   content_origin: "https://{{ ansible_fqdn }}"
+pulp_install_dir: /opt/pulp/lib

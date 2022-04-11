@@ -46,3 +46,4 @@ __galaxy_dev_source_path: 'pulpcore:pulp_ansible:pulp_container:galaxy_ng:galaxy
 # __galaxy_lock_requirements: Set to 0 to avoid pinning of galaxy_ng/setup.py versions
 __galaxy_lock_requirements: '0'
 galaxy_create_default_collection_signing_service: true
+pulp_install_dir: /opt/pulp/lib

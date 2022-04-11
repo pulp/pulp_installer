@@ -25,3 +25,4 @@ pulp_install_plugins:
   #   source_dir: "/var/lib/pulp/devel/pulp_python"
   # pulp-rpm:
   #   source_dir: "/home/vagrant/devel/pulp_rpm"
+pulp_python_interpreter: /usr/bin/python3

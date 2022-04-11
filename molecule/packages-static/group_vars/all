@@ -11,3 +11,4 @@ pulp_install_plugins:
 pulp_settings:
   secret_key: secret
   content_origin: "https://{{ ansible_fqdn }}"
+pulp_install_dir: /opt/pulp/lib

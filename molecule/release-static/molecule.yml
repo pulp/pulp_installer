@@ -48,6 +48,7 @@ provisioner:
     defaults:
       stdout_callback: debug
       callback_enabled: profile_tasks
+      show_task_path_on_failure: true
   inventory:
     links:
       host_vars: ../scenario_resources/host_vars/

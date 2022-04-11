@@ -12,3 +12,4 @@ pulp_install_plugins:
   # pulp-npm: {}
   # pulp-python: {}
   # pulp-rpm: {}
+pulp_python_interpreter: /usr/bin/python3

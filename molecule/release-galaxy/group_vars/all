@@ -24,3 +24,4 @@ pulp_settings:
   # Enable these 2 settings once galax-ng 4.5 is out.
   # galaxy_auto_sign_collections: true
 # galaxy_create_default_collection_signing_service: true
+pulp_install_dir: /opt/pulp/lib

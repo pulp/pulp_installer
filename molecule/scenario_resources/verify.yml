@@ -1,109 +1,67 @@
 ---
-# This is an example playbook to execute inspec tests.
+# This is an example playbook to execute testinfra tests.
 # Tests need distributed to the appropriate ansible host/groups
-# prior to execution by `inspec exec`.
+# prior to execution by `py.test`.
 
 - name: Verify
   hosts: all
   become: true
   vars:
-    inspec_bin: /opt/inspec/bin/inspec
-    inspec_download_source_dir: /usr/local/src
-    inspec_test_directory: /tmp/molecule/inspec
+    testinfra_bin: "{{ pulp_install_dir }}/bin/py.test"
+    testinfra_test_directory: /tmp/molecule/testinfra
   tasks:
-    - name: Setting variables (CentOS / RHEL / Fedora)
-      set_fact:
-        # Version 3.9.3 is the last version under the Apache 2.0 rather than the inspec EULA.
-        # Rather than evaluate whether we (Pulp Project) should use the inspec EULA versions,
-        # let's just use this version.
-        # Note: 4.3.2 is technically before the relicense was announced and has the Apache 2.0 license in
-        # the RPM metadata and in its contents on disk, but it prompts you to accept the EULA when you
-        # first run it.
-        inspec_download_url: "https://packages.chef.io/files/stable/inspec/3.9.3/el/7/inspec-3.9.3-1.el7.x86_64.rpm"
-        inspec_download_sha256sum: 4d54d12899c2eeaae4812cd13b8dfcae01ec1fd4a44f00cab77e31a57aea502b
-      # Tested by Pulp with EL7, EL8 & Fedora 31, but let's try to run against future releases as well.
-      # when: ansible_os_family == "RedHat" and ansible_distribution_major_version >= "7"
-      when: ansible_os_family == "RedHat"
-
-    - name: Setting variables (Debian 11)
-      set_fact:
-        inspec_download_url: "https://packages.chef.io/files/stable/inspec/3.9.3/ubuntu/18.04/inspec_3.9.3-1_amd64.deb"
-        inspec_download_sha256sum: 757dd2366a3932adc5fcc9382b30d77de6cc33152585f4c9f94f8918d9d349a7
-      # Tested by Pulp with Debian 10. molecule-inspec said inspec 2 (for Ubuntu 18.04) would work with Debian 9 also.
-      # when: ansible_os_family == "Debian" and (ansible_distribution_major_version in ["9","10"] or ansible_distribution_version == "18.04")
-      when: ansible_os_family == "Debian"
-
-    - name: Download Inspec
-      get_url:
-        url: "{{ inspec_download_url }}"
-        dest: "{{ inspec_download_source_dir }}"
-        checksum: "sha256:{{ inspec_download_sha256sum }}"
-        mode: 0755
-      retries: 3
-      register: download_result
-      until: download_result is succeeded
-
-    - name: Install Inspec (apt)
-      apt:
-        deb: "{{ inspec_download_source_dir }}/{{ inspec_download_url.split('/')[-1] }}"
+    - name: Install testinfra
+      pip:
+        name: pytest-testinfra
         state: present
-      when: ansible_pkg_mgr == "apt"
+        virtualenv: '{{ pulp_install_dir }}'
+        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
 
-    - name: Install Inspec (yum)
-      yum:
-        name: "{{ inspec_download_source_dir }}/{{ inspec_download_url.split('/')[-1] }}"
-        disable_gpg_check: true
-        state: present
-      when: ansible_pkg_mgr in ["yum","dnf"]
-
-    - name: Install libxcrypt-compat
-      yum:
-        name: libxcrypt-compat
-        state: present
-      when: ansible_facts.distribution == 'Fedora'
-
-    - name: Update systemd to resolve inspec being unable to inspect it
+    - name: Install iproute (needed for socket connection tests) on Red Hat based systems
       package:
-        name: systemd
-        state: latest  # noqa 403
-      when: (ansible_facts.distribution == 'Debian' and ansible_facts.distribution_major_version == '10') or
-            (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8')
-
-    # Undeclared by the package, and not documented:
-    # https://docs.chef.io/inspec/resources/port/
-    - name: Install netstat dependency for inspec's port listening tests
-      package:
-        name: net-tools
+        name: iproute
         state: present
+      when:
+        - ansible_os_family == "RedHat"
 
-    - name: Create Molecule directory for test files
+    - name: Install iproute2 and curl on Debian based systems
+      package:
+        name: "{{ item }}"
+        state: present
+      when:
+        - ansible_os_family == "Debian"
+      with_items:
+        - curl
+        - iproute2
+
+    - name: Create testinfra directory for test files
       file:
-        path: "{{ inspec_test_directory }}"
+        path: "{{ testinfra_test_directory }}"
         state: directory
 
-    - name: Copy Inspec tests to remote
+    - name: Copy testinfra tests to remote
       copy:
         src: "{{ item }}"
-        dest: "{{ inspec_test_directory }}/{{ item | basename }}"
-      register: copy_inspec_tests
+        dest: "{{ testinfra_test_directory }}/{{ item | basename }}"
+      register: copy_testinfra_tests
       with_fileglob:
-        - "{{ lookup('env', 'MOLECULE_VERIFIER_TEST_DIRECTORY') }}/test_*.rb"
+        - "{{ lookup('env', 'MOLECULE_VERIFIER_TEST_DIRECTORY') }}/testinfra_*.py"
 
-    - name: Execute Inspec tests
-      command: "{{ inspec_bin }} exec {{ item.dest }}"
+    - name: Execute testinfra tests
+      command: "{{ testinfra_bin }} {{ item.dest }}"
       register: test_results
-      with_items: "{{ copy_inspec_tests.results }}"
+      with_items: "{{ copy_testinfra_tests.results }}"
       changed_when: test_results.changed
       ignore_errors: true
 
-    - name: Display details about the Inspec results
+    - name: Display details about the testinfra results
       debug:
         msg: "{{ item.stdout_lines }}"
       with_items: "{{ test_results.results }}"
 
     - name: Fail when tests fail
       fail:
-        msg: "Inspec failed to validate"
+        msg: "testinfra failed to validate"
       when: item.rc != 0
       with_items: "{{ test_results.results }}"
 
