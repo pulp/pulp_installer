@@ -34,7 +34,7 @@ jobs:
       - name: Upgrade pip
         run: |
           pip install --upgrade pip
-      - name: Get pulpcore version
+      - name: Get pulpcore version (release)
         if: matrix.test_type == 'release-galaxy'
         run: |
           python -m venv venv
@@ -43,6 +43,31 @@ jobs:
           PULPCORE_VERSION=$(pip show pulpcore | sed -n -e "s/Version: //p")
           echo "PULPCORE_VERSION=$PULPCORE_VERSION"
           sed -i "s/PLACEHOLDER/$PULPCORE_VERSION/" molecule/release-galaxy/group_vars/all
+          deactivate
+          rm -rf venv
+      - name: Get pulpcore version (source)
+        if: matrix.test_type == 'source-galaxy'
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install git+https://github.com/ansible/galaxy_ng.git
+
+          PULPCORE_VERSION=$(pip show pulpcore | sed -n -e "s/Version: //p")
+          echo "PULPCORE_VERSION=$PULPCORE_VERSION"
+          sed -i "s/PULPCORE_PLACEHOLDER/$PULPCORE_VERSION/" molecule/source-galaxy/group_vars/all
+
+          PULPANSIBLE_VERSION=$(pip show pulp_ansible | sed -n -e "s/Version: //p")
+          echo "PULPANSIBLE_VERSION=$PULPANSIBLE_VERSION"
+          sed -i "s/ANSIBLE_PLACEHOLDER/$PULPANSIBLE_VERSION/" molecule/source-galaxy/group_vars/all
+
+          PULPCONTAINER_VERSION=$(pip show pulp_container | sed -n -e "s/Version: //p")
+          echo "PULPCONTAINER_VERSION=$PULPCONTAINER_VERSION"
+          sed -i "s/CONTAINER_PLACEHOLDER/$PULPCONTAINER_VERSION/" molecule/source-galaxy/group_vars/all
+
+          IMPORTER_VERSION=$(pip show galaxy-importer | sed -n -e "s/Version: //p")
+          echo "IMPORTER_VERSION=v$IMPORTER_VERSION"
+          sed -i "s/IMPORTER_PLACEHOLDER/v$IMPORTER_VERSION/" molecule/source-galaxy/group_vars/all
+
           deactivate
           rm -rf venv
       - name: Install Ansible, Molecule & molecule-docker

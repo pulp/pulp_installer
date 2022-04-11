@@ -2,17 +2,21 @@
 pulp_default_admin_password: password
 pulp_source_dir: '/var/lib/pulp/devel/pulpcore'
 pulp_git_url: "https://github.com/pulp/pulpcore"
+pulp_git_revision: "PULPCORE_PLACEHOLDER"
 pulp_pip_editable: true
 pulp_install_plugins:
   galaxy-importer:
     source_dir: "/var/lib/pulp/devel/galaxy-importer"
     git_url: "https://github.com/ansible/galaxy-importer"
+    git_revision: "IMPORTER_PLACEHOLDER"
   pulp-ansible:
     source_dir: "/var/lib/pulp/devel/pulp_ansible"
     git_url: "https://github.com/pulp/pulp_ansible"
+    git_revision: "ANSIBLE_PLACEHOLDER"
   pulp-container:
     source_dir: "/var/lib/pulp/devel/pulp_container"
     git_url: "https://github.com/pulp/pulp_container"
+    git_revision: "CONTAINER_PLACEHOLDER"
   galaxy-ng:
     source_dir: "/var/lib/pulp/devel/galaxy_ng"
     git_url: "https://github.com/ansible/galaxy_ng"
