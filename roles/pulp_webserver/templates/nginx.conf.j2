@@ -15,6 +15,7 @@ http {
     include mime.types;
     # fallback in case we can't determine a type
     default_type application/octet-stream;
+    server_tokens off;
     sendfile on;
 
     # If left at the default of 1024, nginx emits a warning about being unable
