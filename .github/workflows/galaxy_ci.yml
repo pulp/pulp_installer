@@ -19,7 +19,7 @@ jobs:
       fail-fast: false
       matrix:
         test_type: ["source-galaxy","release-galaxy"]
-        ansible: ["ansible-core","git+https://github.com/ansible/ansible.git"]
+        ansible: ["ansible-core"]
     steps:
       - uses: actions/checkout@v2.3.1
       - name: Configure the kernel to allow containers to talk to eachother
