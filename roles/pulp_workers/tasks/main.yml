@@ -20,12 +20,15 @@
         name: pulpcore-resource-manager.service
         state: stopped
         enabled: false
-        daemon_reload: true
 
     - name: Remove pulpcore-resource-manager service
       file:
         path: /lib/systemd/system/pulpcore-resource-manager.service
         state: absent
+
+    - name: Reload systemd for the pulpcore-resource-manager removal
+      systemd:
+        daemon_reload: true
 
   become: true
   when:
