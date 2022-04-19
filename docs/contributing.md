@@ -146,14 +146,9 @@ All others scenarios use `nginx` as a webserver.
 Docs Testing
 ------------
 
-On Fedora:
-```
-sudo dnf install mkdocs python3-pymdown-extensions
-```
-
 Cross-platform:
 ```
-pip install mkdocs pymdown-extensions
+pip install mkdocs pymdown-extensions mkdocs-material mike mkdocs-git-revision-date-plugin
 ```
 
 Then:
