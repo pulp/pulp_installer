@@ -1,1 +1,0 @@
-Fix `pulp_health_check : Checking Pulp services` sometimes failing during upgrades due to the pulpcore-resource-manager service still exisitng.
