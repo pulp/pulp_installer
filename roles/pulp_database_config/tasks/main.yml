@@ -23,9 +23,6 @@
   loop_control:
     loop_var: __pulp_database_config_req_variable
 
-- name: Flush handlers
-  meta: flush_handlers
-
 - name: Import Pulp Database Encryption Key
   copy:
     src: "{{ pulp_db_fields_key }}"
