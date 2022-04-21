@@ -143,6 +143,11 @@
   become: true
   notify: Restart all Pulp services
 
+# We need to flush handlers before we run the service roles,
+# which would start & install the services.
+- name: Flush handlers
+  meta: flush_handlers
+
 - name: Set state of pulpcore app (block)
   block:
     - name: Set state of pulpcore app
