@@ -71,3 +71,6 @@ __pulp_selinux_label_dirs_optional:
   # nothing is present.
   - "/var/run/pulpcore*"
   - "/var/log/galaxy_api_access.log"
+__pulp_binaries:
+  - "{{ pulp_install_dir }}/bin/gunicorn"
+  - "{{ pulp_install_dir }}/bin/pulpcore-worker"

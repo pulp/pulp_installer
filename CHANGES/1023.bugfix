@@ -1,0 +1,1 @@
+When in `pip` install mode, fix SELinux accidentally blocking the pulp appplication from doing certain tasks. This was due to the pulp application during the install (before it completes) getting accidentally labeled as init_t.
