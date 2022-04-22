@@ -570,3 +570,12 @@ In this example, there are two Pulp worker servers.
 Note that the `example-pulp-api-server` is also used to to run `pulp_database_config`.
 This means that it will create and migrate the database for Pulp.
 The name `example-pulp-api-server` follows an Ansible standard that implies that more can be added at a later stage.
+
+After Installation
+------------------
+
+## Changing settings
+
+Don't use ``pulp_settings_file`` (by default ``/etc/pulp/settings.py``) to change or modify settings.
+Use the local settings file ``/etc/pulp/settings.local.py`` to do such modifications.
+It helps to preserve your settings during the Pulp update.

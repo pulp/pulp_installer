@@ -24,6 +24,19 @@
         seuser: _default
       notify: Restart all Pulp services
 
+    - name: Create local configuration file for Pulp
+      ansible.builtin.file:
+        path: '{{ pulp_settings_file_local }}'
+        state: touch
+        modification_time: preserve
+        access_time: preserve
+        mode: 0640
+        owner: root
+        group: '{{ pulp_group }}'
+        serole: _default
+        setype: _default
+        seuser: _default
+
     - name: Create wrapper to call pulpcore-manager
       template:
         src: pulpcore-manager.j2

@@ -5,6 +5,7 @@ pulp_config_dir: '/etc/pulp'
 # This var intentionally not advertised to users, because there is no
 # foreseeable need for them to change the filename, only pulp_config_dir.
 pulp_settings_file: '{{ pulp_config_dir }}/settings.py'
+pulp_settings_file_local: '{{ pulp_config_dir }}/settings.local.py'
 pulp_install_source: pip
 pulp_install_object_storage: filesystem
 pulp_install_dir: '{{ (pulp_install_source == "packages") | ternary("/usr", "/usr/local/lib/pulp") }}'
