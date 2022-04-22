@@ -3,26 +3,18 @@ __pulp_run_once: true
 pulp_configure_firewall: none
 pulp_default_admin_password: password
 pulp_install_plugins:
-  # galaxy-ng: {}
-  # pulp-ansible: {}
-  # pulp-certguard: {}
-  pulp-container: {}
-  # pulp-cookbook: {}
-  # pulp-deb: {}
-  pulp-file: {}
-  # pulp-gem: {}
-  # pulp-maven: {}
-  # pulp-npm: {}
-  # pulp-python: {}
-  # pulp-rpm: {}
+  pulp-file:
+  pulp-rpm:
 pulp_redis_bind: '0.0.0.0:6379'
+pulp_api_bind: "{{ hostvars['pulp-api']['ansible_default_ipv4']['address'] }}:24817"
+pulp_content_bind: "{{ hostvars['pulp-content']['ansible_default_ipv4']['address'] }}:24816"
 pulp_settings:
   secret_key: secret
-  content_origin: "https://{{ ansible_fqdn }}"
-  redis_host: "{{ hostvars['centos-8']['ansible_eth0']['ipv4']['address'] }}"
+  content_origin: "https://{{ hostvars['pulp-webserver']['ansible_fqdn'] }}"
+  redis_host: "{{ hostvars['pulp-database']['ansible_default_ipv4']['address'] }}"
   databases:
     default:
-      HOST: "{{ hostvars['centos-8']['ansible_eth0']['ipv4']['address'] }}"
+      HOST: "{{ hostvars['pulp-database']['ansible_default_ipv4']['address'] }}"
       NAME: pulp
       USER: pulp
       PASSWORD: password
@@ -32,3 +24,5 @@ postgresql_hba_entries:
   - { type: host, database: all, user: all, address: '127.0.0.1/32', auth_method: md5 }
   - { type: host, database: all, user: all, address: '::1/128', auth_method: md5 }
   - { type: host, database: all, user: all, address: '172.17.0.0/24', auth_method: md5 }
+__pulp_molecule_verify_skip_inspec_tests: true
+__pulp_molecule_verify_has_db_fields_key: false

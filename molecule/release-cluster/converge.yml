@@ -1,0 +1,64 @@
+---
+# gather_facts to determine the FQDN, which is in pulp_settings
+- hosts: pulp-webserver
+
+- hosts: pulp-database
+  force_handlers: True
+  collections:
+    - pulp.pulp_installer
+  pre_tasks:
+    - name: Install /usr/sbin/ip so that Ansible can enumerate the NICs
+      apt:
+        name: iproute2
+    - setup:
+  tasks:
+    - name: Dynamically include individual roles
+      include_role:
+        name: "{{ roleinputvar }}"
+      loop:
+        - pulp_database
+        - pulp_redis
+      loop_control:
+        loop_var: roleinputvar
+  environment:
+    DJANGO_SETTINGS_MODULE: pulpcore.app.settings
+
+- hosts: pulp-api
+  force_handlers: True
+  collections:
+    - pulp.pulp_installer
+  pre_tasks:
+    - name: Install /usr/sbin/ip so that Ansible can enumerate the NICs
+      yum:
+        name: iproute
+    - setup:
+  roles:
+    - pulp_database_config
+    - pulp_api
+    - pulp_workers
+  environment:
+    DJANGO_SETTINGS_MODULE: pulpcore.app.settings
+
+- hosts: pulp-content
+  force_handlers: True
+  collections:
+    - pulp.pulp_installer
+  pre_tasks:
+    - name: Install /usr/sbin/ip so that Ansible can enumerate the NICs
+      yum:
+        name: iproute
+    - setup:
+  roles:
+    - pulp_content
+    - pulp_health_check
+  environment:
+    DJANGO_SETTINGS_MODULE: pulpcore.app.settings
+
+- hosts: pulp-webserver
+  force_handlers: True
+  collections:
+    - pulp.pulp_installer
+  roles:
+    - pulp_webserver
+  environment:
+    DJANGO_SETTINGS_MODULE: pulpcore.app.settings
