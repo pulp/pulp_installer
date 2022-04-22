@@ -95,10 +95,11 @@ The suffixes are:
 
 1. `static` - Statically specify the roles in the "roles:" syntax in the main playbook, such as in
    the example playbooks.
-1. `dynamic` - Run roles 1 at a time via `include_role:` under `tasks:` in the main playbook.
-   Catches undeclared dependencies between roles, and other dynamic include errors. Covers use cases
-   such as users running a 3rd party role, setting vars, and later running our role. Later
-   on, will probably be replaced with installing pulp against multiple containers, each 1 role.
+1. `cluster` - Runs as few roles as possible per host, creating a pulp cluster, rather than
+   a set of independent pulp hosts. Catches any issues.
+   Also Run roles 1 at a time via `include_role:` under `tasks:` in the main playbook.
+   Catches undeclared dependencies between roles, and other "dynamic" include errors. This covers use
+   cases such as users running a 3rd party role, setting vars, and later running our role.
 1. `upgrade` - Upgrade an existing Pulp 3.y container, to test upgrading Pulp 3.y. Roles are applied
    statically. Depends on said containers existing on a registry, and having been built manually
    (using `docker commit` from molecule.)
@@ -109,19 +110,15 @@ There are other (intentional) differences between tests:
 
 1. `static` - These include using unix sockets for the webserver to connect to pulp-api
    & pulp-content. The remainder use TCP connections (`upgrade` because that's what older installs
-   only did, `dynamic` because they will become containers soon anyway to test cluster installs.)
-1. `dynamic` - Due to a limitation of Ansible 2.8 with collections, these are not tested with
-   Ansible 2.8.
+   only did, `cluster` because containers communicate via TCP.)
 1. The `release-upgrade` scenario uses its own `converge.yml` playbook instead of the default one
    used by all other scenarios. This playbook upgrades a Pulp installation multiple times to ensure
    that all upgrade scenarios work correctly.
 1. The `source-static` scenario defines paths different than the default for the following variables:
    `pulp_media_root`, `pulp_cache_dir`, `pulp_user_home`, `pulp_install_dir`, `pulp_config_dir` and
    `developer_user_home`.
-1. The `release-dynamic` scenario has a partial cluster design. All the hosts access pulp_database
-   and pulp_redis off of the centos-8 node.
 
-In order for release-dynamic to work on your local system, you must do the following to enable
+In order for `cluster` scenarios to work on your local system, you must do the following to enable
 container networking:
 1. Run `firewall-cmd --zone=public --add-masquerade --permanent` (assuming your firewall zone is
    `public`).
@@ -137,8 +134,8 @@ net.bridge.bridge-nf-call-ip6tables=0
 
 To test both webserver solutions we testing `apache` as webserver with
 
-* package-dynamic
-* source-dynamic
+* packages-cluster
+* source-cluster
 * release-static
 
 All others scenarios use `nginx` as a webserver.

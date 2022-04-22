@@ -41,79 +41,88 @@
       # when: ansible_os_family == "Debian" and (ansible_distribution_major_version in ["9","10"] or ansible_distribution_version == "18.04")
       when: ansible_os_family == "Debian"
 
-    - name: Download Inspec
-      get_url:
-        url: "{{ inspec_download_url }}"
-        dest: "{{ inspec_download_source_dir }}"
-        checksum: "sha256:{{ inspec_download_sha256sum }}"
-        mode: 0755
-      retries: 3
-      register: download_result
-      until: download_result is succeeded
+    - name: Skip this task if we skip the tests
+      block:
+        - name: Download Inspec
+          get_url:
+            url: "{{ inspec_download_url }}"
+            dest: "{{ inspec_download_source_dir }}"
+            checksum: "sha256:{{ inspec_download_sha256sum }}"
+            mode: 0755
+          retries: 3
+          register: download_result
+          until: download_result is succeeded
 
-    - name: Install Inspec (apt)
-      apt:
-        deb: "{{ inspec_download_source_dir }}/{{ inspec_download_url.split('/')[-1] }}"
-        state: present
-      when: ansible_pkg_mgr == "apt"
+        - name: Install Inspec (apt)
+          apt:
+            deb: "{{ inspec_download_source_dir }}/{{ inspec_download_url.split('/')[-1] }}"
+            state: present
+          when: ansible_pkg_mgr == "apt"
 
-    - name: Install Inspec (yum)
-      yum:
-        name: "{{ inspec_download_source_dir }}/{{ inspec_download_url.split('/')[-1] }}"
-        disable_gpg_check: true
-        state: present
-      when: ansible_pkg_mgr in ["yum","dnf"]
+        - name: Install Inspec (yum)
+          yum:
+            name: "{{ inspec_download_source_dir }}/{{ inspec_download_url.split('/')[-1] }}"
+            disable_gpg_check: true
+            state: present
+          when: ansible_pkg_mgr in ["yum","dnf"]
 
-    - name: Install libxcrypt-compat
-      yum:
-        name: libxcrypt-compat
-        state: present
-      when: ansible_facts.distribution == 'Fedora'
+        - name: Install libxcrypt-compat
+          yum:
+            name: libxcrypt-compat
+            state: present
+          when:
+            - ansible_facts.distribution == 'Fedora'
+            - not __pulp_molecule_verify_skip_inspec_tests | default(false)
 
-    - name: Update systemd to resolve inspec being unable to inspect it
-      package:
-        name: systemd
-        state: latest  # noqa 403
-      when: (ansible_facts.distribution == 'Debian' and ansible_facts.distribution_major_version == '10') or
-            (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8')
+        - name: Update systemd to resolve inspec being unable to inspect it
+          package:
+            name: systemd
+            state: latest  # noqa 403
+          when:
+            - (ansible_facts.distribution == 'Debian' and ansible_facts.distribution_major_version == '10') or
+              (ansible_facts.os_family == 'RedHat' and ansible_facts.distribution_major_version == '8')
 
-    # Undeclared by the package, and not documented:
-    # https://docs.chef.io/inspec/resources/port/
-    - name: Install netstat dependency for inspec's port listening tests
-      package:
-        name: net-tools
-        state: present
+        # Undeclared by the package, and not documented:
+        # https://docs.chef.io/inspec/resources/port/
+        - name: Install netstat dependency for inspec's port listening tests
+          package:
+            name: net-tools
+            state: present
 
-    - name: Create Molecule directory for test files
-      file:
-        path: "{{ inspec_test_directory }}"
-        state: directory
+        - name: Create Molecule directory for test files
+          file:
+            path: "{{ inspec_test_directory }}"
+            state: directory
+          when: not __pulp_molecule_verify_skip_inspec_tests | default(false)
 
-    - name: Copy Inspec tests to remote
-      copy:
-        src: "{{ item }}"
-        dest: "{{ inspec_test_directory }}/{{ item | basename }}"
-      register: copy_inspec_tests
-      with_fileglob:
-        - "{{ lookup('env', 'MOLECULE_VERIFIER_TEST_DIRECTORY') }}/test_*.rb"
+        - name: Copy Inspec tests to remote
+          copy:
+            src: "{{ item }}"
+            dest: "{{ inspec_test_directory }}/{{ item | basename }}"
+          register: copy_inspec_tests
+          with_fileglob:
+            - "{{ lookup('env', 'MOLECULE_VERIFIER_TEST_DIRECTORY') }}/test_*.rb"
 
-    - name: Execute Inspec tests
-      command: "{{ inspec_bin }} exec {{ item.dest }}"
-      register: test_results
-      with_items: "{{ copy_inspec_tests.results }}"
-      changed_when: test_results.changed
-      ignore_errors: true
+        - name: Execute Inspec tests
+          command: "{{ inspec_bin }} exec {{ item.dest }}"
+          register: test_results
+          with_items: "{{ copy_inspec_tests.results }}"
+          changed_when: test_results.changed
+          ignore_errors: true
 
-    - name: Display details about the Inspec results
-      debug:
-        msg: "{{ item.stdout_lines }}"
-      with_items: "{{ test_results.results }}"
+        - name: Display details about the Inspec results
+          debug:
+            msg: "{{ item.stdout_lines }}"
+          with_items: "{{ test_results.results }}"
+          when: not __pulp_molecule_verify_skip_inspec_tests | default(false)
 
-    - name: Fail when tests fail
-      fail:
-        msg: "Inspec failed to validate"
-      when: item.rc != 0
-      with_items: "{{ test_results.results }}"
+        - name: Fail when tests fail
+          fail:
+            msg: "Inspec failed to validate"
+          when: item.rc != 0
+          with_items: "{{ test_results.results }}"
+
+      when: not __pulp_molecule_verify_skip_inspec_tests | default(false)
 
     - name: Obtain 1 node's database fields encryption key
       slurp:
@@ -129,9 +138,11 @@
       slurp:
         src: "{{ pulp_config_dir | default('/etc/pulp') }}/certs/database_fields.symmetric.key"
       register: db_key
+      when: __pulp_molecule_verify_has_db_fields_key | default(true)
 
     - debug:
         var: db_key
+      when: __pulp_molecule_verify_has_db_fields_key | default(true)
 
     - name: Verify that the other nodes' database fields encryption keys are the same
       assert:
@@ -140,6 +151,7 @@
       when:
         - inventory_hostname != groups['all'][0]
         - __pulp_run_once
+        - __pulp_molecule_verify_has_db_fields_key | default(true)
 
     - name: Verify that the other nodes' database fields encryption keys differ
       assert:
@@ -148,6 +160,7 @@
       when:
         - inventory_hostname != groups['all'][0]
         - not __pulp_run_once
+        - __pulp_molecule_verify_has_db_fields_key | default(true)
 
     - name: Install dependency for RAM usage check (RedHat)
       yum:
