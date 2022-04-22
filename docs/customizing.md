@@ -576,6 +576,8 @@ After Installation
 
 ## Changing settings
 
-Don't use ``pulp_settings_file`` (by default ``/etc/pulp/settings.py``) to change or modify settings.
+Don't use ``pulp_settings_file`` (by default ``/etc/pulp/settings.py``) to add or modify settings.
 Use the local settings file ``/etc/pulp/settings.local.py`` to do such modifications.
-It helps to preserve your settings during the Pulp update.
+It helps to preserve your settings during the pulp upgrades.
+List of available setting in [pulpcore docs](https://docs.pulpproject.org/pulpcore/configuration/settings.html)
+and format follows [dynaconf syntax](https://dynaconf.readthedocs.io/en/docs_223/guides/examples.html#py).
