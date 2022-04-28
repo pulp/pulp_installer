@@ -5,7 +5,7 @@ Install a suitable database server for Pulp.
 
 More specifically, this role does the following:
 
-1. Install and enable the appropriate SCL (EL7)
+1. Call the `pulp_repos` role to enable the appropriate SCL (EL7)
 2. Call the external role to install a PostgreSQL database server.
 3. Install the Python bindings to interact with the specified database via
    the role.
@@ -15,18 +15,7 @@ More specifically, this role does the following:
 Role Variables
 --------------
 
-* `pulp_settings_db_defaults`: This variable **should not be changed by users**, but serves as the
-    defaults. Users wishing to set their own values should use the user-facing variable
-    `pulp_settings.databases`. These settings define how Pulp will talk to the database, and
-    produces default settings for the external database installer role. Default values are defined
-    in `defaults/main.yml`. See [pulpcore
-    docs](https://docs.pulpproject.org/en/main/nightly/installation/configuration.html#databases) or
-    [Django docs](https://docs.djangoproject.com/en/2.1/ref/settings/#databases) for more
-    information.
-* `pulp_rhel7_scl_repo`: List of possible names for the rhel7 SCL (Software Collections) repo
-  to enable. Once the 1st name is enabled (or found to already be enabled),
-  no further names are attempted.
-  Defaults to  ["rhui-rhel-server-rhui-rhscl-7-rpms", "rhel-server-rhscl-7-rpms", "rhel-workstation-rhscl-7-rpms"] Note: This is not needed for CentOS 7, where the repos are enabled by installing `centos-release-*` packages.
+None, but see `pulp_settings.databases.default` below
 
 Shared Variables
 ----------------
@@ -39,7 +28,25 @@ This role is **not tightly coupled** to the `pulp_common` role, but uses some of
 variables. When used in the same play, the values are inherited from the role.
 When not used together, this role provides identical defaults.
 
-* `pulp_settings`
+* `pulp_settings.databases.default`: A dictionary. Its primary use is by the
+  pulp_common role, where it configures Pulp on how to talk to the database via a larger set of settings.
+  Its secondary use is by the this role, where it configures the database server according to a
+  smaller set of settings. The smaller set of settings is listed below. Note that these default settings are merged by the 
+  installer with your own; merely setting pulp_settings with 1 setting under it will not blow away all
+  the other default settings.
+    * `NAME` The name of the Pulp database to create.  Defaults to `pulp`.
+    * `USER` The user account to be created with permissions on the database.  Defaults to `pulp`.
+    * `PASSWORD` The password to be created for the user account to talk to the Pulp database.
+    Defaults to `pulp`, but please change it to something secure!
+    * **Example**:
+    ```yaml
+    pulp_settings:
+      databases:
+        default:
+          NAME: pulp
+          USER: pulp
+          PASSWORD: password
+    ```
 
 Operating Systems Variables
 ---------------------------

@@ -91,21 +91,53 @@ Role Variables
 * `pulp_remote_user_environ_name` Optional. Set the `REMOTE_USER_ENVIRON_NAME` setting for Pulp.
   This variable will be set as the value of `CONTENT_HOST` as the base path to build content URLs.
 * `pulp_install_object_storage`: The preferred object storage. Defaults to `filesystem`.
-* `pulp_settings`: A nested dictionary that is used to add custom values to the user's
+* `pulp_settings`: A dictionary that is used to add custom values to the user's
     `settings.py`, which will override any default values set by pulpcore. The keys of this
     dictionary are variable names, and the values should be expressed using the [Dynaconf syntax](
     https://dynaconf.readthedocs.io/en/latest/guides/environment_variables.html#precedence-and-type-casting)
     Please see [pulpcore configuration
-    docs](https://docs.pulpproject.org/en/main/nightly/installation/configuration.html#id2) for
-    documentation on the possible variable names and their values.
-  * `pulp_settings.content_origin`: **Required**. The URL to the pulp_content
-    host that clients will access, and that will be appended to in HTTP
-    responses by multiple content plugins. Any load balancers / proxies (such
-    as those in the `pulp_webserver` role) normally should be specified instead
-    of the pulp content host itself. Syntax is
-    `(http|https)://(hostname|ip)[:port]`.
-  * `pulp_settings.secret_key`: **Required**. Pulp's Django application `SECRET_KEY`.
-
+    docs](https://docs.pulpproject.org/pulpcore/configuration/settings.html) for
+    documentation on all the possible variable names and their values. Listed below are variables
+    that must be set at the time of running pulp_installer, or that the installer behaves
+    differently based on .
+    * `content_origin`: **Required**. The URL to the pulp_content
+      host that clients will access, and that will be appended to in HTTP
+      responses by multiple content plugins. Any load balancers / proxies (such
+      as those in the `pulp_webserver` role) normally should be specified instead
+      of the pulp content host itself. Syntax is
+      `(http|https)://(hostname|ip)[:port]`.
+    * `secret_key`: **Required**. Pulp's Django application `SECRET_KEY`.
+    * `databases.default`: A dictionary. Its primary use is by this
+      role, where it configures Pulp on how to talk to the database via a larger set of settings.
+      Its secondary use is by the `pulp_database` role, where it configures the database server according to a
+      smaller set of settings.
+      The larger set of settings is listed in the [Django
+      Docs](https://docs.pulpproject.org/pulpcore/configuration/settings.html). The settings that
+      are defaulted to are listed below. Note that these default settings are merged by the
+      installer with your own; merely setting pulp_settings with 1 setting under it will not blow away all
+      the other default settings. Alo see [pulpcore
+      docs](https://docs.pulpproject.org/pulpcore/installation/instructions.html#user-and-database-configuration)
+      for more info.
+        * `HOST` The hostname or IP address of the Postgres database server
+          (or cluster) to talk to. Defaults to `localhost`. Change this if pulp_database was applied
+          to a different host, or if accessing an existing postgres server/cluster.
+        * `ENGINE`: Defaults to `django.db.backends.postgresql`. Do not change it.
+        * `NAME`: The name of the Pulp database to access. Defaults to `pulp`.
+        * `USER`: The user account to authenticate as to access the database. Defaults to `pulp`.
+        * `PASSWORD`: The user account's password for accessing the database.
+            Defaults to `pulp`, but please change it to something secure!
+    * **Example**:
+    ```yaml
+        pulp_settings:
+          content_origin: "https://{{ ansible_fqdn }}"
+          secret_key: secret
+          databases:
+            default:
+              HOST: postgres-server
+              NAME: pulp
+              USER: pulp
+              PASSWORD: password
+    ```
 * `pulp_certs_dir`: Path where to generate or drop the TLS certificates, key for authentication
   tokens, and the database fields encryption key. Defaults to '{{ pulp_config_dir }}/certs' .
 * `pulpcore_update`: Boolean that specifies whether the pulpcore package should be updated to the
@@ -177,7 +209,7 @@ Furthermore, the following variables are used, or behave *differently* from abov
   without using the installer. (e.g., you ran `yum update` and your Pulp installation is broken. Re-running the
   installer will fix it.)
   Defaults to `false`.
-* `pulp_pkg_selinux_name` The name of the package containing the SELinux policies to install. See
+* `pulp_pkg_selinux_name`: The name of the package containing the SELinux policies to install. See
   `pulp_install_selinux_policies`, except `git` is not used; the package manager is used instead.
    Defaults to "pulpcore-selinux".
 
@@ -201,7 +233,6 @@ function). Also, a `prereq_role` may append to it.
 
 This role is required by the `pulp_database` role and uses some variables from it.
 
-* `pulp_settings_db_defaults`: See pulp_database README.
 
 Operating System Variables
 --------------------------

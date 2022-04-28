@@ -29,6 +29,11 @@ With its defaults.
   to enable. Once it is found, no further names are attempted.
   Defaults to ["codeready-builder-for-rhel-8-x86_64-rpms", "rhui-codeready-builder-for-rhel-8-rhui-rpms", "codeready-builder-for-rhel-8-rhui-rpms"]
   Only affects RHEL8+.
+* `pulp_rhel7_scl_repo`: List of possible names for the rhel7 SCL (Software Collections) repo
+  to enable. Once the 1st name is enabled (or found to already be enabled),
+  no further names are attempted.
+  Defaults to  ["rhui-rhel-server-rhui-rhscl-7-rpms", "rhel-server-rhscl-7-rpms", "rhel-workstation-rhscl-7-rpms"]
+  Note: This is not needed for CentOS 7, where the repos are enabled by installing `centos-release-*` packages.
 * `epel_release_packages`: List of strings (package names, URLs) to pass to
   `yum install` to ensure that "epel-release" is installed.
   Once the 1st string is found to be installed by yum, no further strings are
