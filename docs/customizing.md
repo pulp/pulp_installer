@@ -110,7 +110,9 @@ In the following example, a multitude of variables are set:
   * It sets `content_origin`, which specifies the Pulp application's URL, to the FQDN (`hostname -a`) of the Pulp server (beginning with `https://`). Note that this setting is always required to be set by the user, although this example value (with variables in it) is suitable for most users.
 
 More information about `pulp_settings`
-* Please do not modify `/etc/pulp/settings.py` manually after install, because re-running the installer for upgrades / repairing Pulp will revert your changes. Please re-run the installer instead with your changes added to `pulp_settings`.
+* Please do not modify `/etc/pulp/settings.py` manually after install, because re-running the installer for upgrades / repairing Pulp will revert your changes.
+  Please use `/etc/pulp/settings.local.py` to keep your local pulp settings or re-run the installer instead with your changes added to `pulp_settings`.
+  * List of available setting in [pulpcore docs](https://docs.pulpproject.org/pulpcore/configuration/settings.html) and format follows [dynaconf syntax](https://dynaconf.readthedocs.io/en/docs_223/guides/examples.html#py).
 * `pulp_settings` is used during both the installation process (it can cause errors at install time with incorrect values), and once pulp is installed.
 
 Explanation of plugin version compatibility with Pulpcore
@@ -570,14 +572,3 @@ In this example, there are two Pulp worker servers.
 Note that the `example-pulp-api-server` is also used to to run `pulp_database_config`.
 This means that it will create and migrate the database for Pulp.
 The name `example-pulp-api-server` follows an Ansible standard that implies that more can be added at a later stage.
-
-After Installation
-------------------
-
-## Changing settings
-
-Don't use ``pulp_settings_file`` (by default ``/etc/pulp/settings.py``) to add or modify settings.
-Use the local settings file ``/etc/pulp/settings.local.py`` to do such modifications.
-It helps to preserve your settings during the pulp upgrades.
-List of available setting in [pulpcore docs](https://docs.pulpproject.org/pulpcore/configuration/settings.html)
-and format follows [dynaconf syntax](https://dynaconf.readthedocs.io/en/docs_223/guides/examples.html#py).
