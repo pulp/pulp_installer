@@ -100,6 +100,8 @@ Role Variables
     documentation on all the possible variable names and their values. Listed below are variables
     that must be set at the time of running pulp_installer, or that the installer behaves
     differently based on .
+    * `pulp_settings.content_path_prefix`: Base path where the content will be served. Defaults to
+    "/pulp/content". **Do not append trailing slash.**
     * `content_origin`: **Required**. The URL to the pulp_content
       host that clients will access, and that will be appended to in HTTP
       responses by multiple content plugins. Any load balancers / proxies (such
