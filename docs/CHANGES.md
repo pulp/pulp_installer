@@ -13,6 +13,32 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.18.4 (2022-04-29)
+===================
+
+Bugfixes
+--------
+
+- Fix `pulp_health_check : Checking Pulp services` sometimes failing during upgrades due to the pulpcore-resource-manager service still exisitng.
+  [#1016](https://github.com/pulp/pulp_installer/issues/1016)
+
+
+Misc
+----
+
+- [#998](https://github.com/pulp/pulp_installer/issues/998), [#999](https://github.com/pulp/pulp_installer/issues/999), [#1001](https://github.com/pulp/pulp_installer/issues/1001), [#1002](https://github.com/pulp/pulp_installer/issues/1002)
+
+
+Devel
+-----
+
+- Added a .curlrc file with the parameter to check the .netrc
+  [#1005](https://github.com/pulp/pulp_installer/issues/1005)
+
+
+----
+
+
 3.18.3 (2022-04-06)
 ===================
 
