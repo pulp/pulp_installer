@@ -8,6 +8,7 @@
       when:
         - ansible_facts.distribution in ['RedHat', 'CentOS']
         - ansible_facts.distribution_major_version | int == 8
+        - '"8" in pulp_python_interpreter'
       changed_when:
         - python38_module_enable.stdout is defined
         - "'Enabling module streams' in python38_module_enable.stdout"
