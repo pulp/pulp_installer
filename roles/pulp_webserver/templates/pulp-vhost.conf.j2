@@ -21,8 +21,8 @@ Define pulp-api {{ __pulp_webserver_apache_api_bind }}
   ProxyPass /auth/login/ ${pulp-api}/auth/login/
   ProxyPassReverse /auth/login/ ${pulp-api}/auth/login/
 
-  ProxyPass /pulp/content ${pulp-content}/pulp/content
-  ProxyPassReverse /pulp/content ${pulp-content}/pulp/content
+  ProxyPass {{ __pulp_common_merged_pulp_settings.content_path_prefix }} ${pulp-content}{{ __pulp_common_merged_pulp_settings.content_path_prefix }}
+  ProxyPassReverse {{ __pulp_common_merged_pulp_settings.content_path_prefix }} ${pulp-content}{{ __pulp_common_merged_pulp_settings.content_path_prefix }}
 
   IncludeOptional pulp/*.conf
 
@@ -76,8 +76,8 @@ Define pulp-api {{ __pulp_webserver_apache_api_bind }}
   ProxyPass /auth/login/ ${pulp-api}/auth/login/
   ProxyPassReverse /auth/login/ ${pulp-api}/auth/login/
 
-  ProxyPass /pulp/content ${pulp-content}/pulp/content
-  ProxyPassReverse /pulp/content ${pulp-content}/pulp/content
+  ProxyPass {{ __pulp_common_merged_pulp_settings.content_path_prefix }} ${pulp-content}{{ __pulp_common_merged_pulp_settings.content_path_prefix }}
+  ProxyPassReverse {{ __pulp_common_merged_pulp_settings.content_path_prefix }} ${pulp-content}{{ __pulp_common_merged_pulp_settings.content_path_prefix }}
 
   IncludeOptional pulp/*.conf
 
