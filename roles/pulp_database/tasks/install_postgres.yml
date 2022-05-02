@@ -99,6 +99,16 @@
     - pg_version.changed
     - pg_version.stdout is version('10', '<')
 
+- name: Adding vars
+  copy:
+    src: files/RedHat-9.yml
+    dest: '{{ role_path }}/../geerlingguy.postgresql/vars/RedHat-9.yml'
+    mode: '0644'
+  delegate_to: localhost
+  when:
+    - ansible_facts.os_family == 'RedHat'
+    - ansible_facts.distribution_major_version|int == 9
+
 - block:
     - name: Install and configure PostgreSQL
       include_role:
