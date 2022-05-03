@@ -173,9 +173,8 @@
     src: pulpcore.repo.j2
     dest: /etc/yum.repos.d/pulpcore.repo
     mode: '0644'
-
   when:
     - ansible_facts.os_family == "RedHat"
-    - pulp_pkg_repo is not none
+    - pulp_install_source == "packages"
     - __pulp_rhel_pulpcore_repo_enable_default and pulp_rhel_pulpcore_repo_enable and pulp_repos_enable
   become: true
