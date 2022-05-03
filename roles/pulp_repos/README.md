@@ -18,11 +18,11 @@ With its defaults.
 * `pulp_repos_enable`: Effectively can disable enablement of all repositories mentioned below.
   Defaults to `True`.
 
-* `pulp_repos_centos_powertools_repo_enable`: to enable PowerTools repository (defaults to `True`)
+* `pulp_repos_centos_powertools_repo_enable`: to enable CentOS 8 PowerTools repository (defaults to `True`)
 * `pulp_repos_epel_enable`: to enable EPEL repository (defaults to `True`)
-* `pulp_repos_rhel_codeready_enable`: to enable RHEL CodeReady repository (defaults to `True`)
-* `pulp_repos_rhel_optional_enable`: to enable RHEL Optional repository (defaults to `True`)
-* `pulp_rhel_pulpcore_repo_enable`: to enable RHEL Pulpcore repo (defaults to `True`).
+* `pulp_repos_rhel_codeready_enable`: to enable RHEL8 CodeReady repository (defaults to `True`)
+* `pulp_repos_rhel_optional_enable`: to enable RHEL7 Optional repository (defaults to `True`)
+* `pulp_rhel_pulpcore_repo_enable`: to add the RHEL/CentOS Pulpcore repo to the system (defaults to `True`).
 * `pulp_rhel_scl_repo_enable`: to enable SCL repository (defaults to `True`).
 
 * `pulp_rhel_codeready_repo`: List of possible names for rhel8+ CodeReady Builder repo
@@ -53,6 +53,11 @@ These variables corresponding to role repository variables above when is called 
 * `__pulp_repos_rhel_optional_enable_default`: Defaults to `False`
 * `__pulp_rhel_pulpcore_repo_enable_default`: Defaults to `False`
 * `__pulp_rhel_scl_repo_enable_default`: Defaults to `False`
+
+Shared Variables
+----------------
+* `pulp_install_source`: If set to `packages`, and pulp_rhel_pulpcore_repo_enable==true, Add the
+  pulpcore repo to the system.
 
 ### Example
 
