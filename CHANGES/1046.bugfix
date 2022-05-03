@@ -1,0 +1,1 @@
+On EL7 & EL8, do not add the pulpcore RPM repository to systems when pulp_install_source=="pip".
