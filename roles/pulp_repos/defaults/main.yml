@@ -25,6 +25,8 @@ __pulp_pkg_repo_gpgkey: "{{ pulp_pkg_repo.rstrip('/') }}/../../GPG-RPM-KEY-pulpc
 pulp_pkg_repo: "https://yum.theforeman.org/pulpcore/3.17/el{{ ansible_distribution_major_version }}/$basearch/"
 pulp_pkg_repo_gpgcheck: True
 
+pulp_install_source: pip
+
 pulp_rhel_codeready_repo:
   - codeready-builder-for-rhel-8-x86_64-rpms
   - rhui-codeready-builder-for-rhel-8-rhui-rpms
