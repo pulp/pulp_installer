@@ -52,7 +52,7 @@ pulp_upgraded_manually: false
 # keep this two in sync with pulp_repos/defaults/main.yml
 # due to CI coverage test
 __pulp_pkg_repo_name: "pulpcore"
-pulp_pkg_repo: "https://yum.theforeman.org/pulpcore/3.17/el{{ ansible_distribution_major_version }}/$basearch/"
+pulp_pkg_repo: "https://yum.theforeman.org/pulpcore/3.18/el{{ ansible_distribution_major_version }}/$basearch/"
 
 # The order is significant; linear order to handle the dependency tree
 __pulp_selinux_policy_pkgs:
