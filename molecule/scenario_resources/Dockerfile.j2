@@ -19,7 +19,6 @@ RUN yum makecache fast &&\
 yum update -y &&\
 yum install -y \
   bash \
-  jemalloc \
   python \
   selinux-policy \
   sudo \
@@ -57,7 +56,6 @@ RUN grep -v "CentOS" /etc/redhat-release || dnf makecache &&\
 dnf update -y &&\
 dnf --assumeyes install \
   bash \
-  jemalloc \
   glibc-langpack-en \
   python3 \
   python3-dnf \
