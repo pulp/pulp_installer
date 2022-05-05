@@ -15,8 +15,7 @@ ENV container docker
 
 {% if item.name.startswith('centos-7') -%}
 
-RUN yum install -y epel-release &&\
-yum makecache fast &&\
+RUN yum makecache fast &&\
 yum update -y &&\
 yum install -y \
   bash \
@@ -54,8 +53,7 @@ rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 {% else -%}
 # fedora or centos-8
 
-RUN grep -v "CentOS" /etc/redhat-release || dnf install -y epel-release &&\
-dnf makecache &&\
+RUN grep -v "CentOS" /etc/redhat-release || dnf makecache &&\
 dnf update -y &&\
 dnf --assumeyes install \
   bash \
