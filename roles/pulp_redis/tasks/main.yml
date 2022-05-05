@@ -20,7 +20,7 @@
       include_role:
         name: pulp_repos
       vars:
-        __pulp_repos_epel_enable_default: True
+        __pulp_repos_epel_enable_default: '{{ (pulp_install_source == "packages") | ternary(false, true) }}'
       when:
         - ansible_facts.os_family == 'RedHat' or ansible_facts.os_family == 'CentOS'
         - ansible_facts.distribution_major_version|int == 7
