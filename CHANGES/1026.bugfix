@@ -1,1 +1,0 @@
-Fix SELinux policies not taking effect early enough during certain cluster installs (e.g., when pulp_workers is run on a host with pulp_database_config being run on it.)
