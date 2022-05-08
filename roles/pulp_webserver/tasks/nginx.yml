@@ -53,17 +53,39 @@
         setype: _default
         seuser: _default
 
-    - name: Symlink nginx snippets
+    - name: Identify Nginx snippets on the pulp_database_config host
       script:
-        cmd: symlink_snippets.py {{ __pulp_webserver_plugin.key | regex_replace("-", "_") | quote }} {{ pulp_webserver_server }}.conf
+        cmd: identify_snippets.py {{ __pulp_webserver_plugin.key | regex_replace("-", "_") | quote }} {{ pulp_webserver_server }}.conf
       args:
-        executable: '{{ (pulp_install_source == "packages") | ternary(pulp_python_interpreter, pulp_install_dir ~ "/bin/python") }}'
-      register: snippets
+        executable: '{{ (__pulp_install_source == "packages") | ternary(__pulp_python_interpreter, __pulp_install_dir ~ "/bin/python") }}'
+      register: snippet_filepaths
       loop: '{{ pulp_install_plugins_normalized | dict2items }}'
       loop_control:
         loop_var: __pulp_webserver_plugin
+      delegate_to: "{{ __pulp_database_config_host }}"
       changed_when: false
+      failed_when: snippet_filepaths.rc not in [0,10]
       check_mode: false
+
+    - name: Copy snippets from the pulp_database_config host
+      slurp:
+        src: "{{ item.stdout.strip() }}"
+      with_items: "{{ snippet_filepaths.results }}"
+      register: snippet_contents
+      delegate_to: "{{ __pulp_database_config_host }}"
+      when:
+        item.stdout.strip() != ""
+
+    - name: Install snippets from the pulp_database_config host
+      copy:
+        content: "{{ item.content | b64decode }}"
+        dest: "/etc/nginx/pulp/{{ item.item.__pulp_webserver_plugin.key }}.conf"
+        mode: '0755'
+        serole: _default
+        setype: _default
+        seuser: _default
+      with_items: "{{ snippet_contents.results }}"
+      when: item.content is defined
       notify: reload nginx
 
     - name: Start and enable Nginx

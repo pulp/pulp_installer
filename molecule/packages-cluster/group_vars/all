@@ -6,7 +6,7 @@ pulp_install_source: packages
 pulp_install_selinux_policies: True
 pulp_install_plugins:
   pulp-file:
-  pulp-rpm:
+  pulp-container:
 # Setting this not because it should have any effect, but to test that it
 # doesn't:
 pulp_pkg_upgrade_all: true

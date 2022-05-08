@@ -6,7 +6,7 @@ pulp_install_plugins:
   # galaxy-ng: {}
   # pulp-ansible: {}
   # pulp-certguard: {}
-  # pulp-container: {}
+  pulp-container: {}
   # pulp-cookbook: {}
   # pulp-deb: {}
   pulp-file: {}

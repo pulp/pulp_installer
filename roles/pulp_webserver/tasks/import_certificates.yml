@@ -4,7 +4,7 @@
     src: "{{ pulp_webserver_tls_cert }}"
     dest: "{{ pulp_certs_dir }}/pulp_webserver.crt"
     owner: root
-    group: "{{ pulp_group }}"
+    group: "{{ pulp_group | default('root') }}"
     mode: 0600
     remote_src: "{{ pulp_webserver_tls_files_remote }}"
     serole: _default
@@ -17,7 +17,7 @@
     src: "{{ pulp_webserver_tls_key }}"
     dest: "{{ pulp_certs_dir }}/pulp_webserver.key"
     owner: root
-    group: "{{ pulp_group }}"
+    group: "{{ pulp_group | default('root') }}"
     mode: 0600
     remote_src: "{{ pulp_webserver_tls_files_remote }}"
     serole: _default
