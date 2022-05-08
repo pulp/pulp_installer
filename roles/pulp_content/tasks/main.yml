@@ -1,30 +1,52 @@
 ---
+- name: Get the database fields key from the pulp_database_config node
+  command: "cat {{ __pulp_db_fields_key_path }}"
+  delegate_to: "{{ hostvars['localhost']['pulp_database_config_host'] | default(inventory_hostname) }}"
+  run_once: "{{ __pulp_run_once }}"
+  register: pulp_db_fields_key_content
+  changed_when: false
+  check_mode: false
+  become: true
+
+- name: Copy Pulp Database Encryption Key from pulp_database_config node
+  copy:
+    content: "{{ pulp_db_fields_key_content.stdout }}"
+    dest: "{{ __pulp_db_fields_key_path }}"
+    owner: 'root'
+    group: "{{ pulp_group }}"
+    mode: 0640
+    serole: _default
+    setype: _default
+    seuser: _default
+    backup: true
+  become: true
+
 - block:
 
-  - name: Apply the SELinux type to the TCP port that pulpcore-content listens on
-    seport:
-      ports: '{{ pulp_content_bind.split(":")[1] }}'
-      proto: tcp
-      setype: pulpcore_port_t
-    when:
-      - not (pulp_content_bind.startswith('unix:'))
-      - ansible_facts.os_family == 'RedHat'
-      # We can also try using seport's ignore_selinux_state variable
-      - ansible_facts.selinux.status == "enabled"
+    - name: Apply the SELinux type to the TCP port that pulpcore-content listens on
+      seport:
+        ports: '{{ pulp_content_bind.split(":")[1] }}'
+        proto: tcp
+        setype: pulpcore_port_t
+      when:
+        - not (pulp_content_bind.startswith('unix:'))
+        - ansible_facts.os_family == 'RedHat'
+        # We can also try using seport's ignore_selinux_state variable
+        - ansible_facts.selinux.status == "enabled"
 
-  - name: Install pulpcore-content service file
-    template:
-      src: pulpcore-content.service.j2
-      dest: /lib/systemd/system/pulpcore-content.service
-      owner: root
-      group: root
-      mode: 0644
-    notify: Reload systemd and restart pulp content app
+    - name: Install pulpcore-content service file
+      template:
+        src: pulpcore-content.service.j2
+        dest: /lib/systemd/system/pulpcore-content.service
+        owner: root
+        group: root
+        mode: 0644
+      notify: Reload systemd and restart pulp content app
 
-  - name: Set state of pulp content app
-    systemd:
-      daemon_reload: true
-      name: pulpcore-content.service
-      state: started
-      enabled: true
+    - name: Set state of pulp content app
+      systemd:
+        daemon_reload: true
+        name: pulpcore-content.service
+        state: started
+        enabled: true
   become: true
