@@ -1,4 +1,5 @@
 ---
+pulp_python_cryptography: python3-cryptography
 pulp_firewall_dependencies:
   - python3-firewall
 pulp_webserver_apache_package: apache2

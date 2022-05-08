@@ -13,5 +13,4 @@ pulp_preq_packages:
 
 # Pulp requires Python 3.8+.
 pulp_python_interpreter: /usr/bin/python3
-pulp_python_cryptography:
-  - python3-cryptography
+pulp_python_cryptography: python3-cryptography

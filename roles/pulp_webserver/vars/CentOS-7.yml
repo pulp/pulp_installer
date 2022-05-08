@@ -1,6 +1,7 @@
 ---
 # We set the following to mod_ssl as httpd is a dependency
 # and hence will be pulled.
+pulp_python_cryptography: python2-cryptography
 pulp_seboolean_packages:
   - libselinux-python
   - libsemanage-python

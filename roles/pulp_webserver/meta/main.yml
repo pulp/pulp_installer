@@ -23,7 +23,6 @@ galaxy_info:
     - pulp
     - pulpcore
 dependencies:
-  - pulp_common
 collections:
   - ansible.posix
   - community.crypto

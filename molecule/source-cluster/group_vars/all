@@ -9,10 +9,10 @@ pulp_install_plugins:
     git_url: "https://github.com/pulp/pulp_file"
     git_revision: "main"
     source_dir: "/var/lib/pulp/devel/pulp_file"
-  pulp-rpm:
-    git_url: "https://github.com/pulp/pulp_rpm"
+  pulp-container:
+    git_url: "https://github.com/pulp/pulp_container"
     git_revision: "main"
-    source_dir: "/var/lib/pulp/devel/pulp_rpm"
+    source_dir: "/var/lib/pulp/devel/pulp_container"
 developer_user_home: /var/lib/pulp
 developer_user: pulp
 pulp_webserver_server: apache

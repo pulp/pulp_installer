@@ -83,11 +83,13 @@ some of its variables.
 
 * `pulp_certs_dir`: Path where to generate or drop the TLS certificates. Defaults to
   '{{ pulp_config_dir }}/certs' .
+* `pulp_config_dir`: Directory under which pulp_certs_dir is created by default.
+  Defaults to "/etc/pulp".
 * `pulp_install_dir`: Location of a virtual environment for Pulp and its Python
   dependencies.
 * `pulp_install_plugins` (technically `pulp_install_plugins_normalized`). The list
   of plugins to install is used to inform pulp_webserver which webserver snippets
-  to look for and use.
+  to look for and use on the pulp_database_config host.
 * `pulp_user_home`: equivalent to `MEDIA_ROOT` from `pulpcore` i.e. absolute path for pulp user home.
 * `pulp_content_bind` Set the host the reverse proxy should connect to for the Content app. Defaults
   to '127.0.0.1:24816'.
