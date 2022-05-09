@@ -124,7 +124,7 @@
     name: pulp_repos
   vars:
     __pulp_repos_centos_powertools_repo_enable_default: True
-    __pulp_repos_epel_enable_default: '{{ (pulp_install_source == "packages") | ternary(false, true) }}'
+    # __pulp_repos_epel_enable_default: comes from the role
     __pulp_repos_rhel_codeready_enable_default: True
     __pulp_repos_rhel_optional_enable_default: True
     __pulp_rhel_pulpcore_repo_enable_default: True
