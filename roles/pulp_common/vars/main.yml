@@ -47,7 +47,10 @@ __pulp_artifact_dir: "{{ pulp_media_root | regex_replace('\\/$', '')  }}/artifac
 
 __galaxy_profile: '{{ galaxy_profile | default("standalone") }}'
 __galaxy_dev_source_path: '{{ galaxy_dev_source_path | default("pulpcore:pulp_ansible:pulp_container:galaxy_ng:galaxy-importer") }}'
-__galaxy_lock_requirements: '{{ galaxy_lock_requirements | default(0) }}'
+# Set to 0 (unlock version requirements of __galaxy_dev_source_path) for main branch, the default branch for the repo
+# Set to 1 (keep requirements locked) for release branches
+__galaxy_lock_requirements_auto: "{{ ((pulp_install_plugins_normalized['galaxy-ng']['git_revision'] | default('main')) == 'main') | ternary('0','1') }}"
+__galaxy_lock_requirements: '{{ galaxy_lock_requirements | default(__galaxy_lock_requirements_auto) }}'
 
 # Pulps own replacement for django-admin setup in the proper environment
 pulp_django_admin_path: "{{ pulp_install_dir }}/bin/pulpcore-manager"
