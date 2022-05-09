@@ -188,6 +188,14 @@ Role Variables for advanced usage
    By default the installer will do the right thing by using the minor version of pulpcore it is designed
    for and tested with. This can also be a specific patch release (e.g.: `3.15.2`).
 * `pulp_service_timeout`: Set timeout value for pulp services. Defaults to 90.
+* `galaxy_lock_requirements`: If set to 0, when installing the plugin `galaxy-ng` from a source
+  directory (e.g., cloned via git), unlock the version requirements (i.e., install the latest versions)
+  of its dependency plugins, which are listed in `galaxy_dev_source_path`. If set to `1`, the version
+  constraints that galaxy-ng has for them are preserved. Defaults to `0` if galaxy-ng's `git_revision`
+  isn't specified or if it is set to "main". Defaults to `1` if galaxy-ng's `git_revision` is set to
+  any other git commitish (e.g., another branch.)
+* `galaxy_dev_source_path`: See `galaxy_lock_requirements`. Defaults to
+  `pulpcore:pulp_ansible:pulp_container:galaxy_ng:galaxy-importer`.
 
 Shared Variables
 ----------------
