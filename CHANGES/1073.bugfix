@@ -1,0 +1,1 @@
+When installing the `galaxy-ng` plugin from source, only unlock its version requirements if the "main" branch is used, or if the branch (`git_revision`) is unspecified.
