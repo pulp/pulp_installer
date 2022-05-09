@@ -2,7 +2,7 @@
 pulp_repos_enable: True
 
 __pulp_repos_epel_enable_default: False
-pulp_repos_epel_enable: '{{ (pulp_install_source == "packages") | ternary(false, true) }}'
+pulp_repos_epel_enable: True
 
 __pulp_repos_rhel_optional_enable_default: False
 pulp_repos_rhel_optional_enable: True

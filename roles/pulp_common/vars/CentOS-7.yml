@@ -21,3 +21,6 @@ pulp_python_cryptography:
   - python2-cryptography
 # Used by galaxy_post_install, which doesn't have per-distro vars yet
 __pulp_gpg_inspect_command: "gpg --with-fingerprint"
+
+# Needed for libmodulemd2 on EL7, even when installing from packages
+__pulp_repos_epel_enable_default: true

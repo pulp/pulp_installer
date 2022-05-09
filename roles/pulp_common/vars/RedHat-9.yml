@@ -19,3 +19,4 @@ pulp_python_cryptography:
   - python3-cryptography
 # Used by galaxy_post_install, which doesn't have per-distro vars yet
 __pulp_gpg_inspect_command: "gpg --import-options show-only --import --with-fingerprint"
+__pulp_repos_epel_enable_default: '{{ (pulp_install_source == "packages") | ternary(false, true) }}'
