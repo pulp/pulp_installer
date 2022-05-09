@@ -13,6 +13,18 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.15.7 (2022-05-09)
+
+Bugfixes
+--------
+
+- Fix the database fields key being generated as non-identical across multiple hosts, which in turn broke multiple runtime actions (for clustered setups with multiple hosts) such as syncing remotes for galaxy_ng. Also install the key on worker hosts. Introduces the advanced variable `pulp_database_config_host` to set which host will have its key copied to all the others (otherwise, random.)
+  [#964](https://pulp.plan.io/issues/964)
+
+
+----
+
+
 3.15.6 (2022-03-23)
 
 No significant changes.
