@@ -1,5 +1,6 @@
 ---
-- block:
+- name: Set config dirs
+  block:
     - name: Create configuration directory for Pulp
       file:
         path: '{{ pulp_config_dir }}'
