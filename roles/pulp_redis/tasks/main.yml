@@ -14,7 +14,8 @@
   tags:
     - always
 
-- block:
+- name: Redis config
+  block:
 
     - name: Enable EPEL repository
       include_role:

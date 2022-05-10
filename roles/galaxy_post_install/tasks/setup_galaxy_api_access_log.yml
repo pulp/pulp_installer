@@ -1,5 +1,6 @@
 ---
-- block:
+- name: Preparing loogger
+  block:
   - name: Create Galaxy api access log file
     file:
       path: '/var/log/galaxy_api_access.log'

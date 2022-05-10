@@ -76,7 +76,8 @@
 
 - include_tasks: "{{ pulp_webserver_server }}.yml"
 
-- block:
+- name: SELinux packages
+  block:
 
     - name: Install packages for Ansible seboolean module
       yum:
