@@ -1,6 +1,9 @@
 ---
 pulp_pkg_exclude: "python3-drf-yasg"  # Fixes upgrading from pre-3.8. It would depend on python3-django.
 pulp_pkg_name_prefix: "python3-"
+pulp_pkg_undeclared_deps:
+  - "{{ pulp_pkg_name_prefix }}markuppy"  # Because of https://bugzilla.redhat.com/show_bug.cgi?id=1986965
+  - "{{ pulp_pkg_name_prefix }}xlrd"
 pulp_preq_packages:
   - python3
   - python3-devel
