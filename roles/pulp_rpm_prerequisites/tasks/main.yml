@@ -23,6 +23,16 @@
     - ansible_facts.distribution == "Ubuntu"
   become: true
 
+- name: Install zchunk-devel
+  dnf:
+    name: "https://kojihub.stream.centos.org/kojifiles/packages/zchunk/1.1.9/4.el9/{{ ansible_facts.architecture }}/zchunk-devel-1.1.9-4.el9.{{ ansible_facts.architecture }}.rpm"
+    state: present
+    disable_gpg_check: true
+  become: true
+  when:
+    - ansible_facts.os_family == 'RedHat'
+    - ansible_facts.distribution_major_version|int == 9
+
 - name: Install requested non-pip packages
   package:
     name: '{{ rpm_prereq_packages }}'
