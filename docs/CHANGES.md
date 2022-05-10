@@ -13,6 +13,20 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.18.6 (2022-05-10)
+===================
+
+
+Features
+--------
+
+- Add support for Pulpcore 3.18 that runs with python 3.9 runtime.
+  [#1043](https://github.com/pulp/pulp_installer/issues/1043)
+
+
+----
+
+
 3.18.5 (2022-05-06)
 
 Features
