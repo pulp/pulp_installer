@@ -1,9 +1,8 @@
 ---
 pulp_pkg_exclude: "python3-drf-yasg"  # Fixes upgrading from pre-3.8. It would depend on python3-django.
-pulp_pkg_name_prefix: "python38-"
+pulp_pkg_name_prefix: "python39-"
 pulp_preq_packages:
-  - python38
-  - python38-devel
+  - '{{ pulp_pkg_name_prefix}}devel'
   - python3-libselinux  # For ansible itself
   - python3-policycoreutils  # For ansible itself
   - gcc                 # For psycopg2
@@ -13,8 +12,8 @@ pulp_preq_packages:
   - sudo
   - gnupg2              # For the signing service via the gpg python module
 
-# Pulp requires Python 3.8+.
-pulp_python_interpreter: /usr/bin/python3.8
+# Pulp requires Python 3.9+.
+pulp_python_interpreter: /usr/bin/python3.9
 pulp_python_cryptography:
   - python3-cryptography
 # Used by galaxy_post_install, which doesn't have per-distro vars yet

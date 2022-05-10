@@ -2,18 +2,18 @@
 - name: General system changes before installation
   block:
 
-    - name: Enable Python 3.8 module stream
-      command: dnf -y module enable python38
-      register: python38_module_enable
+    - name: Enable Python {{ pulp_pkg_name_prefix[:-1] }} module stream
+      command: dnf -y module enable {{ pulp_pkg_name_prefix[:-1] }}
+      register: python_module_enable
       when:
         - ansible_facts.distribution in ['RedHat', 'CentOS']
         - ansible_facts.distribution_major_version | int == 8
       changed_when:
-        - python38_module_enable.stdout is defined
-        - "'Enabling module streams' in python38_module_enable.stdout"
+        - python_module_enable.stdout is defined
+        - "'Enabling module streams' in python_module_enable.stdout"
       retries: 5
       delay: 12
-      until: python38_module_enable is succeeded
+      until: python_module_enable is succeeded
 
     - name: Install prerequisites
       package:
