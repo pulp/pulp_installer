@@ -1,5 +1,6 @@
 ---
-- block:
+- name: Tune bashrc.d
+  block:
   - name: Create ~/.bashrc.d/
     file:
       path: "{{ developer_user_home }}/.bashrc.d/"

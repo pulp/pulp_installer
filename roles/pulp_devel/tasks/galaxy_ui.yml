@@ -14,7 +14,8 @@
         path: '{{ developer_user_home }}/devel/ansible-hub-ui'
       register: is_hub_installed
 
-    - block:
+    - name: Build galaxy
+      block:
         - name: Cloning Ansible Hub UI
           git:
             repo: 'https://github.com/ansible/ansible-hub-ui.git'

@@ -12,7 +12,8 @@
   become: true
   when: galaxy_collection_signing_service_key is defined
 
-- block:
+- name: Check collection signing service gpg key file
+  block:
     - name: Set permissions on the collection signing service gpg key file
       file:
         path: "{{ pulp_certs_dir }}/galaxy_signing_service.gpg"
@@ -43,7 +44,8 @@
   become: true
   when: galaxy_collection_signing_service_script is defined
 
-- block:
+- name: Check collection galaxy signing service script
+  block:
     - name: Set permissions on the collection signing service script
       file:
         path: "{{ pulp_scripts_dir }}/collection_sign.sh"

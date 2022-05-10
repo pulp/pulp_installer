@@ -1,5 +1,6 @@
 ---
-- block:
+- name: Config pulpcore-content service
+  block:
 
   - name: Apply the SELinux type to the TCP port that pulpcore-content listens on
     seport:

@@ -1,5 +1,6 @@
 ---
-- block:
+- name: Install Apache
+  block:
 
     - name: Install Apache
       package:
