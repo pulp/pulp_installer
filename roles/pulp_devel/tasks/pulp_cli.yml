@@ -1,5 +1,6 @@
 ---
-- block:
+- name: Set Pulp CLI
+  block:
   - name: Check if CLI path exists
     stat:
       path: "{{ developer_user_home }}/devel/pulp-cli"

@@ -14,7 +14,8 @@
     - pulp_client_max_body_size == "1m"
     - developer_user is defined or developer_user_home is defined
 
-- block:
+- name: Install Nginx
+  block:
 
     - name: Install Nginx
       package:

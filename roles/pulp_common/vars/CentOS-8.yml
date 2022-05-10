@@ -2,7 +2,7 @@
 pulp_pkg_exclude: "python3-drf-yasg"  # Fixes upgrading from pre-3.8. It would depend on python3-django.
 pulp_pkg_name_prefix: "python39-"
 pulp_preq_packages:
-  - '{{ pulp_pkg_name_prefix}}devel'
+  - '{{ pulp_pkg_name_prefix }}devel'
   - python3-libselinux  # For ansible itself
   - python3-policycoreutils  # For ansible itself
   - gcc                 # For psycopg2

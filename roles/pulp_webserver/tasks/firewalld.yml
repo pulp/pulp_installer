@@ -1,5 +1,6 @@
 ---
-- block:
+- name: Set firewalld
+  block:
 
     - name: Install firewalld
       package:
