@@ -90,6 +90,50 @@
     - __pulp_codeready_repo_enabled is not defined
     - __pulp_repos_rhel_codeready_enable_default and pulp_repos_rhel_codeready_enable and pulp_repos_enable
 
+- name: Enable the CentOS CRB repo
+  block:
+
+    - name: Determine which file in /etc/yum.repos.d/ has the CRB repo
+      shell: grep -l -E "^\[CRB\]" /etc/yum.repos.d/*.repo
+      register: repo_file
+      changed_when: false
+      failed_when: false
+      check_mode: False
+
+    - name: Enable the CentOS CRB repo
+      ini_file:
+        path: "{{ repo_file.stdout }}"
+        section: "CRB"
+        option: enabled
+        value: "1"
+        no_extra_spaces: true
+        mode: '0644'
+      when: repo_file.rc == 0
+      become: true
+
+    - name: Determine which file in /etc/yum.repos.d/ has the Stream crb repo
+      shell: grep -l -E "^\[crb\]" /etc/yum.repos.d/*.repo
+      register: repo_file
+      changed_when: false
+      failed_when: false
+      check_mode: False
+
+    - name: Enable the CentOS crb repo
+      ini_file:
+        path: "{{ repo_file.stdout }}"
+        section: "crb"
+        option: enabled
+        value: 1
+        no_extra_spaces: true
+        mode: '0644'
+      when: repo_file.rc == 0
+      become: true
+
+  when:
+    - ansible_facts.distribution == "CentOS"
+    - ansible_facts.distribution_major_version|int == 9
+    - __pulp_repos_centos_crb_repo_enable_default and pulp_repos_centos_crb_repo_enable and pulp_repos_enable
+
 # Corresponds to the rhel8+ CodeReady Linux Builder repo
 # Foreman reminds you to wear a yellow hardhat when using power tools.
 - name: Enable the CentOS PowerTools repo
@@ -133,7 +177,7 @@
 
   when:
     - ansible_facts.distribution == "CentOS"
-    - ansible_facts.distribution_major_version|int >= 8
+    - ansible_facts.distribution_major_version|int == 8
     - __pulp_repos_centos_powertools_repo_enable_default and pulp_repos_centos_powertools_repo_enable and pulp_repos_enable
 
 - name: Enable SCL repository

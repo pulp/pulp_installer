@@ -123,6 +123,7 @@
   include_role:
     name: pulp_repos
   vars:
+    __pulp_repos_centos_crb_repo_enable_default: True
     __pulp_repos_centos_powertools_repo_enable_default: True
     __pulp_repos_epel_enable_default: True
     __pulp_repos_rhel_codeready_enable_default: True

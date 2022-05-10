@@ -1,1 +1,23 @@
-Fedora.yml
+---
+# vars file for pulp_rpm_prerequisites on Fedora
+# Also used by RHEL8 / CentOS8
+rpm_prereq_packages:
+  - gcc
+  - make
+  - cairo-devel
+  - cairo-gobject-devel
+  - cmake
+  - bzip2-devel
+  - expat-devel
+  - file-devel
+  - glib2-devel
+  - gobject-introspection-devel
+  - libcurl-devel
+  - libmodulemd-devel
+  - libxml2-devel
+  - openssl-devel
+  - python3-devel
+  - rpm-devel
+  - sqlite-devel
+  - xz-devel
+  - zlib-devel
