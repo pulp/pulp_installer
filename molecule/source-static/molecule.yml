@@ -30,6 +30,10 @@ platforms:
     image: ghcr.io/pulp/molecule_centosstream8
     command: /sbin/init
   - <<: *platform_base
+    name: centos-stream9
+    image: ghcr.io/pulp/molecule_centosstream9
+    command: /sbin/init
+  - <<: *platform_base
     name: debian-11
     image: ghcr.io/pulp/molecule_debian11
     command: /sbin/init

@@ -4,9 +4,7 @@ pulp_devel_distro_pkgs:
   - dnf-utils
   - nc
   - nmap
-  - python-django-bash-completion
   - python3-setuptools
-  - python3-virtualenv-clone
   - vim-enhanced
   - ruby-devel
   - rubygems
