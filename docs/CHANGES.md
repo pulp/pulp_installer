@@ -65,6 +65,46 @@ Devel
 ----
 
 
+3.18.6 (2022-05-10)
+===================
+
+
+Features
+--------
+
+- Add support for Pulpcore 3.18 that runs with python 3.9 runtime.
+  [#1043](https://github.com/pulp/pulp_installer/issues/1043)
+
+
+----
+
+
+3.18.5 (2022-05-06)
+===================
+
+Features
+--------
+
+- Update the SELinux polcies (pulpcore-selinux) to 1.3.1 to support the galaxy-importer plugin.
+  [#1022](https://github.com/pulp/pulp_installer/issues/1022)
+
+
+Bugfixes
+--------
+
+- Fix the database fields key being generated as non-identical across multiple hosts, which in turn broke multiple runtime actions (for clustered setups with multiple hosts) such as syncing remotes for galaxy_ng. Also install the key on worker hosts. Introduces the advanced variable `pulp_database_config_host` to set which host will have its key copied to all the others (otherwise, random.)
+  [#964](https://github.com/pulp/pulp_installer/issues/964)
+- When in `pip` install mode, fix SELinux accidentally blocking the pulp appplication from doing certain tasks. This was due to the pulp application during the install (before it completes) getting accidentally labeled as init_t.
+  [#1023](https://github.com/pulp/pulp_installer/issues/1023)
+- Fix SELinux policies not taking effect early enough during certain cluster installs (e.g., when pulp_workers is run on a host with pulp_database_config being run on it.)
+  [#1026](https://github.com/pulp/pulp_installer/issues/1026)
+- On EL7 & EL8, do not add the pulpcore RPM repository to systems when pulp_install_source=="pip".
+  [#1046](https://github.com/pulp/pulp_installer/issues/1046)
+
+
+----
+
+
 3.18.5 (2022-05-06)
 ===================
 
@@ -455,6 +495,86 @@ Devel
 
 - Run pulp_installer collection on pulplift
   [#9371](https://pulp.plan.io/issues/9371)
+
+
+----
+
+
+3.15.7 (2022-05-09)
+
+Bugfixes
+--------
+
+- Fix the database fields key being generated as non-identical across multiple hosts, which in turn broke multiple runtime actions (for clustered setups with multiple hosts) such as syncing remotes for galaxy_ng. Also install the key on worker hosts. Introduces the advanced variable `pulp_database_config_host` to set which host will have its key copied to all the others (otherwise, random.)
+  [#964](https://pulp.plan.io/issues/964)
+
+
+----
+
+
+3.15.6 (2022-03-23)
+
+No significant changes.
+
+
+----
+
+
+3.15.5 (2022-03-15)
+
+No significant changes.
+
+
+----
+
+
+3.15.4-2 (2022-03-11)
+
+Bugfixes
+--------
+
+- Update webserver symlink when needed
+  [#939](https://pulp.plan.io/issues/939)
+
+
+----
+
+
+3.15.4-1 (2022-03-03)
+
+Bugfixes
+--------
+
+- When in packages mode, install the package with the SELinux policies via an ansible task, rather than assuming it is a dependency (which is no longer the case.) The variable `pulp_pkg_selinux_name` was introduced to specify the name. Also introduce the variable `pulp_install_selinux_policies` to enable or disable installing the SELinux policies, regardless of whether in packages mode or pip mode.
+  [#916](https://pulp.plan.io/issues/916)
+
+
+----
+
+
+3.15.4 (2022-03-03)
+
+No significant changes.
+
+
+----
+
+
+3.15.3-1 (2022-03-01)
+=====================
+
+Bugfixes
+--------
+
+- Removed extraneous use of become_user: root from devel role.
+  [#844](https://pulp.plan.io/issues/844)
+
+
+Deprecations and Removals
+-------------------------
+
+- CentOS 8 is now EOL, and thus Pulp no longer formally supports it. Pulp now only tests fresh installs with CentOS Stream 8, and with upgrades from CentOS 8 to CentOS Stream 8 (see migration instructions here https://centos.org/centos-stream/).
+  [#860](https://pulp.plan.io/issues/860)
 
 
 ----
