@@ -20,7 +20,12 @@
         name: "{{ item }}"
       loop:
         - headers
+        - lbmethod_bybusyness
+        - lbmethod_byrequests
+        - lbmethod_bytraffic
+        - lbmethod_heartbeat
         - proxy
+        - proxy_balancer
         - proxy_http
         - ssl
       when: ansible_facts.os_family == "Debian"

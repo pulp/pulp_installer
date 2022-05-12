@@ -1,7 +1,5 @@
 ---
 __pulp_apache_url: 'localhost'
-__pulp_webserver_apache_api_bind: "{{ pulp_api_bind.startswith('unix') | ternary(pulp_api_bind + '|http://' + __pulp_apache_url, 'http://' + pulp_api_bind ) }}"
-__pulp_webserver_apache_content_bind: "{{ pulp_content_bind.startswith('unix') | ternary(pulp_content_bind + '|http://' + __pulp_apache_url, 'http://' + pulp_content_bind ) }}"
 pulp_install_plugins_normalized_yml: |-
   {% for key, value in pulp_install_plugins.items() %}
   {{ key.replace('_', '-') }}: {{ value | to_json }}
