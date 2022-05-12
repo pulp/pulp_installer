@@ -4,22 +4,21 @@
   force_handlers: True
   tasks:
     - set_fact:
-        pulpcore_version: "3.14.5"
+        pulpcore_version: "3.14.17"
         prereq_pip_packages:
           - Jinja2
           - pygments
-          - redis==4.1.4  # Needed to avoid a pulpcore 3.14 version conflict for dependency async-timeout
     - set_fact:
         pulp_install_plugins:
           pulp_file:
-            version: "1.8.0"
+            version: "1.8.2"
           pulp_rpm:
-            version: "3.14.5"
+            version: "3.14.15"
       when: ansible_facts.os_family == 'RedHat'
     - set_fact:
         pulp_install_plugins:
           pulp_file:
-            version: "1.8.0"
+            version: "1.8.2"
       when: ansible_facts.os_family == 'Debian'
     - include_role:
         name: pulp_all_services
@@ -27,15 +26,15 @@
       pip_package_info:
         clients: "/usr/local/lib/pulp/bin/pip"
       register: pip_pkgs
-    - name: Assert pulpcore==3.14.5, pulp-file==1.8.0
+    - name: Assert pulpcore==3.14.17, pulp-file==1.8.2
       assert:
         that:
-          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulpcore'][0].version is version("3.14.5", "=")
-          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-file'][0].version is version("1.8.0", "=")
-    - name: Assert pulp-rpm==3.14.5
+          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulpcore'][0].version is version("3.14.17", "=")
+          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-file'][0].version is version("1.8.2", "=")
+    - name: Assert pulp-rpm==3.14.15
       assert:
         that:
-          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-rpm'][0].version is version("3.14.5", "=")
+          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-rpm'][0].version is version("3.14.15", "=")
       when: ansible_facts.os_family == 'RedHat'
 # Test not updating (upgrade=false on a branch)
 - hosts: all
@@ -65,15 +64,15 @@
       pip_package_info:
         clients: "/usr/local/lib/pulp/bin/pip"
       register: pip_pkgs
-    - name: Assert pulpcore==3.14.5, pulp-file==1.8.0
+    - name: Assert pulpcore==3.14.17, pulp-file==1.8.2
       assert:
         that:
-          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulpcore'][0].version is version("3.14.5", "=")
-          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-file'][0].version is version("1.8.0", "=")
-    - name: Assert pulp-rpm==3.14.5
+          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulpcore'][0].version is version("3.14.17", "=")
+          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-file'][0].version is version("1.8.2", "=")
+    - name: Assert pulp-rpm==3.14.15
       assert:
         that:
-          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-rpm'][0].version is version("3.14.5", "=")
+          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-rpm'][0].version is version("3.14.15", "=")
       when: ansible_facts.os_family == 'RedHat'
 # Test updates (upgrade=true on a branch)
 - hosts: all
