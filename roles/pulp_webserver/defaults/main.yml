@@ -26,3 +26,10 @@ pulp_client_max_body_size: "{{ '1m' if pulp_webserver_server == 'nginx' else '0'
 # Defaults for settings
 __pulp_common_merged_pulp_settings:
   content_path_prefix: "/pulp/content"
+
+pulp_webserver_api_hosts: "{{ [{ 'address' : pulp_api_bind }] }}"
+pulp_webserver_content_hosts: "{{ [{ 'address' : pulp_content_bind }] }}"
+pulp_webserver_api_balancer_apache_parameters: []
+pulp_webserver_content_balancer_apache_parameters: []
+pulp_webserver_api_balancer_nginx_directives: []
+pulp_webserver_content_balancer_nginx_directives: []

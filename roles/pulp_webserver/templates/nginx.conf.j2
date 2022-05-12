@@ -23,11 +23,23 @@ http {
     types_hash_max_size 4096;
 
     upstream pulp-content {
-        server {{ pulp_content_bind }};
+{% for item in pulp_webserver_content_balancer_nginx_directives %}
+        {{ item.name | default('') }} {{ item.parameters | default(['']) | join(' ') }};
+{% endfor %}
+
+{% for item in pulp_webserver_content_hosts %}
+        server {{ item.address }} {{ item.nginx_parameters | default(['']) | join(' ') }};
+{% endfor %}
     }
 
     upstream pulp-api {
-        server {{ pulp_api_bind }};
+{% for item in pulp_webserver_api_balancer_nginx_directives %}
+        {{ item.name | default('') }} {{ item.parameters | default(['']) | join(' ') }};
+{% endfor %}
+
+{% for item in pulp_webserver_api_hosts %}
+        server {{ item.address }} {{ item.nginx_parameters | default(['']) | join(' ') }};
+{% endfor %}
     }
 
     server {

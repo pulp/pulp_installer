@@ -23,7 +23,9 @@
   environment:
     DJANGO_SETTINGS_MODULE: pulpcore.app.settings
 
-- hosts: pulp-api
+- hosts:
+    - pulp-api1
+    - pulp-api2
   force_handlers: True
   collections:
     - pulp.pulp_installer
@@ -50,6 +52,16 @@
     - setup:
   roles:
     - pulp_content
+  environment:
+    DJANGO_SETTINGS_MODULE: pulpcore.app.settings
+
+- hosts:
+    - pulp-api1
+    - pulp-api2
+  force_handlers: True
+  collections:
+    - pulp.pulp_installer
+  roles:
     - pulp_health_check
   environment:
     DJANGO_SETTINGS_MODULE: pulpcore.app.settings

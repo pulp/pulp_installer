@@ -1,5 +1,24 @@
-Define pulp-content {{ __pulp_webserver_apache_content_bind }}
-Define pulp-api {{ __pulp_webserver_apache_api_bind }}
+Define pulp-content balancer://pulp-content
+Define pulp-api balancer://pulp-api
+
+<Proxy balancer://pulp-content>
+{% if pulp_webserver_content_balancer_apache_parameters | length > 0 %}
+  ProxySet {{ pulp_webserver_content_balancer_apache_parameters | join(' ') }}
+{% endif %}
+
+{% for item in pulp_webserver_content_hosts %}
+  BalancerMember "{{ item.address.startswith('unix') | ternary(item.address + '|http://' + __pulp_apache_url, 'http://' + item.address ) }}" {{ item.apache_parameters | default(['']) | join(' ') }}
+{% endfor %}
+</Proxy>
+<Proxy balancer://pulp-api>
+{% if pulp_webserver_api_balancer_apache_parameters | length > 0 %}
+  ProxySet {{ pulp_webserver_api_balancer_apache_parameters | join(' ') }}
+{% endif %}
+
+{% for item in pulp_webserver_api_hosts %}
+  BalancerMember "{{ item.address.startswith('unix') | ternary(item.address + '|http://' + __pulp_apache_url, 'http://' + item.address ) }}" {{ item.apache_parameters | default(['']) | join(' ') }}
+{% endfor %}
+</Proxy>
 
 {% if pulp_webserver_disable_https | bool %}
 <VirtualHost *:{{ pulp_webserver_http_port }}>

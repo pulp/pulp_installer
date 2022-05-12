@@ -12,8 +12,47 @@ pulp_install_plugins:
 pulp_pkg_upgrade_all: true
 pulp_webserver_server: apache
 pulp_redis_bind: '0.0.0.0:6379'
-pulp_api_bind: "{{ hostvars['pulp-api']['ansible_default_ipv4']['address'] }}:24817"
+pulp_api_bind: "{{ ansible_default_ipv4['address'] }}:24817"
 pulp_content_bind: "{{ hostvars['pulp-content']['ansible_default_ipv4']['address'] }}:24816"
+pulp_webserver_api_hosts:
+  - address: "{{ hostvars['pulp-api1']['ansible_default_ipv4']['address'] }}:24817"
+    nginx_parameters:
+      - weight=1
+      - max_conns=100
+    apache_parameters:
+      - keepalive=on
+      - lbset=1
+  - address: "{{ hostvars['pulp-api2']['ansible_default_ipv4']['address'] }}:24817"
+    nginx_parameters:
+      - weight=2
+      - max_conns=100
+    apache_parameters:
+      - keepalive=on
+      - lbset=2
+pulp_webserver_content_hosts:
+  - address: "{{ hostvars['pulp-content']['ansible_default_ipv4']['address'] }}:24816"
+    nginx_parameters:
+      - weight=1
+      - max_conns=100
+    apache_parameters:
+      - keepalive=on
+      - lbset=1
+pulp_webserver_content_balancer_nginx_directives:
+  - name: zone
+    parameters:
+     - upstream_dynamic
+     - 64k
+pulp_webserver_api_balancer_nginx_directives:
+  - name: zone
+    parameters:
+     - upstream_dynamic
+     - 64k
+pulp_webserver_content_balancer_apache_parameters:
+  - "lbmethod=bytraffic"
+  - "timeout=10"
+pulp_webserver_api_balancer_apache_parameters:
+  - "lbmethod=bytraffic"
+  - "timeout=10"
 pulp_settings:
   secret_key: secret
   content_origin: "https://{{ hostvars['pulp-webserver']['ansible_fqdn'] }}"
