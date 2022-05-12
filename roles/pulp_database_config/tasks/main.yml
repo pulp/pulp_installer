@@ -100,13 +100,16 @@
         path: "{{ __pulp_db_fields_key_path }}"
       register: __pulp_db_fields_key_stat
       delegate_to: "{{ item }}"
+      # We do `failed_when: false` because some hosts, used by 3rd-party roles,
+      # might not have become enabled. pulplift is 1 example, it has localhost.
+      failed_when: false
       with_items: "{{ groups['all'] }}"
       become: true
 
     - name: Fail if some hosts in the play have the key, but pulp_database_config_host does not
       assert:
         that: >
-          (__pulp_db_fields_key_stat.results | selectattr('stat.exists', 'equalto', true) | count == 0) or
+          (__pulp_db_fields_key_stat.results | selectattr('stat','defined') | selectattr('stat.exists', 'equalto', true) | list | count == 0) or
           (__pulp_db_fields_key_stat.results | selectattr('item', 'equalto', hostvars['localhost']['pulp_database_config_host']) | map(attribute='stat.exists'))
         fail_msg: >
           pulp_installer cannot continue because the host you have specified to run it
@@ -137,8 +140,8 @@
     - name: Fail if some hosts in the play have the key, but no hosts running pulp_database_config do
       assert:
         that: >
-          (__pulp_db_fields_key_stat.results | selectattr('stat.exists', 'equalto', True) | list | count == 0) or
-          (__pulp_db_fields_key_stat.results | selectattr('stat.exists', 'equalto', True) | list | selectattr('item', 'in', hostvars['localhost']['__pulp_database_config_hosts']) | list | count >= 1)
+          (__pulp_db_fields_key_stat.results | selectattr('stat','defined') | selectattr('stat.exists', 'equalto', True) | list | count == 0) or
+          (__pulp_db_fields_key_stat.results | selectattr('stat','defined') | selectattr('stat.exists', 'equalto', True) | selectattr('item', 'in', hostvars['localhost']['__pulp_database_config_hosts']) | list | count >= 1)
         fail_msg: >
           pulp_installer cannot continue because none of the hosts you are running
           pulp_database_config (or pulp_services, or pulp_all_services) against have the
