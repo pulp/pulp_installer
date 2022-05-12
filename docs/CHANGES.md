@@ -65,6 +65,46 @@ Devel
 ----
 
 
+3.18.6 (2022-05-10)
+===================
+
+
+Features
+--------
+
+- Add support for Pulpcore 3.18 that runs with python 3.9 runtime.
+  [#1043](https://github.com/pulp/pulp_installer/issues/1043)
+
+
+----
+
+
+3.18.5 (2022-05-06)
+===================
+
+Features
+--------
+
+- Update the SELinux polcies (pulpcore-selinux) to 1.3.1 to support the galaxy-importer plugin.
+  [#1022](https://github.com/pulp/pulp_installer/issues/1022)
+
+
+Bugfixes
+--------
+
+- Fix the database fields key being generated as non-identical across multiple hosts, which in turn broke multiple runtime actions (for clustered setups with multiple hosts) such as syncing remotes for galaxy_ng. Also install the key on worker hosts. Introduces the advanced variable `pulp_database_config_host` to set which host will have its key copied to all the others (otherwise, random.)
+  [#964](https://github.com/pulp/pulp_installer/issues/964)
+- When in `pip` install mode, fix SELinux accidentally blocking the pulp appplication from doing certain tasks. This was due to the pulp application during the install (before it completes) getting accidentally labeled as init_t.
+  [#1023](https://github.com/pulp/pulp_installer/issues/1023)
+- Fix SELinux policies not taking effect early enough during certain cluster installs (e.g., when pulp_workers is run on a host with pulp_database_config being run on it.)
+  [#1026](https://github.com/pulp/pulp_installer/issues/1026)
+- On EL7 & EL8, do not add the pulpcore RPM repository to systems when pulp_install_source=="pip".
+  [#1046](https://github.com/pulp/pulp_installer/issues/1046)
+
+
+----
+
+
 3.18.5 (2022-05-06)
 ===================
 
@@ -460,6 +500,19 @@ Devel
 ----
 
 
+3.15.7 (2022-05-09)
+===================
+
+Bugfixes
+--------
+
+- Fix the database fields key being generated as non-identical across multiple hosts, which in turn broke multiple runtime actions (for clustered setups with multiple hosts) such as syncing remotes for galaxy_ng. Also install the key on worker hosts. Introduces the advanced variable `pulp_database_config_host` to set which host will have its key copied to all the others (otherwise, random.)
+  [#964](https://pulp.plan.io/issues/964)
+
+
+----
+
+
 3.15.6 (2022-03-23)
 ===================
 
@@ -534,6 +587,7 @@ Deprecations and Removals
 
 
 3.15.4 (2022-03-03)
+===================
 
 No significant changes.
 
