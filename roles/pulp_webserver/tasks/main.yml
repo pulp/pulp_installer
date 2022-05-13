@@ -80,6 +80,20 @@
   loop_control:
     loop_var: __pulp_webserver_acme_path
 
+- name: Include pulp-ansible snippet for galaxy_ng
+  set_fact:
+    pulp_install_plugins_normalized: "{{ pulp_install_plugins_normalized|combine({'pulp-ansible': ''}) }}"
+  when:
+    - pulp_install_plugins_normalized['galaxy-ng'] is defined
+    - pulp_install_plugins_normalized['pulp-ansible'] is undefined
+
+- name: Include pulp-container snippet for galaxy_ng
+  set_fact:
+    pulp_install_plugins_normalized: "{{ pulp_install_plugins_normalized|combine({'pulp-container': ''}) }}"
+  when:
+    - pulp_install_plugins_normalized['galaxy-ng'] is defined
+    - pulp_install_plugins_normalized['pulp-container'] is undefined
+
 - include_tasks: "{{ pulp_webserver_server }}.yml"
 
 - name: SELinux packages

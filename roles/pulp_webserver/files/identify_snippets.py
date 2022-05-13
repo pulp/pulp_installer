@@ -17,18 +17,13 @@ import sys
 plugin_name = sys.argv[1]
 webserver_conf = sys.argv[2]
 
-plugins = [plugin_name]
-if plugin_name == "galaxy_ng":
-  plugins.extend(["pulp_ansible", "pulp_container"])
-
-for plugin in plugins:
-  try:
-    webserver_snippets = importlib.import_module(plugin + ".app.webserver_snippets")
-  except ModuleNotFoundError:
-    continue
-  snippet = os.path.dirname(webserver_snippets.__file__) + "/" + webserver_conf
-  if os.path.exists(snippet):
-    print(snippet)
-  else:
-    sys.stderr.write(plugin + " has snippets, but not " + webserver_conf + "\n")
-    sys.exit(10)
+try:
+  webserver_snippets = importlib.import_module(plugin_name + ".app.webserver_snippets")
+except ModuleNotFoundError:
+  exit()
+snippet = os.path.dirname(webserver_snippets.__file__) + "/" + webserver_conf
+if os.path.exists(snippet):
+  print(snippet)
+else:
+  sys.stderr.write(plugin_name + " has snippets, but not " + webserver_conf + "\n")
+  sys.exit(10)

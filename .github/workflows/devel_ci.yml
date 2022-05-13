@@ -5,7 +5,7 @@ on:
   pull_request:
     paths:
       - 'roles/pulp_devel/**'
-      - '.github/workflows/galaxy_ci.yml'
+      - '.github/workflows/devel_ci.yml'
       - 'molecule/source-static/**'
   schedule:
     # * is a special character in YAML so you have to quote this string
