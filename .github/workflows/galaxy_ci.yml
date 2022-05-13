@@ -6,6 +6,7 @@ on:
     paths:
       - 'roles/galaxy_post_install/**'
       - 'roles/pulp_devel/tasks/galaxy_ui.yml'
+      - 'roles/pulp_webserver/files/**'
       - '.github/workflows/galaxy_ci.yml'
       - 'molecule/release-galaxy/**'
       - 'molecule/source-galaxy/**'
