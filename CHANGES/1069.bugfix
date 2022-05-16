@@ -1,1 +1,0 @@
-Fix pulpcore-content failing to start when pulp_content is run against a host with no other role on it, due to the database fields key being missing.

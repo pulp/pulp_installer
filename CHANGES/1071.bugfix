@@ -1,1 +1,0 @@
-pulp_common: Always add EPEL on EL7. Prevents a libmodulemd2 package error when installing from packages.
