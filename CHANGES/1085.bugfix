@@ -1,1 +1,0 @@
-pulp_database_config: Accomodate users having inventory hosts that cannot run sudo.

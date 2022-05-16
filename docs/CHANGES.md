@@ -13,6 +13,40 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.19.2 (2022-05-16)
+
+Features
+--------
+
+- Make the pulp_webserver role no longer install pulp (no longer depend on pulp_common), and instead obtain the webserver snippets from the host that runs pulp_database_config.
+  [#1007](https://github.com/pulp/pulp_installer/issues/1007)
+- Add support for Pulpcore 3.18 that runs with python 3.9 runtime.
+  [#1043](https://github.com/pulp/pulp_installer/issues/1043)
+
+
+Bugfixes
+--------
+
+- CONTENT_PATH_PREFIX option reflected in installer.
+  [#989](https://github.com/pulp/pulp_installer/issues/989)
+- Fix pulpcore-content failing to start when pulp_content is run against a host with no other role on it, due to the database fields key being missing.
+  [#1069](https://github.com/pulp/pulp_installer/issues/1069)
+- pulp_common: Always add EPEL on EL7. Prevents a libmodulemd2 package error when installing from packages.
+  [#1071](https://github.com/pulp/pulp_installer/issues/1071)
+- pulp_database_config: Accomodate users having inventory hosts that cannot run sudo.
+  [#1085](https://github.com/pulp/pulp_installer/issues/1085)
+
+
+Devel
+-----
+
+- Replace the dynamic CI tests with cluster CI tests.
+  [#1029](https://github.com/pulp/pulp_installer/issues/1029)
+
+
+----
+
+
 3.19.1 (2022-05-06)
 ===================
 
