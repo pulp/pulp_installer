@@ -1,0 +1,1 @@
+Vagrant no longer builds and installs the pulp.pulp_installer collection, but instead runs the roles out of the pulp_installer folder. To continue running using vagrant environments, run `rm -rf ~/.ansible/collections/ansible_collections/pulp/`.

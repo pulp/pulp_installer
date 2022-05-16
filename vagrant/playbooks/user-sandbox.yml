@@ -19,28 +19,15 @@
         msg: >
           "You must update Ansible to at least 2.10 to use this version of Pulp 3 Installer."
 
-    - name: Clean built collection
+    # TODO: Delete this task after 2023-05
+    # Previously vagrant logic installed the collection to this path.
+    # We now want to use the "./roles" folders instaed, for compatibility with
+    # molecule which uses "./roles", but has the problem of the installed
+    # collection overriding it.
+    - name: Delete installed pulp.pulp_installer collection
       file:
         state: absent
-        path: "{{ item }}"
-      with_fileglob:
-        - "../../pulp-pulp_installer-*.tar.gz"
-      delegate_to: localhost
-      become_user: "{{ lookup('env', 'USER') }}"
-
-    - name: Building pulp.pulp_installer
-      command:
-        cmd: ansible-galaxy collection build --force .
-        chdir: ../..
-      delegate_to: localhost
-      become_user: "{{ lookup('env', 'USER') }}"
-
-    - name: Installing pulp.pulp_installer
-      command:
-        cmd: "ansible-galaxy collection install --force {{ item }}"
-        chdir: ../..
-      with_fileglob:
-        - "../../pulp-pulp_installer-*.tar.gz"
+        path: "~/.ansible/collections/ansible_collections/pulp/pulp_installer"
       delegate_to: localhost
       become_user: "{{ lookup('env', 'USER') }}"
 
@@ -74,8 +61,7 @@
     - include_tasks: pre_tasks/vagrant-workarounds.yml
     - include_tasks: pre_tasks/selinux-workarounds.yml
 
-    - name: Dynamically include pulp.pulp_installer roles
-      include_role:
-        name: pulp.pulp_installer.pulp_all_services
+  roles:
+    - pulp_all_services
   environment:
     DJANGO_SETTINGS_MODULE: pulpcore.app.settings
