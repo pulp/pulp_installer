@@ -131,7 +131,7 @@
     - name: Install pip-tools, which provides pip-compile to check version compatibility
       pip:
         name:
-          - pip-tools>=5.2.0
+          - pip-tools>=6.6.1
           - importlib-metadata
         state: present
         virtualenv: '{{ pulp_install_dir }}'
