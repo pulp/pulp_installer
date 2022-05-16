@@ -12,6 +12,9 @@ molecule_images:
   - name: fedora-35
     image: fedora:35
     command: /usr/sbin/init
+  - name: fedora-36
+    image: fedora:36
+    command: /usr/sbin/init
   - name: debian-11
     image: debian:bullseye
     command: /sbin/init
