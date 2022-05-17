@@ -65,6 +65,19 @@ Devel
 ----
 
 
+3.18.7 (2022-05-13)
+===================
+
+Bugfixes
+--------
+
+- pulp_database_config: Accomodate users having inventory hosts that cannot run sudo.
+  [#1085](https://github.com/pulp/pulp_installer/issues/1085)
+
+
+----
+
+
 3.18.6 (2022-05-10)
 ===================
 
