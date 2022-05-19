@@ -99,6 +99,20 @@ Devel
 ----
 
 
+3.18.8 (2022-05-18)
+===================
+
+
+Bugfixes
+--------
+
+- Fix the error "no test named 'equalto'" on the task "pulp_database_config : Check if any hosts already have the database fields encryption key" when running on EL7 RPM-installed Ansible (or any python distribution with "jinja2" prior to version 2.8).
+  [#1105](https://github.com/pulp/pulp_installer/issues/1105)
+
+
+----
+
+
 3.18.7 (2022-05-13)
 ===================
 
