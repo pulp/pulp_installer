@@ -56,7 +56,7 @@
         path: '{{ pulp_certs_dir }}/pulp_webserver.csr'
         privatekey_path: '{{ pulp_certs_dir }}/pulp_webserver.key'
         common_name: '{{ pulp_webserver_httpd_servername }}'
-        subject_alt_name: 'DNS:{{ pulp_webserver_httpd_servername }}'
+        subject_alt_name: '{{ __pulp_subject_alt_name }}'
         key_usage:
           - keyEncipherment
           - dataEncipherment
