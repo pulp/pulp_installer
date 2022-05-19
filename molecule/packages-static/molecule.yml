@@ -22,6 +22,10 @@ lint: |
   pre_build_image: true
 platforms:
   - <<: *platform_base
+    name: centos-7
+    image: ghcr.io/pulp/molecule_centos7
+    command: /sbin/init
+  - <<: *platform_base
     name: centos-8
     image: ghcr.io/pulp/molecule_centosstream8
     command: /sbin/init
