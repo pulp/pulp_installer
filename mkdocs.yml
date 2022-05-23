@@ -29,6 +29,7 @@ nav:
   - Home: index.md
   - Getting started: quickstart.md
   - Customizing Your Pulp Deployment: customizing.md
+  - clustering.md
   - Object Storage: objectstorage.md
   - Let's Encrypt: letsencrypt.md
   - contributing.md
