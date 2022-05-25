@@ -27,7 +27,7 @@ Here's an example playbook for using pulp_rpm_prerequisites as part of pulp_inst
           secret_key: << YOUR SECRET HERE >>
           content_origin: "https://{{ ansible_facts.fqdn }}"
         pulp_install_plugins:
-          pulp-rpm: {} #no need to set subvar prereq_role for pulp_rpm specifically
+          pulp-rpm: # no need to set subvar prereq_role for pulp_rpm specifically
       roles:
         - pulp_all_services
       environment:

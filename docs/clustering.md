@@ -34,8 +34,8 @@ purposes.
       secret_key: << YOUR SECRET HERE >>
       content_origin: "http://{{ ansible_facts.fqdn }}"
     pulp_install_plugins:
-      pulp-container: {}
-      pulp-rpm: {}
+      pulp-container:
+      pulp-rpm:
   roles:
     - pulp_all_services
   environment:
@@ -71,8 +71,8 @@ existing and external. No new servers are used or created for them:
           USER: pulp
           PASSWORD: << YOUR DATABASE PASSWORD HERE >>
     pulp_install_plugins:
-      pulp-container: {}
-      pulp-rpm: {}
+      pulp-container:
+      pulp-rpm:
   roles:
     - pulp_services
     - pulp_health_check
@@ -135,8 +135,8 @@ This scenario has the following layout:
           USER: pulp
           PASSWORD: << YOUR DATABASE PASSWORD HERE >>
     pulp_install_plugins:
-      pulp-container: {}
-      pulp-rpm: {}
+      pulp-container:
+      pulp-rpm:
   roles:
     - pulp_services
   environment:
@@ -207,8 +207,8 @@ This is performed by re-running the installer with additional hosts (such as `ex
           USER: pulp
           PASSWORD: << YOUR DATABASE PASSWORD HERE >>
     pulp_install_plugins:
-      pulp-container: {}
-      pulp-rpm: {}
+      pulp-container:
+      pulp-rpm:
   roles:
     - pulp_services
     - pulp_health_check
@@ -285,8 +285,8 @@ This is performed by re-running the installer with additional hosts (such as
           USER: pulp
           PASSWORD: << YOUR DATABASE PASSWORD HERE >>
     pulp_install_plugins:
-      pulp-container: {}
-      pulp-rpm: {}
+      pulp-container:
+      pulp-rpm:
   roles:
     - pulp_api
     - pulp_database_config
@@ -312,8 +312,8 @@ This is performed by re-running the installer with additional hosts (such as
           USER: pulp
           PASSWORD: << YOUR DATABASE PASSWORD HERE >>
     pulp_install_plugins:
-      pulp-container: {}
-      pulp-rpm: {}
+      pulp-container:
+      pulp-rpm:
   roles:
     - pulp_content
   environment:
@@ -337,8 +337,8 @@ This is performed by re-running the installer with additional hosts (such as
           USER: pulp
           PASSWORD: << YOUR DATABASE PASSWORD HERE >>
     pulp_install_plugins:
-      pulp-container: {}
-      pulp-rpm: {}
+      pulp-container:
+      pulp-rpm:
   roles:
     - pulp_workers
   environment:
@@ -426,8 +426,8 @@ Webservers.
           USER: pulp
           PASSWORD: << YOUR DATABASE PASSWORD HERE >>
     pulp_install_plugins:
-      pulp-container: {}
-      pulp-rpm: {}
+      pulp-container:
+      pulp-rpm:
   roles:
     - pulp_api
     - pulp_database_config
@@ -456,8 +456,8 @@ Webservers.
           USER: pulp
           PASSWORD: << YOUR DATABASE PASSWORD HERE >>
     pulp_install_plugins:
-      pulp-container: {}
-      pulp-rpm: {}
+      pulp-container:
+      pulp-rpm:
   roles:
     - pulp_content
   environment:
@@ -484,8 +484,8 @@ Webservers.
           USER: pulp
           PASSWORD: << YOUR DATABASE PASSWORD HERE >>
     pulp_install_plugins:
-      pulp-container: {}
-      pulp-rpm: {}
+      pulp-container:
+      pulp-rpm:
   roles:
     - pulp_workers
   environment:

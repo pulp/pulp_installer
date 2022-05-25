@@ -38,7 +38,7 @@ Role Variables
     ```yaml
     pulp_install_source: pip
     pulp_install_plugins:
-      pulp-zero: {}
+      pulp-zero:
       pulp-one: # plugin name (pulp-ansible, pulp-container, pulp-rpm, ...)
         version: "1.0.1" # specific release (pulp-file-0.3.0)
       pulp-two:
@@ -185,7 +185,7 @@ Furthermore, the following variables are used, or behave *differently* from abov
     ```yaml
     pulp_install_source: packages
     pulp_install_plugins:
-      pulp-zero: {} # Effectively python3-pulp-zero
+      pulp-zero: # Effectively python3-pulp-zero
       pulp-one:
         pkg_name: python3-pulp-one-ng
       pulp-two:

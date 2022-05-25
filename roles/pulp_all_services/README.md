@@ -10,18 +10,18 @@ are subject to change. The exception is when they want certain services
 on certain hosts.
 
 Currently, all it does is depend on the required roles, which are
-subject to change over time:
+subject to change over time. They are specified in the following order:
 
   - pulp_database
   - pulp_redis
   - pulp_services
+  - pulp_database_config (implicitly via pulp_services)
+  - pulp_api (implicitly via pulp_services)
+  - pulp_content (implicitly via pulp_services)
+  - pulp_workers (implicitly via pulp_services)
+  - pulp_common (implicitly via pulp_services)
   - pulp_health_check
   - pulp_webserver
-  - pulp_database_config (implicitly)
-  - pulp_api (implicitly)
-  - pulp_content (implicitly)
-  - pulp_workers (implicitly)
-  - pulp_common (implicitly)
 
 Related Roles
 -------------

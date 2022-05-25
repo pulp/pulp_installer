@@ -72,19 +72,19 @@ vim install.yml
     lets_encrypt_directories_data: "/var/lib/pulp/pulpcore_static"
     pulp_default_admin_password: << YOUR PASSWORD HERE >>
     pulp_install_plugins:
-      # galaxy-ng: {}
-      # pulp-2to3-migration: {}
-      # pulp-ansible: {}
-      # pulp-certguard: {}
-      # pulp-container: {}
-      # pulp-cookbook: {}
-      # pulp-deb: {}
-      pulp-file: {}
-      # pulp-gem: {}
-      # pulp-maven: {}
-      # pulp-npm: {}
-      # pulp-python: {}
-      # pulp-rpm: {}
+      # galaxy-ng:
+      # pulp-2to3-migration:
+      # pulp-ansible:
+      # pulp-certguard:
+      # pulp-container:
+      # pulp-cookbook:
+      # pulp-deb:
+      pulp-file:
+      # pulp-gem:
+      # pulp-maven:
+      # pulp-npm:
+      # pulp-python:
+      # pulp-rpm:
     pulp_settings:
       secret_key: << YOUR SECRET HERE >>
       content_origin: "https://{{ inventory_hostname }}"
