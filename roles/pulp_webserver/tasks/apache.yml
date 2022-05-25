@@ -49,6 +49,23 @@
       when: ansible_facts.os_family == "Debian"
       notify: reload apache
 
+    - name: Find pulp obsolete symlinks
+      find:
+        paths: "{{ pulp_webserver_apache_snippets_dir }}"
+        file_type: link
+        patterns:
+          - "pulp*"
+          - "galaxy*"
+      register: old_pulp_symlinks
+      tags: cleanup
+
+    - name: Remove pulp obsolete symlinks
+      file:
+        path: "{{ item.path }}"
+        state: absent
+      with_items: "{{ old_pulp_symlinks.files }}"
+      tags: cleanup
+
     - name: Create directory for Pulp Apache snippets
       file:
         path: "{{ pulp_webserver_apache_snippets_dir }}"
