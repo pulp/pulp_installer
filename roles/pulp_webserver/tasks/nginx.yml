@@ -31,9 +31,11 @@
 
     - name: Find pulp obsolete symlinks
       find:
-        paths: /etc/nginx/conf.d
+        paths: /etc/nginx/pulp
         file_type: link
-        patterns: "pulp*"
+        patterns:
+          - "pulp*"
+          - "galaxy*"
       register: old_pulp_symlinks
       tags: cleanup
 
