@@ -1,7 +1,8 @@
 # Galaxy Post Install
 
 This roles runs galaxy post install configuration
-It runs by default when `galaxy-ng` is part of `pulp_install_plugins` variable.
+It runs by default when `galaxy-ng` is part of `pulp_install_plugins` variable. It is called by the
+`pulp_common` role.
 
 ## Role Variables
 
@@ -35,3 +36,7 @@ the variables install them to):
 
 * `{{ pulp_certs_dir }}/galaxy_signing_service.gpg` (default: `/etc/pulp/certs/galaxy_signing_service.gpg`):
 * `{{ pulp_scripts_dir }}/collection_sign.sh` (default: `/var/lib/pulp/scripts/collection_sign.sh`):
+
+## License
+
+GPLv2+

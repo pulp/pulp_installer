@@ -3,6 +3,8 @@ pulp_repos
 
 Role to enable repositories needed to install pulp. It can be disabled if user already have the repositories enabled.
 
+It is automatically called by the `pulp_common` role.
+
     This role is meant to be called by `include_role` with specific variable.
 
 Requirements
@@ -40,10 +42,12 @@ With its defaults.
   attempted.
   Also accepts a single string or empty string.
   Only affects CentOS/RHEL.
+  Defaults to  ["epel-release",
+  "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_facts.distribution_major_version }}.noarch.rpm"
 * `rhel7_optional_repo`: List of possible names for the rhel7 optional repo
   to enable. Once the 1st name is enabled (or found to already be enabled),
   no further names are attempted.
-  Defaults to  ["rhui-rhel-7-server-rhui-optional-rpms", "rhel-7-server-optional-rpms", "rhel-7-workstation-optional-rpms"]
+  Defaults to  ["rhui-rhel-7-server-rhui-optional-rpms", "rhel-7-server-rhui-optional-rpms", "rhel-7-server-optional-rpms", "rhel-7-workstation-optional-rpms"]
   Also accepts a single string or empty string.
   Only affects RHEL7 (RHEL8 no longer has an optional repo.)
 
