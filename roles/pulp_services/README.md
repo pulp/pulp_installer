@@ -61,7 +61,7 @@ Here's an example playbook for using pulp_services in pulp_installer. It assumes
               USER: pulp
               PASSWORD: << YOUR DATABASE PASSWORD HERE >>
         pulp_install_plugins:
-          pulp-rpm: {} #no need to set subvar prereq_role for pulp_rpm specifically
+          pulp-rpm: # no need to set subvar prereq_role for pulp_rpm specifically
       roles:
         - pulp_services
       environment:

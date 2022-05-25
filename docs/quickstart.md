@@ -67,19 +67,19 @@ vim install.yml
       content_origin: "https://{{ ansible_fqdn }}"
     pulp_default_admin_password: << YOUR PASSWORD HERE >>
     pulp_install_plugins:
-      # galaxy-ng: {}
-      # pulp-2to3-migration: {}
-      # pulp-ansible: {}
-      # pulp-certguard: {}
-      pulp-container: {}
-      # pulp-cookbook: {}
-      # pulp-deb: {}
-      # pulp-file: {}
-      # pulp-gem: {}
-      # pulp-maven: {}
-      # pulp-npm: {}
-      # pulp-python: {}
-      pulp-rpm: {}
+      # galaxy-ng:
+      # pulp-2to3-migration:
+      # pulp-ansible:
+      # pulp-certguard:
+      pulp-container:
+      # pulp-cookbook:
+      # pulp-deb:
+      # pulp-file:
+      # pulp-gem:
+      # pulp-maven:
+      # pulp-npm:
+      # pulp-python:
+      pulp-rpm:
   roles:
     - pulp.pulp_installer.pulp_all_services
   environment:

@@ -1,20 +1,20 @@
 ---
 pulp_default_admin_password: password
 pulp_install_plugins:
-  # galaxy-ng: {}
-  # pulp-2to3-migration: {}
-  # pulp-ansible: {}
-  # pulp-certguard: {}
-  # pulp-cookbook: {}
-  # pulp-deb: {}
-  # pulp-container: {}
-  pulp-file: {}
-  # pulp-gem: {}
-  # pulp-maven: {}
-  # pulp-npm: {}
-  # pulp-ostree: {}
-  # pulp-python: {}
-  # pulp-rpm: {}
+  # galaxy-ng:
+  # pulp-2to3-migration:
+  # pulp-ansible:
+  # pulp-certguard:
+  # pulp-cookbook:
+  # pulp-deb:
+  # pulp-container:
+  pulp-file:
+  # pulp-gem:
+  # pulp-maven:
+  # pulp-npm:
+  # pulp-ostree:
+  # pulp-python:
+  # pulp-rpm:
 
 # # Uncomment to prevent https configuration
 # pulp_webserver_disable_https: true

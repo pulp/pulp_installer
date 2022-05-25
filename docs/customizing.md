@@ -24,7 +24,7 @@ Some of the installer's variables, `pulp_settings` and `pulp_install_plugins` in
 ```
   vars:
     pulp_install_plugins:
-       pulp-container: {}
+       pulp-container:
        pulp-deb:
          upgrade: true
       pulp-file:
@@ -69,7 +69,7 @@ In the following example, a multitude of variables are set:
     pulpcore_update: true
     pulp_workers: 4
     pulp_install_plugins:
-      pulp-container: {}
+      pulp-container:
       pulp-deb:
         upgrade: true
       pulp-file:
@@ -155,9 +155,9 @@ Example `pulp_install_plugins`:
 ```
   vars:
     pulp_install_plugins:
-      pulp-container: {}
-      pulp-file: {}
-      pulp-rpm: {}
+      pulp-container:
+      pulp-file:
+      pulp-rpm:
 ```
 
 Upgrading your installation:
