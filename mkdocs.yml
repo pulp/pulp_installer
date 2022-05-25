@@ -46,8 +46,10 @@ nav:
       - Pulp Webserver: roles/pulp_webserver.md
       - Pulp Workers: roles/pulp_workers.md
       - Pulp Health Check: roles/pulp_health_check.md
-  - Prereq Roles:
-      - Pulp RPM prerequisites: prereq_roles/pulp_rpm_prerequisites.md
+  - Helper Roles for Pulp Common:
+      - Galaxy NG post-install: helper_roles/galaxy_post_install.md
+      - Pulp RPM prerequisites: helper_roles/pulp_rpm_prerequisites.md
+      - Pulp Repos: helper_roles/pulp_repos.md
   - Meta Roles:
       - Pulp All Services: meta_roles/pulp_all_services.md
       - Pulp Services: meta_roles/pulp_services.md
