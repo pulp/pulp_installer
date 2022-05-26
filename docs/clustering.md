@@ -165,9 +165,17 @@ The separate server for the database and redis also increases performance.
 This relies on a round-robin DNS record that points to all 2 Pulp servers:
 * `example-pulp-load-balanced-hostname.fqdn`
 
+This also relies on shared storage (such as NFS) being hosted at the following address:
+* `example-nfs-server:/var/lib/pulp`
+
+Adjust the pre_task `Mount /var/lib/pulp` as needed for your shared storage.
+
 This deployment can be scaled up by adding more pulp servers.
-This is performed by re-running the installer with additional hosts (such as `example-pulp-server3`)
-, and then adjusting the DNS record to add them.
+
+Scaling up is performed by:
+* Adjusting `- hosts:` to include the new servers (such as `example-pulp-server3`)
+* Re-running the installer
+* Adjusting the DNS record to add them.
 
 ```
 ---
@@ -209,6 +217,15 @@ This is performed by re-running the installer with additional hosts (such as `ex
     pulp_install_plugins:
       pulp-container:
       pulp-rpm:
+  pre_tasks:
+    - name: Mount /var/lib/pulp
+      mount:
+        src: example-nfs-server:/var/lib/pulp
+        path: /var/lib/pulp
+        opts: rw
+        state: mounted
+        fstype: nfs
+        backup: yes
   roles:
     - pulp_services
     - pulp_health_check
@@ -231,15 +248,24 @@ There is only 1 server for each of the following services. This means they are n
 * Redis
 * Webserver
 
-The installer cannot provide high available for database or redis. It cannot provide high
+The installer cannot provide high availability for database or redis. It cannot provide high
 availabiltiy for the webserver either, that would rely on a highly available load balancer.
 
 The webserver does however make the API and Content be highly available by performing
 highly-available load-balancing to them.
 
+This also relies on shared storage (such as NFS) being hosted at the following address:
+* `example-nfs-server:/var/lib/pulp`
+
+Adjust the 3 pre_tasks `Mount /var/lib/pulp` as needed for your shared storage.
+
 This deployment can be scaled up by adding more Pulp API, Pulp Content or Pulp Worker servers.
-This is performed by re-running the installer with additional hosts (such as
-`example-pulp-content-server3`)
+
+Scaling up is performed by:
+* Adjusting `- hosts:` to include the new servers (such as `example-pulp-content-server3`)
+* Adjusting `pulp_webserver_api_hosts` and `pulp_webserver_content_hosts` to include the new API or
+  content servers
+* Re-running the installer
 
 ```
 ---
@@ -287,6 +313,15 @@ This is performed by re-running the installer with additional hosts (such as
     pulp_install_plugins:
       pulp-container:
       pulp-rpm:
+  pre_tasks:
+    - name: Mount /var/lib/pulp
+      mount:
+        src: example-nfs-server:/var/lib/pulp
+        path: /var/lib/pulp
+        opts: rw
+        state: mounted
+        fstype: nfs
+        backup: yes
   roles:
     - pulp_api
     - pulp_database_config
@@ -314,6 +349,15 @@ This is performed by re-running the installer with additional hosts (such as
     pulp_install_plugins:
       pulp-container:
       pulp-rpm:
+  pre_tasks:
+    - name: Mount /var/lib/pulp
+      mount:
+        src: example-nfs-server:/var/lib/pulp
+        path: /var/lib/pulp
+        opts: rw
+        state: mounted
+        fstype: nfs
+        backup: yes
   roles:
     - pulp_content
   environment:
@@ -339,6 +383,15 @@ This is performed by re-running the installer with additional hosts (such as
     pulp_install_plugins:
       pulp-container:
       pulp-rpm:
+  pre_tasks:
+    - name: Mount /var/lib/pulp
+      mount:
+        src: example-nfs-server:/var/lib/pulp
+        path: /var/lib/pulp
+        opts: rw
+        state: mounted
+        fstype: nfs
+        backup: yes
   roles:
     - pulp_workers
   environment:
@@ -388,6 +441,7 @@ manner:
 * Load balancer (provides `example-pulp-load-balanced-hostname.fqdn`)
 * Database (`example-existing-postgres-cluster`)
 * Redis (`example-existing-redis-cluster`)
+* Shared storage (such as NFS) (`/var/lib/pulp`)
 
 But the installer will install 2 instances of each of the following:
 * Pulp API
@@ -395,11 +449,20 @@ But the installer will install 2 instances of each of the following:
 * Pulp Workers
 * Pulp Webserver
 
+This also relies on shared storage (such as NFS) being hosted at the following address:
+* `example-nfs-server:/var/lib/pulp`
+
+Adjust the 3 pre_tasks `Mount /var/lib/pulp` as needed for your shared storage.
+
 This deployment can be scaled up by adding more Pulp API, Pulp Content, Pulp Worker or Pulp
 Webserver servers.
-This is performed by re-running the installer with additional hosts (such as
-`example-pulp-content-server3`), and then adjusting the load balancer to add any new Pulp
-Webservers.
+
+Scaling up is performed by:
+* Adjusting `- hosts:` to include the new servers (such as `example-pulp-content-server3`)
+* Adjusting `pulp_webserver_api_hosts` and `pulp_webserver_content_hosts` to include the new API or
+  content servers
+* Re-running the installer
+* Adjusting the load balancer to add the new Pulp Webservers
 
 ```
 ---
@@ -428,6 +491,15 @@ Webservers.
     pulp_install_plugins:
       pulp-container:
       pulp-rpm:
+  pre_tasks:
+    - name: Mount /var/lib/pulp
+      mount:
+        src: example-nfs-server:/var/lib/pulp
+        path: /var/lib/pulp
+        opts: rw
+        state: mounted
+        fstype: nfs
+        backup: yes
   roles:
     - pulp_api
     - pulp_database_config
@@ -458,6 +530,15 @@ Webservers.
     pulp_install_plugins:
       pulp-container:
       pulp-rpm:
+  pre_tasks:
+    - name: Mount /var/lib/pulp
+      mount:
+        src: example-nfs-server:/var/lib/pulp
+        path: /var/lib/pulp
+        opts: rw
+        state: mounted
+        fstype: nfs
+        backup: yes
   roles:
     - pulp_content
   environment:
@@ -486,6 +567,15 @@ Webservers.
     pulp_install_plugins:
       pulp-container:
       pulp-rpm:
+  pre_tasks:
+    - name: Mount /var/lib/pulp
+      mount:
+        src: example-nfs-server:/var/lib/pulp
+        path: /var/lib/pulp
+        opts: rw
+        state: mounted
+        fstype: nfs
+        backup: yes
   roles:
     - pulp_workers
   environment:
