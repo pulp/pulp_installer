@@ -35,7 +35,7 @@ Or they must exist on disk (on all pulp hosts e.g. API, content & worker) (these
 the variables install them to):
 
 * `{{ pulp_certs_dir }}/galaxy_signing_service.gpg` (default: `/etc/pulp/certs/galaxy_signing_service.gpg`):
-* `{{ pulp_scripts_dir }}/collection_sign.sh` (default: `/var/lib/pulp/scripts/collection_sign.sh`):
+* `{{ pulp_scripts_dir }}/collection_sign.sh` (default: `{{ pulp_user_home}}/scripts/collection_sign.sh`):
 
 ## License
 
