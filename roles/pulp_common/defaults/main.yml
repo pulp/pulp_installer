@@ -1,6 +1,5 @@
 ---
 
-pulp_cache_dir: '/var/lib/pulp/tmp'
 pulp_config_dir: '/etc/pulp'
 # This var intentionally not advertised to users, because there is no
 # foreseeable need for them to change the filename, only pulp_config_dir.
@@ -20,8 +19,9 @@ pulp_user_id:
 pulp_group: pulp
 pulp_group_id:
 pulp_user_home: '/var/lib/pulp'
-pulp_media_root: '/var/lib/pulp/media'
-pulp_scripts_dir: '{{ pulp_user_home }}/scripts'
+pulp_cache_dir: "{{ pulp_user_home | regex_replace('\/$', '') }}/tmp"
+pulp_media_root: "{{ pulp_user_home | regex_replace('\/$', '') }}/media"
+pulp_scripts_dir: "{{ pulp_user_home | regex_replace('\/$', '') }}/scripts"
 pulp_pip_editable: yes
 pulp_use_system_wide_pkgs: false
 pulpcore_update: false
