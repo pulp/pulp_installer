@@ -60,6 +60,8 @@
         cmd: identify_snippets.py {{ __pulp_webserver_plugin.key | regex_replace("-", "_") | quote }} {{ pulp_webserver_server }}.conf
       args:
         executable: '{{ (__pulp_install_source == "packages") | ternary(__pulp_python_interpreter, __pulp_install_dir ~ "/bin/python") }}'
+      environment:
+        PYTHONPATH: "{{ __pulp_python_path }}"
       register: snippet_filepaths
       loop: '{{ pulp_install_plugins_normalized | dict2items }}'
       loop_control:

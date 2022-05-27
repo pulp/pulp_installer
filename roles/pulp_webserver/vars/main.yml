@@ -10,3 +10,4 @@ __pulp_database_config_host: "{{ hostvars['localhost']['pulp_database_config_hos
 __pulp_install_source: "{{ hostvars[__pulp_database_config_host]['pulp_install_source'] }}"
 __pulp_install_dir: "{{ hostvars[__pulp_database_config_host]['pulp_install_dir'] }}"
 __pulp_python_interpreter: "{{ hostvars[__pulp_database_config_host]['pulp_python_interpreter'] }}"
+__pulp_python_path: "{{ hostvars[__pulp_database_config_host]['pulp_python_path'] | default ('') }}"
