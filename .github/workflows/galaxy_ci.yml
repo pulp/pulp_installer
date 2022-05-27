@@ -71,6 +71,7 @@ jobs:
 
           deactivate
           rm -rf venv
+          sed -i 's/localhost\/pulp/localhost\/api\/galaxy\/pulp/g' molecule/scenario_resources/tests/test_default.rb
       - name: Install Ansible, Molecule & molecule-docker
         run: |
           sudo apt remove ansible

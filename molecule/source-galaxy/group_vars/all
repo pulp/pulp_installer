@@ -23,12 +23,11 @@ pulp_install_plugins:
 developer_user_home: /var/lib/pulp
 developer_user: pulp
 pulp_settings:
+  api_root: "/api/galaxy/pulp/"
   secret_key: secret
   content_origin: "{{ pulp_webserver_disable_https | default(false) | ternary('http', 'https') }}://{{ ansible_fqdn }}"
   x_pulp_api_host: "{{ pulp_webserver_disable_https | default(false) | ternary('http', 'https') }}://{{ ansible_fqdn }}"
   x_pulp_api_port: 24817
-  x_pulp_api_user: "admin"
-  x_pulp_api_password: "{{ pulp_default_admin_password }}"
   x_pulp_api_prefix: "pulp_ansible/galaxy/automation-hub/api"
   galaxy_require_content_approval: "False"
   galaxy_enable_api_access_log: true
