@@ -39,7 +39,7 @@ platforms:
     command: /sbin/init
   - <<: *platform_base
     name: pulp-webserver
-    image: ghcr.io/pulp/molecule_fedora35
+    image: ghcr.io/pulp/molecule_fedora36
     command: /usr/sbin/init
 provisioner:
   name: ansible
