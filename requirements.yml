@@ -7,5 +7,6 @@ collections:
   - name: community.crypto
     version: ">=1.0.0"
   - community.general
-  - community.postgresql
+  - name: community.postgresql
+    version: ">=2.1.5"
   - mdellweg.filters

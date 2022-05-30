@@ -38,8 +38,8 @@ platforms:
     image: ghcr.io/pulp/molecule_debian11
     command: /sbin/init
   - <<: *platform_base
-    name: fedora-35
-    image: ghcr.io/pulp/molecule_fedora35
+    name: fedora-36
+    image: ghcr.io/pulp/molecule_fedora36
     command: /usr/sbin/init
 provisioner:
   name: ansible
