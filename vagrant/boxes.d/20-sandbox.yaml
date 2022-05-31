@@ -33,6 +33,21 @@ pulp3-sandbox-centos8-stream-fips:
     playbook: "vagrant/playbooks/user-sandbox.yml"
     galaxy_role_file: "requirements.yml"
 
+pulp3-sandbox-centos9-stream:
+  box_name: 'centos/stream9'
+  box_url: 'https://cloud.centos.org/centos/9-stream/x86_64/images/CentOS-Stream-Vagrant-9-20220509.0.x86_64.vagrant-libvirt.box'
+  memory: 4096
+  ansible:
+    playbook: "vagrant/playbooks/user-sandbox.yml"
+    galaxy_role_file: "requirements.yml"
+
+pulp3-sandbox-centos9-stream-fips:
+  box_name: 'pulp/centos-stream9-fips'
+  memory: 4096
+  ansible:
+    playbook: "vagrant/playbooks/user-sandbox.yml"
+    galaxy_role_file: "requirements.yml"
+
 pulp3-sandbox-debian11:
   box: 'debian11'
   memory: 4096

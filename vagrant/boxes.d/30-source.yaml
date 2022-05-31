@@ -171,6 +171,31 @@ pulp3-source-centos8-stream-fips:
     playbook: "vagrant/playbooks/source-install.yml"
     galaxy_role_file: "requirements.yml"
 
+pulp3-source-centos9-stream:
+  box_name: 'centos/stream9'
+  box_url: 'https://cloud.centos.org/centos/9-stream/x86_64/images/CentOS-Stream-Vagrant-9-20220509.0.x86_64.vagrant-libvirt.box'
+  sshfs:
+    host_path: '..'
+    guest_path: '/home/vagrant/devel'
+    reverse: False
+  memory: 6144
+  cpus: 4
+  ansible:
+    playbook: "vagrant/playbooks/source-install.yml"
+    galaxy_role_file: "requirements.yml"
+
+pulp3-source-centos9-stream-fips:
+  box_name: 'pulp/centos-stream9-fips'
+  sshfs:
+    host_path: '..'
+    guest_path: '/home/vagrant/devel'
+    reverse: False
+  memory: 6144
+  cpus: 4
+  ansible:
+    playbook: "vagrant/playbooks/source-install.yml"
+    galaxy_role_file: "requirements.yml"
+
 pulp3-source-debian11:
   box: 'debian11'
   sshfs:
