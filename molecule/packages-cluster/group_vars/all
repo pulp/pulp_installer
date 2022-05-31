@@ -1,6 +1,7 @@
 ---
 __pulp_run_once: true
 pulp_default_admin_password: password
+pulp_database_config_host: pulp-api1
 pulp_upgrade: true
 pulp_install_source: packages
 pulp_install_selinux_policies: True
