@@ -106,11 +106,13 @@
       with_items: "{{ groups['all'] }}"
       become: true
 
+    # 'equalto' test is not available on EL7's python-jinja2 2.7 RPM,
+    # so we use 'sameas' to compare to true/false, and 'match' to compare strings.
     - name: Fail if some hosts in the play have the key, but pulp_database_config_host does not
       assert:
         that: >
           (__pulp_db_fields_key_stat.results | selectattr('stat','defined') | selectattr('stat.exists', 'sameas', true) | list | count == 0) or
-          (__pulp_db_fields_key_stat.results | selectattr('item', 'sameas', hostvars['localhost']['pulp_database_config_host']) | map(attribute='stat.exists'))
+          (__pulp_db_fields_key_stat.results | selectattr('item', 'match', hostvars['localhost']['pulp_database_config_host']) | map(attribute='stat.exists') | list | first)
         fail_msg: >
           pulp_installer cannot continue because the host you have specified to run it
           (`pulp_database_config_host=={{ hostvars['localhost']['pulp_database_config_host'] }}`)
