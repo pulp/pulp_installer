@@ -19,3 +19,12 @@ centos8-stream:
 centos8-stream-fips:
   box_name:   'pulp/centos-stream8-fips'
   pty:        true
+
+centos9-stream:
+  box_name:   'centos/stream9'
+  box_url: 'https://cloud.centos.org/centos/9-stream/x86_64/images/CentOS-Stream-Vagrant-9-20220509.0.x86_64.vagrant-libvirt.box'
+  pty:        true
+
+centos9-stream-fips:
+  box_name:   'pulp/centos-stream9-fips'
+  pty:        true
