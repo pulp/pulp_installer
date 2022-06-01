@@ -27,7 +27,7 @@ System Requirements
 Before you install Pulp, review the [architecture and component documentation](https://docs.pulpproject.org/pulpcore/components.html#) to ensure you understand the deployment structure and concepts.
 
 The Ansible [control node](https://docs.ansible.com/ansible/2.5/network/getting_started/basic_concepts.html#control-node)
-(i.e., your workstation) must have Python 3 and Ansible (>= 2.9) installed.
+(i.e., your workstation) must have Python (>= 2.7) and Ansible (>= 2.9) installed.
 
 Ensure that your server meets the [hardware requirements](https://docs.pulpproject.org/pulpcore/components.html#hardware-requirements) to install and run Pulp.
 
