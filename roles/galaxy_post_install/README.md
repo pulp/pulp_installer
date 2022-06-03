@@ -9,8 +9,6 @@ It runs by default when `galaxy-ng` is part of `pulp_install_plugins` variable. 
 `galaxy_importer_settings`: Key value dictionnary that contains the content of galaxy-importer.cfg to be overwritten.
 `galaxy_create_default_collection_signing_service` Boolean on whether or not to create collection
   signing service. See `Variables for the Signing Service`. Defaults to `false`
-`pulp_settings.galaxy_collection_signing_service`: The name of the default signing service to use
-  if `galaxy_create_default_collection_signing_service==true`. Defaults to `ansible-default`.
 
 ## Shared Variables
 
@@ -22,8 +20,12 @@ variables which are documented in that role:
 
 ## Variables for the Signing Service
 
-If `galaxy_create_default_collection_signing_service==true`, the 2 files must either
-be specified by these variables:
+If `galaxy_create_default_collection_signing_service==true`:
+
+1. `pulp_settings.galaxy_create_default_collection_signing_service` must be set to "ansible-default".
+  This variable sets the name of the default signing service to use. Defaults to "nothing".
+
+2. 2 files must either be specified by these variables:
 
 * `galaxy_collection_signing_service_key`:  Specify a filepath on the ansible management node.
 This is the gpg private key that will be imported to performan the gpg signing of the collections.
