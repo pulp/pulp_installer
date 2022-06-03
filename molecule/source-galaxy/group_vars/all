@@ -37,6 +37,7 @@ pulp_settings:
   galaxy_api_default_distribution_base_path: "published"
   rh_entitlement_required: insights
   galaxy_auto_sign_collections: true
+  galaxy_collection_signing_service: ansible-default
 
 # Galaxy Configuration
 # Set this __galaxy variables according to your needs.
