@@ -1,0 +1,1 @@
+Fix being unable to install openssl-devel on Fedora 36 when pulp-rpm is being installed.
