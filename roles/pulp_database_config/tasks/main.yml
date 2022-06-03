@@ -262,7 +262,8 @@
   changed_when: result.rc == 0
   failed_when: >
     (result.rc not in [0,1]) or
-    ((result.rc == 1) and ('Key (name)=(ansible-default) already exists.' not in result.stderr))
+    ((result.rc == 1) and
+    ('Key (name)=({{ __pulp_common_merged_pulp_settings.galaxy_collection_signing_service }}) already exists.' not in result.stderr))
   when: galaxy_create_default_collection_signing_service
   become: true
   become_user: "{{ pulp_user }}"

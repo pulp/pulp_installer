@@ -1,0 +1,1 @@
+Fix galaxy_ng being confused by `pulp_settings.galaxy_collection_signing_service` defaulting to `ansible-default`, even when the signing service is not being installed. galaxy_ng users with the signing service must now set `pulp_settings.galaxy_collection_signing_service==ansible-default`
