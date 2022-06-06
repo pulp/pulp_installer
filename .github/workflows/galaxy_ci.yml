@@ -50,7 +50,7 @@ jobs:
         run: |
           python -m venv venv
           source venv/bin/activate
-          pip install git+https://github.com/ansible/galaxy_ng.git
+          pip install git+https://github.com/ansible/galaxy_ng.git@stable-4.5
 
           PULPCORE_VERSION=$(pip show pulpcore | sed -n -e "s/Version: //p")
           echo "PULPCORE_VERSION=$PULPCORE_VERSION"
