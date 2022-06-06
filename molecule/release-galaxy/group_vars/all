@@ -8,6 +8,7 @@ prereq_pip_packages:
 pulp_install_plugins:
   galaxy-ng:
     version: "4.5"
+    extras: ldap
 pulp_settings:
   secret_key: secret
   content_origin: "{{ pulp_webserver_disable_https | default(false) | ternary('http', 'https') }}://{{ ansible_fqdn }}"

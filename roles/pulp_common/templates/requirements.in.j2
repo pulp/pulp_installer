@@ -1,13 +1,16 @@
-pulpcore{% if __pulpcore_version | wordcount >2 %}=={{ __pulpcore_version }}
+pulpcore{{ '['+ pulp_install_object_storage +']' if pulp_install_object_storage != 'filesystem' }}{% if __pulpcore_version | wordcount >2 %}=={{ __pulpcore_version }}
 {% else %}~={{ __pulpcore_version }}.0
 {% endif %}
 {% for plugin, value in pulp_install_plugins_normalized.items() %}
 {% if value['source_dir'] is defined and value['git_url'] is defined-%}
 git+{{ value['git_url']}}{{ value['git_revision'] | ternary('@', '') }}{{ value['git_revision'] }}#egg={{ plugin }}
+{%- if value.extras is defined-%}{{ '['+ value.extras +']' if value.extras is string else '['+ value.extras | join(',') +']' }}{% endif %}
 {% elif value['source_dir'] is defined -%}
 -e {{ value['source_dir'] }}
 {% else -%}
-{{ plugin }}{% if value['version'] is defined %}{% if value['version']|wordcount > 2 %}=={{ value['version'] }}{% else %}~={{ value['version'] }}.0
+{{ plugin }}
+{%- if value.extras is defined-%}{{ '['+ value.extras +']' if value.extras is string else '['+ value.extras | join(',') +']' }}{% endif %}
+{%- if value['version'] is defined %}{% if value['version']|wordcount > 2 %}=={{ value['version'] }}{% else %}~={{ value['version'] }}.0
 {% endif %}{% endif %}
 {% endif %}
 

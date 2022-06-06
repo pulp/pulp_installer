@@ -6,6 +6,7 @@ pulp_git_revision: "3.18"
 pulp_api_bind: "unix:/var/run/pulpcore-api/pulpcore-api.sock"
 pulp_content_bind: "unix:/var/run/pulpcore-content/pulpcore-content.sock"
 pulp_redis_bind: "unix:/var/run/redis/redis.sock"
+# Extras are intended to test the functionality of the installer, they result in a harmless warning.
 pulp_install_plugins:
   # galaxy-ng:
   #   source_dir: "/var/lib/pulp/devel/galaxy_ng"
@@ -23,6 +24,7 @@ pulp_install_plugins:
     git_url: "https://github.com/pulp/pulp_file"
     git_revision: "1.10"
     source_dir: "/var/lib/pulp/devel/pulp_file"
+    extras: VitaminC
   # pulp-gem:
   #   source_dir: "/var/lib/pulp/devel/pulp_gem"
   # pulp-maven:
@@ -35,6 +37,9 @@ pulp_install_plugins:
     git_url: "https://github.com/pulp/pulp_rpm"
     git_revision: "3.17"
     source_dir: "/var/lib/pulp/devel/pulp_rpm"
+    extras:
+     - VitaminC
+     - VitaminD
 pulp_media_root: /opt/pulp/media
 pulp_cache_dir: /opt/pulp/cache
 pulp_user_home: /opt/pulp/home

@@ -34,6 +34,10 @@ Role Variables
     See `prereq_pip_packages` also.
     * `collectstatic`: Optional. Boolean that specifies if the static files for a plugin should be collected.
     If set to false the plugin name will be passed as `--ignore` at collectstatic time.
+    * `extras`: Optional. A list of strings. Each string represents a pip "extra" dependency that
+    the plugin, as a pip package, recognizes. Consult the plugin documentations for available
+    extras.
+    If set to false the plugin name will be passed as `--ignore` at collectstatic time.
     * **Example**:
     ```yaml
     pulp_install_source: pip
@@ -49,6 +53,9 @@ Role Variables
         prereq_role: "pulp.pulp_four_role" # role to run immediately before the venv is created
       pulp-five:
         collectstatic: false
+        extras: # list of extra depedencies. Normally seen in pip syntax like "pulp-five[ldap,VitaminC]"
+          - ldap
+          - VitaminC
       pulp-six:
         source_dir: "/path/to/source/code/"
         git_url: "https://github..."  # Optional. URL to the git repo from where plugin will be pulled.

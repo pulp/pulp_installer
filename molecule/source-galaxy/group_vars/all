@@ -21,6 +21,8 @@ pulp_install_plugins:
     source_dir: "/var/lib/pulp/devel/galaxy_ng"
     git_url: "https://github.com/ansible/galaxy_ng"
     git_revision: "stable-4.5"
+    extras:
+      - ldap
 developer_user_home: /var/lib/pulp
 developer_user: pulp
 pulp_settings:

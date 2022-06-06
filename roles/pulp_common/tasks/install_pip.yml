@@ -195,6 +195,13 @@
   when:
     - pulp_install_plugins_normalized['pulp-ostree'] is defined
 
+- name: "Install dependencies for LDAP support via {{ ansible_facts.pkg_mgr }}"
+  package:
+    name: "{{ __galaxy_ldap_packages }}"
+  when:
+    - pulp_install_plugins_normalized['galaxy-ng'] is defined
+    - "'ldap' in pulp_install_plugins_normalized['galaxy-ng']['extras'] | default([])"
+
 # No loop over pulp_install_plugins_normalized; let's run this only once.
 # Also, this time it must succeed, a return code of 0.
 - name: Re-run preflight check after plugin prereq roles (if needed)
@@ -225,7 +232,7 @@
 
     - name: Install pulpcore via PyPI
       pip:
-        name: "pulpcore{{ '['+ pulp_install_object_storage +']' if pulp_install_object_storage != 'filesystem' else '' }}{% if __pulpcore_version | wordcount >2 %}=={{ __pulpcore_version }}{% else %}~={{ __pulpcore_version }}.0{% endif %}"
+        name: "pulpcore{{ '['+ pulp_install_object_storage +']' if pulp_install_object_storage != 'filesystem' }}{% if __pulpcore_version | wordcount >2 %}=={{ __pulpcore_version }}{% else %}~={{ __pulpcore_version }}.0{% endif %}"
         # pulp_upgrade true/false -> ansible pip module latest/present ->
         # pip command "install --upgrade"/"install"
         state: '{{ (pulpcore_update == true) | ternary("latest", "present") }}'
@@ -254,7 +261,7 @@
 
     - name: Install pulpcore package from source
       pip:
-        name: "{{ pulp_source_dir }}{{ '['+ pulp_install_object_storage +']' if pulp_install_object_storage != 'filesystem' else '' }}"
+        name: "{{ pulp_source_dir }}{{ '['+ pulp_install_object_storage +']' if pulp_install_object_storage != 'filesystem' }}"
         editable: '{{ pulp_pip_editable }}'
         # For this task, `state` has no effect. It installs or upgrades/
         # downgrades to the exact dir's or VCS URL's version regardless.
@@ -341,7 +348,10 @@
 
     - name: Install Pulp plugins via PyPI
       pip:
-        name: "{{ item.key }}{% if item.value.version is defined %}{% if item.value.version | wordcount > 2 %}=={{ item.value.version }}{% else %}~={{ item.value.version }}.0{% endif %}{% endif %}"
+        name: >-
+           {{ item.key }}
+           {%- if item.value.extras is defined %}{{ '['+ item.value.extras +']' if item.value.extras is string else '['+ item.value.extras | join(',') +']' }}{% endif %}
+           {%- if item.value.version is defined %}{% if item.value.version|wordcount > 2 %}=={{ item.value.version }}{% else %}~={{ item.value.version }}.0{% endif %}{% endif %}
         # item.upgrade true/false -> ansible pip module latest / present
         # pip command "install --upgrade install"
         state: "{{ (item.value.upgrade | default(false) == true) | ternary('latest', 'present') }}"
@@ -371,7 +381,9 @@
 
     - name: Install Pulp plugins from source
       pip:
-        name: '{{ item.value.source_dir }}'
+        name: >-
+          {{ item.value.source_dir }}
+          {%- if item.value.extras is defined %}{{ '['+ item.value.extras +']' if item.value.extras is string else '['+ item.value.extras | join(',') +']' }}{% endif %}
         editable: '{{ pulp_pip_editable }}'
         # For this task, `state` has no effect. It installs or upgrades/
         # downgrades to the exact dir's or VCS URL's version regardless.
