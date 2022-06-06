@@ -13,6 +13,29 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.18.9 (2022-06-06)
+
+Bugfixes
+--------
+
+- When installing the `galaxy-ng` plugin from source, only unlock its version requirements if the "main" branch is used, or if the branch (`git_revision`) is unspecified.
+  [#1073](https://github.com/pulp/pulp_installer/issues/1073)
+- Fix occassional error on `Run pip-compile to check pulpcore/plugin compatibility` with error message `ImportError: cannot import name 'BAR_TYPES' from 'pip._internal.cli.progress_bars'`.
+  [#1100](https://github.com/pulp/pulp_installer/issues/1100)
+- Fix galaxy_ng being confused by `pulp_settings.galaxy_collection_signing_service` defaulting to `ansible-default`, even when the signing service is not being installed. galaxy_ng users with the signing service must now set `pulp_settings.galaxy_collection_signing_service==ansible-default`
+  [#1141](https://github.com/pulp/pulp_installer/issues/1141)
+
+
+Devel
+-----
+
+- Vagrant no longer builds and installs the pulp.pulp_installer collection, but instead runs the roles out of the pulp_installer folder. To continue running using vagrant environments, run `rm -rf ~/.ansible/collections/ansible_collections/pulp/`.
+  [#1098](https://github.com/pulp/pulp_installer/issues/1098)
+
+
+----
+
+
 3.18.8 (2022-05-18)
 ===================
 
