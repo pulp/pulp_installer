@@ -16,6 +16,9 @@ pulp_preq_packages:
   - sudo
   - gnupg2             # For the signing service via the gpg python module
 
+__galaxy_ldap_packages:
+  - openldap-devel
+
 pulp_python_interpreter: '/opt/rh/rh-python38/root/usr/bin/python3.8'
 pulp_python_path: '/opt/theforeman/tfm-pulpcore/root/usr/lib/python3.8/site-packages'
 pulp_python_cryptography: python2-cryptography

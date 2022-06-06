@@ -9,6 +9,16 @@ pulp_preq_packages:
   - sudo
   - gpg              # For the signing service via the gpg python module
 
+__galaxy_ldap_packages:
+  - ldap-utils
+  - ldapvi
+  - libldap-common
+  - libldap-dev
+  - python-dev
+  - libldap2-dev
+  - libsasl2-dev
+  - libssl-dev
+
 # Pulp requires Python 3.6+.
 pulp_python_interpreter: /usr/bin/python3
 pulp_python_cryptography: python3-cryptography

@@ -16,6 +16,9 @@ pulp_preq_packages:
   - sudo
   - gnupg2              # For the signing service via the gpg python module
 
+__galaxy_ldap_packages:
+  - openldap-devel
+
 # Pulp requires Python 3.8+.
 pulp_python_interpreter: /usr/bin/python3
 pulp_python_cryptography: python3-cryptography
