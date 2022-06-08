@@ -1,1 +1,0 @@
-Fix occassional error on `Run pip-compile to check pulpcore/plugin compatibility` with error message `ImportError: cannot import name 'BAR_TYPES' from 'pip._internal.cli.progress_bars'`.
