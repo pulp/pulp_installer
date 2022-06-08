@@ -13,6 +13,18 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.18.10 (2022-06-08)
+
+Bugfixes
+--------
+
+- Fix ``subject_alt_name`` prefix when generating a cert.
+  [#1051](https://github.com/pulp/pulp_installer/issues/1051)
+
+
+----
+
+
 3.18.9 (2022-06-06)
 
 Bugfixes
