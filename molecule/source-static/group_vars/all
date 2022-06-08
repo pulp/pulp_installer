@@ -49,3 +49,8 @@ developer_user: pulp
 pulp_settings:
   secret_key: secret
   content_origin: "https://{{ ansible_fqdn }}"
+
+# These variables are used by molecule verify, not the installer itself
+pulp_lib_path: /opt/pulp/devel
+pulp_smash_installed: false
+pulp_smash_config_dir: /root/.config/pulp_smash

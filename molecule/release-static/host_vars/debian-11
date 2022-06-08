@@ -12,3 +12,6 @@ pulp_install_plugins:
   # pulp-npm:
   # pulp-python:
   # pulp-rpm:
+
+# These variables are used by molecule verify, not the installer itself
+pulp_python_interpreter: /usr/bin/python3
