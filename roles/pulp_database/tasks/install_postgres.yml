@@ -133,4 +133,8 @@
     - name: Install and configure PostgreSQL
       include_role:
         name: geerlingguy.postgresql
+        apply:
+          # We need to apply this tag so long as Ansible 2.9 is supported.
+          tags:
+            - molecule-idempotence-notest
   become: yes
