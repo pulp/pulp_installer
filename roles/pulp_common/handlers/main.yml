@@ -57,8 +57,5 @@
     # when permissive or enforcing. That would be stored in .mode & .config_mode
     - ansible_facts.selinux.status == "enabled"
 
-# Workaround https://github.com/ansible/ansible/issues/34505
-# by not using include_tasks
 - name: Restart all Pulp services
-  include: handlers/restart_all_pulp.yml
-  static: no
+  include_tasks: handlers/restart_all_pulp.yml
