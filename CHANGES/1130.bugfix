@@ -1,1 +1,0 @@
-Fix failure when pulp_database_config_host is set. It failed in the task "pulp_database_config : Fail if some hosts in the play have the key, but pulp_database_config_host does not".

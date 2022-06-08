@@ -13,6 +13,61 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.19.3 (2022-06-08)
+
+Features
+--------
+
+- Update vars to reference pulp_user_home instead of "hard coding" /var/lib/pulp.
+  [#934](https://github.com/pulp/pulp_installer/issues/934)
+- pulp_webserver: Add support for proxying to multiple api or content hosts, i.e., load balancing. Introduces new variables `pulp_webserver_api_hosts`, `pulp_webserver_content_hosts`, `pulp_webserver_api_balancer_nginx_directives`, `pulp_webserver_content_balancer_nginx_directives`, `pulp_webserver_content_balancer_apache_parameters`, and `pulp_webserver_api_balancer_apache_parameters`.
+  [#1030](https://github.com/pulp/pulp_installer/issues/1030)
+- Add fedora 36 support
+  [#1104](https://github.com/pulp/pulp_installer/issues/1104)
+- Add a new variable under pulp_install_plugins, `extras`, as in pip extra dependencies. Also install a special set of RPM/deb packages if galaxy-ng[ldap] is to be installed.
+  [#1143](https://github.com/pulp/pulp_installer/issues/1143)
+
+
+Bugfixes
+--------
+
+- Fix ``subject_alt_name`` prefix when generating a cert.
+  [#1051](https://github.com/pulp/pulp_installer/issues/1051)
+- When installing the `galaxy-ng` plugin from source, only unlock its version requirements if the "main" branch is used, or if the branch (`git_revision`) is unspecified.
+  [#1073](https://github.com/pulp/pulp_installer/issues/1073)
+- Fix occassional error on `Run pip-compile to check pulpcore/plugin compatibility` with error message `ImportError: cannot import name 'BAR_TYPES' from 'pip._internal.cli.progress_bars'`.
+  [#1100](https://github.com/pulp/pulp_installer/issues/1100)
+- Fix the error "no test named 'equalto'" on the task "pulp_database_config : Check if any hosts already have the database fields encryption key" when running on EL7 RPM-installed Ansible (or any python distribution with "jinja2" prior to version 2.8).
+  [#1105](https://github.com/pulp/pulp_installer/issues/1105)
+- Fix 2 copies of webserver snippets breaking nginx and possibly apache. The 2nd copy existed on upgrades, and was a symlink. It is now deleted.
+  [#1119](https://github.com/pulp/pulp_installer/issues/1119)
+- Fix webserver snippets not getting installed when pulp_database_config runs on EL7.
+  [#1129](https://github.com/pulp/pulp_installer/issues/1129)
+- Fix failure when pulp_database_config_host is set. It failed in the task "pulp_database_config : Fail if some hosts in the play have the key, but pulp_database_config_host does not".
+  [#1130](https://github.com/pulp/pulp_installer/issues/1130)
+- Fix galaxy_ng being confused by `pulp_settings.galaxy_collection_signing_service` defaulting to `ansible-default`, even when the signing service is not being installed. galaxy_ng users with the signing service must now set `pulp_settings.galaxy_collection_signing_service==ansible-default`
+  [#1141](https://github.com/pulp/pulp_installer/issues/1141)
+- Fix being unable to install openssl-devel on Fedora 36 when pulp-rpm is being installed.
+  [#1145](https://github.com/pulp/pulp_installer/issues/1145)
+
+
+Improved Documentation
+----------------------
+
+- Updates and multiple fixes to clustering section in the docs. Includes renaming it from "Deployment Scenarios" to "Clustering".
+  [#1116](https://github.com/pulp/pulp_installer/issues/1116)
+
+
+Devel
+-----
+
+- Vagrant no longer builds and installs the pulp.pulp_installer collection, but instead runs the roles out of the pulp_installer folder. To continue running using vagrant environments, run `rm -rf ~/.ansible/collections/ansible_collections/pulp/`.
+  [#1098](https://github.com/pulp/pulp_installer/issues/1098)
+
+
+----
+
+
 3.19.2 (2022-05-16)
 ===================
 

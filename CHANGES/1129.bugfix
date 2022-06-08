@@ -1,1 +1,0 @@
-Fix webserver snippets not getting installed when pulp_database_config runs on EL7.
