@@ -85,7 +85,7 @@ http {
         # purposes are served through the webserver.
         root {{ pulp_webserver_static_dir }};
 
-        location {{ __pulp_common_merged_pulp_settings.content_path_prefix }}/ {
+        location {{ __pulp_common_merged_pulp_settings.content_path_prefix }} {
             proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
             proxy_set_header X-Forwarded-Proto $scheme;
             proxy_set_header Host $http_host;
