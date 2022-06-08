@@ -13,6 +13,31 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.15.8 (2022-06-08)
+
+Bugfixes
+--------
+
+- Fix ``subject_alt_name`` prefix when generating a cert.
+  [#1051](https://pulp.plan.io/issues/1051)
+- When installing the `galaxy-ng` plugin from source, only unlock its version requirements if the "main" branch is used, or if the branch (`git_revision`) is unspecified.
+  [#1073](https://pulp.plan.io/issues/1073)
+- pulp_database_config: Accomodate users having inventory hosts that cannot run sudo.
+  [#1085](https://pulp.plan.io/issues/1085)
+- Fix occassional error on `Run pip-compile to check pulpcore/plugin compatibility` with error message `ImportError: cannot import name 'BAR_TYPES' from 'pip._internal.cli.progress_bars'`.
+  [#1100](https://pulp.plan.io/issues/1100)
+
+
+Devel
+-----
+
+- Vagrant no longer builds and installs the pulp.pulp_installer collection, but instead runs the roles out of the pulp_installer folder. To continue running using vagrant environments, run `rm -rf ~/.ansible/collections/ansible_collections/pulp/`.
+  [#1098](https://pulp.plan.io/issues/1098)
+
+
+----
+
+
 3.15.7 (2022-05-09)
 
 Bugfixes
