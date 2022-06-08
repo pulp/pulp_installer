@@ -25,3 +25,7 @@ pulp_settings:
   # galaxy_auto_sign_collections: true
   # galaxy_collection_signing_service: ansible-default
 # galaxy_create_default_collection_signing_service: true
+
+# These variables are used by molecule verify, not the installer itself
+pulp_lib_path: /var/lib/pulp
+pulp_smash_installed: false

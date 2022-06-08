@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        test_type: ["source-galaxy","release-galaxy"]
+        test_type: ["source-galaxy", "release-galaxy"]
         ansible: ["ansible-core"]
     steps:
       - uses: actions/checkout@v2.3.1
@@ -71,7 +71,7 @@ jobs:
 
           deactivate
           rm -rf venv
-          sed -i 's/localhost\/pulp/localhost\/api\/galaxy\/pulp/g' molecule/scenario_resources/tests/test_default.rb
+          sed -i 's/localhost\/pulp/localhost\/api\/galaxy\/pulp/g' molecule/scenario_resources/tests/testinfra_default.py
       - name: Install Ansible, Molecule & molecule-docker
         run: |
           sudo apt remove ansible

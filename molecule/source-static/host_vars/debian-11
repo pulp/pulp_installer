@@ -25,3 +25,6 @@ pulp_install_plugins:
   #   source_dir: "/var/lib/pulp/devel/pulp_python"
   # pulp-rpm:
   #   source_dir: "/home/vagrant/devel/pulp_rpm"
+
+# These variables are used by molecule verify, not the installer itself
+pulp_python_interpreter: /usr/bin/python3
