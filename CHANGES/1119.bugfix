@@ -1,1 +1,0 @@
-Fix 2 copies of webserver snippets breaking nginx and possibly apache. The 2nd copy existed on upgrades, and was a symlink. It is now deleted.
