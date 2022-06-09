@@ -60,7 +60,7 @@ Role Variables for Clusters
 
    These 2 shared variables need to be set for both the `pulp_api`/`pulp_cluster` hosts, and the
    `pulp_webserver` hosts.
-```
+```yaml
 pulp_api_bind: "example-pulp-api-server:24817
 pulp_content_bind: "example-pulp-api-server:24816"
 ```
@@ -81,7 +81,7 @@ pulp_content_bind: "example-pulp-api-server:24816"
    Here are
    3 examples, the 1st example works for either `pulp_webserver_server==apache` or
    `pulp_webserver_server==nginx`, the latter 2 are specific to a apache/nginx.
-```
+```yaml
 pulp_api_bind: "{{ ansible_facts.fqdn }}:24817"
 pulp_content_bind: "{{ ansible_facts.fqdn }}:24816"
 pulp_webserver_api_hosts:
@@ -91,7 +91,7 @@ pulp_webserver_content_hosts:
   - address: "pulp-content1:24817"
   - address: "pulp-content2:24817"
 ```
-```
+```yaml
 pulp_webserver_server: nginx
 pulp_api_bind: "{{ ansible_facts.fqdn }}:24817"
 pulp_content_bind: "{{ ansible_facts.fqdn }}:24816"
@@ -123,7 +123,7 @@ pulp_webserver_content_balancer_nginx_directives:
     parameters:
      - upstream_dynamic
 ```
-```
+```yaml
 pulp_webserver_server: apache
 pulp_api_bind: "{{ ansible_facts.fqdn }}:24817"
 pulp_content_bind: "{{ ansible_facts.fqdn }}:24816"

@@ -50,7 +50,7 @@ system from the list above, but each node can run a different OS.
 The Ansible collection requires [geerlingguy.postgresql](https://galaxy.ansible.com/geerlingguy/postgresql) role,
 which you can install on the Ansible control node from ansible-galaxy.
 
-```
+```bash
 ansible-galaxy install geerlingguy.postgresql
 ```
 
@@ -69,7 +69,7 @@ Next, add the managed node's hostname or IP address to `/etc/ansible/hosts`.
 
 Ensure that Ansible can communicate with the managed node.
 
-```
+```bash
 ansible all -m ping -u <managed_node_username>
 ```
 

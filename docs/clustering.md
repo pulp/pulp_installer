@@ -22,7 +22,7 @@ the database, redis & webserver.
 In other words, this is not a cluster, but the simplest possible deployment of Pulp, for comparison
 purposes.
 
-```
+```yaml
 ---
 - hosts: example-pulp-server
   force_handlers: True
@@ -49,7 +49,7 @@ existing and external. No new servers are used or created for them:
 * Database (`example-existing-postgres-server`)
 * Redis (`example-existing-redis-server`)s
 
-```
+```yaml
 ---
 - hosts: example-pulp-server
   force_handlers: True
@@ -90,7 +90,7 @@ This scenario has the following layout:
 * redis on a third server
 * The webserver on a fourth server
 
-```
+```yaml
 ---
 - hosts: example-postgres-server
   force_handlers: True
@@ -177,7 +177,7 @@ Scaling up is performed by:
 * Re-running the installer
 * Adjusting the DNS record to add them.
 
-```
+```yaml
 ---
 - hosts: example-postgres-redis-server
   force_handlers: True
@@ -249,7 +249,7 @@ There is only 1 server for each of the following services. This means they are n
 * Webserver
 
 The installer cannot provide high availability for database or redis. It cannot provide high
-availabiltiy for the webserver either, that would rely on a highly available load balancer.
+availability for the webserver either, that would rely on a highly available load balancer.
 
 The webserver does however make the API and Content be highly available by performing
 highly-available load-balancing to them.
@@ -267,7 +267,7 @@ Scaling up is performed by:
   content servers
 * Re-running the installer
 
-```
+```yaml
 ---
 - hosts: example-postgres-server
   force_handlers: True
@@ -464,7 +464,7 @@ Scaling up is performed by:
 * Re-running the installer
 * Adjusting the load balancer to add the new Pulp Webservers
 
-```
+```yaml
 ---
 - hosts:
     - example-pulp-api-server1
