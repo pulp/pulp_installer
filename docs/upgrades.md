@@ -54,12 +54,15 @@ part of the release announcement and included in the documentation for the speci
 1. Run `pulp_installer`.
 1. Make sure to save your variables/playbook for later usage.
 
-Commmand to install pulp_installer's latest version:
-```
+Command to install pulp_installer's latest version:
+
+```bash
 ansible-galaxy collection install --force pulp.pulp_installer
 ```
+
 Example `pulp_install_plugins`:
-```
+
+```yaml
   vars:
     pulp_install_plugins:
       pulp-container:
@@ -84,21 +87,24 @@ Example `pulp_install_plugins`:
 1. Re-run `pulp_installer`.
 1. Make sure to save your variables/playbook for later usage.
 
-Commmand to upgrade pulp_installer to its latest version:
-```
+Command to upgrade pulp_installer to its latest version:
+
+```bash
 ansible-galaxy collection install --force pulp.pulp_installer
 ```
+
 Example `pulp_install_plugins`:
-```
+
+```yaml
   vars:
     pulpcore_update: true
     pulp_install_plugins:
       pulp-container:
-         upgrade: true
+        upgrade: true
       pulp-file:
-         upgrade: true
+        upgrade: true
       pulp-rpm:
-         upgrade: true
+        upgrade: true
 ```
 
 ### Specifying Minor Releases of Pulpcore and Plugins
@@ -122,16 +128,21 @@ Example `pulp_install_plugins`:
 1. Run `pulp_installer`.
 1. Make sure to save your variables/playbook for later usage.
 
-Commmand to install pulp_installer's latest version:
-```
+Command to install pulp_installer's latest version:
+
+```bash
 ansible-galaxy collection install --force pulp.pulp_installer
 ```
-Example commmand to install a specific version of pulp_installer:
-```
+
+Example command to install a specific version of pulp_installer:
+
+```bash
 ansible-galaxy collection install --force pulp.pulp_installer:3.9.1
 ```
+
 Example `pulp_install_plugins`:
-```
+
+```yaml
   vars:
     pulp_install_plugins:
       pulp-container:
@@ -151,20 +162,22 @@ Example `pulp_install_plugins`:
    within the minor release (3.y) that was used for the initial installation.
 1. Set `pulpcore_update` to `true`.
 1. Set `pulp_install_plugins` with each **currently installed** plugin's name listed as a key.
-   For each each plugin add a key under it
+   For each plugin add a key under it
    called `version` set to the currently installed `x.y` plugin version. Add a key under the plugin name
    called `upgrade` set to
-   the value `true`. (This combination will will update the plugin to the latest patch release.)
+   the value `true`. (This combination will update the plugin to the latest patch release.)
 1. Re-run `pulp_installer`.
 1. Make sure to save your variables/playbook for later usage.
 
-Example commmand to update to a specific version of pulp_installer:
-```
+Example command to update to a specific version of pulp_installer:
+
+```bash
 ansible-galaxy collection install --force pulp.pulp_installer:3.9.2
 ```
 
 Example `pulp_install_plugins`:
-```
+
+```yaml
   vars:
     pulpcore_update: true
     pulp_install_plugins:
@@ -195,7 +208,7 @@ Example `pulp_install_plugins`:
    each **currently installed** plugin's name listed as a key,
    and with each plugin having a key under it called `version` set to
    the **new** minor version as the value (with quotes). Add a key under the plugin name called `upgrade` set to
-   the value `true`. (This combination will will update the plugin to the latest patch release if no upgrade
+   the value `true`. (This combination will update the plugin to the latest patch release if no upgrade
    is necessary.)
 1. Update or downgrade your installer to the latest version (3.y.z) of the pulpcore minor release (3.y) you
    need. (The installer's minor version will control what minor version of pulpcore gets installed.)
@@ -203,13 +216,15 @@ Example `pulp_install_plugins`:
    branch is not changing.)
 
 
-Example commmand to upgrade to a specific version of pulp_installer:
-```
+Example command to upgrade to a specific version of pulp_installer:
+
+```bash
 ansible-galaxy collection install --force pulp.pulp_installer:3.10.1
 ```
 
 Example `pulp_install_plugins`:
-```
+
+```yaml
   vars:
     pulpcore_update: true
     pulp_install_plugins:
@@ -224,9 +239,9 @@ Example `pulp_install_plugins`:
         upgrade: true
 ```
 
-    Note: It is often possible to upgrade plugins without upgrading pulpcore. You can perform this
-    by keeping pulp_installer on the same minor branch, setting `pulpcore_update: true`, and raising the
-    `version` variables.
+> Note: It is often possible to upgrade plugins without upgrading pulpcore. You can perform this
+  by keeping pulp_installer on the same minor branch, setting `pulpcore_update: true`, and raising the
+  `version` variables.
 
 ### Specifying Exact Versions with Reproducibility:
 
@@ -254,12 +269,15 @@ Example `pulp_install_plugins`:
 1. Run `pulp_installer`
 1. Make sure to save your variables/playbook for later usage.
 
-Example commmand to install a specific version of pulp_installer:
-```
+Example command to install a specific version of pulp_installer:
+
+```bash
 ansible-galaxy collection install --force pulp.pulp_installer:3.9.1
 ```
+
 Example `pulp_install_plugins` (with bogus version values):
-```
+
+```yaml
   vars:
     pulpcore_version: "3.9.9"
     pulp_install_plugins:
@@ -274,7 +292,7 @@ Example `pulp_install_plugins` (with bogus version values):
 
 #### **Upgrading your installation to a specific patch:**
 
-    Note: These instructions can also be used for updates.
+> Note: These instructions can also be used for updates.
 
 1. [Observe](https://galaxy.ansible.com/pulp/pulp_installer) what is the latest version of `pulp_installer`,
    its minor release (3.y) will correspond to the minor release of pulpcore it installs.
@@ -299,13 +317,15 @@ Example `pulp_install_plugins` (with bogus version values):
    need. It must be the same minor version as `pulpcore_version`.
 1. Make sure to save your variables/playbook for later usage.
 
-Example commmand to update/upgrade to a specific version of pulp_installer:
-```
+Example command to update/upgrade to a specific version of pulp_installer:
+
+```bash
 ansible-galaxy collection install --force pulp.pulp_installer:3.10.1
 ```
 
 Example `pulp_install_plugins` (with bogus version values):
-```
+
+```yaml
   vars:
     pulpcore_version: "3.10.10"
     pulp_install_plugins:

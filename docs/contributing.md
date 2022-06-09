@@ -6,12 +6,11 @@ Pull Request Checklist
 1. Make sure your change does not break idempotency tests. See [Testing](#Testing)
 (or let CI run the tests for you if you are certain it is idempotent.)
 If a task cannot be made idempotent, add the tag [molecule-idempotence-notest](https://github.com/ansible-community/molecule/issues/816#issuecomment-573319053).
-2. Unless a change is small or doesn't affect users, create an issue on
-https://github.com/pulp/pulp_installer/issues . Set the Category to "Installer".
+2. Unless a change is small or doesn't affect users, [create an issue on GitHub](https://github.com/pulp/pulp_installer/issues).
 3. Add [a changelog update.](https://docs.pulpproject.org/contributing/git.html#changelog-update)
 4. Write an excellent [Commit Message.](https://docs.pulpproject.org/contributing/git.html#commit-message)
 Make sure you reference and link to the issue.
-5. Push your branch to your fork and open a [Pull request across forks.](https://help.github.com/articles/creating-a-pull-request-from-a-fork/)
+5. Push your branch to your fork and open a [Pull request across forks](https://help.github.com/articles/creating-a-pull-request-from-a-fork/).
 6. Add GitHub labels as appropriate.
 
 Testing
@@ -97,7 +96,7 @@ The suffixes are:
    the example playbooks.
 1. `cluster` - Runs as few roles as possible per host, creating a pulp cluster, rather than
    a set of independent pulp hosts. Catches any issues.
-   Also Run roles 1 at a time via `include_role:` under `tasks:` in the main playbook.
+   Also, run roles 1 at a time via `include_role:` under `tasks:` in the main playbook.
    Catches undeclared dependencies between roles, and other "dynamic" include errors. This covers use
    cases such as users running a 3rd party role, setting vars, and later running our role.
 1. `upgrade` - Upgrade an existing Pulp 3.y container, to test upgrading Pulp 3.y. Roles are applied
@@ -144,13 +143,13 @@ Docs Testing
 ------------
 
 Cross-platform:
-```
+```bash
 pip install mkdocs pymdown-extensions mkdocs-material mike mkdocs-git-revision-date-plugin
 ```
 
 Then:
-```
-`mkdocs serve`
+```bash
+mkdocs serve
 ```
 Click the link it outputs. As you save changes to files modified in your editor,
 the browser will automatically show the new content.

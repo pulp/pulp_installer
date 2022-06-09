@@ -19,7 +19,7 @@ Requirements
 
 #### Quick install requirements on Fedora
 
-```
+```bash
 sudo dnf install ansible vagrant-libvirt vagrant-sshfs @virtualization
 sudo virt-host-validate
 ```
@@ -29,7 +29,7 @@ Setup
 
 Before using Pulplift, ensure that all submodules are updated and in place.
 
-```
+```bash
 git submodule update --init
 ```
 
@@ -49,7 +49,7 @@ see "Configuration" section below.
 
 You can now spin up your development environment with:
 
-```
+```bash
 vagrant up pulp3-source-fedora32
 ```
 
@@ -67,7 +67,7 @@ upon what is available from [pulp_installer](https://github.com/pulp/pulp_instal
 
 The base OS boxes, such as `centos7`, can be used to spin-up a clean environment.
 
-```
+```bash
 vagrant up centos7
 ```
 
@@ -75,7 +75,7 @@ vagrant up centos7
 
 Sandbox boxes, such as `pulp3-sandbox-centos7` can be used to do a standard install of Pulp for users.
 
-```
+```bash
 vagrant up pulp3-sandbox-centos7
 ```
 
@@ -88,7 +88,7 @@ under the same parent folder as `pulp_installer`, as they will be mounted on the
 
 If using libvirt, the [vagrant-sshfs](https://github.com/dustymabe/vagrant-sshfs#install-plugin) plugin must be installed to mount.
 
-```
+```bash
 vagrant up pulp3-source-centos7
 ```
 
@@ -100,17 +100,17 @@ The following source/development boxes are meant to be run together as a pair:
 
 
 To create or start them, this is the shortest command:
-```
+```bash
 vagrant up pulp2-nightly-pulp3-source-fips-a && vagrant up --provider docker pulp2-nightly-pulp3-source-fips-b || vagrant up --provider docker pulp2-nightly-pulp3-source-fips-b
 ```
 
 You will then do your Pulp 3 development on the A box, which includes the mongo client:
-```
+```bash
 vagrant ssh pulp2-nightly-pulp3-source-fips-a
 ```
 
 To destroy them, you must destroy b 1st, and you may need to force it:
-```
+```bash
 vagrant destroy --force pulp2-nightly-pulp3-source-fips-b && vagrant destroy --force pulp2-nightly-pulp3-source-fips-a
 ```
 
@@ -151,7 +151,7 @@ for more detailed information.
 You can run an existing or custom playbook directly using `ansible-playbook`.
 For example:
 
-```
+```bash
 vagrant up centos7
 ansible-playbook -i forklift/inventories/ -l centos7 my-pulp-install.yaml
 ```
@@ -185,7 +185,7 @@ which is an option for `libvirt_options`. The docs referring to this are [here](
 
 In my case I wanted to modify the `pulp2-nightly-pulp3-source-centos7` box, so I applied this diff:
 
-```
+```diff
 diff --git a/vagrant/boxes.d/30-source.yaml b/vagrant/boxes.d/30-source.yaml
 index 72b70b4..68876cc 100644
 --- a/vagrant/boxes.d/30-source.yaml

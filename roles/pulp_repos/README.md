@@ -70,13 +70,13 @@ Shared Variables
 
 ### Example
 
-  ```
-  - name: Enable EPEL repository needed by Pulp
-    include_role:
-      name: pulp_repos
-    vars:
-      __pulp_repos_epel_enable_default: True
-  ```
+```yaml
+- name: Enable EPEL repository needed by Pulp
+  include_role:
+    name: pulp_repos
+  vars:
+    __pulp_repos_epel_enable_default: True
+```
 
 Example Usage
 -------------
@@ -84,4 +84,6 @@ Example Usage
 If you want to install Pulp on a device with EPEL repository already enabled, you don't want to enable it second time. 
 In this case it is enough just put line bellow into your `config.yml`.
 
-    pulp_repos_epel_requested: False
+```yaml
+pulp_repos_epel_requested: False
+```

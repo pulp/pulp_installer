@@ -16,11 +16,11 @@ on certain hosts.
 Currently, all it does is depend on the required roles, which are
 subject to change over time:
 
-  - pulp_database_config
-  - pulp_api
-  - pulp_content
-  - pulp_workers
-  - pulp_common (implicitly)
+  - [pulp_database_config](../../roles/pulp_database_config)
+  - [pulp_api](../../roles/pulp_api)
+  - [pulp_content](../../roles/pulp_content)
+  - [pulp_workers](../../roles/pulp_workers)
+  - [pulp_common](../../roles/pulp_common) (implicitly)
 
 Example Usage
 -------------
@@ -34,7 +34,8 @@ Example Usage
 6. Copy over & install any webserver snippets to the webserver.
 
 Here is an example command & output for checking if any plugins have any webserver snippets.
-```
+
+```bash
 $ ls /usr/local/lib/pulp/lib/python*/site-packages/pulp_*/app/webserver_snippets/{apache.conf,nginx.conf}
 /usr/local/lib/pulp/lib/python3.6/site-packages/pulp_container/app/webserver_snippets/apache.conf
 /usr/local/lib/pulp/lib/python3.6/site-packages/pulp_container/app/webserver_snippets/nginx.conf
@@ -42,30 +43,32 @@ $ ls /usr/local/lib/pulp/lib/python*/site-packages/pulp_*/app/webserver_snippets
 
 Here's an example playbook for using pulp_services in pulp_installer. It assumes the database, redis & webserver are on a separate hosts, `redis1`, `postgres1` & `webserver1`. The database and redis must already be up & running.
 
-    ---
-    - hosts: all
-      force_handlers: True
-      vars:
-        pulp_default_admin_password: << YOUR PASSWORD FOR THE PULP APPLICATION HERE >>
-        pulp_settings:
-          secret_key: << YOUR SECRET HERE >>
-          content_origin: "https://webserver1.fqdn"
-          redis_host: redis1
-          redis_port: 6380
-          redis_password: << YOUR REDIS PASSWORD HERE >>
-          databases:
-            default:
-              HOST: postgres1
-              ENGINE: django.db.backends.postgresql
-              NAME: pulp
-              USER: pulp
-              PASSWORD: << YOUR DATABASE PASSWORD HERE >>
-        pulp_install_plugins:
-          pulp-rpm: # no need to set subvar prereq_role for pulp_rpm specifically
-      roles:
-        - pulp_services
-      environment:
-        DJANGO_SETTINGS_MODULE: pulpcore.app.settings
+```yaml
+---
+- hosts: all
+  force_handlers: True
+  vars:
+    pulp_default_admin_password: << YOUR PASSWORD FOR THE PULP APPLICATION HERE >>
+    pulp_settings:
+      secret_key: << YOUR SECRET HERE >>
+      content_origin: "https://webserver1.fqdn"
+      redis_host: redis1
+      redis_port: 6380
+      redis_password: << YOUR REDIS PASSWORD HERE >>
+      databases:
+        default:
+          HOST: postgres1
+          ENGINE: django.db.backends.postgresql
+          NAME: pulp
+          USER: pulp
+          PASSWORD: << YOUR DATABASE PASSWORD HERE >>
+    pulp_install_plugins:
+      pulp-rpm: # no need to set subvar prereq_role for pulp_rpm specifically
+  roles:
+    - pulp_services
+  environment:
+    DJANGO_SETTINGS_MODULE: pulpcore.app.settings
+```
 
 Related Roles
 -------------

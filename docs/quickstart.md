@@ -8,7 +8,7 @@ Installation
 ------------
 The recommended installation is from ansible-galaxy:
 
-```
+```bash
 ansible-galaxy collection install pulp.pulp_installer
 ```
 
@@ -18,7 +18,7 @@ Using the example playbook
 Some of the roles used in the playbook use root privileges on the managed node, so when prompted,
 you will need to provide the password for the managed node user.
 
-```
+```bash
 ansible-playbook playbooks/example-use/playbook.yml -u <managed_node_username> --ask-become-pass -i <managed_node_hostname>,
 ```
 
@@ -41,22 +41,20 @@ As an example, we are going to write a playbook for installing `pulp_container` 
 
 You can learn more about the variables on the [roles section](https://docs.pulpproject.org/pulp_installer/roles/pulp_common/#role-variables)
 
-1 -  Install the `pulp_installer` collection:
-```
+1.  Install the `pulp_installer` collection:
+```bash
 ansible-galaxy collection install pulp.pulp_installer
 ```
 
-2 -  Install the `geerlingguy.postgresql` role:
-```
+2.  Install the `geerlingguy.postgresql` role:
+```bash
 ansible-galaxy install geerlingguy.postgresql
 ```
 
-3 - Write the following playbook:
-```
+3. Write the following playbook:
+```bash
 vim install.yml
 ```
-
-
 ```yaml
 ---
 - hosts: all
@@ -85,8 +83,9 @@ vim install.yml
   environment:
     DJANGO_SETTINGS_MODULE: pulpcore.app.settings
 ```
-4 - Run the playbook:
-```
+
+4. Run the playbook:
+```bash
 ansible-playbook install.yml -u <managed_node_username> --ask-become-pass -i <managed_node_hostname>,
 ```
 <script id="asciicast-335829" src="https://asciinema.org/a/335829.js" async data-autoplay="true" data-speed="2"></script>
@@ -143,8 +142,9 @@ The recommended way to verify the Pulp packages and versions installed by `pulp_
 ![Pulp Status](images/10.png "Pulp Status")
 
 but it is also possible to check the packages from the host where pulp is running:
-```
+
+```bash
 source /usr/local/lib/pulp/bin/activate
-pip list |grep pulp
+pip list | grep pulp
 pip show pulp-{container,file,maven,python,rpm} pulpcore
 ```

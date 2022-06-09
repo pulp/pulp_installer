@@ -21,21 +21,22 @@ Note that [variables are YAML](https://docs.ansible.com/ansible/latest/reference
 (JSON can also be used as values to the variables.)
 
 Some of the installer's variables, `pulp_settings` and `pulp_install_plugins` in particular, are dictionaries with prescribed variables or prescribed nested dictionaries nested under them. So do not be surprised when you see syntax like the following:
-```
+
+```yaml
   vars:
     pulp_install_plugins:
        pulp-container:
        pulp-deb:
          upgrade: true
-      pulp-file:
-        collectstatic: true
-        version: "9.8.7"
+       pulp-file:
+         collectstatic: true
+         version: "9.8.7"
 ```
 
 What that means **in terms of YAML syntax** is:
 * There is a dictionary named `pulp_install_plugins` whose value is 3 nested dictionaries, `pulp-deb`, `pulp-file` and `pulp-container`.
 * There is a nested dictionary named `pulp-container`, whose value is an empty dictionary `{}`.
-* There is a nested dictionary named `pulp-deb`, whose value is is 1 key-value pair.
+* There is a nested dictionary named `pulp-deb`, whose value is 1 key-value pair.
 * There is a nested dictionary named `pulp-file`, whose value is 2 key-value pairs.
 
 See [the section below](#example-of-setting-a-multitude-of-variables) for more info on what this means in terms of actual Pulp Installer behavior.
@@ -64,7 +65,7 @@ Example of setting a multitude of variables:
 --------------------------------------------
 In the following example, a multitude of variables are set:
 
-```
+```yaml
   vars:
     pulpcore_update: true
     pulp_workers: 4
@@ -106,7 +107,7 @@ In the following example, a multitude of variables are set:
 * It generates Pulp's runtime configuration file, `/etc/pulp/settings.py`, with all of the following configured behavior.
   * `default_file_storage` and `azure_*` configure pulp to point to an object storage on Azure for
     storing content (rather than defaulting to using the local filesystem.)
-  * It sets the `secret_key` for the Django framework (which) Pulp is written in) to `"secret"`. Note that this setting is always required to be set by the user.
+  * It sets the `secret_key` for the Django framework (which Pulp is written in) to `"secret"`. Note that this setting is always required to be set by the user.
   * It sets `content_origin`, which specifies the Pulp application's URL, to the FQDN (`hostname -a`) of the Pulp server (beginning with `https://`). Note that this setting is always required to be set by the user, although this example value (with variables in it) is suitable for most users.
 
 More information about `pulp_settings`
