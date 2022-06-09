@@ -5,25 +5,27 @@ galaxy_info:
   issue_tracker_url: https://github.com/pulp/pulp_installer/issues/new
   license: GPL-2.0-or-later
   company: Red Hat
-  min_ansible_version: 2.9
+  min_ansible_version: "2.9"
   platforms:
     - name: Debian
       versions:
         - bullseye
-    - name: Fedora
-      versions:
-        - 32
-        - 33
-        - 34
     - name: EL
       versions:
-        - 7
-        - 8
+        - "7"
+        - "8"
+        - "9"
+    - name: Fedora
+      versions:
+        - "33"
+        - "34"
+        - "35"
+        - "36"
   galaxy_tags:
     - pulp
     - pulpcore
 dependencies:
-  - pulp_database_config
-  - pulp_api
-  - pulp_content
-  - pulp_workers
+  - role: pulp_database_config
+  - role: pulp_api
+  - role: pulp_content
+  - role: pulp_workers

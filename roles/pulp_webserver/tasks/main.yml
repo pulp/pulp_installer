@@ -82,14 +82,14 @@
 
 - name: Include pulp-ansible snippet for galaxy_ng
   set_fact:
-    pulp_install_plugins_normalized: "{{ pulp_install_plugins_normalized|combine({'pulp-ansible': ''}) }}"
+    pulp_install_plugins_normalized: "{{ pulp_install_plugins_normalized | combine({'pulp-ansible': ''}) }}"
   when:
     - pulp_install_plugins_normalized['galaxy-ng'] is defined
     - pulp_install_plugins_normalized['pulp-ansible'] is undefined
 
 - name: Include pulp-container snippet for galaxy_ng
   set_fact:
-    pulp_install_plugins_normalized: "{{ pulp_install_plugins_normalized|combine({'pulp-container': ''}) }}"
+    pulp_install_plugins_normalized: "{{ pulp_install_plugins_normalized | combine({'pulp-container': ''}) }}"
   when:
     - pulp_install_plugins_normalized['galaxy-ng'] is defined
     - pulp_install_plugins_normalized['pulp-container'] is undefined

@@ -14,7 +14,7 @@
         # node. We should not introduce an addtl control node dependency
         # unless there is a very compelling reason.
         # msg: "{{ updates | json_query('results[*].name') }}"
-        msg: "{{ updates.results | map(attribute='name')|list }}"
+        msg: "{{ updates.results | map(attribute='name') | list }}"
 
     # These 3 tasks have changed_when: false for the sake if idempotency
     # We are not modifying the system after all, just the value of the conf file
@@ -61,7 +61,7 @@
 
     - name: Upgrade all existing installed Pulp packages
       yum:
-        name: "{{ updates.results | map(attribute='name')|list }}"
+        name: "{{ updates.results | map(attribute='name') | list }}"
         state: latest  # noqa 403
         conf_file: "{{ __dnf_conf.path | default(omit) }}"
         # update_only is a needed part of installing older updates
@@ -153,7 +153,7 @@
       when:
         - ansible_facts.os_family == 'RedHat'
         # when permissive or enforcing. That would be stored in .mode & .config_mode
-        - pulp_install_selinux_policies|bool or
+        - pulp_install_selinux_policies | bool or
           (ansible_facts.selinux.status == "enabled" and pulp_install_selinux_policies == "auto")
 
   become: true
