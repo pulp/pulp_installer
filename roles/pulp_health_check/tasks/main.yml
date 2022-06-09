@@ -7,13 +7,13 @@
 
 - name: Listing Pulp services
   debug:
-    msg: '{{ ansible_facts.services|dict2items|selectattr("key", "contains", "pulpcore")|list|items2dict }}'
+    msg: '{{ ansible_facts.services | dict2items | selectattr("key", "contains", "pulpcore") | list | items2dict }}'
 
 - name: Checking Pulp services
   fail:
     msg: "{{ item.value.name }} state: {{ item.value.state }}"
   when: "item.value.name not in ['pulpcore-worker@.service', 'pulpcore.service'] and item.value.state != 'running'"
-  with_dict: '{{ ansible_facts.services|dict2items|selectattr("key", "contains", "pulpcore")|list|items2dict }}'
+  with_dict: '{{ ansible_facts.services | dict2items | selectattr("key", "contains", "pulpcore") | list | items2dict }}'
 
 - name: Ensure Pulp is up and healthy
   uri:
