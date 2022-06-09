@@ -1,7 +1,7 @@
 ---
 # When you updated this, update vagrant/requirements.nested-docker.yaml also.
 roles:
-  - geerlingguy.postgresql
+  - name: geerlingguy.postgresql
 collections:
   - ansible.posix
   - name: community.crypto

@@ -288,7 +288,7 @@
       when:
         - ansible_facts.os_family == 'RedHat'
         # when permissive or enforcing. That would be stored in .mode & .config_mode
-        - pulp_install_selinux_policies|bool or
+        - pulp_install_selinux_policies | bool or
           (ansible_facts.selinux.status == "enabled" and pulp_install_selinux_policies == "auto")
 
     # We have to do this separate task, even though the pip module should
@@ -346,7 +346,7 @@
         name: >-
            {{ item.key }}
            {%- if item.value.extras is defined %}{{ '['+ item.value.extras +']' if item.value.extras is string else '['+ item.value.extras | join(',') +']' }}{% endif %}
-           {%- if item.value.version is defined %}{% if item.value.version|wordcount > 2 %}=={{ item.value.version }}{% else %}~={{ item.value.version }}.0{% endif %}{% endif %}
+           {%- if item.value.version is defined %}{% if item.value.version | wordcount > 2 %}=={{ item.value.version }}{% else %}~={{ item.value.version }}.0{% endif %}{% endif %}
         # item.upgrade true/false -> ansible pip module latest / present
         # pip command "install --upgrade install"
         state: "{{ (item.value.upgrade | default(false) == true) | ternary('latest', 'present') }}"
