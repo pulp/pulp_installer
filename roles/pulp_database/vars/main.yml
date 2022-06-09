@@ -19,7 +19,7 @@ __pulp_database_pulp_settings_defaults:
       NAME: pulp
       USER: pulp
       PASSWORD: pulp
-__pulp_database_merged_pulp_settings: "{{ __pulp_database_pulp_settings_defaults|combine(pulp_settings, recursive=True) }}"
+__pulp_database_merged_pulp_settings: "{{ __pulp_database_pulp_settings_defaults | combine(pulp_settings, recursive=True) }}"
 
 __pulp_database_local_postgresql_global_config_options:
   - option: unix_socket_directories

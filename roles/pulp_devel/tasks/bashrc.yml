@@ -43,7 +43,7 @@
     shell: >-
       source {{ developer_user_home }}/.bashrc.d/alias.bashrc
       && source {{ developer_user_home }}/.bashrc.d/venv.bashrc
-      && pbindings {{ item.key| replace("-", "_") }} python
+      && pbindings {{ item.key | replace("-", "_") }} python
     args:
       executable: /bin/bash
     changed_when: false
@@ -62,5 +62,5 @@
       dest: '{{ developer_user_home }}/.bashrc.d/pulp_cli.bashrc'
       mode: '0644'
 
-  when: pulp_devel_supplement_bashrc |bool
+  when: pulp_devel_supplement_bashrc | bool
 ...
