@@ -14,6 +14,7 @@ Changelog
 <!-- TOWNCRIER -->
 
 3.19.3 (2022-06-08)
+===================
 
 Features
 --------
@@ -150,6 +151,19 @@ Devel
 
 - Added a .curlrc file with the parameter to check the .netrc
   [#1005](https://github.com/pulp/pulp_installer/issues/1005)
+
+
+----
+
+
+3.18.10 (2022-06-08)
+====================
+
+Bugfixes
+--------
+
+- Fix ``subject_alt_name`` prefix when generating a cert.
+  [#1051](https://github.com/pulp/pulp_installer/issues/1051)
 
 
 ----
