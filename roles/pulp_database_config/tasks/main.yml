@@ -18,6 +18,9 @@
 # inventory variables such as groups['all'] and whenever we gather facts.
 # 5. We can access all hosts in the ansible "playbook run" via groups['all'].
 # This means all "plays", not just the current play (ansible_play_hosts).
+# 6. However, users often have stray hosts running pulp already, or not running
+# anything resembling a normal OS (e.g., network equipment) in their host list.
+# So we do not want to check for groups['all'] for existing keys.
 #
 # We have 9 scenarios for this eleborate system:
 # 1. The key does not exist yet at all - 1 host gets chosen.
@@ -39,9 +42,10 @@
 # in later roles. Users will have to re-enter the passwords at runtime if they
 # were encrypted using a different key.
 # 7. The user runs pulp_database_config against hosts that lack the key, but
-# other hosts already have it - error and exit.
+# other hosts already have it - we do not have a good solution for this per
+# limitation #5.
 # 8. The user sets pulp_database_config_host to a host that lacks the key,
-# but other hosts already have it - error and exit.
+# but other hosts running pulp_database_config already have it - error and exit.
 # 9. The user sets pulp_db_fields_key - 1 host gets chosen.
 #
 # Users can override it by setting a global variable.
@@ -71,14 +75,12 @@
 - name: Pick & set the correct host to run pulp_database_config based on existing keys
   block:
 
-    - name: Identify the hosts that currently have pulp_database_config applied to them
+    - name: Identify the hosts that are currently running the pulp_database_config role
       debug:
         var: inventory_hostname
       register: __pulp_database_config_host_temp
-      when:
-        - hostvars['localhost']['pulp_database_config_host'] is not defined
 
-    - name: Set a list of hosts that currently have pulp_database_config applied to them
+    - name: Set a list of hosts that are currently running the pulp_database_config role
       set_fact:
         # We do not use json_query because it requires jmespath on the control
         # node. We should not introduce an addtl control node dependency
@@ -88,14 +90,12 @@
       delegate_to: localhost
       delegate_facts: true
       run_once: true
-      when:
-        - hostvars['localhost']['pulp_database_config_host'] is not defined
 
     # This task must be run against all hosts, not just those running pulp_database_config.
     # However, running it against all hosts produces a massive data structure where
     # __pulp_db_fields_key_path.results has a list of dictionaries, with elements
     # "item" (the inventory_hostname) and "stat".
-    - name: Check if any hosts already have the database fields encryption key
+    - name: Check if any of said hosts already have the database fields encryption key
       stat:
         path: "{{ __pulp_db_fields_key_path }}"
       register: __pulp_db_fields_key_stat
@@ -103,12 +103,12 @@
       # We do `failed_when: false` because some hosts, used by 3rd-party roles,
       # might not have become enabled. pulplift is 1 example, it has localhost.
       failed_when: false
-      with_items: "{{ groups['all'] }}"
+      with_items: "{{ hostvars['localhost']['__pulp_database_config_hosts'] }}"
       become: true
 
     # 'equalto' test is not available on EL7's python-jinja2 2.7 RPM,
     # so we use 'sameas' to compare to true/false, and 'match' to compare strings.
-    - name: Fail if some hosts in the play have the key, but pulp_database_config_host does not
+    - name: Fail if some hosts running pulp_database_config have the key, but pulp_database_config_host does not
       assert:
         that: >
           (__pulp_db_fields_key_stat.results | selectattr('stat','defined') | selectattr('stat.exists', 'sameas', true) | list | count == 0) or
@@ -117,15 +117,15 @@
           pulp_installer cannot continue because the host you have specified to run it
           (`pulp_database_config_host=={{ hostvars['localhost']['pulp_database_config_host'] }}`)
           does not have the database fields encryption key ({{ __pulp_db_fields_key_path }})
-          but some other hosts in the ansible playbook run
-          ({{ groups['all'] | difference(hostvars['localhost']['pulp_database_config_host']) }}) do.
+          but some other hosts running pulp_database_config
+          ({{ hostvars['localhost']['__pulp_database_config_hosts'] | difference(hostvars['localhost']['pulp_database_config_host']) }}) do.
           Run pulp_database_config(or pulp_services, or pulp_all_services) against a host that does
           have the key without setting `pulp_database_config_host`, or set
           `pulp_database_config_host` to a host that has the key.
       when:
         - hostvars['localhost']['pulp_database_config_host'] is defined
 
-    - name: Pick & set the sole host used to run pulp_database_config, if any hosts have the key
+    - name: Pick & set the sole host used to run the remainder of the pulp_database_config role, if any hosts have the key
       set_fact:
         pulp_database_config_host: "{{ item.item }}"
       run_once: True
@@ -136,25 +136,7 @@
       # We only set the variable if its a host where they exists.
       when:
         - hostvars['localhost']['pulp_database_config_host'] is not defined
-        - item.item in hostvars['localhost']['__pulp_database_config_hosts']
         - item.stat.exists
-
-    - name: Fail if some hosts in the play have the key, but no hosts running pulp_database_config do
-      assert:
-        that: >
-          (__pulp_db_fields_key_stat.results | selectattr('stat','defined') | selectattr('stat.exists', 'sameas', True) | list | count == 0) or
-          (__pulp_db_fields_key_stat.results | selectattr('stat','defined') | selectattr('stat.exists', 'sameas', True) | selectattr('item', 'in', hostvars['localhost']['__pulp_database_config_hosts']) | list | count >= 1)
-        fail_msg: >
-          pulp_installer cannot continue because none of the hosts you are running
-          pulp_database_config (or pulp_services, or pulp_all_services) against have the
-          database fields encryption key ({{ __pulp_db_fields_key_path }}) but some other hosts
-          in the ansible playbook run
-          ({{ groups['all'] | difference(hostvars['localhost']['__pulp_database_config_hosts']) }}) do.
-          Run pulp_database_config against a host that does already have the key, or set
-          `pulp_database_config_host` to a host that has the key (which is an
-          alternative way to specify which host pulp_database_config runs against.)
-      when:
-        - hostvars['localhost']['pulp_database_config_host'] is not defined
 
   when:
     - __pulp_run_once
