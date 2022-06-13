@@ -1,5 +1,12 @@
-pulp3-sandbox-fedora34:
-  box: 'fedora34'
+pulp3-sandbox-fedora35:
+  box: 'fedora35'
+  memory: 4096
+  ansible:
+    playbook: "vagrant/playbooks/user-sandbox.yml"
+    galaxy_role_file: "requirements.yml"
+
+pulp3-sandbox-fedora36:
+  box: 'fedora36'
   memory: 4096
   ansible:
     playbook: "vagrant/playbooks/user-sandbox.yml"
