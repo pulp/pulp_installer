@@ -99,6 +99,19 @@ Role Variables
     of the pulp content host itself. Syntax is
     `(http|https)://(hostname|ip)[:port]`.
   * `pulp_settings.secret_key`: **Required**. Pulp's Django application `SECRET_KEY`.
+  * `pulp_settings.cache_enabled`: Whether or not to connect to a redis server to use as a cache. Defaults to
+      `true`.
+  * `pulp_settings.redis_host`: **Optional**. Hostname or IP of the redis server to connect to. Defaults to `localhost`.
+  * `pulp_settings.redis_port`: **Optional**. TCP port of the redis server to connect to. Defaults to `6379`.
+  * `pulp_settings.redis_db`: **Optional**. The name of the redis database to connect to.
+  * `pulp_settings.redis_password`: **Optional**. Password for connecting to redis.
+  * `pulp_settings.redis_url`: **Optional** Tells pulp how to connect to redis. If set, the pulp application overrides
+      individual pulp `redis_` settings on how to connect, such as `redis_host` and `redis_port`.
+      If it is a path to a UNIX domain socket (recommended value is: `unix:/var/run/redis/redis.sock`),
+      the pulp_common role will add the `{{ pulp_user }}` user to the `redis` group, if that group exists.
+      Thus giving pulp access to the redis UNIX domain socket. Make sure to set the same value as
+      you set for `pulp_redis_bind`, as documented in [pulp_redis](../../roles/pulp_redis).
+
 * `epel_release_packages`: List of strings (package names, URLs) to pass to
   `yum install` to ensure that "epel-release" is installed.
   Once the 1st string is found to be installed by yum, no further strings are
