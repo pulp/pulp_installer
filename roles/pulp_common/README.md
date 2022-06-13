@@ -137,6 +137,18 @@ Role Variables
         * `USER`: The user account to authenticate as to access the database. Defaults to `pulp`.
         * `PASSWORD`: The user account's password for accessing the database.
             Defaults to `pulp`, but please change it to something secure!
+    * `cache_enabled`: Whether or not to connect to a redis server to use as a cache. Defaults to
+      `true`.
+    * `redis_host`: **Optional**. Hostname or IP of the redis server to connect to. Defaults to `localhost`.
+    * `redis_port`: **Optional**. TCP port of the redis server to connect to. Defaults to `6379`.
+    * `redis_db`: **Optional**. The name of the redis database to connect to.
+    * `redis_password`: **Optional**. Password for connecting to redis.
+    * `redis_url`: **Optional** Tells pulp how to connect to redis. If set, the pulp application overrides
+      individual pulp `redis_` settings on how to connect, such as `redis_host` and `redis_port`.
+      If it is a path to a UNIX domain socket (recommended value is: `unix:/var/run/redis/redis.sock`),
+      the pulp_common role will add the `{{ pulp_user }}` user to the `redis` group, if that group exists.
+      Thus giving pulp access to the redis UNIX domain socket. Make sure to set the same value as
+      you set for `pulp_redis_bind`, as documented in [pulp_redis](../../roles/pulp_redis).
     * **Example**:
     ```yaml
         pulp_settings:
