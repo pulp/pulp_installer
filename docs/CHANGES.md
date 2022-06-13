@@ -13,6 +13,31 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.19.4 (2022-06-13)
+
+Bugfixes
+--------
+
+- Only check the hosts running pulp_database_config to see if they have the database fields encryption key. Checking all hosts in the ansible playbook run was checking stray hosts already running a separate pulp instance, and checking hosts (such as network devices) that cannot run the stat module, thus proeducing an error.
+  [#1133](https://github.com/pulp/pulp_installer/issues/1133)
+
+
+Improved Documentation
+----------------------
+
+- Refine markups and fix some typos.
+  [#1163](https://github.com/pulp/pulp_installer/issues/1163)
+
+
+Misc
+----
+
+- [#1009](https://github.com/pulp/pulp_installer/issues/1009)
+
+
+----
+
+
 3.19.3 (2022-06-08)
 ===================
 

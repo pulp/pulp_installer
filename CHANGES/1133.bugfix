@@ -1,1 +1,0 @@
-Only check the hosts running pulp_database_config to see if they have the database fields encryption key. Checking all hosts in the ansible playbook run was checking stray hosts already running a separate pulp instance, and checking hosts (such as network devices) that cannot run the stat module, thus proeducing an error.
