@@ -148,3 +148,4 @@ source /usr/local/lib/pulp/bin/activate
 pip list | grep pulp
 pip show pulp-{container,file,maven,python,rpm} pulpcore
 ```
+

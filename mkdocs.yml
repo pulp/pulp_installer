@@ -31,6 +31,7 @@ nav:
   - Customizing Your Pulp Deployment: customizing.md
   - clustering.md
   - upgrades.md
+  - troubleshooting.md
   - Object Storage: objectstorage.md
   - Let's Encrypt: letsencrypt.md
   - contributing.md
