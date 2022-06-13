@@ -5,6 +5,7 @@ pulp_git_url: "https://github.com/pulp/pulpcore"
 pulp_git_revision: "3.15"
 pulp_api_bind: "unix:/var/run/pulpcore-api/pulpcore-api.sock"
 pulp_content_bind: "unix:/var/run/pulpcore-content/pulpcore-content.sock"
+pulp_redis_bind: "unix:/var/run/redis/redis.sock"
 pulp_install_plugins:
   # galaxy-ng:
   #   source_dir: "/var/lib/pulp/devel/galaxy_ng"
@@ -37,5 +38,6 @@ pulp_install_plugins:
 developer_user_home: /var/lib/pulp
 developer_user: pulp
 pulp_settings:
-  secret_key: secret
   content_origin: "https://{{ ansible_fqdn }}"
+  secret_key: secret
+  redis_url: "unix:/var/run/redis/redis.sock"

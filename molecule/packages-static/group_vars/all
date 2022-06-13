@@ -4,11 +4,13 @@ pulp_upgrade: true
 pulp_install_source: packages
 pulp_api_bind: "unix:/var/run/pulpcore-api/pulpcore-api.sock"
 pulp_content_bind: "unix:/var/run/pulpcore-content/pulpcore-content.sock"
+pulp_redis_bind: "unix:/var/run/redis/redis.sock"
 pulp_install_selinux_policies: True
 pulp_install_plugins:
   pulp-file:
   pulp-rpm:
 pulp_settings:
-  secret_key: secret
   content_origin: "https://{{ ansible_fqdn }}"
+  redis_url: "unix:/var/run/redis/redis.sock"
+  secret_key: secret
 pulp_pkg_repo: "https://yum.theforeman.org/pulpcore/3.15/el{{ ansible_distribution_major_version }}/$basearch/"

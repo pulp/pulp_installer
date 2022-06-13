@@ -112,6 +112,23 @@
         append: true
       when: developer_user is defined
 
+    - name: Check if the redis group exists
+      command: getent group redis
+      changed_when: False
+      check_mode: False
+      register: redis_group
+      failed_when: redis_group.rc not in [0,2]
+
+    - name: Add user pulp to the redis group
+      user:
+        name: '{{ pulp_user }}'
+        groups: redis
+        append: true
+      when:
+        - __pulp_common_merged_pulp_settings.redis_url is defined
+        - "__pulp_common_merged_pulp_settings.redis_url.startswith('unix:')"
+        - redis_group.rc == 0
+
     - name: Reset ssh conn to allow user changes to affect when ssh user and pulp user are the same
       meta: reset_connection
 
