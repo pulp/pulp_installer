@@ -13,6 +13,18 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.18.11 (2022-06-14)
+
+Bugfixes
+--------
+
+- Fix the pulp user getting created with incorrect settings, such as having its home dir under /home/pulp, when pulp_redis_bind is set to a UNIX domain socket.
+  [#1173](https://github.com/pulp/pulp_installer/issues/1173)
+
+
+----
+
+
 3.18.10 (2022-06-08)
 
 Bugfixes
