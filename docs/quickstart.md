@@ -149,3 +149,10 @@ pip list | grep pulp
 pip show pulp-{container,file,maven,python,rpm} pulpcore
 ```
 
+
+Uninstall
+---------
+
+For now, we don't have a playbook to uninstall the cluster. If you find it useful, please consider opening an [issue to Pulp community repo](https://github.com/pulp/pulp_installer/issues/new/choose).
+
+We recommend that users only install Pulp on the machine, so in a virtual environment, for example, uninstalling Pulp would be a matter of deleting the VM.
