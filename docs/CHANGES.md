@@ -181,6 +181,79 @@ Devel
 ----
 
 
+3.18.11 (2022-06-14)
+
+Bugfixes
+--------
+
+- Fix the pulp user getting created with incorrect settings, such as having its home dir under /home/pulp, when pulp_redis_bind is set to a UNIX domain socket.
+  [#1173](https://github.com/pulp/pulp_installer/issues/1173)
+
+
+----
+
+
+3.18.10 (2022-06-08)
+
+Bugfixes
+--------
+
+- Fix ``subject_alt_name`` prefix when generating a cert.
+  [#1051](https://github.com/pulp/pulp_installer/issues/1051)
+
+
+----
+
+
+3.18.9 (2022-06-06)
+
+Bugfixes
+--------
+
+- When installing the `galaxy-ng` plugin from source, only unlock its version requirements if the "main" branch is used, or if the branch (`git_revision`) is unspecified.
+  [#1073](https://github.com/pulp/pulp_installer/issues/1073)
+- Fix occassional error on `Run pip-compile to check pulpcore/plugin compatibility` with error message `ImportError: cannot import name 'BAR_TYPES' from 'pip._internal.cli.progress_bars'`.
+  [#1100](https://github.com/pulp/pulp_installer/issues/1100)
+- Fix galaxy_ng being confused by `pulp_settings.galaxy_collection_signing_service` defaulting to `ansible-default`, even when the signing service is not being installed. galaxy_ng users with the signing service must now set `pulp_settings.galaxy_collection_signing_service==ansible-default`
+  [#1141](https://github.com/pulp/pulp_installer/issues/1141)
+
+
+Devel
+-----
+
+- Vagrant no longer builds and installs the pulp.pulp_installer collection, but instead runs the roles out of the pulp_installer folder. To continue running using vagrant environments, run `rm -rf ~/.ansible/collections/ansible_collections/pulp/`.
+  [#1098](https://github.com/pulp/pulp_installer/issues/1098)
+
+
+----
+
+
+3.18.8 (2022-05-18)
+===================
+
+
+Bugfixes
+--------
+
+- Fix the error "no test named 'equalto'" on the task "pulp_database_config : Check if any hosts already have the database fields encryption key" when running on EL7 RPM-installed Ansible (or any python distribution with "jinja2" prior to version 2.8).
+  [#1105](https://github.com/pulp/pulp_installer/issues/1105)
+
+
+----
+
+
+3.18.7 (2022-05-13)
+
+Bugfixes
+--------
+
+- pulp_database_config: Accomodate users having inventory hosts that cannot run sudo.
+  [#1085](https://github.com/pulp/pulp_installer/issues/1085)
+
+
+----
+
+
 3.18.10 (2022-06-08)
 ====================
 
@@ -675,6 +748,111 @@ Devel
 
 - Run pulp_installer collection on pulplift
   [#9371](https://pulp.plan.io/issues/9371)
+
+
+----
+
+
+3.15.8 (2022-06-08)
+
+Bugfixes
+--------
+
+- Fix ``subject_alt_name`` prefix when generating a cert.
+  [#1051](https://pulp.plan.io/issues/1051)
+- When installing the `galaxy-ng` plugin from source, only unlock its version requirements if the "main" branch is used, or if the branch (`git_revision`) is unspecified.
+  [#1073](https://pulp.plan.io/issues/1073)
+- pulp_database_config: Accomodate users having inventory hosts that cannot run sudo.
+  [#1085](https://pulp.plan.io/issues/1085)
+- Fix occassional error on `Run pip-compile to check pulpcore/plugin compatibility` with error message `ImportError: cannot import name 'BAR_TYPES' from 'pip._internal.cli.progress_bars'`.
+  [#1100](https://pulp.plan.io/issues/1100)
+
+
+Devel
+-----
+
+- Vagrant no longer builds and installs the pulp.pulp_installer collection, but instead runs the roles out of the pulp_installer folder. To continue running using vagrant environments, run `rm -rf ~/.ansible/collections/ansible_collections/pulp/`.
+  [#1098](https://pulp.plan.io/issues/1098)
+
+
+----
+
+
+3.15.7 (2022-05-09)
+
+Bugfixes
+--------
+
+- Fix the database fields key being generated as non-identical across multiple hosts, which in turn broke multiple runtime actions (for clustered setups with multiple hosts) such as syncing remotes for galaxy_ng. Also install the key on worker hosts. Introduces the advanced variable `pulp_database_config_host` to set which host will have its key copied to all the others (otherwise, random.)
+  [#964](https://pulp.plan.io/issues/964)
+
+
+----
+
+
+3.15.6 (2022-03-23)
+
+No significant changes.
+
+
+----
+
+
+3.15.5 (2022-03-15)
+
+No significant changes.
+
+
+----
+
+
+3.15.4-2 (2022-03-11)
+
+Bugfixes
+--------
+
+- Update webserver symlink when needed
+  [#939](https://pulp.plan.io/issues/939)
+
+
+----
+
+
+3.15.4-1 (2022-03-03)
+
+Bugfixes
+--------
+
+- When in packages mode, install the package with the SELinux policies via an ansible task, rather than assuming it is a dependency (which is no longer the case.) The variable `pulp_pkg_selinux_name` was introduced to specify the name. Also introduce the variable `pulp_install_selinux_policies` to enable or disable installing the SELinux policies, regardless of whether in packages mode or pip mode.
+  [#916](https://pulp.plan.io/issues/916)
+
+
+----
+
+
+3.15.4 (2022-03-03)
+
+No significant changes.
+
+
+----
+
+
+3.15.3-1 (2022-03-01)
+=====================
+
+Bugfixes
+--------
+
+- Removed extraneous use of become_user: root from devel role.
+  [#844](https://pulp.plan.io/issues/844)
+
+
+Deprecations and Removals
+-------------------------
+
+- CentOS 8 is now EOL, and thus Pulp no longer formally supports it. Pulp now only tests fresh installs with CentOS Stream 8, and with upgrades from CentOS 8 to CentOS Stream 8 (see migration instructions here https://centos.org/centos-stream/).
+  [#860](https://pulp.plan.io/issues/860)
 
 
 ----
