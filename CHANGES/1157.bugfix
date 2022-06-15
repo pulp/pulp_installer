@@ -1,1 +1,0 @@
-Fix HTTP 404 "not found" errors by making pulp_settings.content_path_prefix default to "/pulp/content/" rather than "/pulp/content".

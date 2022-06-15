@@ -13,6 +13,29 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.19.5 (2022-06-15)
+
+Bugfixes
+--------
+
+- Fix HTTP 404 "not found" errors by making pulp_settings.content_path_prefix default to "/pulp/content/" rather than "/pulp/content".
+  [#1157](https://github.com/pulp/pulp_installer/issues/1157)
+- Fix the pulp user getting created with incorrect settings, such as having its home dir under /home/pulp, when pulp_redis_bind is set to a UNIX domain socket.
+  [#1173](https://github.com/pulp/pulp_installer/issues/1173)
+
+
+Improved Documentation
+----------------------
+
+- Added documentation for uninstalling Pulp.
+  [#1000](https://github.com/pulp/pulp_installer/issues/1000)
+- Added documentation for the "artifacts missing checksum" error.
+  [#1093](https://github.com/pulp/pulp_installer/issues/1093)
+
+
+----
+
+
 3.19.4 (2022-06-13)
 
 Bugfixes
