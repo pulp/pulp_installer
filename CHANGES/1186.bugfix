@@ -1,0 +1,1 @@
+Fix an issue where by the pulp_webserver role would fail on "Copy Snippets" if it were run after pulp_devel is run.
