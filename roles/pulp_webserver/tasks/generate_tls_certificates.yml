@@ -72,6 +72,7 @@
         key_usage:
           - keyEncipherment
           - dataEncipherment
+          - digitalSignature
         extended_key_usage:
           - serverAuth
         owner: root
