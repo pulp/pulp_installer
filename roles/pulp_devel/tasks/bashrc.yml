@@ -39,6 +39,18 @@
       mode: '0644'
     when: ansible_facts.distribution != 'Ubuntu'
 
+  # We need to do this or else it fails to initialize, and every time a new
+  # shell is spawned, it spews messages like:
+  # virtualenvwrapper.user_scripts creating /usr/local/lib/premkproject
+  # Which in turn breaks the task:
+  # pulp_webserver : Copy snippets from the pulp_database_config host
+  - name: Initialize virtualenvwrapper
+    command: 'bash {{ developer_user_home }}/.bashrc.d/venv.bashrc'
+    args:
+      creates: '{{ pulp_install_dir }}../premkproject'
+    become_user: root
+    register: virtualenvwrapper
+
   - name: Install bindings requirements for testing locally  # noqa no-changed-when
     shell: >-
       source {{ developer_user_home }}/.bashrc.d/alias.bashrc
