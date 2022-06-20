@@ -183,6 +183,30 @@ This also relies on shared storage (such as NFS) being hosted at the following a
 
 Adjust the pre_task `Mount /var/lib/pulp` as needed for your shared storage.
 
+Install the `nfs-utils` package:
+
+```
+# yum install nfs-utils
+```
+Mount the NFS share:
+
+* use the `showmount` utility to discover the shares from NFS server:
+```
+$ showmount --exports <my-nfs-server-address>
+```
+* mount the `/var/lib/pulp` and `/var/lib/pulp/pulpcore_static` [share points](https://github.com/pulp/pulp_installer/blob/main/roles/pulp_webserver/README.md#role-variables):
+```
+# mount <my-nfs-server-address>:<exported-file-system-for-pulp-user-home> /var/lib/pulp
+# mount <my-nfs-server-address>:<exported-file-system-for-webserver-static-dir> /var/lib/pulp/pulpcore_static
+```
+
+For servers running with SELinux in Enforcing mode, the following SELinux file contexts are needed for correct operation:
+
+|**Directory** | **SELinux Context**
+|--------- | ---------------
+|`/var/lib/pulp` | system_u:object_r:pulpcore_etc_t:s0
+|`/var/lib/pulp/pulpcore_static` <br />*pulpcore_static needs to be a separate mount* | system_u:object_r:httpd_sys_content_t:s0
+
 This deployment can be scaled up by adding more pulp servers.
 
 Scaling up is performed by:
@@ -277,6 +301,29 @@ This also relies on shared storage (such as NFS) being hosted at the following a
 * `example-nfs-server:/var/lib/pulp`
 
 Adjust the 3 pre_tasks `Mount /var/lib/pulp` as needed for your shared storage.
+
+Install the `nfs-utils` package:
+```
+# yum install nfs-utils
+```
+Mount the NFS share:
+
+* use the `showmount` utility to discover the shares from NFS server:
+```
+$ showmount --exports <my-nfs-server-address>
+```
+* mount the `/var/lib/pulp` and `/var/lib/pulp/pulpcore_static` [share points](https://github.com/pulp/pulp_installer/blob/main/roles/pulp_webserver/README.md#role-variables):
+```
+# mount <my-nfs-server-address>:<exported-file-system-for-pulp-user-home> /var/lib/pulp
+# mount <my-nfs-server-address>:<exported-file-system-for-webserver-static-dir> /var/lib/pulp/pulpcore_static
+```
+
+For servers running with SELinux in Enforcing mode, the following SELinux file contexts are needed for correct operation:
+
+|**Directory** | **SELinux Context**
+|--------- | ---------------
+|`/var/lib/pulp` | system_u:object_r:pulpcore_etc_t:s0
+|`/var/lib/pulp/pulpcore_static` <br />*pulpcore_static needs to be a separate mount* | system_u:object_r:httpd_sys_content_t:s0
 
 This deployment can be scaled up by adding more Pulp API, Pulp Content or Pulp Worker servers.
 
@@ -478,6 +525,29 @@ This also relies on shared storage (such as NFS) being hosted at the following a
 * `example-nfs-server:/var/lib/pulp`
 
 Adjust the 3 pre_tasks `Mount /var/lib/pulp` as needed for your shared storage.
+
+Install the `nfs-utils` package:
+```
+# yum install nfs-utils
+```
+Mount the NFS share:
+
+* use the `showmount` utility to discover the shares from NFS server:
+```
+$ showmount --exports <my-nfs-server-address>
+```
+* mount the `/var/lib/pulp` and `/var/lib/pulp/pulpcore_static` [share points](https://github.com/pulp/pulp_installer/blob/main/roles/pulp_webserver/README.md#role-variables):
+```
+# mount <my-nfs-server-address>:<exported-file-system-for-pulp-user-home> /var/lib/pulp
+# mount <my-nfs-server-address>:<exported-file-system-for-webserver-static-dir> /var/lib/pulp/pulpcore_static
+```
+
+For servers running with SELinux in Enforcing mode, the following SELinux file contexts are needed for correct operation:
+
+|**Directory** | **SELinux Context**
+|--------- | ---------------
+|`/var/lib/pulp` | system_u:object_r:pulpcore_etc_t:s0
+|`/var/lib/pulp/pulpcore_static` <br />*pulpcore_static needs to be a separate mount* | system_u:object_r:httpd_sys_content_t:s0
 
 This deployment can be scaled up by adding more Pulp API, Pulp Content, Pulp Worker or Pulp
 Webserver servers.
