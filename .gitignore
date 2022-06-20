@@ -12,3 +12,4 @@ build/
 .vagrant/
 
 vagrant/boxes.d/*-local.yaml
+.vscode/
