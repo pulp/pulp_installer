@@ -1,0 +1,23 @@
+---
+## For a complete and comprehensive list of available rules
+## see here: https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md
+
+## heading style
+## https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md#md003
+MD003: false  # do not check for now, might be enabled later
+# style: "setext_with_atx"
+
+## unordered list indentation
+## https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md#md007
+MD007:
+  # python-markdown requires 4 spaces of indentation.
+  # see https://python-markdown.github.io/#differences
+  indent: 4
+
+## line length
+## https://github.com/DavidAnson/markdownlint/blob/main/doc/Rules.md#md013
+MD013: false  # do not check for now, might be enabled later
+# line_length: 120
+# code_blocks: false
+# tables: false
+# stern: true

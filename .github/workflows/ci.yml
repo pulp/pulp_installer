@@ -174,3 +174,9 @@ jobs:
       - name: Lint test
         run: |
           ansible-lint
+      - name: Install Node.js dependencies
+        run: |
+          npm ci
+      - name: Lint documentation
+        run: |
+          npm test
