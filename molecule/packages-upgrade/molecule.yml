@@ -30,6 +30,10 @@ platforms:
     name: centos-8
     image: quay.io/pulp/pulp-ci-pkgs-c8:3.7.9
     command: /sbin/init
+  - <<: *platform_base
+    name: centos-9
+    image: quay.io/pulp/pulp-ci-pkgs-c9:3.18.5
+    command: /sbin/init
 provisioner:
   name: ansible
   env:
