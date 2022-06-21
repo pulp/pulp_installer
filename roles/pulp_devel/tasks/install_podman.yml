@@ -5,6 +5,7 @@
       - podman
       - buildah
       - runc
+      - skopeo
     state: present
   retries: "{{ pulp_devel_package_retries }}"
   register: result
