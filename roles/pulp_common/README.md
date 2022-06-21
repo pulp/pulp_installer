@@ -7,6 +7,7 @@ The default administrative user for the Pulp application is: 'admin'
 
 Role Variables
 --------------
+
 * `pulp_install_plugins`: **Required** A nested dictionary of plugins to install & their
   installation options.
     * *Dictionary Key*: **Required**. The pip installable plugin name. This is defined in each
@@ -39,6 +40,7 @@ Role Variables
     extras.
     If set to false the plugin name will be passed as `--ignore` at collectstatic time.
     * **Example**:
+
     ```yaml
     pulp_install_source: pip
     pulp_install_plugins:
@@ -61,6 +63,7 @@ Role Variables
         git_url: "https://github..."  # Optional. URL to the git repo from where plugin will be pulled.
         git_revision: "v3.1.1"   # Optional. The specific git branch/tag/commit to be cheked out.
     ```
+
 * `pulp_cache_dir`: Location of Pulp cache. Defaults to '{{ pulp_user_home }}/tmp'.
 * `pulp_config_dir`: Directory which will contain Pulp configuration files.
   Defaults to "/etc/pulp".
@@ -150,6 +153,7 @@ Role Variables
       Thus giving pulp access to the redis UNIX domain socket. Make sure to set the same value as
       you set for `pulp_redis_bind`, as documented in [pulp_redis](../../roles/pulp_redis).
     * **Example**:
+
     ```yaml
         pulp_settings:
           content_origin: "https://{{ ansible_fqdn }}"
@@ -161,6 +165,7 @@ Role Variables
               USER: pulp
               PASSWORD: password
     ```
+
 * `pulp_certs_dir`: Path where to generate or drop the TLS certificates, key for authentication
   tokens, and the database fields encryption key. Defaults to '{{ pulp_config_dir }}/certs' .
 * `pulpcore_update`: Boolean that specifies whether the pulpcore package should be updated to the
@@ -172,6 +177,7 @@ Role Variables
 
 Role Variables if installing from RPMs
 --------------------------------------
+
 Normally, Pulp is installed from Python pip packages (from PyPI.) pulp_installer can install Pulp from
 RPM packages instead if this variable is set. Other distro packaging formats may work as well:
 
@@ -203,6 +209,7 @@ Furthermore, the following variables are used, or behave *differently* from abov
     "pulp-file", the package `python3-pulp-file` will be installed. This variable overrides the entire package name.
     * `version`: Like with pip, a user can specify a specific version of a package one wants installed.
     * **Example**:
+
     ```yaml
     pulp_install_source: packages
     pulp_install_plugins:
@@ -213,6 +220,7 @@ Furthermore, the following variables are used, or behave *differently* from abov
         pkg_name: pulp_two_underscores
         version: 2.2.0
     ```
+
 * `pulp_install_dir`: Location of the filesystem prefix where package installed python programs
   (gunicorn & rq) are looked for on the filesystem.  Defaults to "/usr" (such as for "/usr/bin/gunicorn").
 * `pulp_pkg_name_prefix`: The beginning of the Linux distro (RPM) package names for pulp, that is
@@ -264,7 +272,6 @@ function). Also, a `prereq_role` may append to it.
 
 This role is required by the `pulp_database` role and uses some variables from it.
 
-
 Operating System Variables
 --------------------------
 
@@ -273,7 +280,9 @@ directory.
 
 Idempotency
 -----------
+
 This role is idempotent by default. It is dependent on these settings remaining `false`:
+
 * Every `upgrade` under `pulp_install_plugins`
 * pulp_upgraded_manually
 
