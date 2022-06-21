@@ -1,0 +1,10 @@
+{
+  "name": "docs",
+  "private": true,
+  "devDependencies": {
+    "markdownlint-cli": "^0.31.1"
+  },
+  "scripts": {
+    "test": "markdownlint ./docs/**/*.md"
+  }
+}

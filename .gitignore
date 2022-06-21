@@ -13,3 +13,6 @@ build/
 
 vagrant/boxes.d/*-local.yaml
 .vscode/
+
+# Node.js related items
+node_modules/
