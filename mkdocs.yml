@@ -5,6 +5,7 @@ site_author: Pulp Team
 site_url: https://docs.pulpproject.org/pulp_installer/
 repo_name: pulp/pulp_installer
 repo_url: https://github.com/pulp/pulp_installer
+edit_uri: edit/main/docs
 theme:
   features:
     - search.suggest
