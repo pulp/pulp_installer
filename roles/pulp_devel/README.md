@@ -21,6 +21,7 @@ Variables
 The variables that this role uses are listed below:
 
 The following variables have a default value:
+
 ```yaml
 pulp_devel_install_podman: true
 pulp_devel_package_retries: 5
@@ -29,6 +30,7 @@ pulp_devel_supplement_bashrc: false
 
 The following variables have no default value, and we recommend the following
 for development purposes on vagrant (as part of [pulplift](https://github.com/pulp/pulplift).)
+
 ```yaml
 developer_user: vagrant
 developer_user_home: /home/vagrant
@@ -57,7 +59,6 @@ but it does use some of the same variables. When not used together, these values
 are **required**.
 
 * `pulp_default_admin_password`
-
 
 Aliases
 -------

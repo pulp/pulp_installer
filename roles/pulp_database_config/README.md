@@ -53,7 +53,8 @@ variables which are documented in that role:
 This role **is tightly coupled** with the required the `galaxy_post_install` role (which is called
 by pulp_common when galaxy-ng is an installed plugin) and uses some of variables which are
 documented in that role:
-*  `galaxy_create_default_collection_signing_service` Defaults to `false`.
+
+* `galaxy_create_default_collection_signing_service` Defaults to `false`.
 
 This role understands how to talk to the database server via `pulp_settings_file`,
 which is written to disk in the `pulp_common` role, and whose relevant
@@ -63,6 +64,7 @@ values are set via the following variables:
 
 Limitations
 -----------
+
 * pulp_database_config is designed to be run against only 1 host.
 
 If it is accidentally run against multiple hosts (which will happen if

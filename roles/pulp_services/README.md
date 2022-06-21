@@ -16,11 +16,11 @@ on certain hosts.
 Currently, all it does is depend on the required roles, which are
 subject to change over time:
 
-  - [pulp_database_config](../../roles/pulp_database_config)
-  - [pulp_api](../../roles/pulp_api)
-  - [pulp_content](../../roles/pulp_content)
-  - [pulp_workers](../../roles/pulp_workers)
-  - [pulp_common](../../roles/pulp_common) (implicitly)
+- [pulp_database_config](../../roles/pulp_database_config)
+- [pulp_api](../../roles/pulp_api)
+- [pulp_content](../../roles/pulp_content)
+- [pulp_workers](../../roles/pulp_workers)
+- [pulp_common](../../roles/pulp_common) (implicitly)
 
 Example Usage
 -------------
@@ -72,6 +72,7 @@ Here's an example playbook for using pulp_services in pulp_installer. It assumes
 
 Related Roles
 -------------
+
 - [pulp_all_services](../pulp_all_services/): A role to install all Pulp 3
 services (first-party & third-party) on a single host.
 

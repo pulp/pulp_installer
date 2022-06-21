@@ -31,7 +31,7 @@ When not used together, this role provides identical defaults.
 * `pulp_settings.databases.default`: A dictionary. Its primary use is by the
   pulp_common role, where it configures Pulp on how to talk to the database via a larger set of settings.
   Its secondary use is by the this role, where it configures the database server according to a
-  smaller set of settings. The smaller set of settings is listed below. Note that these default settings are merged by the 
+  smaller set of settings. The smaller set of settings is listed below. Note that these default settings are merged by the
   installer with your own; merely setting pulp_settings with 1 setting under it will not blow away all
   the other default settings.
     * `NAME` The name of the Pulp database to create.  Defaults to `pulp`.
@@ -39,6 +39,7 @@ When not used together, this role provides identical defaults.
     * `PASSWORD` The password to be created for the user account to talk to the Pulp database.
     Defaults to `pulp`, but please change it to something secure!
     * **Example**:
+
     ```yaml
     pulp_settings:
       databases:

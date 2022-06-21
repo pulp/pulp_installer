@@ -5,7 +5,9 @@ Role to enable repositories needed to install pulp. It can be disabled if user a
 
 It is automatically called by the `pulp_common` role.
 
-    This role is meant to be called by `include_role` with specific variable.
+```text
+This role is meant to be called by `include_role` with specific variable.
+```
 
 Requirements
 ------------
@@ -43,7 +45,8 @@ With its defaults.
   Also accepts a single string or empty string.
   Only affects CentOS/RHEL.
   Defaults to  ["epel-release",
-  "https://dl.fedoraproject.org/pub/epel/epel-release-latest-{{ ansible_facts.distribution_major_version }}.noarch.rpm"
+  <!-- markdownlint-disable-next-line MD034 -->
+  "https://dl.fedoraproject.org/pub/epel/epel-release-latest-`{{ ansible_facts.distribution_major_version }}`.noarch.rpm"
 * `rhel7_optional_repo`: List of possible names for the rhel7 optional repo
   to enable. Once the 1st name is enabled (or found to already be enabled),
   no further names are attempted.
@@ -65,6 +68,7 @@ These variables corresponding to role repository variables above when is called 
 
 Shared Variables
 ----------------
+
 * `pulp_install_source`: If set to `packages`, and pulp_rhel_pulpcore_repo_enable==true, Add the
   pulpcore repo to the system.
 
@@ -81,7 +85,7 @@ Shared Variables
 Example Usage
 -------------
 
-If you want to install Pulp on a device with EPEL repository already enabled, you don't want to enable it second time. 
+If you want to install Pulp on a device with EPEL repository already enabled, you don't want to enable it second time.
 In this case it is enough just put line bellow into your `config.yml`.
 
 ```yaml
