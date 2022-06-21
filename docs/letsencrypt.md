@@ -118,6 +118,7 @@ Let's Encrypt DNS-01 Verification
 This is supported as well.
 
 The main differences from the above example are:
+
 1. The dropping of the internet accessible requirement, and DNS requirements instead.
 2. The 3rd party role for Let's Encrypt is run before `pulp_all_services`/`pulp_webserver`, and
 needs a different set of variables.

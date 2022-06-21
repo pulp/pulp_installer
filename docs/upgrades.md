@@ -2,18 +2,21 @@ Upgrades and Installing Particular Versions
 ===========================================
 
 When installing Pulp, there are 3 software components whose versions you should be mindful of:
+
 1. pulp_installer
-2. pulpcore
-3. 1 or more plugins
+1. pulpcore
+1. 1 or more plugins
 
 If all you want to do is install Pulp and upgrade it to the very latest version in the future,
 you may not need to specify any versions. However, it is recommended to specify versions at the time
 of installation for 2 reasons
+
 * Handling a situation where not all your plugins compatible with the latest pulpcore version.
 * Doing updates/upgrade in the future in a controlled manner.
 
 There are 3 sets of **workflows** below. Each workflow supports installations and upgrades, the latter
 2 support updates and handling plugin compatibility:
+
 * ["Latest Version with Minimal Effort"](#latest-version-with-minimal-effort)
 * ["Specifying Minor Releases of Pulpcore and Plugins"](#specifying-minor-releases-of-pulpcore-and-plugins)
 * ["Specifying Exact Versions with Reproducibility"](#specifying-exact-versions-with-reproducibility)
