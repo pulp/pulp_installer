@@ -46,6 +46,7 @@ purposes.
 
 This deployment consists of a single Pulp server that relies on the following services being
 existing and external. No new servers are used or created for them:
+
 * Database (`example-existing-postgres-server`)
 * Redis (`example-existing-redis-server`)s
 
@@ -163,9 +164,11 @@ performant, but is not highly available.
 The separate server for the database and redis also increases performance.
 
 This relies on a round-robin DNS record that points to all 2 Pulp servers:
+
 * `example-pulp-load-balanced-hostname.fqdn`
 
 This also relies on shared storage (such as NFS) being hosted at the following address:
+
 * `example-nfs-server:/var/lib/pulp`
 
 Adjust the pre_task `Mount /var/lib/pulp` as needed for your shared storage.
@@ -173,6 +176,7 @@ Adjust the pre_task `Mount /var/lib/pulp` as needed for your shared storage.
 This deployment can be scaled up by adding more pulp servers.
 
 Scaling up is performed by:
+
 * Adjusting `- hosts:` to include the new servers (such as `example-pulp-server3`)
 * Re-running the installer
 * Adjusting the DNS record to add them.
@@ -239,11 +243,13 @@ Scaling up is performed by:
 In this deployment, every single service is deployed on its own server, or on 2 servers.
 
 There are two servers for each of the following services. This means they are highly available:
+
 * Pulp API
 * Pulp Content
 * Pulp Workers
 
 There is only 1 server for each of the following services. This means they are not highly available:
+
 * Database
 * Redis
 * Webserver
@@ -255,6 +261,7 @@ The webserver does however make the API and Content be highly available by perfo
 highly-available load-balancing to them.
 
 This also relies on shared storage (such as NFS) being hosted at the following address:
+
 * `example-nfs-server:/var/lib/pulp`
 
 Adjust the 3 pre_tasks `Mount /var/lib/pulp` as needed for your shared storage.
@@ -262,6 +269,7 @@ Adjust the 3 pre_tasks `Mount /var/lib/pulp` as needed for your shared storage.
 This deployment can be scaled up by adding more Pulp API, Pulp Content or Pulp Worker servers.
 
 Scaling up is performed by:
+
 * Adjusting `- hosts:` to include the new servers (such as `example-pulp-content-server3`)
 * Adjusting `pulp_webserver_api_hosts` and `pulp_webserver_content_hosts` to include the new API or
   content servers
@@ -438,18 +446,21 @@ service.
 
 This means that the following services are external, and are already setup in a highly available
 manner:
+
 * Load balancer (provides `example-pulp-load-balanced-hostname.fqdn`)
 * Database (`example-existing-postgres-cluster`)
 * Redis (`example-existing-redis-cluster`)
 * Shared storage (such as NFS) (`/var/lib/pulp`)
 
 But the installer will install 2 instances of each of the following:
+
 * Pulp API
 * Pulp Content
 * Pulp Workers
 * Pulp Webserver
 
 This also relies on shared storage (such as NFS) being hosted at the following address:
+
 * `example-nfs-server:/var/lib/pulp`
 
 Adjust the 3 pre_tasks `Mount /var/lib/pulp` as needed for your shared storage.
@@ -458,6 +469,7 @@ This deployment can be scaled up by adding more Pulp API, Pulp Content, Pulp Wor
 Webserver servers.
 
 Scaling up is performed by:
+
 * Adjusting `- hosts:` to include the new servers (such as `example-pulp-content-server3`)
 * Adjusting `pulp_webserver_api_hosts` and `pulp_webserver_content_hosts` to include the new API or
   content servers

@@ -34,6 +34,7 @@ Some of the installer's variables, `pulp_settings` and `pulp_install_plugins` in
 ```
 
 What that means **in terms of YAML syntax** is:
+
 * There is a dictionary named `pulp_install_plugins` whose value is 3 nested dictionaries, `pulp-deb`, `pulp-file` and `pulp-container`.
 * There is a nested dictionary named `pulp-container`, whose value is an empty dictionary `{}`.
 * There is a nested dictionary named `pulp-deb`, whose value is 1 key-value pair.
@@ -45,6 +46,7 @@ See [the section below](#example-of-setting-a-multitude-of-variables) for more i
 Pulp Installer's types of Variables
 -----------------------------------
 Generally, there are 3 categories of variables
+
 1. Those that make pulp_installer compatible with your environment. For example, the firewall.
 2. Preferences for how Pulp is configured and deployed. In particular, which plugins to install.
 3. Variables to control which version of plugins are installed.
@@ -93,6 +95,7 @@ In the following example, a multitude of variables are set:
 `pulp_workers`, is set to `4`, which means that 4 worker processes will be started for processing jobs on a multi-core system. It replaces the default value of 2.
 
 `pulp_install_plugins` does the following:
+
 * Directs the installer to install all 3 plugins, pulp-deb, pulp-file and pulp-container.
 * If pulp-container is not installed, the latest version will be installed.
 * If pulp-container is already installed, the current version will be left intact.
@@ -104,6 +107,7 @@ In the following example, a multitude of variables are set:
 
 
 `pulp_settings` does the following:
+
 * It generates Pulp's runtime configuration file, `/etc/pulp/settings.py`, with all of the following configured behavior.
   * `default_file_storage` and `azure_*` configure pulp to point to an object storage on Azure for
     storing content (rather than defaulting to using the local filesystem.)
@@ -111,7 +115,8 @@ In the following example, a multitude of variables are set:
   * It sets `content_origin`, which specifies the Pulp application's URL, to the FQDN (`hostname -a`) of the Pulp server (beginning with `https://`). Note that this setting is always required to be set by the user, although this example value (with variables in it) is suitable for most users.
 
 More information about `pulp_settings`
+
 * Please do not modify `/etc/pulp/settings.py` manually after install, because re-running the installer for upgrades / repairing Pulp will revert your changes.
   Please use `/etc/pulp/settings.local.py` to keep your local pulp settings or re-run the installer instead with your changes added to `pulp_settings`.
-  * List of available setting in [pulpcore docs](https://docs.pulpproject.org/pulpcore/configuration/settings.html) and format follows [dynaconf syntax](https://dynaconf.readthedocs.io/en/docs_223/guides/examples.html#py).
+    * List of available setting in [pulpcore docs](https://docs.pulpproject.org/pulpcore/configuration/settings.html) and format follows [dynaconf syntax](https://dynaconf.readthedocs.io/en/docs_223/guides/examples.html#py).
 * `pulp_settings` is used during both the installation process (it can cause errors at install time with incorrect values), and once pulp is installed.
