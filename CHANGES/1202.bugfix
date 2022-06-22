@@ -1,0 +1,1 @@
+Fix failure on the task `pulp_webserver : Copy snippets from the pulp_database_config host` when there is extra output on stdout in the prior task `pulp_webserver: Identify Nginx snippets on the pulp_database_config`.
