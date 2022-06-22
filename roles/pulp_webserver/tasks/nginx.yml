@@ -73,12 +73,11 @@
 
     - name: Copy snippets from the pulp_database_config host
       slurp:
-        src: "{{ item.stdout.strip() }}"
+        src: '{{ item.stdout | regex_search("/.+\.conf") }}'
       with_items: "{{ snippet_filepaths.results }}"
       register: snippet_contents
       delegate_to: "{{ __pulp_database_config_host }}"
-      when:
-        item.stdout.strip() != ""
+      when: item.stdout | regex_search("/.+\.conf")
 
     - name: Install snippets from the pulp_database_config host
       copy:
