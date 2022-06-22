@@ -1,4 +1,4 @@
-pulpcore{{ '['+ pulp_install_object_storage +']' if pulp_install_object_storage != 'filesystem' }}{% if __pulpcore_version | wordcount >2 %}=={{ __pulpcore_version }}
+pulpcore{{ '['+ pulp_install_object_storage +']' if pulp_install_object_storage != 'filesystem' else '' }}{% if __pulpcore_version | wordcount >2 %}=={{ __pulpcore_version }}
 {% else %}~={{ __pulpcore_version }}.0
 {% endif %}
 {% for plugin, value in pulp_install_plugins_normalized.items() %}
