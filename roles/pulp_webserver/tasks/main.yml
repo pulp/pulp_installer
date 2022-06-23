@@ -63,7 +63,7 @@
   become: true
   notify: update ca trust
 
-- name: Create ACME dirs
+- name: Create static dir & ACME dir
   file:
     path: "{{ __pulp_webserver_acme_path }}"
     state: directory
@@ -72,8 +72,8 @@
     group: "{{ pulp_group }}"
   become: true
   loop:
-    - "{{ pulp_webserver_static_dir }}"
-    - "{{ pulp_webserver_static_dir }}/.well-known"
+    - "{{ __pulp_webserver_static_dir }}"
+    - "{{ __pulp_webserver_static_dir }}/.well-known"
   loop_control:
     loop_var: __pulp_webserver_acme_path
 

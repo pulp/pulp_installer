@@ -241,6 +241,20 @@
 - name: install pulp from {{ pulp_install_source }}
   include_tasks: install_{{ pulp_install_source }}.yml
 
+- name: Refresh facts in case /var/lib/pulp was mounted earlier
+  setup:
+    gather_subset: 'mounts'
+
+- name: Include tasks to ensure that /var/lib/pulp subdirs have the SELinux label
+  include_tasks: selinux_remount.yml
+  when:
+    - ansible_facts.os_family == 'RedHat'
+    # when permissive or enforcing. That would be stored in .mode & .config_mode
+    - pulp_install_selinux_policies|bool or
+      (ansible_facts.selinux.status == "enabled" and pulp_install_selinux_policies == "auto")
+    - ansible_facts.mounts | selectattr('mount', 'match', '^/var/lib/pulp$') | list | count == 1
+    - pulp_selinux_remount_data_dir == "true"
+
 # Needed for when Pulp was manually upgraded by the user before running
 # pulp_installer. Especially `yum update`/`apt upgrade`.
 # TODO: For usability purposes, auto-detect by inspecting the system.

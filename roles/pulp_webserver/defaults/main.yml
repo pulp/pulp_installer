@@ -11,6 +11,7 @@ pulp_webserver_httpd_servername: '{{ ansible_facts.fqdn }}'
 # The "static" dir is used by Pulp 2, and has conflicting SELinux policies.
 # https://pulp.plan.io/issues/5995
 pulp_webserver_static_dir: "{{ pulp_user_home | regex_replace('\\/$', '') }}/pulpcore_static"
+__pulp_webserver_static_dir: "{{ pulp_webserver_static_dir | regex_replace('\\/$', '') }}"
 pulp_webserver_tls_files_remote: false
 
 pulp_webserver_http_port: 80
