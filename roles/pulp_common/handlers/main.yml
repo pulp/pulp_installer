@@ -1,11 +1,7 @@
 ---
 # These SELinux handlers are listed up top so that they are run 1st, before
 # Pulp is restarted.
-- name: Load the SELinux policy packages
-  command: 'semodule -i /usr/local/share/selinux/{{ ansible_facts.selinux.type }}/{{ item }}.pp'
-  loop: '{{ __pulp_selinux_policy_pkgs }}'
-  become: true
-
+#
 # Note: we cannot flush handlers until after these are created later on in the
 # Pulp role, after the SELinux policies are installed.
 # Installing them earlier should mean the files are created with the context to
