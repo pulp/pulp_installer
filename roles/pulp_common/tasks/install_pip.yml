@@ -200,7 +200,6 @@
     name: "{{ __galaxy_ldap_packages }}"
   when:
     - pulp_install_plugins_normalized['galaxy-ng'] is defined
-    - "'ldap' in pulp_install_plugins_normalized['galaxy-ng']['extras'] | default([])"
 
 # No loop over pulp_install_plugins_normalized; let's run this only once.
 # Also, this time it must succeed, a return code of 0.
