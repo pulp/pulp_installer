@@ -1,0 +1,96 @@
+---
+# Remounts /var/lib/pulp with the appropriate SELinux mount option
+# under circumstances such as them being on NFS
+#
+# We use absolute paths here because that is all that pulpcore-selinux understands
+
+- name: Test setting SELinux context on /var/lib/pulp/.selinux-test
+  copy:
+    dest: '/var/lib/pulp/.selinux-test'
+    owner: "{{ pulp_user }}"
+    group: "{{ pulp_group }}"
+    mode: 0755
+    content: ''
+    seuser: system_u
+    serole: object_r
+    setype: pulpcore_var_lib_t
+  register: pulp_selinux_test
+  become: true
+
+# We cannot use the mount module with ansible_facts.mounts because it lists all these verbose,
+# auto-generated, options. And we do not want to pollute the user's fstab file with auto-generated
+# options becoming hardcoded.
+# So we follow this approach instead.
+# https://stackoverflow.com/a/48259691/2930194
+- name: '/etc/fstab: Set opt "{{ __remount_opt }}" for mount point {{ __remount_point }}'
+  lineinfile:
+    path: /etc/fstab
+    backup: yes
+    backrefs: yes
+    regexp: '^(\S+\s+{{ __remount_point }}\s+\S+\s+)(?!(?:\S*,)?{{ __remount_opt }}(?:,\S*)?\s+)(\S+)(\s+.+)$'
+    line: '\1{{ __remount_opt }},\2\3'
+    validate: "mount -fav -T%s"
+  register: fstab
+  become: true
+  when:
+    - not pulp_selinux_test.secontext | regex_search('pulpcore_var_lib_t')
+    # This check is technically unnecessary because the lineinfile task is idempotent. However, as a precaution
+    # against unncessarily modifying the user's fstab file, we put them here anyway.
+    # We use the "match" test because for the ansible management node, it is compatible with EL7's python-jinja2 2.7 RPM
+    - not ansible_facts.mounts | selectattr('mount', 'match', '^/var/lib/pulp$') | map(attribute='options') | first | regex_search('context=')
+
+- name: remount the static dir
+  block:
+    # We also cannot run "mount -o remount" to add an SELinux context, it results on the dmesg error:
+    # unable to change security options during remount
+    #
+    # Note: Unlike state=mounted, this does not remove it from the fstab. It only temporarily unmounts.
+    - name: 'If {{ __remount_point }} changed, unmount'
+      mount:
+        path: '{{ __remount_point }}'
+        state: unmounted
+
+    - name: 'If {{ __remount_point }} changed, remount'  # noqa no-changed-when
+      command: 'mount {{ __remount_point }}'
+
+  rescue:
+    - name: Stop pulpcore service
+      systemd:
+        name: pulpcore.service
+        state: stopped
+      become: true
+      # The service may not be installed
+      failed_when: false
+
+    # We have to work around a common error when attempting to remount a nested NFS mount (under /var/lib/pulp) with state=mounted / the mount command
+    # "Error mounting /var/lib/pulp: umount.nfs4: /var/lib/pulp: device is busy"
+    - name: unmount /var/lib/pulp/pulpcore_static
+      mount:
+        path: '/var/lib/pulp/pulpcore_static'
+        state: unmounted
+      # This mount will not exist if pulp_webserver is on a separate host
+      failed_when: false
+      register: static_dir_unmount
+
+    - name: 'If {{ __remount_point }} changed, unmount (retry)'
+      mount:
+        path: '{{ __remount_point }}'
+        state: unmounted
+
+    - name: 'If {{ __remount_point }} changed, remount (retry)'  # noqa no-changed-when
+      command: 'mount {{ __remount_point }}'
+
+    - name: remount /var/lib/pulp/pulpcore_static  # noqa no-changed-when
+      command: 'mount /var/lib/pulp/pulpcore_static'
+      when: static_dir_unmount.changed
+
+    - name: Start pulpcore service
+      systemd:
+        name: pulpcore.service
+        state: stopped
+      become: true
+      # The service may not be installed
+      failed_when: false
+
+  become: true
+  when: fstab.changed

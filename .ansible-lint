@@ -3,6 +3,9 @@
 # systemctl subcommands that actually manage services.
 skip_list:
   - '303'
+  # Sometimes using `when: result.changed` is more robust. Like when you need to immediately run the
+  # commands, or you have a rescue block.
+  - 'no-handler'
 exclude_paths:
   - ./roles/ansible-role-postgresql/
   - ./roles/geerlingguy.postgresql/

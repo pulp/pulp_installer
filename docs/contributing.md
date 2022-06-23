@@ -148,3 +148,25 @@ Then:
 ```
 Click the link it outputs. As you save changes to files modified in your editor,
 the browser will automatically show the new content.
+
+NFS & SELinux testing
+---------------------
+Here are example commands for testing the functionality prescribed for the variable
+[`pulp_selinux_remount_data_dir`](roles/pulp_common):
+```bash
+vagrant up --no-destroy-on-error pulp3-sandbox-centos9-stream
+(hit ctrl-c while ansible-galaxy is running, or early on in the ansible run)
+vagrant ssh pulp3-sandbox-centos9-stream
+sudo -i
+dnf install -y nfs-utils
+systemctl enable --now nfs-server.service
+mkdir -p /data/var/lib/pulp/pulpcore_static/
+mkdir -p /var/lib/pulp/pulpcore_static/
+echo '/data/var/lib/pulp 127.0.0.1(rw,no_root_squash)' >> /etc/exports
+exportfs -a
+echo '127.0.0.1:/data/var/lib/pulp /var/lib/pulp nfs defaults,_netdev,nosharecache 0 0' >> /etc/fstab
+echo '127.0.0.1:/data/var/lib/pulp/pulpcore_static /var/lib/pulp/pulpcore_static,nosharecache nfs defaults,_netdev,context="system_u:object_r:httpd_sys_content_rw_t:s0" 0 0' >> /etc/fstab
+mount -a
+exit
+exit
+vagrant provision pulp3-sandbox-centos9-stream
