@@ -50,10 +50,15 @@
         owner: root
         group: root
       loop: '{{ __pulp_selinux_policy_pkgs }}'
+      register: selinux_policy_installed
       notify:
-        - Load the SELinux policy packages
         - Restore SELinux contexts on Pulp dirs that must exist
         - Restore SELinux contexts on Pulp dirs that may exist
+
+    - name: Load the SELinux policy packages
+      command: 'semodule -i /usr/local/share/selinux/{{ ansible_facts.selinux.type }}/{{ item }}.pp'
+      loop: '{{ __pulp_selinux_policy_pkgs }}'
+      when: selinux_policy_installed.changed
 
   become: true
   when:

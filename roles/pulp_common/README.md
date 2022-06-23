@@ -126,6 +126,14 @@ Role Variables
 * `pulp_install_selinux_policies`: Whether or not to download & install the SELinux policies.
    This performs a operation with the `git clone` command. Accepts `True`, `False` or `auto`.
    Defaults to `auto`, which installs when SELinux is enabled (permissive or enforcing.)
+* `pulp_selinux_remount_data_dir`: Whether or not to remount the pulp data directory /var/lib/pulp,
+   with pulp's SELinux context (label.) This will only occur when the installer detects that
+   /var/lib/pulp is its own mount point, and is listed in /etc/fstab, but cannot handle labels on
+   individual files/folders (and is not already mounted with the context.) Also only occurs when
+   `pulp_install_selinux_policies` is set to `true` or `auto`. Note that this functionality exists
+   because the SELinux label (pulpcore_var_lib_t) does not exist on the system prior to pulp being
+   installed, and certain filesystem types such as NFS cannot have labels on individual files.
+   Defaults to `true`.
 
 Role Variables if installing from RPMs
 --------------------------------------
