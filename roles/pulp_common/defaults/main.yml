@@ -78,3 +78,7 @@ __pulp_binaries:
 # Should only ever be set to false for molecule, where one ansible play
 # configures several independent pulp servers.
 __pulp_run_once: true
+
+pulp_selinux_remount_data_dir: true
+__remount_point: '/var/lib/pulp'
+__remount_opt: 'context="system_u:object_r:pulpcore_var_lib_t:s0"'
