@@ -81,3 +81,7 @@ __pulp_binaries:
 __pulp_run_once: true
 
 __pulp_db_fields_key_path: '{{ pulp_certs_dir }}/database_fields.symmetric.key'
+
+pulp_selinux_remount_data_dir: true
+__remount_point: '/var/lib/pulp'
+__remount_opt: 'context="system_u:object_r:pulpcore_var_lib_t:s0"'
