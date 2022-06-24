@@ -25,6 +25,7 @@ RuntimeDirectory=pulpcore-content
 # timeout is needed Pulp to service its 1st request on extremely slow
 # machines, such as qemu-emulated 2-core machines
 ExecStart={{ __pulp_daemons_dir }}/gunicorn pulpcore.content:server \
+          --name pulp-content \
           --bind '{{ pulp_content_bind }}' \
           --worker-class 'aiohttp.GunicornWebWorker' \
           --workers {{ pulp_content_workers }} \
