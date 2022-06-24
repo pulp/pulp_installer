@@ -35,6 +35,7 @@ pulp_ostree_prereq_packages:
 prereq_pip_packages:
   - Jinja2
   - pygments
+  - setproctitle
 # The names of any pip packages that are plugins but do not begin with "pulp-"
 # These are specified regardless of whether or not the user is installing it.
 # We will advertise this to users once we feel there is a need for them to ever
