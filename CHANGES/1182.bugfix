@@ -1,1 +1,0 @@
-Fix gnutls error on the webserver `Peer's certificate does not allow digital signatures. Key usage violation detected.` by adding the key_usage digitalSignature to the CSR.

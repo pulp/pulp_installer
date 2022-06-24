@@ -13,6 +13,32 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.20.0 (2022-06-24)
+===================
+
+
+Bugfixes
+--------
+
+- Fixed requirements.in file
+  [#1175](https://github.com/pulp/pulp_installer/issues/1175)
+- Fix gnutls error on the webserver `Peer's certificate does not allow digital signatures. Key usage violation detected.` by adding the key_usage digitalSignature to the CSR.
+  [#1182](https://github.com/pulp/pulp_installer/issues/1182)
+- Fix an issue where by the pulp_webserver role would fail on "Copy Snippets" if it were run after pulp_devel is run.
+  [#1186](https://github.com/pulp/pulp_installer/issues/1186)
+- Fix failure on the task `pulp_webserver : Copy snippets from the pulp_database_config host` when there is extra output on stdout in the prior task `pulp_webserver: Identify Nginx snippets on the pulp_database_config`.
+  [#1202](https://github.com/pulp/pulp_installer/issues/1202)
+
+
+Misc
+----
+
+- [#1160](https://github.com/pulp/pulp_installer/issues/1160), [#1203](https://github.com/pulp/pulp_installer/issues/1203)
+
+
+----
+
+
 3.19.5 (2022-06-15)
 
 Bugfixes
