@@ -13,6 +13,18 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.18.12 (2022-06-27)
+
+Features
+--------
+
+- Implement new feature to remount /var/lib/pulp with the SELinux context (label.) See the new variable `pulp_selinux_remount_data_dir`'s description in pulp_common's README for more info.
+  [#1196](https://github.com/pulp/pulp_installer/issues/1196)
+
+
+----
+
+
 3.18.11 (2022-06-14)
 
 Bugfixes
