@@ -26,3 +26,4 @@ exclude_paths:
   - ./example.dev-config.yml
   - ./docs/
   - ./pulp-ci/
+  - ./playbooks/resize_disk.yaml
