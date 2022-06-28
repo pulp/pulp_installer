@@ -7,7 +7,7 @@ ROLES := $(wildcard roles/*)
 DOCS := $(wildcard docs/*/*) $(wildcard docs/*)
 PLUGINS := $(wildcard plugins/*/*) $(wildcard plugins/*)
 META := $(wildcard meta/*)
-PLAYBOOKS := $(wildcard playbooks/*/*/*) $(wildcard playbooks/*/*) $(wildcard playbooks/*)
+PLAYBOOKS := $(wildcard playbooks/*/*/*) $(wildcard playbooks/*/*) $(filter-out playbooks/resize_disk.yaml, $(wildcard playbooks/*))
 METADATA := galaxy.yml COPYRIGHT LICENSE README.md requirements.yml
 DEPENDENCIES := $(METADATA) $(foreach ROLE,$(ROLES),$(wildcard $(ROLE)/*/*)) $(foreach ROLE,$(ROLES),$(ROLE)/README.md) $(META) $(DOCS) $(PLAYBOOKS) $(PLUGINS)
 

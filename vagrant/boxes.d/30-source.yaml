@@ -5,6 +5,7 @@ pulp3-source-fedora35:
     guest_path: '/home/vagrant/devel'
     reverse: False
   memory: 6144
+  disk_size: 40
   cpus: 4
   ansible:
     playbook: "vagrant/playbooks/source-install.yml"
@@ -17,6 +18,7 @@ pulp3-source-fedora36:
     guest_path: '/home/vagrant/devel'
     reverse: False
   memory: 6144
+  disk_size: 40
   cpus: 4
   ansible:
     playbook: "vagrant/playbooks/source-install.yml"
@@ -29,6 +31,7 @@ pulp3-source-centos7:
     guest_path: '/home/vagrant/devel'
     reverse: False
   memory: 6144
+  disk_size: 40
   cpus: 4
   ansible:
     playbook: "vagrant/playbooks/source-install.yml"
@@ -42,6 +45,7 @@ pulp2-nightly-pulp3-source-centos7:
     guest_path: '/home/vagrant/devel'
     reverse: False
   memory: 10240
+  disk_size: 40
   cpus: 4
   ansible:
     playbook:
@@ -84,6 +88,7 @@ pulp2-nightly-pulp3-source-fips-a:
     guest_path: '/home/vagrant/devel'
     reverse: False
   memory: 10240
+  disk_size: 40
   cpus: 4
   ansible:
     playbook:
@@ -142,6 +147,7 @@ pulp3-source-centos7-fips:
     guest_path: '/home/vagrant/devel'
     reverse: False
   memory: 6144
+  disk_size: 40
   cpus: 4
   ansible:
     playbook: "vagrant/playbooks/source-install.yml"
@@ -154,6 +160,7 @@ pulp3-source-centos8-stream:
     guest_path: '/home/vagrant/devel'
     reverse: False
   memory: 6144
+  disk_size: 40
   cpus: 4
   ansible:
     playbook: "vagrant/playbooks/source-install.yml"
@@ -166,6 +173,7 @@ pulp3-source-centos8-stream-fips:
     guest_path: '/home/vagrant/devel'
     reverse: False
   memory: 6144
+  disk_size: 40
   cpus: 4
   ansible:
     playbook: "vagrant/playbooks/source-install.yml"
@@ -179,6 +187,7 @@ pulp3-source-centos9-stream:
     guest_path: '/home/vagrant/devel'
     reverse: False
   memory: 6144
+  disk_size: 40
   cpus: 4
   ansible:
     playbook: "vagrant/playbooks/source-install.yml"
@@ -191,6 +200,7 @@ pulp3-source-centos9-stream-fips:
     guest_path: '/home/vagrant/devel'
     reverse: False
   memory: 6144
+  disk_size: 40
   cpus: 4
   ansible:
     playbook: "vagrant/playbooks/source-install.yml"
@@ -203,6 +213,7 @@ pulp3-source-debian11:
     guest_path: '/home/vagrant/devel'
     reverse: True
   memory: 6144
+  disk_size: 40
   cpus: 4
   ansible:
     playbook: "vagrant/playbooks/source-install.yml"
@@ -215,6 +226,7 @@ pulp3-source-debian-testing:
     guest_path: '/home/vagrant/devel'
     reverse: True
   memory: 6144
+  disk_size: 40
   cpus: 4
   ansible:
     playbook: "vagrant/playbooks/source-install.yml"

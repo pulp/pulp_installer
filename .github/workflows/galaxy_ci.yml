@@ -83,6 +83,7 @@ jobs:
         run: |
           make vendor || make vendor
           make install || make install
+          rm playbooks/resize_disk.yaml
           ansible-galaxy collection install -p build/collections --force community.docker ||
           ansible-galaxy collection install -p build/collections --force community.docker
         shell: bash
