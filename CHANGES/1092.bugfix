@@ -1,0 +1,1 @@
+Fix working logic with symmetric database key to not end up with the duplicate.
