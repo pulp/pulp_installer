@@ -24,7 +24,8 @@
     - (ansible_version.major > 2) or (ansible_version.major == 2 and ansible_version.minor >= 9)
 
 - name: Get the database fields key from the pulp_database_config node
-  command: "cat {{ __pulp_db_fields_key_path }}"
+  slurp:
+    src: "{{ __pulp_db_fields_key_path }}"
   delegate_to: "{{ hostvars['localhost']['pulp_database_config_host'] | default(inventory_hostname) }}"
   run_once: "{{ __pulp_run_once }}"
   register: pulp_db_fields_key_content
@@ -34,7 +35,7 @@
 
 - name: Copy Pulp Database Encryption Key from pulp_database_config node
   copy:
-    content: "{{ pulp_db_fields_key_content.stdout }}"
+    content: "{{ pulp_db_fields_key_content['content'] | b64decode }}"
     dest: "{{ __pulp_db_fields_key_path }}"
     owner: 'root'
     group: "{{ pulp_group }}"
