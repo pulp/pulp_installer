@@ -128,6 +128,44 @@ NOTE: FIPS is not supported by Pulp. These FIPS boxes, like all the other boxes 
 name, are provided for those who would like test their plugins in FIPS environment and
 potentially apply their own FIPS patches to Django.
 
+#### Galaxy HA box set
+
+The Galaxy HA boxes are designed to use private networking.
+
+This requires extra configuration for libvirt users who are in user mode
+(qemu:///session), which is the default. This requires [creating](https://serverfault.com/questions/664895/running-vagrant-libvirt-trying-to-establish-public-private-networks/745025#745025)
+a network (galaxyng-ha) with a specific bridge name (virbr8).
+
+```
+$ sudo virsh net-define vagrant/private-network.xml
+$ sudo virsh net-start galaxy-ha
+```
+
+Then append `allow virbr8` to /etc/qemu/bridge.conf
+```
+echo "allow virbr8" | sudo tee -a /etc/qemu/bridge.conf
+```
+
+Then, whether on libvirt or virtualbox, adjust the variables to your liking:
+```
+cp example.galaxyha-config.yml local.galaxyha-config.yml
+```
+
+Then start the machines in the correct order, "a" 1st:
+```
+vagrant up pulp3-galaxy-ha-a && vagrant up pulp3-galaxy-ha-b && vagrant up pulp3-galaxy-ha-c
+```
+
+You can then do all your development on either box "b" or box "c".
+```
+vagrant ssh pulp3-galaxy-ha-b
+```
+
+To halt the machines in the correct order, "a" last:
+```
+vagrant halt pulp3-galaxy-ha-c && vagrant halt pulp3-galaxy-ha-b && vagrant halt pulp3-galaxy-ha-a
+```
+
 ## Ansible
 
 Any of the `pulp3` labeled boxes will both spin-up and provision the labeled Ansible installation

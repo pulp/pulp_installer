@@ -1,0 +1,148 @@
+---
+# Provision boxes for the pulp3-galaxy-ha cluster that run:
+# - redis
+# - pulp_services
+# - webserver
+#
+# Inputs from vagrant/boxes.d/40-galay-ha.yaml:
+# galaxy_ha_a - IP address of the NFS and postgres host (private NIC)
+# ip_address - IP address of this machine (private NIC). To be set for virtualbox via ansible logic
+
+- hosts: all
+  vars:
+    pulp_user_id: 601
+    pulp_group_id: 601
+    pulp_settings_vagrant_defaults:
+      databases:
+        default:
+          HOST: "{{ galaxy_ha_a }}"
+    paths_to_vars_files:
+      - '../../local.{{ ansible_hostname }}-config.yml'
+      - '../../local.galaxyha-config.yml'
+      - '../../example.galaxyha-config.yml'
+  pre_tasks:
+    - name: Load local config
+      include_vars: "{{ item }}"
+      with_first_found: "{{ paths_to_vars_files }}"
+
+    - set_fact:
+        pulp_settings: "{{ pulp_settings_vagrant_defaults | combine(pulp_settings, recursive=True) }}"
+
+    # The version string below is the highest of all those in roles' metadata:
+    # "min_ansible_version". It needs to be kept manually up-to-date.
+    - name: Verify Ansible meets min required version
+      assert:
+        that: "ansible_version.full is version_compare('2.9', '>=')"
+        msg: >
+          "You must update Ansible to at least 2.9 to use this version of Pulp 3 Installer."
+
+    # FIPS boxes require 2.10
+    - name: Verify Ansible meets min required version for FIPS boxes
+      assert:
+        that: "ansible_version.full is version_compare('2.10', '>=')"
+        msg: >
+          "You must update Ansible to at least 2.10 to use this version of Pulp 3 Installer."
+      when: "'fips' in ansible_fqdn"
+
+    # TODO: Delete this task after 2023-05
+    # Previously vagrant logic installed the collection to this path.
+    # We now want to use the "./roles" folders instaed, for compatibility with
+    # molecule which uses "./roles", but has the problem of the installed
+    # collection overriding it.
+    - name: Delete installed pulp.pulp_installer collection
+      file:
+        state: absent
+        path: "~/.ansible/collections/ansible_collections/pulp/pulp_installer"
+      delegate_to: localhost
+      become_user: "{{ lookup('env', 'USER') }}"
+
+    - name: Check (S3) storage backend is configured.
+      assert:
+        that:
+          - pulp_settings.aws_access_key_id is defined
+          - pulp_settings.aws_secret_access_key is defined
+          - pulp_settings.aws_storage_bucket_name is defined
+          - pulp_settings.aws_default_acl is defined
+          - pulp_settings.s3_use_sigv4 is defined
+          - pulp_settings.aws_s3_signature_version is defined
+          - pulp_settings.aws_s3_addressing_style is defined
+          - pulp_settings.aws_s3_region_name is defined
+          - pulp_settings.media_root is defined
+          - pulp_settings.default_file_storage is defined
+      when: pulp_install_object_storage is defined and pulp_install_object_storage == "s3"
+
+    - name: Check (Azure) storage backend is configured.
+      assert:
+        that:
+          - pulp_settings.azure_account_name is defined
+          - pulp_settings.azure_container is defined
+          - pulp_settings.azure_account_key is defined
+          - pulp_settings.azure_url_expiration_secs is defined
+          - pulp_settings.azure_overwrite_files is defined
+          - pulp_settings.azure_location is defined
+          - pulp_settings.default_file_storage is defined
+      when: pulp_install_object_storage is defined and pulp_install_object_storage == "azure"
+
+    - include_tasks: pre_tasks/vagrant-workarounds.yml
+      vars:
+        source_workarounds: true
+    - include_tasks: pre_tasks/selinux-workarounds.yml
+
+    # We have to do this rather than rely on vagrant/forklift's built-in functionality
+    # on virtualbox. Otherwise, only port 22 (and 9090) is allowed between machines.
+    - name: Set 2nd NIC IP address
+      nmcli:
+        type: ethernet
+        conn_name: "eth1"
+        ip4: "{{ ip_address }}/24"
+        state: present
+      when: ip_address is defined
+      become: true
+
+    - name: Install NFS client
+      package:
+        name: nfs-utils
+      become: true
+
+    # We need to add /var/lib/pulp/pulpcore_static on the empty FS for the fstab verify to succeed
+    - name: Create /var/lib/pulp/pulpcore_static
+      file:
+        path: /var/lib/pulp/pulpcore_static
+        state: directory
+        recurse: true
+      become: true
+
+    # We have to accomodate pulp_installer adding the SELinux context to the mount point
+    - name: Check if /var/lib/pulp is in /etc/fstab
+      command: grep /var/lib/pulp /etc/fstab
+      register: result
+      changed_when: false
+      check_mode: false
+      failed_when: result.rc not in [0,1]
+
+    - name: Add mount to /etc/fstab
+      lineinfile:
+        path: /etc/fstab
+        line: "{{ item }}"
+        validate: "mount -fav -T%s"
+        backup: yes
+      register: fstab
+      with_items:
+        - '{{ galaxy_ha_a }}:/var/lib/pulp /var/lib/pulp nfs defaults,_netdev,nosharecache 0 0'
+        - '{{ galaxy_ha_a }}:/var/lib/pulp/pulpcore_static /var/lib/pulp/pulpcore_static nfs defaults,_netdev,nosharecache,context="system_u:object_r:httpd_sys_content_rw_t:s0" 0 0'
+      when: result.rc == 1
+      become: true
+
+    - name: Mount the mount points
+      command: mount -a
+      when: fstab.changed
+      become: true
+
+  roles:
+    - pulp_redis
+    - pulp_services
+    - pulp_webserver
+    - pulp_devel
+
+  environment:
+    DJANGO_SETTINGS_MODULE: pulpcore.app.settings

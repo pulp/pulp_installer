@@ -1,0 +1,143 @@
+libvirt-galaxy-ha-a:
+  # We set the box used explicitly because if we use generic/centos9s,
+  # only port 22 (and 9090) is allowed between machines.
+  box_name: 'centos/stream9'
+  box_url: 'https://cloud.centos.org/centos/9-stream/x86_64/images/CentOS-Stream-Vagrant-9-20220705.0.x86_64.vagrant-libvirt.box'
+  sshfs:
+    host_path: '..'
+    guest_path: '/home/vagrant/devel'
+    reverse: False
+  memory: 2048
+  cpus: 4
+  ansible:
+    playbook: "vagrant/playbooks/galaxy-ha-a.yml"
+    galaxy_role_file: "requirements.yml"
+    variables:
+      galaxy_ha_network: "192.168.150.0/24"
+      galaxy_ha_a: "192.168.150.11"
+  networks:
+    - type: 'public_network'
+      options:
+        ip: 192.168.150.11
+        mode: bridge
+        type: bridge
+        dev: virbr8
+        nic_type: "virtio"
+        libvirt__network_name: "galaxy-ha"
+        libvirt__netmask: "255.255.255.0"
+
+libvirt-galaxy-ha-b:
+  box_name: 'centos/stream9'
+  box_url: 'https://cloud.centos.org/centos/9-stream/x86_64/images/CentOS-Stream-Vagrant-9-20220705.0.x86_64.vagrant-libvirt.box'
+  sshfs:
+    host_path: '..'
+    guest_path: '/home/vagrant/devel'
+    reverse: False
+  memory: 2048
+  cpus: 4
+  ansible:
+    playbook: "vagrant/playbooks/galaxy-ha-b.yml"
+    galaxy_role_file: "requirements.yml"
+    variables:
+      galaxy_ha_a: "192.168.150.11"
+  networks:
+    - type: 'public_network'
+      options:
+        ip: 192.168.150.12
+        mode: bridge
+        type: bridge
+        dev: virbr8
+        nic_type: "virtio"
+        libvirt__network_name: "galaxy-ha"
+        libvirt__netmask: "255.255.255.0"
+
+libvirt-galaxy-ha-c:
+  box_name: 'centos/stream9'
+  box_url: 'https://cloud.centos.org/centos/9-stream/x86_64/images/CentOS-Stream-Vagrant-9-20220705.0.x86_64.vagrant-libvirt.box'
+  sshfs:
+    host_path: '..'
+    guest_path: '/home/vagrant/devel'
+    reverse: False
+  memory: 2048
+  cpus: 4
+  ansible:
+    playbook: "vagrant/playbooks/galaxy-ha-b.yml"
+    galaxy_role_file: "requirements.yml"
+    variables:
+      galaxy_ha_a: "192.168.150.11"
+  networks:
+    - type: 'public_network'
+      options:
+        ip: 192.168.150.13
+        mode: bridge
+        type: bridge
+        dev: virbr8
+        nic_type: "virtio"
+        libvirt__network_name: "galaxy-ha"
+        libvirt__netmask: "255.255.255.0"
+
+vbox-galaxy-ha-a:
+  box: 'centos9-stream'
+  sshfs:
+    host_path: '..'
+    guest_path: '/home/vagrant/devel'
+    reverse: False
+  memory: 2048
+  cpus: 4
+  ansible:
+    playbook: "vagrant/playbooks/galaxy-ha-a.yml"
+    galaxy_role_file: "requirements.yml"
+    variables:
+      galaxy_ha_network: "192.168.150.0/24"
+      galaxy_ha_a: "192.168.150.11"
+      ip_address: "192.168.150.11"
+  networks:
+    - type: 'private_network'
+      options:
+        name: "galaxy-ha"
+        virtualbox__intnet: "galaxy-ha"
+#    - type: 'private_network'
+#      options:
+#        ip: "192.168.150.11"
+#        libvirt__network_name: "galaxy-ha"
+#        libvirt__iface_name: "vnet2"
+
+vbox-galaxy-ha-b:
+  box: 'centos9-stream'
+  sshfs:
+    host_path: '..'
+    guest_path: '/home/vagrant/devel'
+    reverse: False
+  memory: 2048
+  cpus: 4
+  ansible:
+    playbook: "vagrant/playbooks/galaxy-ha-b.yml"
+    galaxy_role_file: "requirements.yml"
+    variables:
+      galaxy_ha_a: "192.168.150.11"
+      ip_address: "192.168.150.12"
+  networks:
+    - type: 'private_network'
+      options:
+        name: "galaxy-ha"
+        virtualbox__intnet: "galaxy-ha"
+
+vbox-galaxy-ha-c:
+  box: 'centos9-stream'
+  sshfs:
+    host_path: '..'
+    guest_path: '/home/vagrant/devel'
+    reverse: False
+  memory: 2048
+  cpus: 4
+  ansible:
+    playbook: "vagrant/playbooks/galaxy-ha-b.yml"
+    galaxy_role_file: "requirements.yml"
+    variables:
+      galaxy_ha_a: "192.168.150.11"
+      ip_address: "192.168.150.13"
+  networks:
+    - type: 'private_network'
+      options:
+        name: "galaxy-ha"
+        virtualbox__intnet: "galaxy-ha"

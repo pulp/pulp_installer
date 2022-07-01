@@ -5,6 +5,8 @@ pulp_default_admin_password: password
 pulp_install_plugins:
   # galaxy-ng:
   #   source_dir: "/home/vagrant/devel/galaxy_ng"
+  # galaxy-importer:
+  #   source_dir: "/home/vagrant/devel/galaxy-importer"
   # pulp-2to3-migration:
   #   source_dir: "/home/vagrant/devel/pulp-2to3-migration"
   # pulp-ansible:

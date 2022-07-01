@@ -1,0 +1,1 @@
+Create 2 trios of vagrant boxes for galaxy_ng HA development: libvirt-galaxy-ha-a (Postgres & NFS), libvirt-galaxy-ha-b (redis, pulp & webserver) & libvirt-galaxy-ha-c (redis, pulp & webserver). Also vbox-galaxy-ha-a, vbox-galaxy-ha-b, & vbox-galaxy-ha-c.
