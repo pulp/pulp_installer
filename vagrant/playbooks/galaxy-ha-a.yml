@@ -1,0 +1,143 @@
+---
+# Provide the external services for the pulp3-galaxy-ha cluster:
+# - Postgres
+# - NFS shared storage
+#
+# Inputs from vagrant/boxes.d/40-galay-ha.yaml:
+# galaxy_ha_network - subnet/netmask for the private network
+# galaxy_ha_a - IP address of this machine (private NIC)
+# ip_address - IP address of this machine (private NIC). To be set for virtualbox via ansible logic
+
+- hosts: all
+  vars:
+    pulp_user_id: 601
+    pulp_group_id: 601
+    pulp_user: pulp
+    pulp_group: pulp
+    pulp_user_home: /var/lib/pulp
+    pulp_settings_vagrant_defaults:
+      databases:
+        default:
+          HOST: "{{ galaxy_ha_a }}"
+    postgresql_hba_entries:
+      - { type: local, database: all, user: postgres, auth_method: peer }
+      - { type: local, database: all, user: all, auth_method: peer }
+      - { type: host, database: all, user: all, address: '127.0.0.1/32', auth_method: md5 }
+      - { type: host, database: all, user: all, address: '::1/128', auth_method: md5 }
+      - { type: host, database: all, user: all, address: '192.168.150.0/24', auth_method: md5 }
+    paths_to_vars_files:
+      - '../../local.{{ ansible_hostname }}-config.yml'
+      - '../../local.galaxyha-config.yml'
+      - '../../example.galaxyha-config.yml'
+  pre_tasks:
+    - name: Load local config
+      include_vars: "{{ item }}"
+      with_first_found: "{{ paths_to_vars_files }}"
+
+    - set_fact:
+        pulp_settings: "{{ pulp_settings_vagrant_defaults | combine(pulp_settings, recursive=True) }}"
+
+    - name: Make sure {{ pulp_group }} group exists
+      group:
+        name: '{{ pulp_group }}'
+        gid: '{{ pulp_group_id }}'
+        state: present
+        system: true
+      become: true
+
+    # Become root so as to search paths like /usr/sbin.
+    - name: Find the nologin executable
+      command: which nologin
+      changed_when: False
+      check_mode: False
+      register: result
+
+    # If we do not create it here, but it is separate from developer_user,
+    # the following task would create it incorrectly with default settings.
+    - name: Create user {{ pulp_user }}
+      user:
+        name: '{{ pulp_user }}'
+        uid: '{{ pulp_user_id }}'
+        shell: '{{ result.stdout.strip() }}'
+        home: '{{ pulp_user_home }}'
+        system: true
+        group: '{{ pulp_group }}'
+        groups:
+          - '{{ pulp_group }}'
+        append: true
+      # The check implicitly does an or for this check:
+      # developer_user is not defined
+      when: pulp_user != developer_user|default('')
+      notify: Restore SELinux contexts on Pulp dirs that must exist
+      become: true
+
+    - name: Add user {{ pulp_user }} to extra groups
+      user:
+        name: '{{ pulp_user }}'
+        groups: '{{ pulp_extra_groups }}'
+        append: true
+      when: pulp_extra_groups is defined
+      become: true
+
+    - name: Add user {{ developer_user }} to {{ pulp_group }} group
+      user:
+        name: '{{ developer_user }}'
+        groups:
+          - '{{ pulp_group }}'
+        append: true
+      when: developer_user is defined
+      become: true
+
+    - name: Check if the redis group exists
+      command: getent group redis
+      changed_when: False
+      check_mode: False
+      register: redis_group
+      failed_when: redis_group.rc not in [0,2]
+
+    - name: reset ssh connection to allow user changes to affect 'current login user'
+      meta: reset_connection
+  roles:
+    - pulp_database
+
+  tasks:
+    # We have to do this rather than rely on vagrant/forklift's built-in functionality
+    # on virtualbox. Otherwise, only port 22 (and 9090) is allowed between machines.
+    - name: Set 2nd NIC IP address
+      nmcli:
+        type: ethernet
+        conn_name: "eth1"
+        ip4: "{{ ip_address }}/24"
+        state: present
+      when: ip_address is defined
+      become: true
+    - name: Install NFS
+      package:
+        name: nfs-utils
+      become: true
+    - name: Start nfs-server
+      systemd:
+        name: nfs-server
+        state: started
+        enabled: true
+      become: true
+    - name: create /var/lib/pulp/pulpcore_static
+      file:
+        name: "/var/lib/pulp/pulpcore_static/"
+        state: directory
+        recurse: true
+      become: true
+    - name: Put /var/lib/pulp in /etc/exports
+      lineinfile:
+        path: /etc/exports
+        line: '/var/lib/pulp {{ galaxy_ha_network }}(rw,no_root_squash)'
+        regexp: '^/var/lib/pulp\s'
+        backup: yes
+      register: exports
+      become: true
+    - name: Make /etc/exports changes take effect
+      command: exportfs -a
+      when: exports.changed
+      become: true
+  environment:
+    DJANGO_SETTINGS_MODULE: pulpcore.app.settings

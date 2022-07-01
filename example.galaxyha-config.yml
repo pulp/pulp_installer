@@ -1,0 +1,39 @@
+---
+# Options
+pulp_devel_supplement_bashrc: true
+pulp_default_admin_password: password
+pulp_install_plugins:
+  pulp-ansible:
+    source_dir: "/home/vagrant/devel/pulp_ansible"
+  pulp-container:
+    source_dir: "/home/vagrant/devel/pulp_container"
+  galaxy-ng:
+    source_dir: "/home/vagrant/devel/galaxy_ng"
+  galaxy-importer:
+    source_dir: "/home/vagrant/devel/galaxy-importer"
+
+# # Optional galaxy-importer settings
+# galaxy_importer_settings: {}
+
+# Vagrant source install Required
+pulp_user: "vagrant"
+developer_user: "vagrant"
+developer_user_home: "/home/vagrant"
+pulp_source_dir: "/home/vagrant/devel/pulpcore"
+
+# # Optional git specific branch
+# pulp_git_url: "https://github.com/pulp/pulpcore"
+# pulp_git_revision: "3.11"  # branch/tag/commit
+
+# # Uncomment to prevent https configuration
+# pulp_webserver_disable_https: true
+
+# # Uncomment to deploy with apache instead of nginx
+# pulp_webserver_server: "apache"
+
+pulp_settings:
+  secret_key: "unsafe_default"
+  content_origin: "{{ pulp_webserver_disable_https | default(false) | ternary('http', 'https') }}://{{ ansible_fqdn }}"
+  allowed_export_paths: ["/tmp"]
+  allowed_import_paths: ["/tmp"]
+...

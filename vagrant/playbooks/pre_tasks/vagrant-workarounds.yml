@@ -39,7 +39,7 @@
       dnf:
         name: "*"
         state: latest
-      when: centos_stream.stat.exists
+      when: false
 
   become: true
   when:
