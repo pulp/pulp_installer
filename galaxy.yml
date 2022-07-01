@@ -85,6 +85,7 @@ build_ignore:
   - "local.*"
   - pyproject.toml
   - template_config.yml
+  - playbooks/resize_disk.yaml
   - forklift
   - pulp-ci
   - vagrant
