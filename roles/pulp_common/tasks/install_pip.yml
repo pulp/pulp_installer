@@ -198,6 +198,7 @@
 - name: "Install dependencies for LDAP support via {{ ansible_facts.pkg_mgr }}"
   package:
     name: "{{ __galaxy_ldap_packages }}"
+  become: true
   when:
     - pulp_install_plugins_normalized['galaxy-ng'] is defined
 

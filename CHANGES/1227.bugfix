@@ -1,0 +1,1 @@
+Fix failure on task "pulp_common : Install dependencies for LDAP via dnf" when not running the entire playbook with `become==true`.
