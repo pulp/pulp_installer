@@ -247,16 +247,6 @@
 
       when: pulp_user_home_stat.stat.pw_name == "apache"
 
-    - name: Set group on all files in '{{ pulp_user_home }}'
-      file:
-        path: '{{ pulp_user_home }}'
-        state: directory
-        group: '{{ pulp_group }}'
-        recurse: true
-        follow: false
-      tags:
-        - molecule-idempotence-notest
-
   become: true
 
 - name: install pulp from {{ pulp_install_source }}
