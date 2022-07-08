@@ -35,7 +35,7 @@
     virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
   when:
     - (ansible_facts.distribution == 'CentOS') or (ansible_facts.distribution == 'RedHat')
-    - ansible_facts.distribution_major_version|int == 8
+    - ansible_facts.distribution_major_version|int >= 8
 
 - name: Create virtualenvwrapper symlink
   file:
@@ -44,7 +44,7 @@
     state: link
   when:
     - (ansible_facts.distribution == 'CentOS') or (ansible_facts.distribution == 'RedHat')
-    - ansible_facts.distribution_major_version|int == 8
+    - ansible_facts.distribution_major_version|int >= 8
 
 - name: Install Minio Client
   get_url:
