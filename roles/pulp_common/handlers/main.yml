@@ -27,6 +27,7 @@
   when:
     - ansible_facts.os_family == 'RedHat'
     - ansible_facts.selinux.status == "enabled"
+    - pulp_install_selinux_policies|bool or pulp_install_selinux_policies == "auto"
 
 - name: Collect static content
   command: "{{ pulp_django_admin_path }} collectstatic --clear --noinput --link {{ pulp_collectstatic_ignore_list }}"
@@ -57,6 +58,7 @@
     - ansible_facts.os_family == 'RedHat'
     # when permissive or enforcing. That would be stored in .mode & .config_mode
     - ansible_facts.selinux.status == "enabled"
+    - pulp_install_selinux_policies|bool or pulp_install_selinux_policies == "auto"
 
 - name: Restart all Pulp services
   include_tasks: handlers/restart_all_pulp.yml

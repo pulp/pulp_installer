@@ -32,8 +32,8 @@
       when:
         - not (pulp_content_bind.startswith('unix:'))
         - ansible_facts.os_family == 'RedHat'
-        # We can also try using seport's ignore_selinux_state variable
         - ansible_facts.selinux.status == "enabled"
+        - pulp_install_selinux_policies|bool or pulp_install_selinux_policies == "auto"
 
     - name: Install pulpcore-content service file
       template:
