@@ -32,6 +32,17 @@
       become: true
       become_user: '{{ pulp_user }}'
 
+      # Otherwise the compile step fails with:
+      # libsepol.policydb_read: policydb module version 21 does not match my version range 4-20
+      # TODO: Remove after 2023-01-01
+    - name: Upgrade libselinux on CentOS 9 Stream
+      package:
+        name: libselinux
+        state: latest
+      when:
+        - ansible_facts.distribution_major_version|int == 9
+        - ansible_facts.packages['libselinux'].0.version is version('3.4', '<')
+
     - name: Compile the SELinux policies
       make:
         file: /usr/share/selinux/devel/Makefile
