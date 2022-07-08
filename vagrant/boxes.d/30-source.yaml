@@ -31,7 +31,6 @@ pulp3-source-centos7:
     guest_path: '/home/vagrant/devel'
     reverse: False
   memory: 6144
-  disk_size: 40
   cpus: 4
   ansible:
     playbook: "vagrant/playbooks/source-install.yml"
@@ -45,7 +44,6 @@ pulp2-nightly-pulp3-source-centos7:
     guest_path: '/home/vagrant/devel'
     reverse: False
   memory: 10240
-  disk_size: 40
   cpus: 4
   ansible:
     playbook:
@@ -147,7 +145,6 @@ pulp3-source-centos7-fips:
     guest_path: '/home/vagrant/devel'
     reverse: False
   memory: 6144
-  disk_size: 40
   cpus: 4
   ansible:
     playbook: "vagrant/playbooks/source-install.yml"
