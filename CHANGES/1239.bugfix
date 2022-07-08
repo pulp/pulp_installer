@@ -1,0 +1,1 @@
+Fix situational SELinux denials for nginx/apache to connect to ports 24816 or 24817.

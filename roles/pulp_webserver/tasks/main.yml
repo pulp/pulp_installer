@@ -114,8 +114,8 @@
   when:
     - ansible_facts.os_family == 'RedHat'
     - ansible_facts.selinux.status == 'enabled'
-    - pulp_webserver_api_hosts | selectattr('address', 'match', '^unix:.+') | list | count >= 1 or
-      pulp_webserver_content_hosts  | selectattr('address', 'match','^unix:.+') | list | count >= 1
+    - pulp_webserver_api_hosts | rejectattr('address', 'match', '^unix:.+') | list | count >= 1 or
+      pulp_webserver_content_hosts  | rejectattr('address', 'match','^unix:.+') | list | count >= 1
 
 - include_tasks: firewalld.yml
   when: pulp_configure_firewall in ['firewalld', 'auto']
