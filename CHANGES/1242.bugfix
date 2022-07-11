@@ -1,0 +1,1 @@
+Fix geerlingguy.postgresql role >=3.3.1 failing on the task "Define postgresql_log_dir."
