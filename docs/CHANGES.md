@@ -13,6 +13,22 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.15.9 (2022-07-13)
+===================
+
+
+Bugfixes
+--------
+
+- Update pulpcore-selinux policies from 1.3.1 to 1.3.2 to enable API/Content processes to read the kernel keyring of the worker processes.
+  [#1223](https://pulp.plan.io/issues/1223)
+- Fix geerlingguy.postgresql role >=3.3.1 failing on the task "Define postgresql_log_dir."
+  [#1242](https://pulp.plan.io/issues/1242)
+
+
+----
+
+
 3.15.8-2 (2022-06-27)
 
 Features
