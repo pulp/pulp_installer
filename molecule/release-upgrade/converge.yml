@@ -117,7 +117,7 @@
   force_handlers: True
   tasks:
     - set_fact:
-        pulpcore_version: "3.18"
+        pulpcore_version: "3.20"
         pulpcore_update: false
     - set_fact:
         pulp_install_plugins:
