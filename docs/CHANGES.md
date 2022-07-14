@@ -773,6 +773,48 @@ Devel
 ----
 
 
+3.15.9 (2022-07-13)
+===================
+
+
+Bugfixes
+--------
+
+- Update pulpcore-selinux policies from 1.3.1 to 1.3.2 to enable API/Content processes to read the kernel keyring of the worker processes.
+  [#1223](https://pulp.plan.io/issues/1223)
+- Fix geerlingguy.postgresql role >=3.3.1 failing on the task "Define postgresql_log_dir."
+  [#1242](https://pulp.plan.io/issues/1242)
+
+
+----
+
+
+3.15.8-2 (2022-06-27)
+=====================
+
+Features
+--------
+
+- Implement new feature to remount /var/lib/pulp with the SELinux context (label.) See the new variable `pulp_selinux_remount_data_dir`'s description in pulp_common's README for more info.
+  [#1196](https://pulp.plan.io/issues/1196)
+
+
+----
+
+
+3.15.8-1 (2022-06-14)
+=====================
+
+Bugfixes
+--------
+
+- Fix the pulp user getting created with incorrect settings, such as having its home dir under /home/pulp, when pulp_redis_bind is set to a UNIX domain socket.
+  [#1173](https://pulp.plan.io/issues/1173)
+
+
+----
+
+
 3.15.8 (2022-06-08)
 ===================
 
