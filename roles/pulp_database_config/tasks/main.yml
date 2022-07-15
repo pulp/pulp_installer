@@ -226,7 +226,7 @@
     PULP_DEPLOY_ROOT: "{{ pulp_user_home }}"
     PULP_MEDIA_ROOT: "{{ pulp_media_root }}"
     PULP_STATIC_ROOT: "{{ pulp_user_home }}/assets"
-    PULP_WORKING_DIRECTORY: "{{ pulp_user_home }}/tmp"
+    PULP_WORKING_DIRECTORY: "{{ __pulp_common_merged_pulp_settings.working_directory }}"
     PULP_FILE_UPLOAD_TEMP_DIR: "{{ pulp_user_home }}/tmp"
 
 # This task is located here in pulp_database_config because it depends on the database fields encryption key

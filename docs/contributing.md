@@ -114,8 +114,8 @@ There are other (intentional) differences between tests:
    used by all other scenarios. This playbook upgrades a Pulp installation multiple times to ensure
    that all upgrade scenarios work correctly.
 1. The `source-static` scenario defines paths different than the default for the following variables:
-   `pulp_media_root`, `pulp_cache_dir`, `pulp_user_home`, `pulp_install_dir`, `pulp_config_dir` and
-   `developer_user_home`.
+   `pulp_media_root`, `pulp_settings.working_directory`, `pulp_user_home`, `pulp_install_dir`,
+   `pulp_config_dir` and `developer_user_home`.
 
 In order for `cluster` scenarios to work on your local system, you must do the following to enable
 container networking:
