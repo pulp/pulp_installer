@@ -41,7 +41,6 @@ pulp_install_plugins:
      - VitaminC
      - VitaminD
 pulp_media_root: /opt/pulp/media
-pulp_cache_dir: /opt/pulp/cache
 pulp_user_home: /opt/pulp/home
 pulp_install_dir: /opt/pulp/lib
 pulp_config_dir: /opt/pulp/etc
@@ -51,6 +50,7 @@ pulp_settings:
   content_origin: "https://{{ ansible_fqdn }}"
   secret_key: secret
   redis_url: "unix:/var/run/redis/redis.sock"
+  working_directory: /opt/pulp/cache
 
 # These variables are used by molecule verify, not the installer itself
 pulp_lib_path: /opt/pulp/devel

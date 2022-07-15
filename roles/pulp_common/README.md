@@ -64,14 +64,13 @@ Role Variables
         git_revision: "v3.1.1"   # Optional. The specific git branch/tag/commit to be cheked out.
     ```
 
-* `pulp_cache_dir`: Location of Pulp cache. Defaults to '{{ pulp_user_home }}/tmp'.
 * `pulp_config_dir`: Directory which will contain Pulp configuration files.
   Defaults to "/etc/pulp".
 * `pulp_install_dir`: Location of a virtual environment for Pulp and its Python
   dependencies. Defaults to "/usr/local/lib/pulp".
 * `pulp_user_home`: absolute path for pulp user home. Defaults to "/var/lib/pulp".
-   This variable is also referenced by others like: `pulp_cache_dir`, `pulp_media_root` and
-   `pulp_scripts_dir`.
+   This variable is also referenced by others like: `pulp_settings.working_directory`,
+   `pulp_media_root` and `pulp_scripts_dir`.
 * `pulp_media_root`: `MEDIA_ROOT` for `pulpcore`. Defaults to '{{ pulp_user_home }}/media'.
 * `pulp_certs_dir`: Path where to generate or drop the TLS certificates (see pulp_webserver role) &
   keys for authentication tokens (see pulp_api role.) Also to where the user-provided gpg key for
@@ -152,6 +151,7 @@ Role Variables
       the pulp_common role will add the `{{ pulp_user }}` user to the `redis` group, if that group exists.
       Thus giving pulp access to the redis UNIX domain socket. Make sure to set the same value as
       you set for `pulp_redis_bind`, as documented in [pulp_redis](../../roles/pulp_redis).
+    * `working_directory`: Location of Pulp cache. Defaults to '{{ pulp_user_home }}/tmp'.
     * **Example**:
 
     ```yaml
