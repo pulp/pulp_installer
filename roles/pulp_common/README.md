@@ -151,6 +151,12 @@ Role Variables
       the pulp_common role will add the `{{ pulp_user }}` user to the `redis` group, if that group exists.
       Thus giving pulp access to the redis UNIX domain socket. Make sure to set the same value as
       you set for `pulp_redis_bind`, as documented in [pulp_redis](../../roles/pulp_redis).
+    * `static_root`: Location on disk of the static content served by the pulpcore-api service. Defaults to
+      `{{ pulp_user_home }}{{ pulp_settings.static_url }}`, which
+      evaluates to by default `/var/lib/pulp/assets`.
+    * `static_url`: The URL under which static content is served by the pulpcore-api service. Also a
+      component of the location on disk where the static content is stored (see
+      `pulp_settings.static_root`). Defaults to `/assets/`.
     * `working_directory`: Location of Pulp cache. Defaults to '{{ pulp_user_home }}/tmp'.
     * **Example**:
 

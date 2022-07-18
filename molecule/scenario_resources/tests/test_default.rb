@@ -26,6 +26,18 @@ describe.one do
   end
 end
 
+describe.one do
+  describe directory('/var/lib/pulp/assets/') do
+    its('owner') { should eq 'pulp' }
+    its('group') { should eq 'pulp' }
+  end
+
+  describe directory('/opt/pulp/assets/') do
+    its('owner') { should eq 'pulp' }
+    its('group') { should eq 'pulp' }
+  end
+end
+
 ['pulpcore-api','pulpcore-content', 'pulpcore-worker@1', 'pulpcore-worker@2'].each do |pservice|
   describe service(pservice) do
     it { should be_running }
