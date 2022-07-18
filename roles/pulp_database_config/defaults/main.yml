@@ -8,3 +8,5 @@ ansible_python_interpreter: auto
 pulp_db_fields_key: ''
 
 galaxy_create_default_collection_signing_service: false
+
+pulp_force_change_admin_password: false

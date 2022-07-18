@@ -29,6 +29,9 @@ Role Variables for advanced usage
   hosts in later roles. If not specified, a host is randomly picked from suitable hosts
   (hosts that already have the database fields encryption key.) If specified, it must
   match the host's name in the Ansible inventory exactly.
+* `pulp_force_change_admin_password`: Whether to always change the password to that which
+  is specified in `pulp_default_admin_password`. Defaults to `false`.
+  Note: If set to true, the installer will not be idempotent.
 
 Shared Variables
 ----------------
