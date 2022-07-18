@@ -204,6 +204,17 @@
         setype: _default
         seuser: _default
 
+    - name: Create assets (static) dir for Pulp
+      file:
+        path: '{{ __pulp_common_merged_pulp_settings.static_root }}'
+        state: directory
+        owner: '{{ pulp_user }}'
+        group: '{{ pulp_group }}'
+        mode: "u+rwx,g+rx,o+rx"
+        serole: _default
+        setype: _default
+        seuser: _default
+
     # If so, owner will be apache
     - name: Check if we have Pulp 2 installed
       stat:

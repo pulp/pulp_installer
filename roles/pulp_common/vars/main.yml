@@ -34,6 +34,8 @@ __pulp_common_pulp_settings_defaults:
   cache_enabled: True
   private_key_path: "{{ pulp_certs_dir }}/token_private_key.pem"
   public_key_path: "{{ pulp_certs_dir }}/token_public_key.pem"
+  static_root: "{{ pulp_user_home | regex_replace('\\/$', '') }}{{ pulp_settings.static_url | default ('/assets/') | regex_replace('\\/$', '') }}"
+  static_url: "/assets/"
   token_server: "{{ pulp_webserver_disable_https | default(false) | ternary('http', 'https') }}://{{ ansible_facts.fqdn }}/token/"
   token_signature_algorithm: ES256
   working_directory: "{{ pulp_user_home | regex_replace('\\/$', '') }}/tmp"

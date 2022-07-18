@@ -50,7 +50,7 @@
     LD_LIBRARY_PATH: "{{ pulp_ld_library_path }}"
 
 - name: Restore SELinux contexts on Pulp asset dirs
-  command: '/sbin/fixfiles restore {{ pulp_user_home }}/assets'
+  command: '/sbin/fixfiles restore {{ __pulp_common_merged_pulp_settings.static_root }}'
   become: true
   # We need the when condition on this particular SELinux handler because it
   # gets triggered by "Collect static content".
