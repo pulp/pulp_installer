@@ -230,7 +230,9 @@
     - name: Set the Pulp admin user's password
       command: "{{ pulp_django_admin_path }} reset-admin-password --password {{ pulp_default_admin_password }}"
       no_log: true
-      when: (__pulp_database_config_admin_account_exists.stdout == "False" ) | default(false)
+      when: >
+            ((__pulp_database_config_admin_account_exists.stdout == "False" ) | default(false)) or
+            (pulp_force_change_admin_password)
 
   run_once: "{{ __pulp_run_once }}"
   delegate_to: "{{ hostvars['localhost']['pulp_database_config_host'] | default(inventory_hostname) }}"
