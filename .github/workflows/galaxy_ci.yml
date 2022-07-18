@@ -36,7 +36,7 @@ jobs:
         run: |
           pip install --upgrade pip
       - name: Install LDAP requirements
-        run: sudo apt-get install -y libsasl2-dev python-dev libldap2-dev libssl-dev build-essential
+        run: sudo apt-get install -y libsasl2-dev python3-dev libldap2-dev libssl-dev build-essential
       - name: Get pulpcore version (release)
         if: matrix.test_type == 'release-galaxy'
         run: |
