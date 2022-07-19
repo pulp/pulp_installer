@@ -13,6 +13,20 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.15.9-1 (2022-07-19)
+=====================
+
+
+Bugfixes
+--------
+
+- Fix being unable to install from katello's latest RPMs by no longer ignoring libcomps (reverts bugfix for #809)
+  [#913](https://pulp.plan.io/issues/913)
+
+
+----
+
+
 3.15.9 (2022-07-13)
 ===================
 

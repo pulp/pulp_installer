@@ -1,1 +1,0 @@
-Fix being unable to install from katello's latest RPMs by no longer ignoring libcomps (reverts bugfix for #809)
