@@ -141,6 +141,14 @@
         owner: '{{ pulp_user }}'
         group: '{{ pulp_group }}'
 
+    - name: Create deploy root dir for pulp
+      file:
+        path: '{{ __pulp_common_merged_pulp_settings.deploy_root }}'
+        state: directory
+        mode: 'u+rwx,o+x'
+        owner: '{{ pulp_user }}'
+        group: '{{ pulp_group }}'
+
     - name: Create media dir for Pulp
       file:
         path: '{{ pulp_media_root }}'
@@ -151,6 +159,28 @@
         seuser: _default
         serole: _default
         setype: _default
+
+    - name: Create cache dir for Pulp
+      file:
+        path: '{{ __pulp_common_merged_pulp_settings.working_directory }}'
+        state: directory
+        owner: '{{ pulp_user }}'
+        group: '{{ pulp_group }}'
+        mode: "u+rwx,g+rwx,o+rx"
+        serole: _default
+        setype: _default
+        seuser: _default
+
+    - name: Create assets (static) dir for Pulp
+      file:
+        path: '{{ __pulp_common_merged_pulp_settings.static_root }}'
+        state: directory
+        owner: '{{ pulp_user }}'
+        group: '{{ pulp_group }}'
+        mode: "u+rwx,g+rx,o+rx"
+        serole: _default
+        setype: _default
+        seuser: _default
 
     - name: Check if artifact directory exists at old path
       stat:
@@ -174,17 +204,6 @@
         setype: _default
         seuser: _default
 
-    - name: Create cache dir for Pulp
-      file:
-        path: '{{ __pulp_common_merged_pulp_settings.working_directory }}'
-        state: directory
-        owner: '{{ pulp_user }}'
-        group: '{{ pulp_group }}'
-        mode: "u+rwx,g+rwx,o+rx"
-        serole: _default
-        setype: _default
-        seuser: _default
-
     - name: Create scripts directory to hold user-provided scripts
       file:
         path: "{{ pulp_scripts_dir }}"
@@ -200,17 +219,6 @@
         owner: "{{ pulp_user }}"
         group: "{{ pulp_group }}"
         mode: 0700
-        serole: _default
-        setype: _default
-        seuser: _default
-
-    - name: Create assets (static) dir for Pulp
-      file:
-        path: '{{ __pulp_common_merged_pulp_settings.static_root }}'
-        state: directory
-        owner: '{{ pulp_user }}'
-        group: '{{ pulp_group }}'
-        mode: "u+rwx,g+rx,o+rx"
         serole: _default
         setype: _default
         seuser: _default

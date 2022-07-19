@@ -19,7 +19,6 @@ pulp_user_id:
 pulp_group: pulp
 pulp_group_id:
 pulp_user_home: '/var/lib/pulp'
-pulp_media_root: "{{ pulp_user_home | regex_replace('\\/$', '') }}/media"
 pulp_scripts_dir: "{{ pulp_user_home | regex_replace('\\/$', '') }}/scripts"
 pulp_pip_editable: yes
 pulp_use_system_wide_pkgs: false

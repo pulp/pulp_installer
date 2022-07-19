@@ -225,11 +225,6 @@
   environment:
     PULP_SETTINGS: "{{ pulp_settings_file }}"
     LD_LIBRARY_PATH: "{{ pulp_ld_library_path }}"
-    PULP_DEPLOY_ROOT: "{{ pulp_user_home }}"
-    PULP_FILE_UPLOAD_TEMP_DIR: "{{ pulp_user_home }}/tmp"
-    PULP_MEDIA_ROOT: "{{ pulp_media_root }}"
-    PULP_STATIC_ROOT: "{{ __pulp_common_merged_pulp_settings.static_root }}"
-    PULP_WORKING_DIRECTORY: "{{ __pulp_common_merged_pulp_settings.working_directory }}"
 
 # This task is located here in pulp_database_config because it depends on the database fields encryption key
 # and on the database migrations having been run.
