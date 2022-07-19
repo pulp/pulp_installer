@@ -6,6 +6,7 @@
 local.*-config.yml
 .github/Containerfile_*
 build/
+.vscode/
 *.tar.gz
 
 # Ignores for Vagrant related items
