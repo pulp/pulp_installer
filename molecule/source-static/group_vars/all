@@ -40,7 +40,6 @@ pulp_install_plugins:
     extras:
      - VitaminC
      - VitaminD
-pulp_media_root: /opt/pulp/media
 pulp_user_home: /opt/pulp/home
 pulp_install_dir: /opt/pulp/lib
 pulp_config_dir: /opt/pulp/etc
@@ -48,6 +47,7 @@ developer_user_home: /opt/pulp/devel
 developer_user: pulp
 pulp_settings:
   content_origin: "https://{{ ansible_fqdn }}"
+  media_root: /opt/pulp/media
   secret_key: secret
   redis_url: "unix:/var/run/redis/redis.sock"
   static_root: /opt/pulp/assets

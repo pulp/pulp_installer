@@ -33,6 +33,7 @@ __pulp_common_pulp_settings_defaults:
   redis_host: localhost
   redis_port: 6379
   cache_enabled: True
+  media_root: "{{ pulp_settings.deploy_root | default(pulp_user_home) | regex_replace('\\/$', '') }}/media"
   private_key_path: "{{ pulp_certs_dir }}/token_private_key.pem"
   public_key_path: "{{ pulp_certs_dir }}/token_public_key.pem"
   static_root: "{{ pulp_settings.deploy_root | default(pulp_user_home) | regex_replace('\\/$', '') }}{{ pulp_settings.static_url | default('/assets/') | regex_replace('\\/$', '') }}"
@@ -47,7 +48,7 @@ __pulp_common_merged_pulp_settings: "{{ __pulp_common_pulp_settings_defaults | c
 __pulpcore_version: '{{ pulpcore_version | default("3.20") }}'
 
 __pulp_old_artifact_dir: "{{ pulp_user_home | regex_replace('\\/$', '')  }}/artifact"
-__pulp_artifact_dir: "{{ pulp_media_root | regex_replace('\\/$', '')  }}/artifact"
+__pulp_artifact_dir: "{{ __pulp_common_merged_pulp_settings.media_root | regex_replace('\\/$', '')  }}/artifact"
 
 __galaxy_profile: '{{ galaxy_profile | default("standalone") }}'
 __galaxy_dev_source_path: '{{ galaxy_dev_source_path | default("pulpcore:pulp_ansible:pulp_container:galaxy_ng:galaxy-importer") }}'
@@ -58,4 +59,3 @@ __galaxy_lock_requirements: '{{ galaxy_lock_requirements | default(__galaxy_lock
 
 # Pulps own replacement for django-admin setup in the proper environment
 pulp_django_admin_path: "{{ pulp_install_dir }}/bin/pulpcore-manager"
-pulp_media_root: "{{ __pulp_common_merged_pulp_settings.deploy_root | regex_replace('\\/$', '') }}/media"

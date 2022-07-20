@@ -44,7 +44,7 @@ _pdbreset_help="$_dbreset_help - `setterm -foreground red -bold on`THIS DESTROYS
 
 pclean() {
     pdbreset
-    sudo rm -rf {{ pulp_media_root }}/*
+    sudo rm -rf {{ __pulp_common_merged_pulp_settings.media_root }}/*
     redis-cli FLUSHALL
     {{ pulp_django_admin_path }} collectstatic --clear --noinput --link
 }
