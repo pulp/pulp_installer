@@ -5,5 +5,4 @@
 {% endfor %}
 {# https://github.com/pulp/pulpcore/blob/master/pulpcore/app/settings.py#L37-L38 #}
 FILE_UPLOAD_TEMP_DIR = "{{ __pulp_common_merged_pulp_settings.working_directory }}"
-MEDIA_ROOT = "{{ pulp_media_root }}"
 DB_ENCRYPTION_KEY = "{{ pulp_certs_dir }}/database_fields.symmetric.key"

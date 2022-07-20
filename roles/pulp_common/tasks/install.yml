@@ -151,7 +151,7 @@
 
     - name: Create media dir for Pulp
       file:
-        path: '{{ pulp_media_root }}'
+        path: '{{ __pulp_common_merged_pulp_settings.media_root }}'
         state: directory
         owner: '{{ pulp_user }}'
         group: '{{ pulp_group }}'

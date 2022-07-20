@@ -69,10 +69,8 @@ Role Variables
 * `pulp_install_dir`: Location of a virtual environment for Pulp and its Python
   dependencies. Defaults to "/usr/local/lib/pulp".
 * `pulp_user_home`: absolute path for pulp user home. Defaults to "/var/lib/pulp".
-   This variable is also referenced by others like: `pulp_settings.working_directory`,
-   `pulp_media_root` and `pulp_scripts_dir`.
-* `pulp_media_root`: `MEDIA_ROOT` for `pulpcore`. Defaults to '{{ pulp_settings.deploy_root }}/media',
-  which evaluates by default to `/var/lib/pulp/media`.
+  This variable is also default for "{{ pulp_settings.deploy_root }}, which multiple directories
+  are under. Also, `pulp_scripts_dir` is placed under it.
 * `pulp_certs_dir`: Path where to generate or drop the TLS certificates (see pulp_webserver role) &
   keys for authentication tokens (see pulp_api role.) Also to where the user-provided gpg key for
   the galaxy-ng collection signing service is placed (see galaxy_post_install role.) Defaults to
@@ -152,11 +150,13 @@ Role Variables
       the pulp_common role will add the `{{ pulp_user }}` user to the `redis` group, if that group exists.
       Thus giving pulp access to the redis UNIX domain socket. Make sure to set the same value as
       you set for `pulp_redis_bind`, as documented in [pulp_redis](../../roles/pulp_redis).
-    * `deploy_root` Location on disk whereby `static_root`, `working_directory` and
-      `pulp_media_root` are stored under. Defaults to `{{ pulp_user_home }}`, which evaluates by default to
-      `/var/lib/pulp`.
+    * `deploy_root` Location on disk where `pulp_settings.static_root`, `pulp_settings.working_directory`
+      and `pulp_settings.media_root` are stored under. Defaults to `{{ pulp_user_home }}`, which evaluates
+      by default to `/var/lib/pulp`.
+    * `media_root`: Location where Pulp will store files. Defaults to '{{ pulp_settings.deploy_root }}/media',
+      which evaluates by default to `/var/lib/pulp/media`.
     * `static_root`: Location on disk of the static content served by the pulpcore-api service. Defaults to
-      `{{ pulp_user_home }}{{ pulp_settings.static_url }}`, which
+      `{{ pulp_settings.deploy_root }}{{ pulp_settings.static_url }}`, which
       evaluates by default to `/var/lib/pulp/assets`.
     * `static_url`: The URL under which static content is served by the pulpcore-api service. Also a
       component of the location on disk where the static content is stored (see
