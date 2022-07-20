@@ -6,7 +6,7 @@ Release Guide
    molecule/release-upgrade/converge.yml with the latest pulpcore / pulp-file /
    pulp-rpm versions (maintaining minor version strings vs micro version strings.)
 1. Create/activate a virtualenv, with the script's dependencies installed (`pip install
-   GitPython sh`)
+   GitPython sh towncrier==19.9.0`)
 1. Run the release script (`python .ci/scripts/release.py`).
 1. Check the updated version in the `galaxy.yml` and in the `roles/pulp_common/{vars,defaults}/main.yml`.
 1. Check references to current and previous versions in `docs/index.md`\
