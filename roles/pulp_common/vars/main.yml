@@ -20,6 +20,7 @@ pulp_collectstatic_ignore_list: |-
 # pip/PyPI only uses dashes, not underscores.
 pulp_install_plugins_normalized: "{{ pulp_install_plugins_normalized_yml | from_yaml }}"
 pulp_certs_dir: "{{ pulp_config_dir }}/certs"
+
 # Users should not set these variables, but instead use `pulp_settings`
 __pulp_common_pulp_settings_defaults:
   databases:
@@ -42,8 +43,10 @@ __pulp_common_pulp_settings_defaults:
   token_signature_algorithm: ES256
   working_directory: "{{ pulp_settings.deploy_root | default(pulp_user_home) | regex_replace('\\/$', '') }}/tmp"
   content_path_prefix: "{{ pulp_settings.content_path_prefix | default('/pulp/content/') }}"
+__pulp_common_pulp_settings_defaults_dependent_vars:
+  file_upload_temp_dir: "{{ pulp_settings.working_directory | default(__pulp_common_pulp_settings_defaults.working_directory) }}"
 
-__pulp_common_merged_pulp_settings: "{{ __pulp_common_pulp_settings_defaults | combine(pulp_settings, recursive=True) }}"
+__pulp_common_merged_pulp_settings: "{{ __pulp_common_pulp_settings_defaults | combine(__pulp_common_pulp_settings_defaults_dependent_vars, recursive=true) | combine(pulp_settings, recursive=True) }}"
 
 __pulpcore_version: '{{ pulpcore_version | default("3.20") }}'
 
