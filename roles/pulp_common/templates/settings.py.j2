@@ -4,5 +4,4 @@
 {{ setting | upper }} = {{ value | mdellweg.filters.repr }}
 {% endfor %}
 {# https://github.com/pulp/pulpcore/blob/master/pulpcore/app/settings.py#L37-L38 #}
-FILE_UPLOAD_TEMP_DIR = "{{ __pulp_common_merged_pulp_settings.working_directory }}"
 DB_ENCRYPTION_KEY = "{{ pulp_certs_dir }}/database_fields.symmetric.key"

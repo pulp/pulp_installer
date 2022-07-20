@@ -153,6 +153,9 @@ Role Variables
     * `deploy_root` Location on disk where `pulp_settings.static_root`, `pulp_settings.working_directory`
       and `pulp_settings.media_root` are stored under. Defaults to `{{ pulp_user_home }}`, which evaluates
       by default to `/var/lib/pulp`.
+    * `file_upload_temp_dir`: The directory to store data to (typically files larger than
+      `pulp_settings.file_upload_max_memory_size`) temporarily while uploading files. Defaults to
+      `{{ pulp_settings.working_directory }}`, which evaluates by default to `/var/lib/pulp/tmp`.
     * `media_root`: Location where Pulp will store files. Defaults to '{{ pulp_settings.deploy_root }}/media',
       which evaluates by default to `/var/lib/pulp/media`.
     * `static_root`: Location on disk of the static content served by the pulpcore-api service. Defaults to

@@ -171,6 +171,17 @@
         setype: _default
         seuser: _default
 
+    - name: Create file upload temp dir for Pulp
+      file:
+        path: '{{ __pulp_common_merged_pulp_settings.file_upload_temp_dir }}'
+        state: directory
+        owner: '{{ pulp_user }}'
+        group: '{{ pulp_group }}'
+        mode: "u+rwx,g+rwx,o+rx"
+        serole: _default
+        setype: _default
+        seuser: _default
+
     - name: Create assets (static) dir for Pulp
       file:
         path: '{{ __pulp_common_merged_pulp_settings.static_root }}'
