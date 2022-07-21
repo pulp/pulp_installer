@@ -1,0 +1,1 @@
+Fix installing pulpcore RPMs < 3.15 by not installing the undeclared dependencies when pulpcore_version < 3.15.

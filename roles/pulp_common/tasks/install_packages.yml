@@ -87,6 +87,7 @@
         name: "{{ pulp_pkg_undeclared_deps }}"
         state: "{{ pulp_pkg_upgrade_all | ternary('latest','present') }}"
         exclude: '{{ pulp_pkg_exclude | default(omit) }}'
+      when: __pulp_version is version('3.15', '>=')
       notify:
         - Collect static content
         - Restart all Pulp services
