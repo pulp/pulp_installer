@@ -3,6 +3,8 @@ pulp_api
 
 Install, configure, and set the state of the pulp API service.
 
+This role depends on the [pulp_common](../../roles/pulp_common) role, see it for many more variables on configuring pulp_api.
+
 Role Variables
 --------------
 

@@ -3,6 +3,8 @@ pulp_workers
 
 Install, configure, and set the state of pulp workers.
 
+This role depends on the [pulp_common](../../roles/pulp_common) role, see it for many more variables on configuring pulp_database_workers.
+
 Role Variables
 --------------
 

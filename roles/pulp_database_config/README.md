@@ -5,8 +5,10 @@ Configure the database for Pulp 3
 
 More specifically, this role does the following via `django-admin`:
 
-1. Create and run migrations.
+1. Create and run migrations. (modifies the database schema for Pulp)
 2. Set the Pulp admin user's password.
+
+This role depends on the [pulp_common](../../roles/pulp_common) role, see it for many more variables on configuring pulp_database_config.
 
 Role Variables
 --------------
@@ -79,4 +81,4 @@ cluster is being expanded with this ansible playbook run.
 
 For example, if you run pulp_database_config against host1 and host2, and you
 later re-run pulp_installer to add host3 to the cluster, then either host1
-or host2 must have pulp_database_config run against it.
+or host2 must have pulp_database_config run against it during the re-run.
