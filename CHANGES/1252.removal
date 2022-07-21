@@ -1,1 +1,0 @@
-The variable `pulp_cache_dir` has been removed. Instead of setting both `pulp_cache_dir` and `pulp_settings.working_directory` to change this directory's location, you know only have to set `pulp_settings.working_directory`. The ability to set it has also been fixed.

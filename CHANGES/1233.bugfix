@@ -1,1 +1,0 @@
-Fix pulp_installer failing to label ports when pulp_install_selinux_policies is set to false.
