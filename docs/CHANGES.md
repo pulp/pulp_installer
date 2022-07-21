@@ -13,6 +13,20 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.15.9-2 (2022-07-21)
+=====================
+
+
+Bugfixes
+--------
+
+- Fix installing pulpcore RPMs < 3.15 by not installing the undeclared dependencies when pulpcore_version < 3.15.
+  [#1275](https://pulp.plan.io/issues/1275)
+
+
+----
+
+
 3.15.9-1 (2022-07-19)
 =====================
 
