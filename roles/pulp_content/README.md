@@ -3,6 +3,8 @@ pulp_content
 
 Install, configure, and set the state of pulp content app.
 
+This role depends on the [pulp_common](../../roles/pulp_common) role, see it for many more variables on configuring pulp_content.
+
 Role Variables
 --------------
 

@@ -1,14 +1,14 @@
-Pulp Common
+pulp_common
 ===========
 
 Ansible role that installs shared components of the Pulp 3 services from PyPi or source and provides basic config.
 
-The default administrative user for the Pulp application is: 'admin'
+It is a dependency of the service roles [pulp_database_config](../../roles/pulp_database_config) [pulp_api](../../roles/pulp_api), [pulp_content](../../roles/pulp_content), and [pulp_workers](../../roles/pulp_workers).
 
 Role Variables
 --------------
 
-* `pulp_install_plugins`: **Required** A nested dictionary of plugins to install & their
+* `pulp_install_plugins`: **Required**. A nested dictionary of plugins to install & their
   installation options.
     * *Dictionary Key*: **Required**. The pip installable plugin name. This is defined in each
     plugin's `setup.py`.
@@ -71,12 +71,14 @@ Role Variables
 * `pulp_user_home`: absolute path for pulp user home. Defaults to "/var/lib/pulp".
   This variable is also default for "{{ pulp_settings.deploy_root }}, which multiple directories
   are under. Also, `pulp_scripts_dir` is placed under it.
-* `pulp_certs_dir`: Path where to generate or drop the TLS certificates (see pulp_webserver role) &
-  keys for authentication tokens (see pulp_api role.) Also to where the user-provided gpg key for
-  the galaxy-ng collection signing service is placed (see galaxy_post_install role.) Defaults to
-  '{{ pulp_config_dir }}/certs' .
+* `pulp_certs_dir`: Path where to generate or drop the TLS certificates (see
+  [pulp_webserver](../../roles/pulp_webserver) role), the keys for authentication tokens (see
+  [pulp_api](../../roles/pulp_api) role), the database fields encryption key (See
+  [pulp_database_config](../../roles/pulp_database_config) role). Also to where the user-provided gpg
+  key for the galaxy-ng collection signing service is placed (see galaxy_post_install role.)
+   Defaults to `{{ pulp_config_dir }}/certs`, which evaluates by default to `/etc/pulp/certs`.
 * `pulp_scripts_dir`: Path to where user-provided scripts (needed by specific plugins) are located.
-  (see galaxy_post_install role.) Defaults to '{{ pulp_user_home }}/scripts'.
+  (see [galaxy_post_install](../../roles/galaxy_post_install) role.) Defaults to `{{ pulp_user_home }}/scripts`.
 * `pulp_source_dir`: Optional. Absolute path to pulpcore source code. If
   present, pulpcore will be installed from source in editable mode. Also accepts
   a pip VCS URL, to (for example) install the main branch.
@@ -91,97 +93,18 @@ Role Variables
   if git_url is provided.
 * `pulp_user`: User that owns and runs Pulp. Defaults to "pulp".
 * `pulp_user_id`: Integer value of uid for the `pulp_user`. Defaults to nothing and uid is assigned
-  by the system.
+  by the system. NOTE: It is strongly recommended to set this if doing a clustered pulp install with a
+  filesystem shared (NFS) between multiple pulp hosts.
 * `pulp_group`: The group that the `pulp_user` belongs to. Defaults to `pulp`.
 * `pulp_group_id`: Integer value of gid for the `pulp_group`. Defaults to nothing and gid is
-  assigned by the system.
+  assigned by the system. NOTE: It is strongly recommended to set this if doing a clustered pulp install with a
+  filesystem shared (NFS) between multiple pulp hosts.
 * `pulp_extra_groups`: Optional. A list of additional group names that the `pulp_user` should
   be added to. This is site-specific and defaults to nothing.
 * `pulp_use_system_wide_pkgs` Use python system-wide packages. Defaults to "false".
 * `pulp_remote_user_environ_name` Optional. Set the `REMOTE_USER_ENVIRON_NAME` setting for Pulp.
   This variable will be set as the value of `CONTENT_HOST` as the base path to build content URLs.
 * `pulp_install_object_storage`: The preferred object storage. Defaults to `filesystem`.
-* `pulp_settings`: A dictionary that is used to add custom values to the user's
-    `settings.py`, which will override any default values set by pulpcore. The keys of this
-    dictionary are variable names, and the values should be expressed using the [Dynaconf syntax](
-    https://dynaconf.readthedocs.io/en/latest/guides/environment_variables.html#precedence-and-type-casting)
-    Please see [pulpcore configuration
-    docs](https://docs.pulpproject.org/pulpcore/configuration/settings.html) for
-    documentation on all the possible variable names and their values. Listed below are variables
-    that must be set at the time of running pulp_installer, or that the installer behaves
-    differently based on .
-    * `pulp_settings.content_path_prefix`: Base path where the content will be served. Defaults to
-    "/pulp/content/". **Make sure to append the trailing slash.**
-    * `content_origin`: **Required**. The URL to the pulp_content
-      host that clients will access, and that will be appended to in HTTP
-      responses by multiple content plugins. Any load balancers / proxies (such
-      as those in the `pulp_webserver` role) normally should be specified instead
-      of the pulp content host itself. Syntax is
-      `(http|https)://(hostname|ip)[:port]`.
-    * `secret_key`: **Required**. Pulp's Django application `SECRET_KEY`.
-    * `databases.default`: A dictionary. Its primary use is by this
-      role, where it configures Pulp on how to talk to the database via a larger set of settings.
-      Its secondary use is by the `pulp_database` role, where it configures the database server according to a
-      smaller set of settings.
-      The larger set of settings is listed in the [Django
-      Docs](https://docs.pulpproject.org/pulpcore/configuration/settings.html). The settings that
-      are defaulted to are listed below. Note that these default settings are merged by the
-      installer with your own; merely setting pulp_settings with 1 setting under it will not blow away all
-      the other default settings. Alo see [pulpcore
-      docs](https://docs.pulpproject.org/pulpcore/installation/instructions.html#user-and-database-configuration)
-      for more info.
-        * `HOST` The hostname or IP address of the Postgres database server
-          (or cluster) to talk to. Defaults to `localhost`. Change this if pulp_database was applied
-          to a different host, or if accessing an existing postgres server/cluster.
-        * `ENGINE`: Defaults to `django.db.backends.postgresql`. Do not change it.
-        * `NAME`: The name of the Pulp database to access. Defaults to `pulp`.
-        * `USER`: The user account to authenticate as to access the database. Defaults to `pulp`.
-        * `PASSWORD`: The user account's password for accessing the database.
-            Defaults to `pulp`, but please change it to something secure!
-    * `cache_enabled`: Whether or not to connect to a redis server to use as a cache. Defaults to
-      `true`.
-    * `redis_host`: **Optional**. Hostname or IP of the redis server to connect to. Defaults to `localhost`.
-    * `redis_port`: **Optional**. TCP port of the redis server to connect to. Defaults to `6379`.
-    * `redis_db`: **Optional**. The name of the redis database to connect to.
-    * `redis_password`: **Optional**. Password for connecting to redis.
-    * `redis_url`: **Optional** Tells pulp how to connect to redis. If set, the pulp application overrides
-      individual pulp `redis_` settings on how to connect, such as `redis_host` and `redis_port`.
-      If it is a path to a UNIX domain socket (recommended value is: `unix:/var/run/redis/redis.sock`),
-      the pulp_common role will add the `{{ pulp_user }}` user to the `redis` group, if that group exists.
-      Thus giving pulp access to the redis UNIX domain socket. Make sure to set the same value as
-      you set for `pulp_redis_bind`, as documented in [pulp_redis](../../roles/pulp_redis).
-    * `deploy_root` Location on disk where `pulp_settings.static_root`, `pulp_settings.working_directory`
-      and `pulp_settings.media_root` are stored under. Defaults to `{{ pulp_user_home }}`, which evaluates
-      by default to `/var/lib/pulp`.
-    * `file_upload_temp_dir`: The directory to store data to (typically files larger than
-      `pulp_settings.file_upload_max_memory_size`) temporarily while uploading files. Defaults to
-      `{{ pulp_settings.working_directory }}`, which evaluates by default to `/var/lib/pulp/tmp`.
-    * `media_root`: Location where Pulp will store files. Defaults to '{{ pulp_settings.deploy_root }}/media',
-      which evaluates by default to `/var/lib/pulp/media`.
-    * `static_root`: Location on disk of the static content served by the pulpcore-api service. Defaults to
-      `{{ pulp_settings.deploy_root }}{{ pulp_settings.static_url }}`, which
-      evaluates by default to `/var/lib/pulp/assets`.
-    * `static_url`: The URL under which static content is served by the pulpcore-api service. Also a
-      component of the location on disk where the static content is stored (see
-      `pulp_settings.static_root`). Defaults to `/assets/`.
-    * `working_directory`: Location of Pulp cache. Defaults to '{{ pulp_settings.deploy_root
-      }}/tmp', which evaluates by default to `/var/lib/pulp/tmp`.
-    * **Example**:
-
-    ```yaml
-        pulp_settings:
-          content_origin: "https://{{ ansible_fqdn }}"
-          secret_key: secret
-          databases:
-            default:
-              HOST: postgres-server
-              NAME: pulp
-              USER: pulp
-              PASSWORD: password
-    ```
-
-* `pulp_certs_dir`: Path where to generate or drop the TLS certificates, key for authentication
-  tokens, and the database fields encryption key. Defaults to '{{ pulp_config_dir }}/certs' .
 * `pulpcore_update`: Boolean that specifies whether the pulpcore package should be updated to the
   latest bug fix release within the minor release specified by `pulpcore_version`. Defaults
   to `false`.
@@ -196,6 +119,72 @@ Role Variables
    because the SELinux label (pulpcore_var_lib_t) does not exist on the system prior to pulp being
    installed, and certain filesystem types such as NFS cannot have labels on individual files.
    Defaults to `true`.
+
+pulp_settings variables
+-----------------------
+
+* `pulp_install_plugins`: **Required**. A nested dictionary of plugins to install & their
+* `pulp_settings`:  A dictionary that is used to add custom values to the user's
+ `settings.py`, which will override any default values set by pulpcore. The keys of this
+ dictionary are variable names, and the values should be expressed using the [Dynaconf syntax](
+ https://dynaconf.readthedocs.io/en/docs_223/guides/environment_variables.html#precedence-and-type-casting).
+ Please see [pulpcore configuration
+ docs](https://docs.pulpproject.org/pulpcore/configuration/settings.html) for
+ documentation on all the possible variable names and their values. Listed below are variables
+ that are "Mandatory" as they have no default values, or that cannot be changed after
+ installation (without manually moving files), or that the installer behaves differently based on,
+ or that configure Pulp on how to talk to other servers in a cluster (and are therefore required during installation)). In all 4 cases, the variables cannot or should not merely be specified in `settings.local.py` after installation.
+
+<!-- markdownlint-disable MD033 MD005 -->
+<!-- We set wrapping for code because it's the only way to apply wrapping successfully with mkdocs. HTML tags like div, span, data etc do not work for applying wrapping
+We have to set wrapping to prevent the table from becoming way to wide. It already doesn't show the entire thing, but only notes is hidden by default.-->
+<style>
+code
+  word-wrap: break-word;
+</style>
+
+!!! note
+    Scroll to the right to see all the info in the table below.
+
+pulp_settings variable name | Mandatory? Can be changed after installation? | Default Value (evaluated) | Description | Notes
+--- | --- | --- | --- | ---
+content_origin | Mandatory <br> Changeable | | A URL consisting of the protocol and domain/ip/port only (e.g., `https://foo.com`) for how to access the Pulp server/cluster. Specifically, this is the URL to the pulp_content host that clients will access, and that will be appended to in HTTP responses by multiple content plugins. Any load balancers / proxies (such as those in the [pulp_webserver](../../roles/pulp_webserver) role) should normally be specified instead of the pulp content host itself. Syntax is `(http\|https)://(hostname\|ip)[:port]`. | If pulp is installed on a single server, a commonly acceptable value is `https://{{ ansible_fqdn }}`.
+secret_key | Mandatory <br> Changeable | | In order to get a pulp server up and running a [Django SECRET_KEY](https://docs.djangoproject.com/en/3.2/ref/settings/#secret-key) must be provided. | It is recommended to make it 50 random characters long from the character set `abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)`. [Pulp docs](https://docs.pulpproject.org/pulpcore/configuration/settings.html?highlight=secret_key#secret-key) have a code snippet to generate it.
+`databases.default` | Changeable | (See nested variables listed immediately below) | A dictionary. Its primary use is by this role, where it configures Pulp on how to talk to the database via a larger set of settings. Its secondary use is by the [pulp_database](../../roles/pulp_database) role, where it configures the database server according to a smaller set of settings. The larger set of settings is listed in the [Django Docs](https://docs.pulpproject.org/pulpcore/configuration/settings.html). The settings that are defaulted to are listed below. See [pulpcore docs](https://docs.pulpproject.org/pulpcore/installation/instructions.html#user-and-database-configuration) for more info. | These default settings are merged by the installer with your own; merely setting databases.default with 1 setting under it will not blow away all the other default settings. |
+`databases.default.HOST` | Changeable | localhost | The hostname or IP address of the Postgres database server (or cluster) to talk to. | Change this if [pulp_database](../../roles/pulp_database) was applied to a different host, or if accessing an existing postgres server/cluster.
+`databases.default.ENGINE` | Changeable | `django.db.backends.postgresql` | The database engine to use. | Do not change it (there is currently no alternative for talking to PostgreSQL, and Pulp only supports PostgreSQL.)
+`databases.default.NAME` | Changeable | pulp | The name of the Pulp database to access.
+`databases.default.USER` | Changeable | pulp | The user account to authenticate as to access the database.
+`databases.default.PASSWORD` | Changeable | pulp | The user account's password for accessing the database.| Please change it to something secure!
+cache_enabled | Changeable | true | Whether or not to connect to a redis server to use as a cache.
+redis_host | Changeable | localhost | Hostname or IP of the redis server to connect to.
+redis_port | Changeable | 6379 | TCP port of the redis server to connect to.
+redis_db | Changeable | |The name of the redis database to connect to.
+redis_password | Changeable | |  Password for connecting to redis.
+redis_url | Changeable | |Tells pulp how to connect to redis. If set, the pulp application overrides individual pulp `pulp_settings.redis_` settings on how to connect, such as `pulp_settings.redis_host` and `pulp_settings.redis_port`. If it is a path to a UNIX domain socket, the pulp_common role will add the `{{ pulp_user }}` user to the `redis` group, if that group exists. Thus giving pulp access to the redis UNIX domain socket. | Make sure to set the same value as you set for `pulp_redis_bind`, as documented in [pulp_redis](../../roles/pulp_redis). Recommended value for a UNIX domain socket is: `unix:/var/run/redis/redis.sock`)
+content_path_prefix | Changeable | /pulp/content | The URL under which the content will be served. | Make sure to append the trailing slash.
+static_url | | /assets/ | The subdirectory portion of the URL (e.g., "bar" in "http://foo/bar") under which static content is served by the pulp_api service. | See `pulp_settings.static_root`, this is a component of its default value. Can be changed after installation, but you must set `pulp_settings.static_root` back to its original evaluated value.
+db_encryption_key| | `{{ pulp_certs_dir }}/database_fields.symmetric.key` (`/etc/pulp/certs/database_fields.symmetric.key`) | Location on disk for the [database fields encryption key](https://docs.pulpproject.org/pulpcore/configuration/settings.html?highlight=encryption#db-encryption-key) | The installer generates this key file by default. See `pulp_db_fields_key` under the [pulp_database_config](../../roles/pulp_database_config) role for how to import a key file instead.
+deploy_root | | `{{ pulp_user_home }}` <br> ( /var/lib/pulp ) |  Location on disk where `pulp_settings.static_root`, `pulp_settings.working_directory` and `pulp_settings.media_root` are stored in subdirectories under. | Can be changed after installation but you must change all 3 variables back to their original evaluated values.
+file_upload_temp_dir | | `{{ pulp_settings.working_directory }}` <br> ( /var/lib/pulp/tmp ) | The directory to store data to (typically files larger than pulp_settings.[file_upload_max_memory_size](https://docs.djangoproject.com/en/4.0/ref/settings/#file-upload-max-memory-size)) temporarily while uploading files | This setting actually comes from [Django](https://docs.djangoproject.com/en/4.0/ref/settings/#file-upload-temp-dir) rather than from Pulp.
+media_root | | `{{ pulp_settings.deploy_root }}/media` <br> ( /var/lib/pulp/media ) |  Location where Pulp will store files (the content that is served.)
+static_root | | `{{ pulp_user_home }}{{ pulp_settings.static_url }}` <br> ( /var/lib/pulp/assets/ ) |  Location on disk of the static content served by the pulpcore-api service.
+working_directory | | `{{ pulp_settings.deploy_root }}/tmp` <br> ( /var/lib/pulp/tmp ) | Location of Pulp cache.
+
+* **Example**:
+
+    ```yaml
+        pulp_settings:
+          content_origin: "https://{{ ansible_fqdn }}"
+          secret_key: secret
+          databases:
+            default:
+              HOST: postgres-server
+              NAME: pulp
+              USER: pulp
+              PASSWORD: password
+          redis_host: redis-server
+    ```
 
 Role Variables if installing from RPMs
 --------------------------------------
@@ -292,7 +281,7 @@ Shared Variables
   Defaults to a list containing the single item "Jinja2" (which is necessary for pulp_installer to
 function). Also, a `prereq_role` may append to it.
 
-This role is required by the `pulp_database` role and uses some variables from it.
+* `pulp_settings.databases.default`: Documented above in the [`pulp_settings`](#pulp_settings-variables) table as `databases.default`. This variable is shared with the [pulp_database](../../roles/pulp_database) role.
 
 Operating System Variables
 --------------------------
@@ -303,7 +292,7 @@ directory.
 Idempotency
 -----------
 
-This role is idempotent by default. It is dependent on these settings remaining `false`:
+This role is idempotent by default. Idempotency is dependent on these settings remaining `false`:
 
 * Every `upgrade` under `pulp_install_plugins`
 * pulp_upgraded_manually

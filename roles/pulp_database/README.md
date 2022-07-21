@@ -24,12 +24,10 @@ Shared Variables
   This role sets the default to "auto", which is now more robust than
   "auto_legacy" on Ansible 2.8.
 
-This role is **not tightly coupled** to the `pulp_common` role, but uses some of the same
-variables. When used in the same play, the values are inherited from the role.
-When not used together, this role provides identical defaults.
+This role is **not tightly coupled** to the [pulp_common](../../roles/pulp_common)  role, but uses some of same  variables, listed below. This role provides identical default values.
 
 * `pulp_settings.databases.default`: A dictionary. Its primary use is by the
-  pulp_common role, where it configures Pulp on how to talk to the database via a larger set of settings.
+  [pulp_common](../../roles/pulp_common) role, where it configures Pulp on how to talk to the database via a larger set of settings.
   Its secondary use is by the this role, where it configures the database server according to a
   smaller set of settings. The smaller set of settings is listed below. Note that these default settings are merged by the
   installer with your own; merely setting pulp_settings with 1 setting under it will not blow away all
