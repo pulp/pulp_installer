@@ -1,1 +1,0 @@
-Fix building SELInux policies on CentOS 9 Stream by updating the libselinux package.

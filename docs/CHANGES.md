@@ -13,6 +13,73 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.20.1 (2022-07-21)
+===================
+
+
+Features
+--------
+
+- Implement new feature to remount /var/lib/pulp with the SELinux context (label.) See the new variable `pulp_selinux_remount_data_dir`'s description in pulp_common's README for more info.
+  [#1196](https://github.com/pulp/pulp_installer/issues/1196)
+- Name gunicorn api/content processes
+  [#1207](https://github.com/pulp/pulp_installer/issues/1207)
+- Provide the option `pulp_force_change_admin_password` to force an admin password change.
+  [#1257](https://github.com/pulp/pulp_installer/issues/1257)
+
+
+Bugfixes
+--------
+
+- Fix working logic with symmetric database key to not end up with the duplicate.
+  [#1092](https://github.com/pulp/pulp_installer/issues/1092)
+- Update pulpcore-selinux policies from 1.3.1 to 1.3.2 to enable API/Content processes to read the kernel keyring of the worker processes.
+  [#1223](https://github.com/pulp/pulp_installer/issues/1223)
+- Fix failure on task "pulp_common : Install dependencies for LDAP via dnf" when not running the entire playbook with `become==true`.
+  [#1227](https://github.com/pulp/pulp_installer/issues/1227)
+- Fix building SELInux policies on CentOS 9 Stream by updating the libselinux package.
+  [#1232](https://github.com/pulp/pulp_installer/issues/1232)
+- Fix pulp_installer failing to label ports when pulp_install_selinux_policies is set to false.
+  [#1233](https://github.com/pulp/pulp_installer/issues/1233)
+- Fix "pulp_devel : Initialize virtualenvwrapper" failing on CentOS 9.
+  [#1236](https://github.com/pulp/pulp_installer/issues/1236)
+- Fix situational SELinux denials for nginx/apache to connect to ports 24816 or 24817.
+  [#1239](https://github.com/pulp/pulp_installer/issues/1239)
+- Fix geerlingguy.postgresql role >=3.3.1 failing on the task "Define postgresql_log_dir."
+  [#1242](https://github.com/pulp/pulp_installer/issues/1242)
+- Fix setting pulp_settings.static_root not changing the STATIC_ROOT of the pulp application.
+  [#1254](https://github.com/pulp/pulp_installer/issues/1254)
+- Fix setting pulp_settings.deploy_root not changing the DEPLOY_ROOT of the pulp application.
+  [#1263](https://github.com/pulp/pulp_installer/issues/1263)
+
+
+Deprecations and Removals
+-------------------------
+
+- Support for upgrading from installs prior to pulp_installer 3.6.1 (Aug 2020) has been partially removed. To upgrade from them successfully, run `chgrp pulp /var/lib/pulp -R` before running the installer. This removal fixes a sporadic error with the task "pulp_common : Set group on all files in '/var/lib/pulp'" when run against an NFS /var/lib/pulp (by removing that task.)
+  [#1238](https://github.com/pulp/pulp_installer/issues/1238)
+- The variable `pulp_cache_dir` has been removed. Instead of setting both `pulp_cache_dir` and `pulp_settings.working_directory` to change this directory's location, you know only have to set `pulp_settings.working_directory`. The ability to set it has also been fixed.
+  [#1252](https://github.com/pulp/pulp_installer/issues/1252)
+
+
+Misc
+----
+
+- [#1220](https://github.com/pulp/pulp_installer/issues/1220)
+
+
+Devel
+-----
+
+- Create 2 trios of vagrant boxes for galaxy_ng HA development: libvirt-galaxy-ha-a (Postgres & NFS), libvirt-galaxy-ha-b (redis, pulp & webserver) & libvirt-galaxy-ha-c (redis, pulp & webserver). Also vbox-galaxy-ha-a, vbox-galaxy-ha-b, & vbox-galaxy-ha-c.
+  [#1222](https://github.com/pulp/pulp_installer/issues/1222)
+- Fix CentOS 7 box
+  [#1230](https://github.com/pulp/pulp_installer/issues/1230)
+
+
+----
+
+
 3.20.0 (2022-06-24)
 ===================
 

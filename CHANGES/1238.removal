@@ -1,1 +1,0 @@
-Support for upgrading from installs prior to pulp_installer 3.6.1 (Aug 2020) has been partially removed. To upgrade from them successfully, run `chgrp pulp /var/lib/pulp -R` before running the installer. This removal fixes a sporadic error with the task "pulp_common : Set group on all files in '/var/lib/pulp'" when run against an NFS /var/lib/pulp (by removing that task.)

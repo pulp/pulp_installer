@@ -1,1 +1,0 @@
-Fix "pulp_devel : Initialize virtualenvwrapper" failing on CentOS 9.
