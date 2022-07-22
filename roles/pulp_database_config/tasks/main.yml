@@ -93,11 +93,11 @@
 
     # This task must be run against all hosts, not just those running pulp_database_config.
     # However, running it against all hosts produces a massive data structure where
-    # __pulp_db_fields_key_path.results has a list of dictionaries, with elements
+    # __pulp_db_fields_key_stat.results has a list of dictionaries, with elements
     # "item" (the inventory_hostname) and "stat".
     - name: Check if any of said hosts already have the database fields encryption key
       stat:
-        path: "{{ __pulp_db_fields_key_path }}"
+        path: "{{ __pulp_common_merged_pulp_settings.db_encryption_key }}"
       register: __pulp_db_fields_key_stat
       delegate_to: "{{ item }}"
       # We do `failed_when: false` because some hosts, used by 3rd-party roles,
@@ -116,7 +116,7 @@
         fail_msg: >
           pulp_installer cannot continue because the host you have specified to run it
           (`pulp_database_config_host=={{ hostvars['localhost']['pulp_database_config_host'] }}`)
-          does not have the database fields encryption key ({{ __pulp_db_fields_key_path }})
+          does not have the database fields encryption key ({{ __pulp_common_merged_pulp_settings.db_encryption_key }})
           but some other hosts running pulp_database_config
           ({{ hostvars['localhost']['__pulp_database_config_hosts'] | difference(hostvars['localhost']['pulp_database_config_host']) }}) do.
           Run pulp_database_config(or pulp_services, or pulp_all_services) against a host that does
@@ -177,7 +177,7 @@
 - name: Import Pulp Database Encryption Key
   copy:
     src: "{{ pulp_db_fields_key }}"
-    dest: "{{ __pulp_db_fields_key_path }}"
+    dest: "{{ __pulp_common_merged_pulp_settings.db_encryption_key }}"
     owner: 'root'
     group: "{{ pulp_group }}"
     mode: 0640

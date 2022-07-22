@@ -87,7 +87,7 @@
 
     - name: Obtain 1 node's database fields encryption key
       slurp:
-        src: "{{ pulp_config_dir | default('/etc/pulp') }}/certs/database_fields.symmetric.key"
+        src: "{{ pulp_settings.db_encryption_key | default('/etc/pulp/certs/database_fields.symmetric.key') }}"
       run_once: true
       delegate_to: "{{ groups['all'][0] }}"
       register: primary_db_key
@@ -97,7 +97,7 @@
 
     - name: Obtain the other nodes' database fields encryption keys
       slurp:
-        src: "{{ pulp_config_dir | default('/etc/pulp') }}/certs/database_fields.symmetric.key"
+        src: "{{ pulp_settings.db_encryption_key | default('/etc/pulp/certs/database_fields.symmetric.key') }}"
       register: db_key
       when: __pulp_molecule_verify_has_db_fields_key | default(true)
 
