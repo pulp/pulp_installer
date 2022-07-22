@@ -36,7 +36,7 @@
 - name: Copy Pulp Database Encryption Key from pulp_database_config node
   copy:
     content: "{{ pulp_db_fields_key_content['content'] | b64decode }}"
-    dest: "{{ __pulp_db_fields_key_path }}"
+    dest: "{{ __pulp_common_merged_pulp_settings.db_encryption_key }}"
     owner: 'root'
     group: "{{ pulp_group }}"
     mode: 0640

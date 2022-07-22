@@ -1,2 +1,7 @@
 ---
 pulp_workers: 2
+
+# NOTE: To access more of our variables (rather than regular facts) via hostvars,
+# run set_fact, such as at the end of the pulp_common/tasks/main.yml
+__pulp_database_config_host: "{{ hostvars['localhost']['pulp_database_config_host'] | default(inventory_hostname) }}"
+__pulp_db_fields_key_path: "{{ hostvars[__pulp_database_config_host]['__pulp_common_merged_pulp_settings']['db_encryption_key'] }}"

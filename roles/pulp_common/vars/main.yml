@@ -30,6 +30,7 @@ __pulp_common_pulp_settings_defaults:
       NAME: pulp
       USER: pulp
       PASSWORD: pulp
+  db_encryption_key: "{{ pulp_certs_dir }}/database_fields.symmetric.key"
   deploy_root: "{{ pulp_user_home }}"
   redis_host: localhost
   redis_port: 6379
@@ -42,7 +43,7 @@ __pulp_common_pulp_settings_defaults:
   token_server: "{{ pulp_webserver_disable_https | default(false) | ternary('http', 'https') }}://{{ ansible_facts.fqdn }}/token/"
   token_signature_algorithm: ES256
   working_directory: "{{ pulp_settings.deploy_root | default(pulp_user_home) | regex_replace('\\/$', '') }}/tmp"
-  content_path_prefix: "{{ pulp_settings.content_path_prefix | default('/pulp/content/') }}"
+  content_path_prefix: "/pulp/content/"
 __pulp_common_pulp_settings_defaults_dependent_vars:
   file_upload_temp_dir: "{{ pulp_settings.working_directory | default(__pulp_common_pulp_settings_defaults.working_directory) }}"
 

@@ -38,6 +38,18 @@ describe.one do
   end
 end
 
+describe.one do
+  describe file('/etc/pulp/certs/database_fields.symmetric.key') do
+    its('owner') { should eq 'pulp' }
+    its('group') { should eq 'pulp' }
+  end
+
+  describe file('/opt/pulp/database_fields.symmetric.key') do
+    its('owner') { should eq 'pulp' }
+    its('group') { should eq 'pulp' }
+  end
+end
+
 ['pulpcore-api','pulpcore-content', 'pulpcore-worker@1', 'pulpcore-worker@2'].each do |pservice|
   describe service(pservice) do
     it { should be_running }

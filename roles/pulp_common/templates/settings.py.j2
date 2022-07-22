@@ -4,4 +4,3 @@
 {{ setting | upper }} = {{ value | mdellweg.filters.repr }}
 {% endfor %}
 {# https://github.com/pulp/pulpcore/blob/master/pulpcore/app/settings.py#L37-L38 #}
-DB_ENCRYPTION_KEY = "{{ pulp_certs_dir }}/database_fields.symmetric.key"
