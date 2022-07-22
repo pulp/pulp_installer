@@ -80,6 +80,11 @@ jobs:
           ansible-galaxy collection install -p build/collections --force community.docker ||
           ansible-galaxy collection install -p build/collections --force community.docker
         shell: bash
+      # https://github.com/ansible-community/molecule-docker/issues/161#issuecomment-1192604356
+      - name: Workaround bug with latest molecule and ansible 2.9
+        if: matrix.python != '2.7' && matrix.ansible == '2.9'
+        run: ansible-galaxy collection install community.docker:=3.0.0-a2
+        shell: bash
       - name: Molecule dependency
         # Downloading dependencies sometimes fails the 1st time
         run: |
