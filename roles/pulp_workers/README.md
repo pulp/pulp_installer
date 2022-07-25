@@ -13,8 +13,9 @@ Role Variables
 Shared variables
 ----------------
 
-This role **is tightly coupled** to the required `pulp_common` role, and inherits
-some of its variables.
+This role depends upon the the [`pulp_common`](../helper_roles/pulp_common) role, which in turn depends on on [pulp_repos](../helper_roles/pulp_repos). You should consult [`pulp_common`](../helper_roles/pulp_common) in particular for variables that effectively control the behavior of this role.
+
+This role also utilizes some of the pulp_common role's variables in its logic:
 
 * `pulp_config_dir`
 * `pulp_group`

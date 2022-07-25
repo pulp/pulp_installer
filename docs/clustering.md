@@ -44,11 +44,16 @@ purposes.
 
 ### Pulp Server with Existing Infrastructure
 
-This deployment consists of a single Pulp server that relies on the following services being
-existing and external. No new servers are used or created for them:
+![Separate Servers](images/architecture_existing-infra.png)
+
+
+This deployment consists of a single Pulp server that relies on the following services already
+existing. No new servers are used or created for them:
 
 * Database (`example-existing-postgres-server`)
-* Redis (`example-existing-redis-server`)s
+* Redis (`example-existing-redis-server`)
+
+NOTE: To use database and redis on the same server, either specify "localhost" or delete the lines for redis_host and pulp_settings.databases.default.HOST.
 
 ```yaml
 ---
@@ -83,6 +88,9 @@ existing and external. No new servers are used or created for them:
 ```
 
 ### Pulp with Separate Servers for Services
+
+![Separate Servers](images/architecture_separate-servers.png)
+
 
 This scenario has the following layout:
 
@@ -157,6 +165,8 @@ This scenario has the following layout:
 ```
 
 ### Pulp Servers with load-balanced DNS
+
+![Separate Servers](images/architecture_multiple-servers.png)
 
 In this deployment, Pulp (including the webserver) is load balanced to 2 servers, and thus is more
 performant, but is not highly available.
@@ -239,6 +249,8 @@ Scaling up is performed by:
 ```
 
 ### Separate Servers for Each and Every service
+
+![Separate Servers](images/architecture.png)
 
 In this deployment, every single service is deployed on its own server, or on 2 servers.
 
@@ -438,6 +450,8 @@ Note that one of the 2 API servers will be randomly chosen to actually run the r
 This server will create and migrate the database for Pulp.
 
 ### Completely Highly Available Pulp
+
+![Completely HA Pulp](images/architecture_complete-ha.png)
 
 In this deployment, every part of the Pulp application stack is highly available.
 

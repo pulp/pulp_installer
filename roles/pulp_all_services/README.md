@@ -19,7 +19,7 @@ subject to change over time. They are specified in the following order:
 - [pulp_api](../../roles/pulp_api) (implicitly via pulp_services)
 - [pulp_content](../../roles/pulp_content) (implicitly via pulp_services)
 - [pulp_workers](../../roles/pulp_workers) (implicitly via pulp_services)
-- [pulp_common](../../roles/pulp_common) (implicitly via pulp_services)
+- [pulp_common](../../helper_roles/pulp_common) (implicitly via pulp_services)
 - [pulp_health_check](../../roles/pulp_health_check)
 - [pulp_webserver](../../roles/pulp_webserver)
 

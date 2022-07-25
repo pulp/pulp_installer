@@ -40,20 +40,20 @@ nav:
   - pulplift.md
   - Changelog: CHANGES.md
   - Roles:
-      - Pulp Common: roles/pulp_common.md
       - Pulp API: roles/pulp_api.md
       - Pulp Content: roles/pulp_content.md
       - Pulp Database: roles/pulp_database.md
       - Pulp Database Configuration: roles/pulp_database_config.md
       - Pulp Devel: roles/pulp_devel.md
+      - Pulp Health Check: roles/pulp_health_check.md
       - Pulp Redis: roles/pulp_redis.md
       - Pulp Webserver: roles/pulp_webserver.md
       - Pulp Workers: roles/pulp_workers.md
-      - Pulp Health Check: roles/pulp_health_check.md
-  - Helper Roles for Pulp Common:
+  - Helper Roles:
+      - Pulp Common: roles/pulp_common.md
+      - Pulp Repos: helper_roles/pulp_repos.md
       - Galaxy NG post-install: helper_roles/galaxy_post_install.md
       - Pulp RPM prerequisites: helper_roles/pulp_rpm_prerequisites.md
-      - Pulp Repos: helper_roles/pulp_repos.md
   - Meta Roles:
       - Pulp All Services: meta_roles/pulp_all_services.md
       - Pulp Services: meta_roles/pulp_services.md

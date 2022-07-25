@@ -69,6 +69,11 @@ These variables corresponding to role repository variables above when is called 
 Shared Variables
 ----------------
 
+This role does not depend on the [`pulp_common`](../helper_Roles/pulp_common) role
+(pulp_common actually depends on pulp_repos) but uses some of the
+same variables. This role provides identical default for these variables.
+Setting these variables controls the behavior of both roles.
+
 * `pulp_install_source`: If set to `packages`, and pulp_rhel_pulpcore_repo_enable==true, Add the
   pulpcore repo to the system.
 
@@ -86,8 +91,8 @@ Example Usage
 -------------
 
 If you want to install Pulp on a device with EPEL repository already enabled, you don't want to enable it second time.
-In this case it is enough just put line bellow into your `config.yml`.
+In this case it is enough just put line bellow in your Ansible variables:
 
 ```yaml
-pulp_repos_epel_requested: False
+pulp_repos_epel_enable: False
 ```

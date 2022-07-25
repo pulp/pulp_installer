@@ -1,14 +1,15 @@
-# Galaxy Post Install
+# galaxy_post_install
 
-This roles runs galaxy post install configuration
+This roles provides post-install configuration for the galaxy-ng plugin.
+
 It runs by default when `galaxy-ng` is part of `pulp_install_plugins` variable. It is called by the
 `pulp_common` role.
 
 ## Role Variables
 
-`galaxy_importer_settings`: Key value dictionnary that contains the content of galaxy-importer.cfg to be overwritten.
-`galaxy_create_default_collection_signing_service` Boolean on whether or not to create collection
-  signing service. See `Variables for the Signing Service`. Defaults to `false`
+* `galaxy_importer_settings`: Key value dictionnary that contains the content of galaxy-importer.cfg to be overwritten.
+* `galaxy_create_default_collection_signing_service` Boolean on whether or not to create collection
+  signing service. See [Variables for the Signing Service](#variables-for-the-signing-service). Defaults to `false`
 
 ## Shared Variables
 

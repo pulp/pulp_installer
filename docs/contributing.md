@@ -157,7 +157,7 @@ the browser will automatically show the new content.
 NFS & SELinux testing
 ---------------------
 Here are example commands for testing the functionality prescribed for the variable
-[`pulp_selinux_remount_data_dir`](roles/pulp_common):
+[`pulp_selinux_remount_data_dir`](helper_roles/pulp_common):
 ```bash
 vagrant up --no-destroy-on-error pulp3-sandbox-centos9-stream
 (hit ctrl-c while ansible-galaxy is running, or early on in the ansible run)
