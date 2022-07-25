@@ -38,8 +38,9 @@ Role Variables for advanced usage
 Shared Variables
 ----------------
 
-This role **is tightly coupled** with the required the `pulp_common` role and uses some of
-variables which are documented in that role:
+This role depends upon the the [`pulp_common`](../helper_roles/pulp_common) role, which in turn depends on on [pulp_repos](../helper_roles/pulp_repos). You should consult [`pulp_common`](../helper_roles/pulp_common) in particular for variables that effectively control the behavior of this role.
+
+This role also utilizes some of the pulp_common role's variables in its logic:
 
 * `pulp_django_admin_paths`
 * `pulp_settings_file`
@@ -51,9 +52,9 @@ variables which are documented in that role:
 * `pulp_scripts_dir`: The collection signing service script must exist under this directory
   with the filename `collection_sign.sh` when `galaxy_create_default_collection_signing_service==true`.
 
-This role **is tightly coupled** with the required the `galaxy_post_install` role (which is called
-by pulp_common when galaxy-ng is an installed plugin) and uses some of variables which are
-documented in that role:
+Like other roles that depend on pulp_common, if galaxy-ng is to be installed as a plugin, this role
+will depending on the [`galaxy_post_install`](../helper_roles/galaxy_post_install). This role also
+however utilizes some of the galaxy_post_install role's variables in its logic:
 
 * `galaxy_create_default_collection_signing_service` Defaults to `false`.
 

@@ -194,16 +194,15 @@ ProxyPassReverse /pulp_ansible/galaxy http://${pulp-api}/pulp_ansible/galaxy
 Shared variables
 ----------------
 
-This role is **not tightly coupled** to the `pulp_common` role, but uses some of the same
-variables. When used in the same play, the values are inherited from the role.
-When not used together, this role provides identical defaults.
+This role does not depend on the [`pulp_common`](../helper_Roles/pulp_common) role, but uses some of the
+same variables. This role provides identical default for these variables.
+Setting these variables controls the behavior of both roles.
 
 * `pulp_certs_dir`: Path where to generate or drop the TLS certificates. Defaults to
   '{{ pulp_config_dir }}/certs' .
 * `pulp_config_dir`: Directory under which pulp_certs_dir is created by default.
   Defaults to "/etc/pulp".
-* `pulp_user_home`: equivalent to `MEDIA_ROOT` from `pulpcore` i.e. absolute path for pulp user home.
-Parent directory for `pulp_webserver_static_dir`
+* `pulp_user_home`: The path for the pulp user home directory. Serves as the parent directory for `pulp_webserver_static_dir`
 * `pulp_content_bind` Set the host the reverse proxy should connect to for the Content app. Defaults
   to '127.0.0.1:24816'.
 * `pulp_api_bind` Set the host the reverse proxy should connect to for the API server. Defaults

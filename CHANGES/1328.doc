@@ -1,0 +1,1 @@
+docs: Differentiate orchestration vs installation, and provide architectural diagrams.  These 2 related changes make it clear whether pulp_installer is touching external services and when.

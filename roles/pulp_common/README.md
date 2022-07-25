@@ -274,12 +274,22 @@ Role Variables for advanced usage
 Shared Variables
 ----------------
 
+This role always depends on the [`pulp_repos`](../helper_roles/pulp_repos) role. This is not a static dependency, but a dynamic depenedency at runtime which always occurs. Note that pulp_repos has a global
+variable `pulp_repos_enable`, which can be set to `False` to effectively disable the entire `pulp_repos`
+role.
+
+This role conditionally (and dynamically) depends on the [`pulp_rpm_prerequisites`](../helper_roles/pulp_rpm_prerequisites) role, whenever `pulp-rpm` is in [`pulp_install_plugins`](#role-variables).
+
+This role conditionally (and dynamically) depends on the [`galaxy_post_install`](../helper_roles/galaxy_post_install) role, whenever `pulp-rpm` is in [`pulp_install_plugins`](#role-variables).
+
 * `prereq_pip_packages`: A List of additional pip packages to install in the virtual
   environment before installing pulp or its content plugins.
   Defaults to a list containing the single item "Jinja2" (which is necessary for pulp_installer to
 function). Also, a `prereq_role` may append to it.
 
 * `pulp_settings.databases.default`: Documented above in the [`pulp_settings`](#pulp_settings-variables) table as `databases.default`. This variable is shared with the [pulp_database](../../roles/pulp_database) role.
+
+Several other variables are shared with the [pulp_webserver](../roles/pulp_webserver) role as well. Consult its documentation for more info.
 
 Operating System Variables
 --------------------------

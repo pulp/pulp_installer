@@ -17,10 +17,8 @@ Role Variables
 Shared Variables
 ----------------
 
-This role is **not tightly coupled** to the [pulp_common](../../roles/pulp_common) role, but uses some of the same
-variables.
-
-* `pulp_user`: OS user account that accesses the redis database, potentially over a UNIX socket. Defaults to "pulp". NOTE: Technically, this variable is used by the pulp_common role rather than the pulp_redis role. If pulp_common detects that the pulp_redis role has been run against a pulp host (or more broadly, if the `redis` group exists on the system), the pulp user will be added to the `redis` group. This enables the UNIX socket access to redis.
+This role depends upon the the [pulp_repos](../helper_roles/pulp_repos) role in order to enable the EPEL repo.
+Its variables effectively control the behavior of this role.
 
 Operating Systems Variables
 ---------------------------

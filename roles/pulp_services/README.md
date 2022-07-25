@@ -20,7 +20,7 @@ subject to change over time:
 - [pulp_api](../../roles/pulp_api)
 - [pulp_content](../../roles/pulp_content)
 - [pulp_workers](../../roles/pulp_workers)
-- [pulp_common](../../roles/pulp_common) (implicitly)
+- [pulp_common](../../helper_roles/pulp_common) (implicitly)
 
 Example Usage
 -------------

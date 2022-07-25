@@ -1,5 +1,5 @@
-Pulp 3 RPM plugin prerequisites
-===============================
+pulp_rpm_prerequisites
+======================
 
 This role installs prerequisite python packages and prerequisite linux distribution packages
 for the pulp-rpm plugin.

@@ -1,7 +1,7 @@
 pulp_health_check
 =================
 
-Verify if Pulp Services are up and listening.
+Verify that Pulp Services are up and listening.
 
 !!! note
     This role is meant to be run on the host that [pulp_api](https://docs.pulpproject.org/pulp_installer/roles/pulp_api/) is run against

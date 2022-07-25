@@ -23,7 +23,11 @@ None, but see `pulp_settings.databases.default` below
 Shared Variables
 ----------------
 
-This role is **not tightly coupled** to the [pulp_common](../../roles/pulp_common) role, but uses some of same variables, listed below. This role provides identical default values.
+Its variables effectively control the behavior of this role.
+
+This role does not depend on the [`pulp_common`](../helper_Roles/pulp_common) role, but uses some of the
+same variables. This role provides identical default for these variables.
+Setting these variables controls the behavior of both roles.
 
 * `pulp_settings.databases.default`: A dictionary. Its primary use is by the
   [pulp_common](../../roles/pulp_common) role, where it configures Pulp on how to talk to the database via a larger set of settings.
