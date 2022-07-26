@@ -299,6 +299,20 @@ Devel
 ----
 
 
+3.18.14 (2022-07-20)
+====================
+
+
+Features
+--------
+
+- Provide the option `pulp_force_change_admin_password` to force an admin password change.
+  [#1257](https://github.com/pulp/pulp_installer/issues/1257)
+
+
+----
+
+
 3.18.13 (2022-07-12)
 ====================
 
