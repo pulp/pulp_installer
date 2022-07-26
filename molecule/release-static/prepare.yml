@@ -34,6 +34,15 @@
         - ansible_os_family == "RedHat"
         - ansible_distribution_major_version|int == 7
 
+    # Needed because Debian 10 is now "oldstable"
+    - name: Allow release info change
+      lineinfile:
+        path: /etc/apt/apt.conf.d/99releaseinfochange
+        state: present
+        create: yes
+        line: Acquire::AllowReleaseInfoChange::Suite "true";
+      when: ansible_facts.distribution == 'Debian' and ansible_facts.distribution_major_version == '10'
+
     # Needed for the 1st time we run a package or apt task
     - name: Update apt package index
       apt:
