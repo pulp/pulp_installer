@@ -55,9 +55,14 @@
               - baseos
               - appstream
               - extras
+              - BaseOS
+              - AppStream
+              - Extras
+              - PowerTools
+              - pulpcore
           when:
             - ansible_distribution == "CentOS"
-            - ansible_distribution_version in ["8.3","8.4"]
+            - ansible_distribution_version in ["8.2","8.3","8.4"]
 
         - name: Switch to CentOS 8 Stream repos
           command: dnf -y --disablerepo * --enablerepo extras swap centos-linux-repos centos-stream-repos
@@ -69,4 +74,4 @@
               - centos-gpg-keys
       when:
         - ansible_distribution == "CentOS"
-        - ansible_distribution_version in ["8.3","8.4","8.5"]
+        - ansible_distribution_version in ["8.2","8.3","8.4","8.5"]
