@@ -16,6 +16,8 @@ User={{ pulp_user }}
 Group={{ pulp_group }}
 WorkingDirectory=/var/run/pulpcore-worker-%i/
 RuntimeDirectory=pulpcore-worker-%i
+LimitNOFILE=524288
+
 ExecStart={{ __pulp_daemons_dir }}/rq worker \
           -w pulpcore.tasking.worker.PulpWorker \
           --pid=/var/run/pulpcore-worker-%i/reserved-resource-worker-%i.pid \

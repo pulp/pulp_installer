@@ -14,6 +14,8 @@ User={{ pulp_user }}
 Group={{ pulp_group }}
 WorkingDirectory=/var/run/pulpcore-content/
 RuntimeDirectory=pulpcore-content
+LimitNOFILE=524288
+
 ExecStart={{ __pulp_daemons_dir }}/gunicorn pulpcore.content:server \
           --bind '{{ pulp_content_bind }}' \
           --worker-class 'aiohttp.GunicornWebWorker' \
