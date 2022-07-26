@@ -20,6 +20,7 @@ User={{ pulp_user }}
 Group={{ pulp_group }}
 PIDFile=/run/pulpcore-api.pid
 RuntimeDirectory=pulpcore-api
+LimitNOFILE=524288
 
 # timeout is needed Pulp to service its 1st request on extremely slow
 # machines, such as qemu-emulated 2-core machines
