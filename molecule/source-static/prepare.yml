@@ -22,6 +22,15 @@
         recurse: true
       become: true
 
+    # Needed because Debian 10 is now "oldstable"
+    - name: Allow release info change
+      lineinfile:
+        path: /etc/apt/apt.conf.d/99releaseinfochange
+        state: present
+        create: yes
+        line: Acquire::AllowReleaseInfoChange::Suite "true";
+      when: ansible_facts.distribution == 'Debian' and ansible_facts.distribution_major_version == '10'
+
     - name: Hot patch redis-server service for docker operation (Debian)
       copy:
         src: debian-redis-server.service
