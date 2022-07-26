@@ -21,6 +21,8 @@ User={{ pulp_user }}
 Group={{ pulp_group }}
 WorkingDirectory=/var/run/pulpcore-worker-%i/
 RuntimeDirectory=pulpcore-worker-%i
+LimitNOFILE=524288
+
 {% if __pulpcore_version is version('3.14', '>=') -%}
 ExecStart={{ __pulp_daemons_dir }}/pulpcore-worker
 {%- else -%}
