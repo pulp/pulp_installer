@@ -60,6 +60,7 @@
         # update_only is a needed part of installing older updates
         update_only: true
       notify:
+        - Delete old symlink for jquery in static content
         - Collect static content
         - Restart all Pulp services
 
@@ -76,6 +77,7 @@
         name: "{{ pulp_pkg_undeclared_deps }}"
         state: "{{ pulp_pkg_upgrade_all | ternary('latest','present') }}"
       notify:
+        - Delete old symlink for jquery in static content
         - Collect static content
         - Restart all Pulp services
 
@@ -88,6 +90,7 @@
           {%- endif -%}
         state: "{{ pulp_pkg_upgrade_all | ternary('latest','present') }}"
       notify:
+        - Delete old symlink for jquery in static content
         - Collect static content
         - Restart all Pulp services
 

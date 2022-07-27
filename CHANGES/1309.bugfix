@@ -1,0 +1,1 @@
+Fix upgraded pulpcore 3.9 failing to start due to dangling static content symlink to jquery-3.4.1.min.js .

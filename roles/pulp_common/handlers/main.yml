@@ -31,6 +31,14 @@
     - ansible_facts.os_family == 'RedHat'
     - ansible_facts.selinux.status == "enabled"
 
+# Needed because old versions of pulp, such as 3.9, create symlinks to
+# static content but never delete them when there's an upgrade.
+# If never deleted, the dangling symlink prevents pulpcore-api from starting.
+- name: Delete old symlink for jquery in static content
+  file:
+    path: /var/lib/pulp/assets/rest_framework/js/jquery-3.4.1.min.js
+    state: absent
+
 - name: Collect static content
   command: "{{ pulp_django_admin_path }} collectstatic --noinput --link {{ pulp_collectstatic_ignore_list }}"
   register: staticresult

@@ -155,7 +155,9 @@
 - name: Triggers handlers if pulp_upgraded_manually
   debug:
     msg: Triggering handlers because Pulp was updated manually
-  notify: Collect static content
+  notify:
+    - Delete old symlink for jquery in static content
+    - Collect static content
   when: pulp_upgraded_manually
   changed_when: pulp_upgraded_manually
 ...
