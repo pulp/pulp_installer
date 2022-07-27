@@ -13,6 +13,33 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.9.1-4 (2022-07-27)
+====================
+
+
+Bugfixes
+--------
+
+- Fix geerlingguy.postgresql role >=3.3.1 failing on the task "Define postgresql_log_dir."
+  [#1242](https://pulp.plan.io/issues/1242)
+- Fix "Too many open files" error when syncing with pulp_ansible.
+  [#1289](https://pulp.plan.io/issues/1289)
+- Fix failure to install from pip with a async-timeout version error.
+  [#1306](https://pulp.plan.io/issues/1306)
+- Fix upgraded pulpcore 3.9 failing to start due to dangling static content symlink to jquery-3.4.1.min.js .
+  [#1309](https://pulp.plan.io/issues/1309)
+
+
+Deprecations and Removals
+-------------------------
+
+- CentOS 8 is now EOL, and thus Pulp no longer formally supports it. Pulp now only tests fresh installs with CentOS Stream 8, and with upgrades from CentOS 8 to CentOS Stream 8 (see migration instructions here https://centos.org/centos-stream/).
+  [#860](https://pulp.plan.io/issues/860)
+
+
+----
+
+
 3.9.1-3 (2022-06-08)
 ====================
 
