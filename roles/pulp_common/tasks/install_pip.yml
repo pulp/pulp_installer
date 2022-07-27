@@ -213,6 +213,7 @@
       environment:
         SETUPTOOLS_USE_DISTUTILS: stdlib
       notify:
+        - Delete old symlink for jquery in static content
         - Collect static content
         - Restart all Pulp services
 
@@ -241,6 +242,7 @@
       environment:
         SETUPTOOLS_USE_DISTUTILS: stdlib
       notify:
+        - Delete old symlink for jquery in static content
         - Collect static content
         - Restart all Pulp services
       # Editable pip installs are always changed, which fails molecule's idempotence test.
