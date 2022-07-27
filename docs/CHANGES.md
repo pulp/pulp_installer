@@ -13,6 +13,27 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.15.9-3 (2022-07-27)
+=====================
+
+
+Bugfixes
+--------
+
+- Fix "Too many open files" error when syncing with pulp_ansible.
+  [#1289](https://pulp.plan.io/issues/1289)
+
+
+Devel
+-----
+
+- Fix source-dynamic CI failing to install community.docker on ansible 2.9 with python3.
+  [#1281](https://pulp.plan.io/issues/1281)
+
+
+----
+
+
 3.15.9-2 (2022-07-21)
 =====================
 
