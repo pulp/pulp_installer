@@ -1,1 +1,0 @@
-Fix source-dynamic CI failing to install community.docker on ansible 2.9 with python3.
