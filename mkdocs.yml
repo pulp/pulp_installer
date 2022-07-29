@@ -35,6 +35,7 @@ nav:
   - troubleshooting.md
   - Object Storage: objectstorage.md
   - Let's Encrypt: letsencrypt.md
+  - firewall.md
   - contributing.md
   - pulplift.md
   - Changelog: CHANGES.md

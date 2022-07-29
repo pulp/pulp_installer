@@ -1,4 +1,2 @@
-pulp_configure_firewall: none
-
 # These variables are used by molecule verify, not the installer itself
 pulp_python_interpreter: /usr/bin/python3

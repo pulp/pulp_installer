@@ -117,9 +117,6 @@
     - pulp_webserver_api_hosts | rejectattr('address', 'match', '^unix:.+') | list | count >= 1 or
       pulp_webserver_content_hosts  | rejectattr('address', 'match','^unix:.+') | list | count >= 1
 
-- include_tasks: firewalld.yml
-  when: pulp_configure_firewall in ['firewalld', 'auto']
-
 # In case an ACME role relies on a change made in pulp_webserver.
 - name: Flush handlers
   meta: flush_handlers
