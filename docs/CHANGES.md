@@ -13,6 +13,49 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.20.2 (2022-07-29)
+===================
+
+
+Bugfixes
+--------
+
+- Fix the ability to specify `pulp_settings.file_upload_temp_dir`.
+  [#1269](https://github.com/pulp/pulp_installer/issues/1269)
+- Fix the ability to specify pulp_settings.db_encryption_key.
+  [#1282](https://github.com/pulp/pulp_installer/issues/1282)
+- Fix "Too many open files" error when syncing with pulp_ansible.
+  [#1289](https://github.com/pulp/pulp_installer/issues/1289)
+- Fix failure on `pulp_webserver : reload apache` on EL9 by explicitly installing the `httpd` package.
+  [#1315](https://github.com/pulp/pulp_installer/issues/1315)
+
+
+Improved Documentation
+----------------------
+
+- Use a table to describe the pulp_settings variables.
+  [#1278](https://github.com/pulp/pulp_installer/issues/1278)
+
+
+Deprecations and Removals
+-------------------------
+
+- The variable `pulp_media_dir` has been removed. It has been replaced with `pulp_settings.media_root`, which mimics the behavior of pulpcore with the MEDIA_ROOT variable.
+  [#1265](https://github.com/pulp/pulp_installer/issues/1265)
+
+
+Devel
+-----
+
+- Fix source-dynamic CI failing to install community.docker on ansible 2.9 with python3.
+  [#1281](https://github.com/pulp/pulp_installer/issues/1281)
+- Vagrant: Drop support for cloud backends other than google in order to fix compatibility with latest forklift.
+  [#1296](https://github.com/pulp/pulp_installer/issues/1296)
+
+
+----
+
+
 3.20.1 (2022-07-21)
 ===================
 
