@@ -1,1 +1,0 @@
-Vagrant: Drop support for cloud backends other than google in order to fix compatibility with latest forklift.
