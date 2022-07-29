@@ -3,7 +3,6 @@
 # more frequently
 centos7:
   box_name:   'generic/centos7'
-  image_name: !ruby/regexp '/CentOS 7.*PV/'
   google_options:
     image_family: 'centos-7'
   pty:        true
