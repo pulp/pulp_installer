@@ -7,6 +7,7 @@ pulp_seboolean_packages:
 pulp_firewall_dependencies:
   - python3-firewall
 pulp_webserver_apache_package:
+  - httpd
   - mod_ssl
   # workaround an undeclared dependency, for the centos:8stream container image
   # https://bugzilla.redhat.com/show_bug.cgi?id=2050888

@@ -1,0 +1,1 @@
+Fix failure on `pulp_webserver : reload apache` on EL9 by explicitly installing the `httpd` package.
