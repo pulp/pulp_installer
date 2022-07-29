@@ -38,10 +38,6 @@ Role Variables for advanced usage
 Shared Variables
 ----------------
 
-* `ansible_python_interpreter`: **Required**. Path to the Python interpreter.
-  This role sets the default to "auto", which is now more robust than
-  "auto_legacy" on Ansible 2.8.
-
 This role **is tightly coupled** with the required the `pulp_common` role and uses some of
 variables which are documented in that role:
 

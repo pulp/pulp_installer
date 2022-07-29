@@ -21,8 +21,6 @@ Defaults to `'127.0.0.1:24816'`.
 Shared variables
 ----------------
 
-* `ansible_python_interpreter`: **Required**. Path to the Python interpreter.
-
 This role **is tightly coupled** to the required `pulp_common` role, and inherits
 some of its variables.
 
