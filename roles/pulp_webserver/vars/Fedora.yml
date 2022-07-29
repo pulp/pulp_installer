@@ -5,8 +5,6 @@ pulp_python_cryptography: python3-cryptography
 pulp_seboolean_packages:
   - python3-libselinux
   - python3-libsemanage
-pulp_firewall_dependencies:
-  - python3-firewall
 pulp_webserver_apache_package:
   - httpd
   - mod_ssl

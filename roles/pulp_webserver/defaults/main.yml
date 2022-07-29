@@ -2,7 +2,6 @@
 pulp_webserver_server: nginx
 pulp_content_bind: '127.0.0.1:24816'
 pulp_api_bind: '127.0.0.1:24817'
-pulp_configure_firewall: auto
 
 pulp_webserver_disable_https: false
 pulp_webserver_disable_hsts: false

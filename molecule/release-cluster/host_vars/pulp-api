@@ -1,6 +1,4 @@
 ---
-__pulp_molecule_verify_has_db_fields_key: true
-pulp_configure_firewall: none
-
 # These variables are used by molecule verify, not the installer itself
 pulp_python_interpreter: /usr/bin/python3.9
+__pulp_molecule_verify_has_db_fields_key: true
