@@ -1,6 +1,5 @@
 fedora35:
   box_name: 'fedora/35-cloud-base'
-  image_name: !ruby/regexp '/Fedora 35.*/'
   pty: true
   ansible:
     variables:
@@ -8,7 +7,6 @@ fedora35:
 
 fedora36:
   box_name: 'fedora/36-cloud-base'
-  image_name: !ruby/regexp '/Fedora 36.*/'
   pty: true
   ansible:
     variables:
