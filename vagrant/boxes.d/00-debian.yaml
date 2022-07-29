@@ -2,14 +2,8 @@ debian11:
   box_name: 'debian/bullseye64'
   # box_check_update: false
   pty: true
-  ansible:
-    variables:
-      ansible_python_interpreter: /usr/bin/python3
 
 debian-testing:
   box_name: 'debian/testing64'
   # box_check_update: false
   pty: true
-  ansible:
-    variables:
-      ansible_python_interpreter: /usr/bin/python3

@@ -40,8 +40,6 @@ pulp_default_admin_password: password
 Shared variables
 ----------------
 
-* `ansible_python_interpreter`: **Required**. Path to the Python interpreter.
-
 This role **is tightly coupled** with the `pulp_common` role and it depends on some of the values set
 used in that role.
 

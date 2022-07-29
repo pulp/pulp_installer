@@ -194,8 +194,6 @@ ProxyPassReverse /pulp_ansible/galaxy http://${pulp-api}/pulp_ansible/galaxy
 Shared variables
 ----------------
 
-* `ansible_python_interpreter`: **Required**. Path to the Python interpreter.
-
 This role is **not tightly coupled** to the `pulp_common` role, but uses some of the same
 variables. When used in the same play, the values are inherited from the role.
 When not used together, this role provides identical defaults.

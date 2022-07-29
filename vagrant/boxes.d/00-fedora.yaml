@@ -1,13 +1,7 @@
 fedora35:
   box_name: 'fedora/35-cloud-base'
   pty: true
-  ansible:
-    variables:
-      ansible_python_interpreter: /usr/bin/python3
 
 fedora36:
   box_name: 'fedora/36-cloud-base'
   pty: true
-  ansible:
-    variables:
-      ansible_python_interpreter: /usr/bin/python3

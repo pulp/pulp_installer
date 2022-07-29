@@ -1,5 +1,3 @@
-ansible_python_interpreter: /usr/bin/python3
-
 # These variables are used by molecule verify, not the installer itself
 pulp_python_interpreter: /usr/bin/python3
 __pulp_molecule_verify_skip_testinfra_tests: false

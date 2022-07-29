@@ -20,10 +20,6 @@ None, but see `pulp_settings.databases.default` below
 Shared Variables
 ----------------
 
-* `ansible_python_interpreter`: **Required**. Path to the Python interpreter.
-  This role sets the default to "auto", which is now more robust than
-  "auto_legacy" on Ansible 2.8.
-
 This role is **not tightly coupled** to the [pulp_common](../../roles/pulp_common)  role, but uses some of same  variables, listed below. This role provides identical default values.
 
 * `pulp_settings.databases.default`: A dictionary. Its primary use is by the
