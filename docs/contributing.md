@@ -101,7 +101,7 @@ The suffixes are:
    cases such as users running a 3rd party role, setting vars, and later running our role.
 1. `upgrade` - Upgrade an existing Pulp 3.y container, to test upgrading Pulp 3.y. Roles are applied
    statically. Depends on said containers existing on a registry, and having been built manually
-   (using `docker commit` from molecule.)
+   (See [instructions below)](#creating-molecule-upgrade-test-containers))
 
 `release-static` is symlinked to `default`, so that commands like `molecule test` will use it.
 
@@ -175,3 +175,30 @@ mount -a
 exit
 exit
 vagrant provision pulp3-sandbox-centos9-stream
+```
+
+
+Creating Molecule Upgrade Test Containers
+-----------------------------------------
+
+1. Identify a version from 3.14 or older (because the release-upgrade tests 1st test upgrading to
+   3.14 before the current version. This should be revisited in the future.)
+2. Identify how you will build the old version. Preferably using the old version of the installer.
+   But if necessary, modifying the version variables with the current installer.
+3. Modify molecule/release-static/group_vars (or host_vars) so that the webserver is nginx rather
+   than apache, and so that pulp_container is not installed. Also modify the version variables
+   (including `pulpcore_version`) if need be. Install release versions of pulpcore and plugins.
+4. `molecule create && molecule converge`
+5. If that failed, be prepared to put workarounds on the branch. Such as modifying `prereq_pip_packages`.
+5. `docker exec -it <container-name> /bin/bash`
+6. `dnf clean all`
+7. `rm -rf /var/lib/pulp/.cache`
+8. `exit`
+9. `docker commit <container-name <tag-name>` with a tag like
+   "quay.io/pulp/pulp_installer-pip-ci-f36:3.13.0"
+10. Modify molecule.yml for release-upgrade and source-upgrade (or packages-upgrade)
+11. Test the image locally (molecule create -s release-upgrade && molecule converge -s release-upgrade)
+12. `docker push <tag-name>`
+13. If this is the 1st image of a new distro, go to https://quay.io/organization/pulp, set the descritpion
+    of the repo based on existing ones, and set the repo to public.
+14. Create a PR.
