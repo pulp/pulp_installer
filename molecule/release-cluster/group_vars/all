@@ -57,12 +57,14 @@ pulp_settings:
       NAME: pulp
       USER: pulp
       PASSWORD: password
+# Configuring postgresql_hba_entries is no longer necessary, but we document this as an alternative to be
+# specified, so we test this value anyway.
 postgresql_hba_entries:
   - { type: local, database: all, user: postgres, auth_method: peer }
   - { type: local, database: all, user: all, auth_method: peer }
   - { type: host, database: all, user: all, address: '127.0.0.1/32', auth_method: md5 }
   - { type: host, database: all, user: all, address: '::1/128', auth_method: md5 }
-  - { type: host, database: all, user: all, address: '172.17.0.0/24', auth_method: md5 }
+  - { type: host, database: all, user: all, ip_address: '{{ ansible_default_ipv4.network }}', ip_mask: '{{ ansible_default_ipv4.netmask }}', auth_method: md5 }
 __pulp_molecule_verify_skip_testinfra_tests: true
 __pulp_molecule_verify_has_db_fields_key: false
 
