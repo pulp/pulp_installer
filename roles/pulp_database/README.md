@@ -1,14 +1,15 @@
 pulp_database
 =============
 
-Install a suitable database server for Pulp.
+Install a PostgreSQL database server for Pulp.
 
 More specifically, this role does the following:
 
 1. Call the `pulp_repos` role to enable the appropriate SCL (EL7)
 2. Call the external role
    ([geerlingguy.postgresql](https://github.com/geerlingguy/ansible-role-postgresql#readme))
-   to install a PostgreSQL database server.
+   to install a PostgreSQL database server. This role passes [variables](#shared-variables)
+   to it.
 3. Install the Python bindings to interact with the specified database via
    the role.
 4. Configures the PostgreSQL database to listen on all addresses if the
@@ -22,7 +23,7 @@ None, but see `pulp_settings.databases.default` below
 Shared Variables
 ----------------
 
-This role is **not tightly coupled** to the [pulp_common](../../roles/pulp_common)  role, but uses some of same  variables, listed below. This role provides identical default values.
+This role is **not tightly coupled** to the [pulp_common](../../roles/pulp_common) role, but uses some of same variables, listed below. This role provides identical default values.
 
 * `pulp_settings.databases.default`: A dictionary. Its primary use is by the
   [pulp_common](../../roles/pulp_common) role, where it configures Pulp on how to talk to the database via a larger set of settings.
@@ -42,16 +43,17 @@ This role is **not tightly coupled** to the [pulp_common](../../roles/pulp_commo
     pulp_settings:
       databases:
         default:
+          HOST: localhost
           NAME: pulp
           USER: pulp
-          PASSWORD: password
+          PASSWORD: pulp
     ```
 
 * `postgresql_global_config_options`: A list of dictionaries. It is a variable for the
   [external role](https://github.com/geerlingguy/ansible-role-postgresql#readme)
   to set multiple options. Pulp has 2 possible default values for this.
 
-  If `pulp_settings.databases.default.HOST==localhost`
+  If `pulp_settings.databases.default.HOST==localhost`, which is the default:
 
 ```yaml
   - option: unix_socket_directories
@@ -79,7 +81,7 @@ This role is **not tightly coupled** to the [pulp_common](../../roles/pulp_commo
   [external role](https://github.com/geerlingguy/ansible-role-postgresql#readme)
   to configure [client authentication.](https://www.postgresql.org/docs/current/auth-pg-hba-conf.html)
 
-  If `pulp_settings.databases.default.HOST==localhost`
+  If `pulp_settings.databases.default.HOST==localhost`, which is the default:
 
 ```yaml
   - { type: local, database: all, user: postgres, auth_method: peer }
