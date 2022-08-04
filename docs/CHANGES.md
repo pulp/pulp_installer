@@ -342,6 +342,20 @@ Devel
 ----
 
 
+3.18.15 (2022-07-26)
+====================
+
+
+Bugfixes
+--------
+
+- Fix "Too many open files" error when syncing with pulp_ansible.
+  [#1289](https://github.com/pulp/pulp_installer/issues/1289)
+
+
+----
+
+
 3.18.14 (2022-07-20)
 ====================
 
