@@ -1,0 +1,1 @@
+Fix CI tests with Ansible 2.9 and Python 3 failing to install prereleases of community.docker due to molecule-docker 2.0.0 being released.
