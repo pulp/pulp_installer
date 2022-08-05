@@ -71,6 +71,10 @@ jobs:
         run: |
           sudo apt remove ansible
           pip install docker molecule ${{ matrix.ansible }}
+      - name: Workaround bug with latest molecule and ansible 2.9
+        if: matrix.python != '2.7' && matrix.ansible == 'ansible~=2.9.0'
+        run: pip install molecule~=3.6.1 molecule-docker~=1.1
+        shell: bash
       - name: Setting pulp.pulp_installer collection
         # Downloading dependencies sometimes fails the 1st time, so retry
         run: |
