@@ -32,11 +32,11 @@ platforms:
     command: /sbin/init
   - <<: *platform_base
     name: centos-8
-    image: quay.io/pulp/pulp_installer-ci-c8:3.9.1
+    image: quay.io/pulp/pulp_installer-pip-ci-c8:3.9.1
     command: /sbin/init
   - <<: *platform_base
     name: centos-stream9
-    image: quay.io/pulp/pulp_installer-ci-c8:3.13.0
+    image: quay.io/pulp/pulp_installer-pip-ci-c9:3.13.0
     command: /sbin/init
   - <<: *platform_base
     name: fedora-36
