@@ -10,12 +10,14 @@ pulp_install_plugins:
     version: "2.11"
   # pulp-cookbook: {}
   # pulp-deb: {}
-  pulp-file: {}
+  pulp-file:
+    version: "1.10"
   # pulp-gem: {}
   # pulp-maven: {}
   # pulp-npm: {}
   # pulp-python: {}
-  # pulp-rpm: {}
+  pulp-rpm:
+    version: "3.17"
 pulp_redis_bind: '0.0.0.0:6379'
 pulp_settings:
   secret_key: secret
