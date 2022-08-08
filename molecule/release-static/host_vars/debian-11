@@ -6,7 +6,8 @@ pulp_install_plugins:
   # pulp-container: {}
   # pulp-cookbook: {}
   # pulp-deb: {}
-  pulp-file: {}
+  pulp-file:
+    version: "1.10"
   # pulp-gem: {}
   # pulp-maven: {}
   # pulp-npm: {}

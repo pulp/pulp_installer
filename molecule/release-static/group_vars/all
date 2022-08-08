@@ -10,12 +10,14 @@ pulp_install_plugins:
   # pulp-container: {}
   # pulp-cookbook: {}
   # pulp-deb: {}
-  pulp-file: {}
+  pulp-file:
+    version: "1.10"
   # pulp-gem: {}
   # pulp-maven: {}
   # pulp-npm: {}
   # pulp-python: {}
-  pulp-rpm: {}
+  pulp-rpm:
+    version: "3.17"
 pulp_settings:
   content_origin: "https://{{ ansible_fqdn }}"
   secret_key: secret
