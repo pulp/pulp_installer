@@ -13,6 +13,34 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.18.16 (2022-08-09)
+====================
+
+
+Bugfixes
+--------
+
+- Fix failure on `pulp_webserver : reload apache` on EL9 by explicitly installing the `httpd` package.
+  [#1315](https://github.com/pulp/pulp_installer/issues/1315)
+
+
+Deprecations and Removals
+-------------------------
+
+- Support for upgrading from installs prior to pulp_installer 3.6.1 (Aug 2020) has been partially removed. To upgrade from them successfully, run `chgrp pulp /var/lib/pulp -R` before running the installer. This removal fixes a sporadic error with the task "pulp_common : Set group on all files in '/var/lib/pulp'" when run against an NFS /var/lib/pulp (by removing that task.)
+  [#1238](https://github.com/pulp/pulp_installer/issues/1238)
+
+
+Devel
+-----
+
+- Fix CI tests with Ansible 2.9 and Python 3 failing to install prereleases of community.docker due to molecule-docker 2.0.0 being released.
+  [#1330](https://github.com/pulp/pulp_installer/issues/1330)
+
+
+----
+
+
 3.18.15 (2022-07-26)
 ====================
 
