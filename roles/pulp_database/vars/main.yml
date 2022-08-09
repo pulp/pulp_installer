@@ -38,14 +38,14 @@ __pulp_database_remote_postgresql_global_config_options:
 __pulp_database_local_postgresql_hba_entries:
   - { type: local, database: all, user: postgres, auth_method: peer }
   - { type: local, database: all, user: all, auth_method: peer }
-  - { type: host, database: all, user: all, address: '127.0.0.1/32', auth_method: md5 }
-  - { type: host, database: all, user: all, address: '::1/128', auth_method: md5 }
+  - { type: host, database: all, user: all, address: '127.0.0.1/32', auth_method: '{{ postgresql_auth_method }}' }
+  - { type: host, database: all, user: all, address: '::1/128', auth_method: '{{ postgresql_auth_method }}' }
 
 __pulp_database_remote_postgresql_hba_entries:
   - { type: local, database: all, user: postgres, auth_method: peer }
   - { type: local, database: all, user: all, auth_method: peer }
-  - { type: host, database: all, user: all, address: '0.0.0.0/0', auth_method: md5 }
-  - { type: host, database: all, user: all, address: '::0/0', auth_method: md5 }
+  - { type: host, database: all, user: all, address: '0.0.0.0/0', auth_method: '{{ postgresql_auth_method }}' }
+  - { type: host, database: all, user: all, address: '::0/0', auth_method: '{{ postgresql_auth_method }}' }
 
 postgresql_global_config_options: "{{ (__pulp_database_merged_pulp_settings.databases.default.HOST == 'localhost') | ternary(__pulp_database_local_postgresql_global_config_options, __pulp_database_remote_postgresql_global_config_options) }}"
 postgresql_hba_entries: "{{ (__pulp_database_merged_pulp_settings.databases.default.HOST == 'localhost') | ternary(__pulp_database_local_postgresql_hba_entries, __pulp_database_remote_postgresql_hba_entries) }}"

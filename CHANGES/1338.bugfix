@@ -1,0 +1,1 @@
+Make pulp_database FIPS compliant by using scram-sha-256 authenitcation if FIPS mode is enabled.

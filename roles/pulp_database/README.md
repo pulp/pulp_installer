@@ -81,6 +81,10 @@ Setting these variables controls the behavior of both roles.
   [external role](https://github.com/geerlingguy/ansible-role-postgresql#readme)), in addition to the
   default of the loopback interface. If not set to localhost, postgresql will listen on all network interfaces.
 
+* `postgresql_auth_method`: [The password authentication
+  method](https://www.postgresql.org/docs/10/auth-methods.html) for PostgreSQL when listening over
+  the network. Defaults to `md5` normally, or `scram-sha-256` if FIPS mode is enabled.
+
 * `postgresql_hba_entries`: A list of dictionaries. It is a variable for the
   [external role](https://github.com/geerlingguy/ansible-role-postgresql#readme)
   to configure [client authentication.](https://www.postgresql.org/docs/current/auth-pg-hba-conf.html)
@@ -90,8 +94,10 @@ Setting these variables controls the behavior of both roles.
 ```yaml
   - { type: local, database: all, user: postgres, auth_method: peer }
   - { type: local, database: all, user: all, auth_method: peer }
-  - { type: host, database: all, user: all, address: '127.0.0.1/32', auth_method: md5 }
-  - { type: host, database: all, user: all, address: '::1/128', auth_method: md5 }
+  - { type: host, database: all, user: all, address: '127.0.0.1/32', auth_method: '{{
+    postgresql_auth_method }}' }
+  - { type: host, database: all, user: all, address: '::1/128', auth_method: '{{
+    postgresql_auth_method }}' }
 ```
 
   If `pulp_settings.databases.default.HOST!=localhost`
@@ -99,8 +105,8 @@ Setting these variables controls the behavior of both roles.
 ```yaml
   - { type: local, database: all, user: postgres, auth_method: peer }
   - { type: local, database: all, user: all, auth_method: peer }
-  - { type: host, database: all, user: all, address: '0.0.0.0/0', auth_method: md5 }
-  - { type: host, database: all, user: all, address: '::0/0', auth_method: md5 }
+  - { type: host, database: all, user: all, address: '0.0.0.0/0', auth_method: '{{ postgresql_auth_method }}' }
+  - { type: host, database: all, user: all, address: '::0/0', auth_method: '{{ postgresql_auth_method }}' }
 ```
 
   In other words, if set to localhost, postgresql will authenticate on UNIX sockets and on the loopback interface.
@@ -112,9 +118,9 @@ Setting these variables controls the behavior of both roles.
 
   - { type: local, database: all, user: postgres, auth_method: peer }
   - { type: local, database: all, user: all, auth_method: peer }
-  - { type: host, database: all, user: all, address: '127.0.0.1/32', auth_method: md5 }
-  - { type: host, database: all, user: all, address: '::1/128', auth_method: md5 }
-  - { type: host, database: all, user: all, ip_address: '{{ ansible_default_ipv4.network }}', ip_mask: '{{ ansible_default_ipv4.netmask }}', auth_method: md5 }
+  - { type: host, database: all, user: all, address: '127.0.0.1/32', auth_method: {{ postgresql_auth_method }}' }
+  - { type: host, database: all, user: all, address: '::1/128', auth_method: {{ postgresql_auth_method }}' }
+  - { type: host, database: all, user: all, ip_address: '{{ ansible_default_ipv4.network }}', ip_mask: '{{ ansible_default_ipv4.netmask }}', auth_method: {{ postgresql_auth_method }}' }
 ```
 
 Operating Systems Variables
