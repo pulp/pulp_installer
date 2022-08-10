@@ -33,6 +33,14 @@ platforms:
     name: centos-stream9
     image: ghcr.io/pulp/molecule_centosstream9
     command: /sbin/init
+  - <<: *platform_base
+    name: rocky-8
+    image: ghcr.io/pulp/molecule_rocky8
+    command: /sbin/init
+  - <<: *platform_base
+    name: rocky-9
+    image: ghcr.io/pulp/molecule_rocky9
+    command: /sbin/init
 provisioner:
   name: ansible
   env:

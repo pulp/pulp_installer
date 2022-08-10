@@ -12,9 +12,9 @@ source /usr/bin/virtualenvwrapper-3.sh
 export VIRTUALENVWRAPPER_HOOK_DIR=$HOME/.virtualenvs
 source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 {% endif %}
-{% if ansible_distribution == 'CentOS' and ansible_distribution_major_version|int == 8 %}
+{% if __pulp_os_family == 'RedHat' and ansible_distribution_major_version|int == 8 %}
 export VIRTUALENVWRAPPER_PYTHON={{ pulp_install_dir }}/bin/python3
 {% endif %}
-{% if ansible_distribution == 'CentOS' %}
+{% if __pulp_os_family == 'RedHat' and ansible_facts.distribution_major_version|int in [8,9,10] %}
 source /usr/bin/virtualenvwrapper.sh
 {% endif %}

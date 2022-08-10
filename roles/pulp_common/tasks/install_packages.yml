@@ -75,7 +75,7 @@
 
   become: true
   when:
-    - ansible_facts.os_family == "RedHat"
+    - __pulp_os_family == 'RedHat'
     - pulp_pkg_upgrade_all
 
 - name: Install the Pulp packages
@@ -151,7 +151,7 @@
         name: "{{ pulp_pkg_selinux_name }}"
         state: "{{ pulp_pkg_upgrade_all | ternary('latest','present') }}"
       when:
-        - ansible_facts.os_family == 'RedHat'
+        - __pulp_os_family == 'RedHat'
         # when permissive or enforcing. That would be stored in .mode & .config_mode
         - pulp_install_selinux_policies | bool or
           (ansible_facts.selinux.status == "enabled" and pulp_install_selinux_policies == "auto")

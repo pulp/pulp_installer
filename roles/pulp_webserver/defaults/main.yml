@@ -1,4 +1,7 @@
 ---
+# Needed because on Ansible 2.9.27 (and possibly 2.10) Rocky is incorrectly familied.
+__pulp_os_family: '{{ (ansible_facts.os_family == "Rocky") | ternary("RedHat", ansible_facts.os_family) }}'
+
 pulp_webserver_server: nginx
 pulp_content_bind: '127.0.0.1:24816'
 pulp_api_bind: '127.0.0.1:24817'

@@ -1,6 +1,6 @@
 # TODO: Maybe serve multiple `location`s, not just one.
 
-{% if ansible_facts.os_family == "RedHat" %}
+{% if __pulp_os_family == 'RedHat' %}
 # The "nginx" package on fedora creates this user and group.
 user nginx nginx;
 {% endif %}

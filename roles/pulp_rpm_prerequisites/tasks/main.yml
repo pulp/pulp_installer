@@ -8,8 +8,8 @@
       files:
         - '{{ ansible_facts.distribution }}-{{ ansible_facts.distribution_major_version }}.yml'
         - '{{ ansible_facts.distribution }}.yml'
-        - '{{ ansible_facts.os_family }}-{{ ansible_facts.distribution_major_version }}.yml'
-        - '{{ ansible_facts.os_family }}.yml'
+        - '{{ __pulp_os_family }}-{{ ansible_facts.distribution_major_version }}.yml'
+        - '{{ __pulp_os_family }}.yml'
       paths:
         # Only using 'vars' leads to Ansible finding files elsewhere
         - '../pulp_rpm_prerequisites/vars'
@@ -23,6 +23,17 @@
     - ansible_facts.distribution == "Ubuntu"
   become: true
 
+# Rocky 9.0 lacks this package
+- name: Install zchunk-libs
+  dnf:
+    name: "https://kojihub.stream.centos.org/kojifiles/packages/zchunk/1.1.9/4.el9/{{ ansible_facts.architecture }}/zchunk-libs-1.1.9-4.el9.{{ ansible_facts.architecture }}.rpm"
+    state: present
+    disable_gpg_check: true
+  become: true
+  when:
+    - ansible_facts.distribution == "Rocky"
+    - ansible_facts.distribution_major_version|int == 9
+
 - name: Install zchunk-devel
   dnf:
     name: "https://kojihub.stream.centos.org/kojifiles/packages/zchunk/1.1.9/4.el9/{{ ansible_facts.architecture }}/zchunk-devel-1.1.9-4.el9.{{ ansible_facts.architecture }}.rpm"
@@ -30,7 +41,7 @@
     disable_gpg_check: true
   become: true
   when:
-    - ansible_facts.os_family == 'RedHat'
+    - __pulp_os_family == 'RedHat'
     - ansible_facts.distribution_major_version|int == 9
 
 - name: Install requested non-pip packages

@@ -21,7 +21,7 @@
         - molecule-idempotence-notest
   become: yes
   when:
-    - ansible_facts.os_family == 'RedHat'
+    - __pulp_os_family == 'RedHat'
     - ansible_facts.distribution_major_version|int == 7
 
 - name: Stop PostgreSQL < 10 service
@@ -30,7 +30,7 @@
     state: stopped
     enabled: no
   when:
-    - ansible_facts.os_family == 'RedHat'
+    - __pulp_os_family == 'RedHat'
     - ansible_facts.distribution_major_version|int == 7
     - previous_pgdata_dir_version.stat.exists
     - pg_version is defined
@@ -65,7 +65,7 @@
       check_mode: false
   become: yes
   when:
-    - ansible_facts.os_family == 'RedHat'
+    - __pulp_os_family == 'RedHat'
     - ansible_facts.distribution_major_version|int == 7
 
 - name: Upgrade PostgreSQL < 10
@@ -92,7 +92,7 @@
         - not pgdata_dir_version.stat.exists
   become: yes
   when:
-    - ansible_facts.os_family == 'RedHat'
+    - __pulp_os_family == 'RedHat'
     - ansible_facts.distribution_major_version|int == 7
     - previous_pgdata_dir_version.stat.exists
     - pg_version is defined
@@ -108,6 +108,7 @@
       dnf:
         name: http://mirror.stream.centos.org/9-stream/BaseOS/x86_64/os/Packages/tzdata-2021e-1.el9.noarch.rpm
         state: present
+        disable_gpg_check: "{{ not ansible_facts.distribution == 'CentOS' }}"
 
     - name: Upgrade tzdata  # noqa package-latest
       dnf:
@@ -117,7 +118,7 @@
 
   become: yes
   when:
-    - ansible_facts.os_family == 'RedHat'
+    - __pulp_os_family == 'RedHat'
     - ansible_facts.distribution_major_version|int == 9
 
 - name: Include geerlingguy.postgresql role
@@ -129,4 +130,6 @@
           # We need to apply this tag so long as Ansible 2.9 is supported.
           tags:
             - molecule-idempotence-notest
+      vars:
+        ansible_os_family: "{{ __pulp_os_family }}"
   become: yes

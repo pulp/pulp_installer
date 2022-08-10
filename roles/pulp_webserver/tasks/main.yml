@@ -6,8 +6,8 @@
       files:
         - '{{ ansible_facts.distribution }}-{{ ansible_facts.distribution_major_version }}.yml'
         - '{{ ansible_facts.distribution }}.yml'
-        - '{{ ansible_facts.os_family }}-{{ ansible_facts.distribution_major_version }}.yml'
-        - '{{ ansible_facts.os_family }}.yml'
+        - '{{ __pulp_os_family }}-{{ ansible_facts.distribution_major_version }}.yml'
+        - '{{ __pulp_os_family }}.yml'
       paths:
         - 'vars'
   tags:
@@ -112,7 +112,7 @@
 
   become: true
   when:
-    - ansible_facts.os_family == 'RedHat'
+    - __pulp_os_family == 'RedHat'
     - ansible_facts.selinux.status == 'enabled'
     - pulp_webserver_api_hosts | rejectattr('address', 'match', '^unix:.+') | list | count >= 1 or
       pulp_webserver_content_hosts  | rejectattr('address', 'match','^unix:.+') | list | count >= 1

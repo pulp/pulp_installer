@@ -202,3 +202,19 @@ Creating Molecule Upgrade Test Containers
 13. If this is the 1st image of a new distro, go to https://quay.io/organization/pulp, set the descritpion
     of the repo based on existing ones, and set the repo to public.
 14. Create a PR.
+
+Specifying Supported Distros
+----------------------------
+
+We want to support the entire family of RHEL clones, even though we only test CentOS and Rocky in
+our CI.
+
+We also want to workaround (undocumented) limitation of Ansible 2.9 not recognizing Rocky as a
+member of the "Red Hat" family.
+
+Therefore, in order to support the entire family of RHEL clones, add logic like the following
+```yaml
+when:
+  - __pulp_os_family == 'RedHat
+  - ansible_facts.distribution_major_version|int in [7,8,9,10]
+```

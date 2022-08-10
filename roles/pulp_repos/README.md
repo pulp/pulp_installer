@@ -22,11 +22,12 @@ With its defaults.
 * `pulp_repos_enable`: Effectively can disable enablement of all repositories mentioned below.
   Defaults to `True`.
 
-* `pulp_repos_centos_powertools_repo_enable`: to enable CentOS 8 PowerTools repository (defaults to `True`)
+* `pulp_repos_centos_powertools_repo_enable`: to enable CentOS/Rocky 8 PowerTools repository (defaults to `True`)
+* `pulp_repos_centos_crb_repo_enable`: to enable CentOS/Rocky 8 CRB (CodeReady Builder) repository (defaults to `True`)
 * `pulp_repos_epel_enable`: to enable EPEL repository (defaults to `True`)
 * `pulp_repos_rhel_codeready_enable`: to enable RHEL8 CodeReady repository (defaults to `True`)
 * `pulp_repos_rhel_optional_enable`: to enable RHEL7 Optional repository (defaults to `True`)
-* `pulp_rhel_pulpcore_repo_enable`: to add the RHEL/CentOS Pulpcore repo to the system (defaults to `True`).
+* `pulp_rhel_pulpcore_repo_enable`: to add the RHEL/CentOS/Rocky Pulpcore repo to the system (defaults to `True`).
 * `pulp_rhel_scl_repo_enable`: to enable SCL repository (defaults to `True`).
 
 * `pulp_rhel_codeready_repo`: List of possible names for rhel8+ CodeReady Builder repo
@@ -43,7 +44,7 @@ With its defaults.
   Once the 1st string is found to be installed by yum, no further strings are
   attempted.
   Also accepts a single string or empty string.
-  Only affects CentOS/RHEL.
+  Only affects CentOS/RHEL/Rocky.
   Defaults to  ["epel-release",
   <!-- markdownlint-disable-next-line MD034 -->
   "https://dl.fedoraproject.org/pub/epel/epel-release-latest-`{{ ansible_facts.distribution_major_version }}`.noarch.rpm"
@@ -60,6 +61,7 @@ Advenced Role Variables
 These variables corresponding to role repository variables above when is called by another role.
 
 * `__pulp_repos_centos_powertools_repo_enable_default`: Defaults to `False`
+* `__pulp_repos_centos_crb_repo_enable_default`: Defaults to `False`
 * `__pulp_repos_epel_enable_default`: Defaults to `False`
 * `__pulp_repos_rhel_codeready_enable_default`: Default to `False`
 * `__pulp_repos_rhel_optional_enable_default`: Defaults to `False`
