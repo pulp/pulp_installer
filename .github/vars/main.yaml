@@ -9,6 +9,12 @@ molecule_images:
   - name: centos-stream9
     image: quay.io/centos/centos:stream9
     command: /sbin/init
+  - name: rocky-8
+    image: rockylinux:8
+    command: /sbin/init
+  - name: rocky-9
+    image: rockylinux:9
+    command: /sbin/init
   - name: fedora-36
     image: fedora:36
     command: /usr/sbin/init
