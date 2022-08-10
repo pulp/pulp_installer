@@ -28,7 +28,7 @@
         - proxy_balancer
         - proxy_http
         - ssl
-      when: ansible_facts.os_family == "Debian"
+      when: __pulp_os_family == "Debian"
       notify: reload apache
 
     - name: Enable Apache vhost files
@@ -39,14 +39,14 @@
       loop:
         - src: ../sites-available/pulp-vhost.conf
           dest: /etc/apache2/sites-enabled/pulp-vhost.conf
-      when: ansible_facts.os_family == "Debian"
+      when: __pulp_os_family == "Debian"
       notify: reload apache
 
     - name: Remove default apache vhost file
       file:
         state: absent
         path: /etc/apache2/sites-enabled/000-default.conf
-      when: ansible_facts.os_family == "Debian"
+      when: __pulp_os_family == "Debian"
       notify: reload apache
 
     - name: Find pulp obsolete symlinks

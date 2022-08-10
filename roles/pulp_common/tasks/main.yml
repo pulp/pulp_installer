@@ -51,18 +51,18 @@
       files:
         - '{{ ansible_facts.distribution }}-{{ ansible_facts.distribution_major_version }}.yml'
         - '{{ ansible_facts.distribution }}.yml'
-        - '{{ ansible_facts.os_family }}-{{ ansible_facts.distribution_major_version }}.yml'
-        - '{{ ansible_facts.os_family }}.yml'
+        - '{{ __pulp_os_family }}-{{ ansible_facts.distribution_major_version }}.yml'
+        - '{{ __pulp_os_family }}.yml'
       paths:
         - 'vars'
   tags:
     - always
 
-- name: Is this a supported version of CentOS
+- name: Is this a supported version of CentOS/RHEL
   fail:
-    msg: Pulp Installer only supports CentOS 7.7 or higher.
+    msg: Pulp Installer only supports CentOS/RHEL 7.7 or higher.
   when:
-    - ansible_facts.distribution == 'CentOS'
+    - __pulp_os_family == 'RedHat'
     - ansible_facts.distribution_version|float < 7.7
 
 # This has to be before we Gather package facts so that ansible's apt module

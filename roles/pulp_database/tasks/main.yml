@@ -1,4 +1,6 @@
 ---
+# We do not not use __pulp_os_family in this task because geerglingguy.postgresql
+# does not.
 - name: Load OS specific variables
   include_vars: "{{ lookup('first_found', params) }}"
   vars:
@@ -6,8 +8,8 @@
       files:
         - '{{ ansible_facts.distribution }}-{{ ansible_facts.distribution_major_version }}.yml'
         - '{{ ansible_facts.distribution }}.yml'
-        - '{{ ansible_facts.os_family }}-{{ ansible_facts.distribution_major_version }}.yml'
-        - '{{ ansible_facts.os_family }}.yml'
+        - '{{ __pulp_os_family }}-{{ ansible_facts.distribution_major_version }}.yml'
+        - '{{ __pulp_os_family }}.yml'
       paths:
         - 'vars'
   tags:

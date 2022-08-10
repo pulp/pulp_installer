@@ -7,8 +7,8 @@
       files:
         - '{{ ansible_facts.distribution }}-{{ ansible_facts.distribution_major_version }}.yml'
         - '{{ ansible_facts.distribution }}.yml'
-        - '{{ ansible_facts.os_family }}-{{ ansible_facts.distribution_major_version }}.yml'
-        - '{{ ansible_facts.os_family }}.yml'
+        - '{{ __pulp_os_family }}-{{ ansible_facts.distribution_major_version }}.yml'
+        - '{{ __pulp_os_family }}.yml'
       paths:
         - 'vars'
   tags:
@@ -24,7 +24,7 @@
         __pulp_repos_epel_enable_default: true
         pulp_repos_epel_enable: true
       when:
-        - ansible_facts.os_family == 'RedHat' or ansible_facts.os_family == 'CentOS'
+        - __pulp_os_family == 'RedHat'
         - ansible_facts.distribution_major_version|int == 7
 
     - name: Install Redis
@@ -38,7 +38,7 @@
         dest: "/etc/profile.d/redis.sh"
         mode: '0644'
       when:
-        - ansible_facts.os_family == 'RedHat'
+        - __pulp_os_family == 'RedHat'
         - ansible_facts.distribution_major_version|int == 7
         - pulp_redis_package_name.startswith('rh-')
 

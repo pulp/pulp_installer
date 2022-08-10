@@ -198,7 +198,7 @@ RPM packages instead if this variable is set. Other distro packaging formats may
 
 If it is set to "packages", the installer is in *packges mode*, which has the following **limitations**:
 
-* The packages are only built for CentOS/RHEL 7 and CentOS/RHEL 8.
+* The packages are only built for CentOS/RHEL 7, CentOS/RHEL/Rocky 8 and CentOS/RHEL/Rocky 9.
 * Not all plugins are available from the default repo. To determine which plugins are available,
   follow [this link](https://yum.theforeman.org/pulpcore/), browse to the repo for your
   Pulp version and distribution, and search for "pulp-".

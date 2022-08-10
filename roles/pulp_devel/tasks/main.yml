@@ -6,8 +6,8 @@
       files:
         - '{{ ansible_facts.distribution }}-{{ ansible_facts.distribution_major_version }}.yml'
         - '{{ ansible_facts.distribution }}.yml'
-        - '{{ ansible_facts.os_family }}-{{ ansible_facts.distribution_major_version }}.yml'
-        - '{{ ansible_facts.os_family }}.yml'
+        - '{{ __pulp_os_family }}-{{ ansible_facts.distribution_major_version }}.yml'
+        - '{{ __pulp_os_family }}.yml'
       paths:
         - 'vars'
   tags:
@@ -101,13 +101,13 @@
   become: true
   when:
     - selinuxlog.stat.exists
-    - ansible_facts.os_family == "RedHat"
+    - __pulp_os_family == 'RedHat'
 
 - name: SELinux status
   debug:
     var: selinux_analyze.stdout_lines
   when:
-    - ansible_facts.os_family == "RedHat"
+    - __pulp_os_family == 'RedHat'
     - selinuxlog.stat.exists
     - selinux_analyze.stdout
 ...

@@ -24,7 +24,7 @@
             name: iproute
             state: present
           when:
-            - ansible_os_family == "RedHat"
+            - ansible_os_family in ["RedHat","Rocky"]
 
         - name: Install iproute2 and curl on Debian based systems
           package:
@@ -127,7 +127,7 @@
       yum:
         name: procps-ng
         state: present
-      when: ansible_facts.os_family == 'RedHat'
+      when: ansible_os_family in ["RedHat","Rocky"]
 
     - name: Install dependency for RAM usage check (Debian)
       apt:

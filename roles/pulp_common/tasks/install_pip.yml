@@ -73,7 +73,7 @@
 
   become: true
   when:
-    - ansible_facts.os_family == 'RedHat'
+    - __pulp_os_family == 'RedHat'
     # when permissive or enforcing. That would be stored in .mode & .config_mode
     - pulp_install_selinux_policies|bool or
       (ansible_facts.selinux.status == "enabled" and pulp_install_selinux_policies == "auto")
@@ -302,7 +302,7 @@
         seuser: _default
       with_items: "{{ __pulp_binaries }}"
       when:
-        - ansible_facts.os_family == 'RedHat'
+        - __pulp_os_family == 'RedHat'
         # when permissive or enforcing. That would be stored in .mode & .config_mode
         - pulp_install_selinux_policies | bool or
           (ansible_facts.selinux.status == "enabled" and pulp_install_selinux_policies == "auto")
@@ -327,7 +327,8 @@
         sed -i 's/hashlib.md5()/hashlib.md5(usedforsecurity=False)/' "$django_location/django/db/backends/utils.py"
       when:
         - developer_user is defined or developer_user_home is defined
-        - ansible_facts.distribution in ['RedHat', 'CentOS'] or ansible_facts.python_version is version('3.9', '>=')
+        - (__pulp_os_family == 'RedHat' and ansible_facts.distribution_major_version|int in [8,9,10])
+          or ansible_facts.python_version is version('3.9', '>=')
       check_mode: false
       changed_when: false
 

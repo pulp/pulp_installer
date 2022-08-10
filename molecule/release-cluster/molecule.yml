@@ -35,6 +35,10 @@ platforms:
     command: /sbin/init
   - <<: *platform_base
     name: pulp-database
+    image: ghcr.io/pulp/molecule_rocky9
+    command: /sbin/init
+  - <<: *platform_base
+    name: pulp-redis
     image: ghcr.io/pulp/molecule_debian11
     command: /sbin/init
   - <<: *platform_base

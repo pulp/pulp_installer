@@ -1,4 +1,7 @@
 ---
+# Needed because on Ansible 2.9.27 (and possibly 2.10) Rocky is incorrectly familied.
+__pulp_os_family: '{{ (ansible_facts.os_family == "Rocky") | ternary("RedHat", ansible_facts.os_family) }}'
+
 pulp_cache_enabled: True
 pulp_redis_bind: '127.0.0.1:6379'
 pulp_redis_package_name: redis
