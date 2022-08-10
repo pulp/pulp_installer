@@ -135,8 +135,8 @@
 - import_tasks: configure.yml
 
 - name: Install pulpcore service
-  template:
-    src: pulpcore.service.j2
+  copy:
+    src: pulpcore.service
     dest: /lib/systemd/system/pulpcore.service
     owner: root
     group: root
