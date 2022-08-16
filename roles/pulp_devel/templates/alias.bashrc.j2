@@ -31,7 +31,7 @@ _pstatus_help="Report the status of all pulp-related services"
 pdbreset() {
     workon pulp
     pstop
-    {{ pulp_django_admin_path }} reset_db --noinput
+    {{ pulp_django_admin_path }} reset_db --noinput --close-sessions
     {{ pulp_django_admin_path }} migrate
     {% if pulp_install_plugins_normalized['galaxy-ng'] is defined %}
     {{ pulp_django_admin_path }} loaddata {{ developer_user_home }}/devel/galaxy_ng/dev/automation-hub/initial_data.json
