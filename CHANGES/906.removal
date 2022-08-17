@@ -1,1 +1,0 @@
-Remove the firewall functionality from pulp_installer. All the ports are now documented.

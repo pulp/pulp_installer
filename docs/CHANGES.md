@@ -13,6 +13,56 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.20.3 (2022-08-17)
+===================
+
+
+Features
+--------
+
+- Automatically configure postgresql_hba_entries based on __pulp_database_merged_pulp_settings.databases.default.HOST
+  [#1219](https://github.com/pulp/pulp_installer/issues/1219)
+- Add support for Rocky Linux 8 and 9, including workarounds for Ansible 2 & 2.10.
+  [#1343](https://github.com/pulp/pulp_installer/issues/1343)
+
+
+Bugfixes
+--------
+
+- Make pulp_database FIPS compliant by using scram-sha-256 authenitcation if FIPS mode is enabled.
+  [#1338](https://github.com/pulp/pulp_installer/issues/1338)
+
+
+Improved Documentation
+----------------------
+
+- Added documentation for mounting NFS shares and SELinux context.
+  [#1138](https://github.com/pulp/pulp_installer/issues/1138)
+- docs: Differentiate orchestration vs installation, and provide architectural diagrams.  These 2 related changes make it clear whether pulp_installer is touching external services and when.
+  [#1328](https://github.com/pulp/pulp_installer/issues/1328)
+
+
+Deprecations and Removals
+-------------------------
+
+- Remove the firewall functionality from pulp_installer. All the ports are now documented.
+  [#906](https://github.com/pulp/pulp_installer/issues/906)
+- Cleanup unnecessarily specifying ansible_python_interpreter
+  [#1166](https://github.com/pulp/pulp_installer/issues/1166)
+
+
+Devel
+-----
+
+- Test all the latest distros for release-upgrade/source-upgrade tests. Includes creating new upgrade images on quay.io.
+  [#875](https://github.com/pulp/pulp_installer/issues/875)
+- Fix CI tests with Ansible 2.9 and Python 3 failing to install prereleases of community.docker due to molecule-docker 2.0.0 being released.
+  [#1330](https://github.com/pulp/pulp_installer/issues/1330)
+
+
+----
+
+
 3.20.2 (2022-07-29)
 ===================
 

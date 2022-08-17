@@ -1,1 +1,0 @@
-Automatically configure postgresql_hba_entries based on __pulp_database_merged_pulp_settings.databases.default.HOST
