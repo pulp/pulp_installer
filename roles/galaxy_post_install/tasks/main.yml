@@ -3,5 +3,13 @@
 
 - import_tasks: setup_galaxy_api_access_log.yml
 
+- include_tasks: prepare_signing_service.yml
+  args:
+    apply:
+      become: yes
+  when:
+    - developer_user is defined or developer_user_home is defined or __galaxy_build_signing_scripts is defined
+    - galaxy_create_default_collection_signing_service
+
 - include_tasks: signing_service.yml
   when: galaxy_create_default_collection_signing_service
