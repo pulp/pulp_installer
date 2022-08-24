@@ -1,0 +1,1 @@
+Fix error `Failed to set permissions on the temporary files Ansible needs to create when becoming an unprivileged user` on the task `pulp_common : Upgrade to a recent edition of pip (supporting manylinux2014)` on Ubuntu and possibly Debian by installing the `acl` package.
