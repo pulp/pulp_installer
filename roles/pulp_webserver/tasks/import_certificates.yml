@@ -10,7 +10,7 @@
     serole: _default
     setype: _default
     seuser: _default
-  notify: reload {{ pulp_webserver_server }}
+  notify: Reload {{ pulp_webserver_server }}
 
 - name: Import specified TLS private key
   copy:
@@ -23,4 +23,4 @@
     serole: _default
     setype: _default
     seuser: _default
-  notify: reload {{ pulp_webserver_server }}
+  notify: Reload {{ pulp_webserver_server }}

@@ -9,4 +9,4 @@
       line: 'port {{ pulp_redis_bind.split(":")[1] }}'
     - regexp: '^bind '
       line: 'bind {{ pulp_redis_bind.split(":")[0] }}'
-  notify: restart redis
+  notify: Restart redis

@@ -61,7 +61,7 @@
     seuser: _default
   when: pulp_webserver_tls_custom_ca_cert is not mdellweg.filters.empty
   become: true
-  notify: update ca trust
+  notify: Update ca trust
 
 - name: Create static dir & ACME dir
   file:

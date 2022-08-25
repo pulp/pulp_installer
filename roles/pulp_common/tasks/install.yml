@@ -90,7 +90,7 @@
         append: true
       # The check implicitly does an or for this check:
       # developer_user is not defined
-      when: pulp_user != developer_user|default('')
+      when: pulp_user != developer_user | default('')
       notify: Restore SELinux contexts on Pulp dirs that must exist
 
     - name: Add user {{ pulp_user }} to extra groups
@@ -113,7 +113,7 @@
       changed_when: False
       check_mode: False
       register: redis_group
-      failed_when: redis_group.rc not in [0,2]
+      failed_when: redis_group.rc not in [0, 2]
 
     - name: Add user pulp to the redis group
       user:

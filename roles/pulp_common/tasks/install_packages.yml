@@ -18,7 +18,7 @@
 
     # These 3 tasks have changed_when: false for the sake if idempotency
     # We are not modifying the system after all, just the value of the conf file
-    - name: generate a temporary dnf.conf
+    - name: Generate a temporary dnf.conf
       block:
 
         - name: Generate a temp filepath for the temp dnf.conf
@@ -62,7 +62,7 @@
     - name: Upgrade all existing installed Pulp packages
       yum:
         name: "{{ updates.results | map(attribute='name') | list }}"
-        state: latest  # noqa 403
+        state: latest  # noqa package-latest
         conf_file: "{{ __dnf_conf.path | default(omit) }}"
         # update_only is a needed part of installing older updates
         update_only: true
@@ -84,33 +84,33 @@
     - name: "Install the Pulp undeclared {{ ansible_facts.pkg_mgr }} package dependencies"
       package:
         name: "{{ pulp_pkg_undeclared_deps }}"
-        state: "{{ pulp_pkg_upgrade_all | ternary('latest','present') }}"
+        state: "{{ pulp_pkg_upgrade_all | ternary('latest', 'present') }}"
         exclude: '{{ pulp_pkg_exclude | default(omit) }}'
       notify:
         - Collect static content
         - Restart all Pulp services
 
-    - name: "Install pulpcore via {{ ansible_facts.pkg_mgr }} packages"
+    - name: "Install pulpcore via {{ ansible_facts.pkg_mgr }} packages"  ## noqa jinja
       package:
         name: >-
           {{ pulp_pkg_pulpcore_name }}
           {% if pulpcore_version | default('') | length -%}
           = {{ pulpcore_version }}
           {%- endif -%}
-        state: "{{ pulp_pkg_upgrade_all | ternary('latest','present') }}"
+        state: "{{ pulp_pkg_upgrade_all | ternary('latest', 'present') }}"
         exclude: '{{ pulp_pkg_exclude | default(omit) }}'
       notify:
         - Collect static content
         - Restart all Pulp services
 
-    - name: "Install Pulp plugins via {{ ansible_facts.pkg_mgr }} packages"
+    - name: "Install Pulp plugins via {{ ansible_facts.pkg_mgr }} packages"  ## noqa jinja
       package:
         name: >-
           {{ pulp_pkg_name_prefix }}{{ __pulp_common_package.key }}
           {% if __pulp_common_package.value.version | default('') | length -%}
           = {{ __pulp_common_package.value.version }}
           {%- endif -%}
-        state: "{{ pulp_pkg_upgrade_all | ternary('latest','present') }}"
+        state: "{{ pulp_pkg_upgrade_all | ternary('latest', 'present') }}"
         exclude: '{{ pulp_pkg_exclude | default(omit) }}'
       # We use pulp_install_plugins rather than pulp_install_plugins_normalized
       # so that users can specify package names with underscores if distros
@@ -124,14 +124,14 @@
         - Collect static content
         - Restart all Pulp services
 
-    - name: "Install Pulp plugins (with overriden names) via {{ ansible_facts.pkg_mgr }}"
+    - name: "Install Pulp plugins (with overriden names) via {{ ansible_facts.pkg_mgr }}"  ## noqa jinja
       package:
         name: >-
           {{ __pulp_common_package.value.pkg_name }}
           {% if __pulp_common_package.value.version | default('') | length -%}
           = {{ __pulp_common_package.value.version }}
           {%- endif -%}
-        state: "{{ pulp_pkg_upgrade_all | ternary('latest','present') }}"
+        state: "{{ pulp_pkg_upgrade_all | ternary('latest', 'present') }}"
       loop: '{{ pulp_install_plugins | dict2items }}'
       loop_control:
         loop_var: __pulp_common_package
@@ -149,7 +149,7 @@
     - name: "Install Pulp SELinux policies via {{ ansible_facts.pkg_mgr }}"
       package:
         name: "{{ pulp_pkg_selinux_name }}"
-        state: "{{ pulp_pkg_upgrade_all | ternary('latest','present') }}"
+        state: "{{ pulp_pkg_upgrade_all | ternary('latest', 'present') }}"
       when:
         - __pulp_os_family == 'RedHat'
         # when permissive or enforcing. That would be stored in .mode & .config_mode

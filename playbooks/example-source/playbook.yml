@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: Example pulp_installer development play
+  hosts: all
   force_handlers: True
   pre_tasks:
     # The version string below is the highest of all those in roles' metadata:

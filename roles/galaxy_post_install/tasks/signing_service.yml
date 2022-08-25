@@ -25,7 +25,7 @@
         seuser: _default
       become: true
   rescue:
-    - name: pulp_installer failure message
+    - name: pulp_installer failure message  ## noqa name
       fail:
         msg: >
           "{{ pulp_certs_dir }}/galaxy_signing_service.gpg does not exist. Create a gpg
@@ -54,7 +54,7 @@
         group: "{{ pulp_group }}"
       become: true
   rescue:
-    - name: pulp_installer failure message
+    - name: pulp_installer failure message  ## noqa name
       fail:
         msg: >
           "{{ pulp_scripts_dir }}/collection_sign.sh does not exist. Obtain a galaxy collections
@@ -83,7 +83,7 @@
       # Already imported: rc 2
       # If you try to import multiple keys but only some need to be imported: rc 2
       changed_when: result.stderr is search("imported:")
-      failed_when: result.rc not in [0,2]
+      failed_when: result.rc not in [0, 2]
 
     - name: Trust the galaxy signing service GPG key
       # When using this syntax, "ultimate" trust == 6

@@ -35,7 +35,7 @@
 - name: Get services
   service_facts:
 
-- name: pulpcore resource manager
+- name: pulpcore resource manager  ## noqa name
   block:
 
     - name: Disable pulpcore-resource-manager service
@@ -58,7 +58,7 @@
     - ansible_facts.services['pulpcore-resource-manager.service'] is defined
     - __pulpcore_version is version('3.14', '>=')
 
-- name: Get already existing workers
+- name: Get already existing workers  ## noqa jinja
   set_fact:
     __pulp_workers_worker_svcs: '{{ __pulp_workers_worker_svcs | default([]) + [ item | regex_search("(?<=pulpcore-worker@)\d+(?=\.service$)") ] }}'
   loop: '{{ ansible_facts.services.keys() | list | select("match", "pulpcore-worker@\d+\.service") | list }}'

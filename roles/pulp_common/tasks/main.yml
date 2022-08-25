@@ -1,14 +1,14 @@
 ---
 
-- name: pulp_install_plugins
+- name: pulp_install_plugins  ## noqa name
   debug:
     var: pulp_install_plugins
     verbosity: 1
-- name: pulp_install_plugins_normalized_yml
+- name: pulp_install_plugins_normalized_yml  ## noqa name
   debug:
-    var: pulp_install_plugins_normalized_yml
+    var: pulp_install_plugins_normalized_yml  ## noqa name
     verbosity: 1
-- name: pulp_install_plugins_normalized
+- name: pulp_install_plugins_normalized  # noqa name
   debug:
     var: pulp_install_plugins_normalized
     verbosity: 1
@@ -111,11 +111,11 @@
   # This task typically doesn't need root, but on some user systems it does.
   become: yes
 
-- name: systemd_show_env_path
+- name: systemd_show_env_path  ## noqa name
   debug:
     var: systemd_show_env_path
 
-- name: set the default system PATH as a fact
+- name: Set the default system PATH as a fact
   set_fact:
     default_bin_path: "{{ systemd_show_env_path.stdout }}"
 

@@ -1,5 +1,5 @@
 ---
-- name: restart redis
+- name: Restart redis
   systemd:
     name: "{{ pulp_redis_server_name | default(_pulp_redis_server_name) }}"
     state: restarted
