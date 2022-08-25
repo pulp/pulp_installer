@@ -21,6 +21,7 @@
     repo: ppa:directhex/mock-dnf
   when:
     - ansible_facts.distribution == "Ubuntu"
+    - ansible_facts.distribution_major_version | int < 22
   become: true
 
 # Rocky 9.0 lacks this package

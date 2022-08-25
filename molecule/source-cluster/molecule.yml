@@ -30,8 +30,12 @@ platforms:
     image: ghcr.io/pulp/molecule_centosstream8
     command: /sbin/init
   - <<: *platform_base
-    name: pulp-content
+    name: pulp-content1
     image: ghcr.io/pulp/molecule_centosstream9
+    command: /sbin/init
+  - <<: *platform_base
+    name: pulp-content2
+    image: ghcr.io/pulp/molecule_debian11
     command: /sbin/init
   - <<: *platform_base
     name: pulp-database
@@ -39,7 +43,7 @@ platforms:
     command: /sbin/init
   - <<: *platform_base
     name: pulp-redis
-    image: ghcr.io/pulp/molecule_debian11
+    image: ghcr.io/pulp/molecule_ubuntu22.04
     command: /sbin/init
   - <<: *platform_base
     name: pulp-webserver
