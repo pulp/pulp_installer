@@ -33,7 +33,7 @@
   become: true
   become_user: '{{ pulp_user }}'
 
-- name: Run pip-compile to check pulpcore/plugin compatibility
+- name: Run pip-compile to check pulpcore/plugin compatibility  ## noqa jinja
   command: '{{ pulp_install_dir }}/bin/pip-compile
 {% if pulpcore_update|default(false, true) %} -P pulpcore {% endif %}
 {% for plugin, value in pulp_install_plugins_normalized.items() %}

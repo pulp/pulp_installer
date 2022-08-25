@@ -35,7 +35,7 @@
       # Otherwise the compile step fails with:
       # libsepol.policydb_read: policydb module version 21 does not match my version range 4-20
       # TODO: Remove after 2023-01-01
-    - name: Upgrade libselinux on CentOS 9 Stream
+    - name: Upgrade libselinux on CentOS 9 Stream  ## noqa package-latest
       package:
         name: libselinux
         state: latest
@@ -243,7 +243,7 @@
 
     - name: Install pulpcore via PyPI
       pip:
-        name: "pulpcore{{ '['+ pulp_install_object_storage +']' if pulp_install_object_storage != 'filesystem' else '' }}{% if __pulpcore_version | wordcount >2 %}=={{ __pulpcore_version }}{% else %}~={{ __pulpcore_version }}.0{% endif %}"
+        name: "pulpcore{{ '[' + pulp_install_object_storage + ']' if pulp_install_object_storage != 'filesystem' else '' }}{% if __pulpcore_version | wordcount > 2 %}=={{ __pulpcore_version }}{% else %}~={{ __pulpcore_version }}.0{% endif %}"
         # pulp_upgrade true/false -> ansible pip module latest/present ->
         # pip command "install --upgrade"/"install"
         state: '{{ (pulpcore_update == true) | ternary("latest", "present") }}'
@@ -272,7 +272,7 @@
 
     - name: Install pulpcore package from source
       pip:
-        name: "{{ pulp_source_dir }}{{ '['+ pulp_install_object_storage +']' if pulp_install_object_storage != 'filesystem' else '' }}"
+        name: "{{ pulp_source_dir }}{{ '[' + pulp_install_object_storage + ']' if pulp_install_object_storage != 'filesystem' else '' }}"
         editable: '{{ pulp_pip_editable }}'
         # For this task, `state` has no effect. It installs or upgrades/
         # downgrades to the exact dir's or VCS URL's version regardless.
@@ -316,7 +316,7 @@
         clients: "{{ pulp_install_dir }}/bin/pip"
       register: pip_pkgs
 
-    - name: Set __pulpcore_version to the pulpcore that was installed
+    - name: Set __pulpcore_version to the pulpcore that was installed  ## noqa jinja
       set_fact:
         __pulpcore_version: "{{ pip_pkgs.packages[pulp_install_dir + '/bin/pip'].pulpcore[0].version }}"
       when: pulp_source_dir is defined
@@ -334,7 +334,7 @@
 
     # Needed because dynaconf bundles box, but dynaconf<3.1.1 conflicts with normally installed
     # box.
-    - name: Upgrade dynaconf to 3.1.1rc2 pre-release if it is older than 3.1.1
+    - name: Upgrade dynaconf to 3.1.1rc2 pre-release if it is older than 3.1.1  ## noqa jinja
       pip:
         name: dynaconf==3.1.1rc2
         state: present
@@ -358,11 +358,11 @@
         dest: "{{ pulp_install_dir }}/pip_constraints_for_plugins.txt"
         mode: '0644'
 
-    - name: Install Pulp plugins via PyPI
+    - name: Install Pulp plugins via PyPI  ## noqa jinja
       pip:
         name: >-
            {{ item.key }}
-           {%- if item.value.extras is defined %}{{ '['+ item.value.extras +']' if item.value.extras is string else '['+ item.value.extras | join(',') +']' }}{% endif %}
+           {%- if item.value.extras is defined %}{{ '[' + item.value.extras + ']' if item.value.extras is string else '[' + item.value.extras | join(',') + ']' }}{% endif %}
            {%- if item.value.version is defined %}{% if item.value.version | wordcount > 2 %}=={{ item.value.version }}{% else %}~={{ item.value.version }}.0{% endif %}{% endif %}
         # item.upgrade true/false -> ansible pip module latest / present
         # pip command "install --upgrade install"
@@ -391,11 +391,11 @@
       tags:
         - molecule-idempotence-notest
 
-    - name: Install Pulp plugins from source
+    - name: Install Pulp plugins from source  ## noqa jinja
       pip:
         name: >-
           {{ item.value.source_dir }}
-          {%- if item.value.extras is defined %}{{ '['+ item.value.extras +']' if item.value.extras is string else '['+ item.value.extras | join(',') +']' }}{% endif %}
+          {%- if item.value.extras is defined %}{{ '[' + item.value.extras + ']' if item.value.extras is string else '[' + item.value.extras | join(',') + ']' }}{% endif %}
         editable: '{{ pulp_pip_editable }}'
         # For this task, `state` has no effect. It installs or upgrades/
         # downgrades to the exact dir's or VCS URL's version regardless.

@@ -22,7 +22,7 @@
 # options becoming hardcoded.
 # So we follow this approach instead.
 # https://stackoverflow.com/a/48259691/2930194
-- name: '/etc/fstab: Set opt "{{ __remount_opt }}" for mount point {{ __remount_point }}'
+- name: '/etc/fstab: Set opt "{{ __remount_opt }}" for mount point {{ __remount_point }}'  ## noqa name
   lineinfile:
     path: /etc/fstab
     backup: yes
@@ -39,7 +39,7 @@
     # We use the "match" test because for the ansible management node, it is compatible with EL7's python-jinja2 2.7 RPM
     - not ansible_facts.mounts | selectattr('mount', 'match', '^/var/lib/pulp$') | map(attribute='options') | first | regex_search('context=')
 
-- name: remount the static dir
+- name: Remount the static dir
   block:
     # We also cannot run "mount -o remount" to add an SELinux context, it results on the dmesg error:
     # unable to change security options during remount
@@ -64,7 +64,7 @@
 
     # We have to work around a common error when attempting to remount a nested NFS mount (under /var/lib/pulp) with state=mounted / the mount command
     # "Error mounting /var/lib/pulp: umount.nfs4: /var/lib/pulp: device is busy"
-    - name: unmount /var/lib/pulp/pulpcore_static
+    - name: Unmount /var/lib/pulp/pulpcore_static
       mount:
         path: '/var/lib/pulp/pulpcore_static'
         state: unmounted
@@ -80,7 +80,7 @@
     - name: 'If {{ __remount_point }} changed, remount (retry)'  # noqa no-changed-when
       command: 'mount {{ __remount_point }}'
 
-    - name: remount /var/lib/pulp/pulpcore_static  # noqa no-changed-when
+    - name: Remount /var/lib/pulp/pulpcore_static  # noqa no-changed-when
       command: 'mount /var/lib/pulp/pulpcore_static'
       when: static_dir_unmount.changed
 

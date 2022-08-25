@@ -9,7 +9,7 @@
   register: status
   become: true
 
-- name: show output of pulp services
+- name: Show output of pulp services
   debug:
     var: status.stdout_lines
 

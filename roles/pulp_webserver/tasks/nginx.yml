@@ -27,7 +27,7 @@
         src: nginx.conf.j2
         dest: /etc/nginx/nginx.conf
         mode: '0644'
-      notify: reload nginx
+      notify: Reload nginx
 
     - name: Find pulp obsolete symlinks
       find:
@@ -68,7 +68,7 @@
         loop_var: __pulp_webserver_plugin
       delegate_to: "{{ __pulp_database_config_host }}"
       changed_when: false
-      failed_when: snippet_filepaths.rc not in [0,10]
+      failed_when: snippet_filepaths.rc not in [0, 10]
       check_mode: false
 
     - name: Copy snippets from the pulp_database_config host
@@ -89,7 +89,7 @@
         seuser: _default
       with_items: "{{ snippet_contents.results }}"
       when: item.content is defined
-      notify: reload nginx
+      notify: Reload nginx
 
     - name: Start and enable Nginx
       systemd:

@@ -12,7 +12,7 @@
         src: pulp-vhost.conf.j2
         dest: "{{ pulp_webserver_apache_vhost_dir }}/pulp-vhost.conf"
         mode: '0644'
-      notify: reload apache
+      notify: Reload apache
 
     - name: Enable Apache mod files
       apache2_module:
@@ -29,7 +29,7 @@
         - proxy_http
         - ssl
       when: __pulp_os_family == "Debian"
-      notify: reload apache
+      notify: Reload apache
 
     - name: Enable Apache vhost files
       file:
@@ -40,14 +40,14 @@
         - src: ../sites-available/pulp-vhost.conf
           dest: /etc/apache2/sites-enabled/pulp-vhost.conf
       when: __pulp_os_family == "Debian"
-      notify: reload apache
+      notify: Reload apache
 
     - name: Remove default apache vhost file
       file:
         state: absent
         path: /etc/apache2/sites-enabled/000-default.conf
       when: __pulp_os_family == "Debian"
-      notify: reload apache
+      notify: Reload apache
 
     - name: Find pulp obsolete symlinks
       find:
@@ -88,7 +88,7 @@
         loop_var: __pulp_webserver_plugin
       delegate_to: "{{ __pulp_database_config_host }}"
       changed_when: false
-      failed_when: snippet_filepaths.rc not in [0,10]
+      failed_when: snippet_filepaths.rc not in [0, 10]
       check_mode: false
 
     - name: Copy snippets from the pulp_database_config host
@@ -109,7 +109,7 @@
         seuser: _default
       with_items: "{{ snippet_contents.results }}"
       when: item.content is defined
-      notify: reload apache
+      notify: Reload apache
 
     - name: Start and enable Apache
       systemd:

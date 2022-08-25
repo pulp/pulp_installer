@@ -1,18 +1,18 @@
 ---
-- name: reload nginx
+- name: Reload nginx
   systemd:
     name: nginx
     state: reloaded
     daemon_reload: true
   become: true
 
-- name: reload apache
+- name: Reload apache
   systemd:
     name: "{{ pulp_webserver_apache_service }}"
     state: reloaded
     daemon_reload: true
   become: true
 
-- name: update ca trust
+- name: Update ca trust
   command: "{{ pulp_webserver_trusted_root_certificates_update_bin }}"
   become: true

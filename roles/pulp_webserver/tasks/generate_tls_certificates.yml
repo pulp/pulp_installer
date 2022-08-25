@@ -95,7 +95,7 @@
         serole: _default
         setype: _default
         seuser: _default
-      notify: reload {{ pulp_webserver_server }}
+      notify: Reload {{ pulp_webserver_server }}
   when: not __pulp_webserver_cert.stat.exists
 
 - name: Cleanup CSR files

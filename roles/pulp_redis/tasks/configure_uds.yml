@@ -13,4 +13,4 @@
       line: 'unixsocketperm 775'
   loop_control:
     loop_var: __pulp_redis_setting
-  notify: restart redis
+  notify: Restart redis
