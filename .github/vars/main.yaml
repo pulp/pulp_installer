@@ -21,3 +21,6 @@ molecule_images:
   - name: debian-11
     image: debian:bullseye
     command: /sbin/init
+  - name: ubuntu-22.04
+    image: ubuntu:22.04
+    command: /sbin/init
