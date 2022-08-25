@@ -1,1 +1,86 @@
-../release-cluster/converge.yml
+---
+# gather_facts to determine the FQDN, which is in pulp_settings
+- hosts: pulp-webserver
+
+# gather facts to determine the IP, which is in pulp_settings
+- hosts: pulp-redis
+  tasks:
+    - name: Install /usr/sbin/ip so that Ansible can enumerate the NICs
+      package:
+        name: '{{ (ansible_facts.os_family == "Debian") | ternary("iproute2","iproute") }}'
+    - setup:
+
+- hosts: pulp-database
+  force_handlers: True
+  collections:
+    - pulp.pulp_installer
+  pre_tasks:
+    - name: Install /usr/sbin/ip so that Ansible can enumerate the NICs
+      package:
+        name: '{{ (ansible_facts.os_family == "Debian") | ternary("iproute2","iproute") }}'
+    - setup:
+  roles:
+    - pulp_database
+  environment:
+    DJANGO_SETTINGS_MODULE: pulpcore.app.settings
+
+- hosts: pulp-redis
+  force_handlers: True
+  collections:
+    - pulp.pulp_installer
+  roles:
+    - pulp_redis
+  environment:
+    DJANGO_SETTINGS_MODULE: pulpcore.app.settings
+
+- hosts:
+    - pulp-api1
+    - pulp-api2
+  force_handlers: True
+  collections:
+    - pulp.pulp_installer
+  pre_tasks:
+    - name: Install /usr/sbin/ip so that Ansible can enumerate the NICs
+      package:
+        name: '{{ (ansible_facts.os_family == "Debian") | ternary("iproute2","iproute") }}'
+    - setup:
+  roles:
+    - pulp_database_config
+    - pulp_api
+    - pulp_workers
+  environment:
+    DJANGO_SETTINGS_MODULE: pulpcore.app.settings
+
+- hosts: pulp-content
+  force_handlers: True
+  collections:
+    - pulp.pulp_installer
+  pre_tasks:
+    - name: Install /usr/sbin/ip so that Ansible can enumerate the NICs
+      package:
+        name: '{{ (ansible_facts.os_family == "Debian") | ternary("iproute2","iproute") }}'
+    - setup:
+  roles:
+    - pulp_content
+  environment:
+    DJANGO_SETTINGS_MODULE: pulpcore.app.settings
+
+- hosts:
+    - pulp-api1
+    - pulp-api2
+  force_handlers: True
+  collections:
+    - pulp.pulp_installer
+  roles:
+    - pulp_health_check
+  environment:
+    DJANGO_SETTINGS_MODULE: pulpcore.app.settings
+
+- hosts: pulp-webserver
+  force_handlers: True
+  collections:
+    - pulp.pulp_installer
+  roles:
+    - pulp_webserver
+  environment:
+    DJANGO_SETTINGS_MODULE: pulpcore.app.settings

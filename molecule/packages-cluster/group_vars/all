@@ -14,7 +14,7 @@ pulp_pkg_upgrade_all: true
 pulp_webserver_server: apache
 pulp_redis_bind: '0.0.0.0:6379'
 pulp_api_bind: "{{ ansible_default_ipv4['address'] }}:24817"
-pulp_content_bind: "{{ hostvars['pulp-content']['ansible_default_ipv4']['address'] }}:24816"
+pulp_content_bind: "{{ ansible_default_ipv4['address'] }}:24816"
 pulp_webserver_api_hosts:
   - address: "{{ hostvars['pulp-api1']['ansible_default_ipv4']['address'] }}:24817"
     nginx_parameters:

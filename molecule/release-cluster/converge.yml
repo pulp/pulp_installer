@@ -51,7 +51,9 @@
   environment:
     DJANGO_SETTINGS_MODULE: pulpcore.app.settings
 
-- hosts: pulp-content
+- hosts:
+    - pulp-content1
+    - pulp-content2
   force_handlers: True
   collections:
     - pulp.pulp_installer

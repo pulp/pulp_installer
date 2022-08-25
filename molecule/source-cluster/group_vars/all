@@ -18,7 +18,7 @@ developer_user: pulp
 pulp_webserver_server: apache
 pulp_redis_bind: '0.0.0.0:6379'
 pulp_api_bind: "{{ ansible_default_ipv4['address'] }}:24817"
-pulp_content_bind: "{{ hostvars['pulp-content']['ansible_default_ipv4']['address'] }}:24816"
+pulp_content_bind: "{{ ansible_default_ipv4['address'] }}:24816"
 pulp_webserver_api_hosts:
   - address: "{{ hostvars['pulp-api1']['ansible_default_ipv4']['address'] }}:24817"
     nginx_parameters:
@@ -35,7 +35,14 @@ pulp_webserver_api_hosts:
       - keepalive=on
       - lbset=2
 pulp_webserver_content_hosts:
-  - address: "{{ hostvars['pulp-content']['ansible_default_ipv4']['address'] }}:24816"
+  - address: "{{ hostvars['pulp-content1']['ansible_default_ipv4']['address'] }}:24816"
+    nginx_parameters:
+      - weight=1
+      - max_conns=100
+    apache_parameters:
+      - keepalive=on
+      - lbset=1
+  - address: "{{ hostvars['pulp-content2']['ansible_default_ipv4']['address'] }}:24816"
     nginx_parameters:
       - weight=1
       - max_conns=100
