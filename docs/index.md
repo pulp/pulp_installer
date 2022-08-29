@@ -61,9 +61,10 @@ Ensure that your server meets the [hardware requirements](https://docs.pulpproje
 Ensure that your server, AKA the Ansible [managed node](https://docs.ansible.com/ansible/2.5/network/getting_started/basic_concepts.html#managed-nodes),
 runs one of these currently supported operating systems:
 
-- CentOS/RHEL 7, 8 or 9
-- Debian 11 Bullseye (needs `allow_world_readable_tmpfiles = True` in ansible.cfg)
+- CentOS/RHEL/Rocky 7, 8 or 9
 - Fedora 32 or later
+- Debian 11 Bullseye (needs `allow_world_readable_tmpfiles = True` in ansible.cfg)
+- Debian 22.04 Jammy (needs `allow_world_readable_tmpfiles = True` in ansible.cfg)
 
 The server cannot provide any other HTTP (port 80, 443) service on the same hostname as Pulp's API. The only
 exception is Pulp 2. The REST APIs for Pulp 2 and Pulp 3 can be served on the same hostname as
