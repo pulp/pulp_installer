@@ -116,6 +116,8 @@ There are other (intentional) differences between tests:
 1. The `source-static` scenario defines paths different than the default for the following variables:
    `pulp_media_root`, `pulp_settings.working_directory`, `pulp_user_home`, `pulp_install_dir`,
    `pulp_config_dir` and `developer_user_home`.
+1. Misc tests test different distros. This is intended to ensure that many distros are tested, but
+   that tests do not take too long.
 
 In order for `cluster` scenarios to work on your local system, you must do the following to enable
 container networking:
@@ -185,23 +187,25 @@ Creating Molecule Upgrade Test Containers
    3.14 before the current version. This should be revisited in the future.)
 2. Identify how you will build the old version. Preferably using the old version of the installer.
    But if necessary, modifying the version variables with the current installer.
-3. Modify molecule/release-static/group_vars (or host_vars) so that the webserver is nginx rather
+3. Modify molecule/release-static/molecule.yml to test the desired distro if it is not in it. Add a
+   host_vars if you do this.
+4. Modify molecule/release-static/group_vars (or host_vars) so that the webserver is nginx rather
    than apache, and so that pulp_container is not installed. Also modify the version variables
    (including `pulpcore_version`) if need be. Install release versions of pulpcore and plugins.
-4. `molecule create && molecule converge`
-5. If that failed, be prepared to put workarounds on the branch. Such as modifying `prereq_pip_packages`.
-5. `docker exec -it <container-name> /bin/bash`
-6. `dnf clean all`
-7. `rm -rf /var/lib/pulp/.cache`
-8. `exit`
-9. `docker commit <container-name <tag-name>` with a tag like
+5. `molecule create && molecule converge`
+6. If that failed, be prepared to put workarounds on the branch. Such as modifying `prereq_pip_packages`.
+7. `docker exec -it <container-name> /bin/bash`
+8. `dnf clean all`
+9. `rm -rf /var/lib/pulp/.cache`
+10. `exit`
+11. `docker commit <container-name <tag-name>` with a tag like
    "quay.io/pulp/pulp_installer-pip-ci-f36:3.13.0"
-10. Modify molecule.yml for release-upgrade and source-upgrade (or packages-upgrade)
-11. Test the image locally (molecule create -s release-upgrade && molecule converge -s release-upgrade)
-12. `docker push <tag-name>`
-13. If this is the 1st image of a new distro, go to https://quay.io/organization/pulp, set the descritpion
+12. Modify molecule.yml for release-upgrade and source-upgrade (or packages-upgrade)
+13. Test the image locally (molecule create -s release-upgrade && molecule converge -s release-upgrade)
+14. `docker push <tag-name>`
+15. If this is the 1st image of a new distro, go to https://quay.io/organization/pulp, set the descritpion
     of the repo based on existing ones, and set the repo to public.
-14. Create a PR.
+16. Create a PR.
 
 Specifying Supported Distros
 ----------------------------
