@@ -170,6 +170,8 @@ file_upload_temp_dir | | `{{ pulp_settings.working_directory }}` <br> ( /var/lib
 media_root | | `{{ pulp_settings.deploy_root }}/media` <br> ( /var/lib/pulp/media ) |  Location where Pulp will store files (the content that is served.)
 static_root | | `{{ pulp_user_home }}{{ pulp_settings.static_url }}` <br> ( /var/lib/pulp/assets/ ) |  Location on disk of the static content served by the pulpcore-api service.
 working_directory | | `{{ pulp_settings.deploy_root }}/tmp` <br> ( /var/lib/pulp/tmp ) | Location of Pulp cache.
+`galaxy_collection_signing_service` | | | The name of the default galaxy_ng collection signing service to use. | Normally set to "ansible-default". See [galaxy_post_install`(../../roles/galaxy_post_install) for the other variables that must also be set.
+`galaxy_container_signing_service` | | | The name of the default galaxy_ng container signing service to use. | Normally set to "container-default". See [galaxy_post_install`(../../roles/galaxy_post_install) for the other variables that must also be set.
 
 * **Example**:
 

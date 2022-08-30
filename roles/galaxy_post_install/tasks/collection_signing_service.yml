@@ -1,4 +1,9 @@
 ---
+
+- name: Install skopeo for the collection signing service script
+  package:
+    name: skopeo
+
 - name: Import the collection signing service gpg key file
   copy:
     src: "{{ galaxy_collection_signing_service_key }}"
@@ -34,7 +39,7 @@
           galaxy_collection_signing_service_key=/path/to/file.gpg"
   when: galaxy_collection_signing_service_key is undefined
 
-- name: Import the on the collection galaxy signing service script
+- name: Import the collection signing service script
   copy:
     src: "{{ galaxy_collection_signing_service_script }}"
     dest: "{{ pulp_scripts_dir }}/collection_sign.sh"
@@ -44,7 +49,7 @@
   become: true
   when: galaxy_collection_signing_service_script is defined
 
-- name: Check collection galaxy signing service script
+- name: Check collection signing service script
   block:
     - name: Set permissions on the collection signing service script
       file:
@@ -65,18 +70,18 @@
 
 - name: Commands run as pulp_user
   block:
-    - name: Inspect galaxy signing service GPG key file
+    - name: Inspect collection signing service GPG key file
       shell: >
         {{ __pulp_gpg_inspect_command }}
         {{ pulp_certs_dir }}/galaxy_signing_service.gpg | grep -m1 -o -E
         '[A-F0-9]{4} [A-F0-9]{4} [A-F0-9]{4} [A-F0-9]{4} [A-F0-9]{4}  [A-F0-9]{4} [A-F0-9]{4} [A-F0-9]{4} [A-F0-9]{4} [A-F0-9]{4}'
         | tr -d " "
-      register: galaxy_signing_key
+      register: collection_signing_key
       changed_when: false
-      failed_when: galaxy_signing_key.stdout | length != 40
+      failed_when: collection_signing_key.stdout | length != 40
       check_mode: false
 
-    - name: Import galaxy signing service GPG key file
+    - name: Import collection signing service GPG key file
       command: gpg --batch --import {{ pulp_certs_dir }}/galaxy_signing_service.gpg
       register: result
       # Imported successfully: rc 0
@@ -85,10 +90,10 @@
       changed_when: result.stderr is search("imported:")
       failed_when: result.rc not in [0, 2]
 
-    - name: Trust the galaxy signing service GPG key
+    - name: Trust the collection signing service GPG key
       # When using this syntax, "ultimate" trust == 6
       shell: >
-        echo {{ galaxy_signing_key.stdout }}:6 | gpg --import-ownertrust
+        echo {{ collection_signing_key.stdout }}:6 | gpg --import-ownertrust
       register: result
       # changed messages can be either:
       # gpg: inserting ownertrust of 6
@@ -97,18 +102,3 @@
 
   become: true
   become_user: "{{ pulp_user }}"
-
-- name: Set environment variable for the GPG key ID
-  lineinfile:
-    path: /etc/default/pulpcore-worker
-    regexp: '^PULP_SIGNING_KEY_FINGERPRINT='
-    line: PULP_SIGNING_KEY_FINGERPRINT={{ galaxy_signing_key.stdout }}
-    create: True
-    owner: '{{ pulp_user }}'
-    group: '{{ pulp_group }}'
-    mode: "u+rw"
-    serole: _default
-    setype: _default
-    seuser: _default
-  notify: Restart all Pulp services
-  become: true

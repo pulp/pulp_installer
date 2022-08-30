@@ -36,7 +36,8 @@ Setting these variables controls the behavior of both roles.
   installer with your own; merely setting pulp_settings with 1 setting under it will not blow away all
   the other default settings.
     * `HOST` The hostname or IP address of the pulp database that pulp_common will connect to. This
-      determines the default value of `postgresql_global_config_options`. Defaults to "localhost".
+      determines the default value of `postgresql_global_config_options`, as explained below.
+      Defaults to "localhost".
     * `NAME` The name of the Pulp database to create.  Defaults to `pulp`.
     * `USER` The user account to be created with permissions on the database.  Defaults to `pulp`.
     * `PASSWORD` The password to be created for the user account to talk to the Pulp database.
@@ -77,9 +78,9 @@ Setting these variables controls the behavior of both roles.
     value: 'log'
 ```
 
-  In other words, if set to localhost, postgresql will listen on UNIX sockets (specified by the
+  In other words, if set to "localhost", postgresql will listen on UNIX sockets (which sockets are specified by the
   [external role](https://github.com/geerlingguy/ansible-role-postgresql#readme)), in addition to the
-  default of the loopback interface. If not set to localhost, postgresql will listen on all network interfaces.
+  default of the loopback interface. If not set to "localhost", postgresql will listen on all network interfaces.
 
 * `postgresql_auth_method`: [The password authentication
   method](https://www.postgresql.org/docs/10/auth-methods.html) for PostgreSQL when listening over

@@ -49,20 +49,25 @@ This role also utilizes some of the pulp_common role's variables in its logic:
 * `pulp_certs_dir`: Path where to generate or drop the keys for database fields encryption.
    Defaults to '{{ pulp_config_dir }}/certs' .
 * `pulp_config_dir`
-* `pulp_scripts_dir`: The collection signing service script must exist under this directory
-  with the filename `collection_sign.sh` when `galaxy_create_default_collection_signing_service==true`.
+* `pulp_scripts_dir`: The collection/container signing service scripts exists under this directory
+  with the filename `collection_sign.sh`/`container_sign.sh` when
+  `galaxy_create_default_collection_signing_service==true`/
+  `galaxy_create_default_container_signing_service==true`.
 
 Like other roles that depend on pulp_common, if galaxy-ng is to be installed as a plugin, this role
 will depending on the [`galaxy_post_install`](../helper_roles/galaxy_post_install). This role also
 however utilizes some of the galaxy_post_install role's variables in its logic:
 
-* `galaxy_create_default_collection_signing_service` Defaults to `false`.
+* `galaxy_create_default_collection_signing_service`
+* `galaxy_create_default_container_signing_service`
+* `pulp_settings.galaxy_collection_signing_service`
+* `pulp_settings.galaxy_container_signing_service`
 
 This role understands how to talk to the database server via `pulp_settings_file`,
 which is written to disk in the `pulp_common` role, and whose relevant
 values are set via the following variables:
 
-* `pulp_settings_db_defaults`: See pulp_database README.
+* `pulp_settings.databases.default`: See pulp_database README.
 
 Limitations
 -----------
