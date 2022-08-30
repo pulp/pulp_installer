@@ -23,7 +23,7 @@ variables which are documented in that role:
 
 If `galaxy_create_default_collection_signing_service==true`:
 
-1. `pulp_settings.galaxy_create_default_collection_signing_service` must be set to "ansible-default".
+1. `pulp_settings.galaxy_collection_signing_service` must be set to "ansible-default".
   This variable sets the name of the default signing service to use. Defaults to "nothing".
 
 2. 2 files must either be specified by these variables:
@@ -38,7 +38,7 @@ Or they must exist on disk (on all pulp hosts e.g. API, content & worker) (these
 the variables install them to):
 
 * `{{ pulp_certs_dir }}/galaxy_signing_service.gpg` (default: `/etc/pulp/certs/galaxy_signing_service.gpg`):
-* `{{ pulp_scripts_dir }}/collection_sign.sh` (default: `{{ pulp_user_home}}/scripts/collection_sign.sh`):
+* `{{ pulp_scripts_dir }}/collection_sign.sh` (default: `/var/lib/pulp/scripts/collection_sign.sh`):
 
 ## License
 
