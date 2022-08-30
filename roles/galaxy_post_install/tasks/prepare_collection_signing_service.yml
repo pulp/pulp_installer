@@ -1,18 +1,19 @@
 ---
-- name: Check if galaxy signing service gpg key exists
+- name: Check if collection signing service gpg key exists
   stat:
     path: "{{ pulp_certs_dir }}/galaxy_signing_service.gpg"
-  register: stat_galaxy_signing_service
+  register: stat_collection_signing_service
 
-- name: Generate galaxy signing service gpg key  # noqa no-changed-when
+- name: Generate collection signing service gpg key  # noqa no-changed-when deprecated-command-syntax
   shell: |
+    mkdir /tmp/collection_gpg
     cat >/tmp/gpg.txt <<EOF
     %echo Generating a basic OpenPGP key
     Key-Type: default
     Key-Length: 4096
     Subkey-Type: default
     Subkey-Length: default
-    Name-Real: Joe Tester
+    Name-Real: Collection Signing Service
     Name-Comment: with no passphrase
     Name-Email: joe@foo.bar
     Expire-Date: 0
@@ -22,17 +23,18 @@
     %commit
     %echo done
     EOF
-    GNUPGHOME=/tmp gpg --batch --gen-key /tmp/gpg.txt
-    GNUPGHOME=/tmp gpg --output {{ pulp_certs_dir }}/galaxy_signing_service.gpg --armor --export-secret-key
-    GNUPGHOME=/tmp gpg --output {{ pulp_certs_dir }}/galaxy_signing_service.asc --armor --export
-  when: not stat_galaxy_signing_service.stat.exists
+    GNUPGHOME=/tmp/collection_gpg gpg --batch --gen-key /tmp/gpg.txt
+    GNUPGHOME=/tmp/collection_gpg gpg --output {{ pulp_certs_dir }}/galaxy_signing_service.gpg --armor --export-secret-key
+    GNUPGHOME=/tmp/collection_gpg gpg --output {{ pulp_certs_dir }}/galaxy_signing_service.asc --armor --export
+    rm -rf /tmp/collection_gpg
+  when: not stat_collection_signing_service.stat.exists
 
-- name: Check if sample galaxy signing service script exists
+- name: Check if sample collection signing service script exists
   stat:
     path: "{{ pulp_scripts_dir }}/collection_sign.sh"
   register: stat_collection_sign_script
 
-- name: Create sample galaxy signing service script (EL7)
+- name: Create sample collection signing service script (EL7)
   copy:
     src: collection_sign.sh.el7
     dest: "{{ pulp_scripts_dir }}/collection_sign.sh"
@@ -42,7 +44,7 @@
     - ansible_facts.distribution_major_version|int == 7
     - not stat_collection_sign_script.stat.exists
 
-- name: Create sample galaxy signing service script
+- name: Create sample collection signing service script
   copy:
     src: collection_sign.sh
     dest: "{{ pulp_scripts_dir }}/collection_sign.sh"

@@ -50,7 +50,7 @@ nav:
       - Pulp Webserver: roles/pulp_webserver.md
       - Pulp Workers: roles/pulp_workers.md
   - Helper Roles:
-      - Pulp Common: roles/pulp_common.md
+      - Pulp Common: helper_roles/pulp_common.md
       - Pulp Repos: helper_roles/pulp_repos.md
       - Galaxy NG post-install: helper_roles/galaxy_post_install.md
       - Pulp RPM prerequisites: helper_roles/pulp_rpm_prerequisites.md

@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -u
+
 FILE_PATH=$1
 SIGNATURE_PATH="$1.asc"
 

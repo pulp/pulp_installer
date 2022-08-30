@@ -38,6 +38,7 @@ pulp_settings:
   rh_entitlement_required: insights
   galaxy_auto_sign_collections: true
   galaxy_collection_signing_service: ansible-default
+  galaxy_container_signing_service: container-default
 
 # Galaxy Configuration
 # Set this __galaxy variables according to your needs.
@@ -48,6 +49,7 @@ __galaxy_dev_source_path: 'pulpcore:pulp_ansible:pulp_container:galaxy_ng:galaxy
 # __galaxy_lock_requirements: Set to 0 to avoid pinning of galaxy_ng/setup.py versions
 __galaxy_lock_requirements: '0'
 galaxy_create_default_collection_signing_service: true
+galaxy_create_default_container_signing_service: true
 
 # These variables are used by molecule verify, not the installer itself
 pulp_lib_path: /opt/pulp/devel

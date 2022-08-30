@@ -228,17 +228,17 @@
 
 # This task is located here in pulp_database_config because it depends on the database fields encryption key
 # and on the database migrations having been run.
-- name: Add the galaxy signing service to the Pulp application
+- name: Add the galaxy collection signing service to the Pulp application
   shell: >
     {{ pulp_django_admin_path }} add-signing-service
     {{ __pulp_common_merged_pulp_settings.galaxy_collection_signing_service }}
-    {{ pulp_scripts_dir }}/collection_sign.sh {{ galaxy_signing_key.stdout }}
+    {{ pulp_scripts_dir }}/collection_sign.sh {{ collection_signing_key.stdout }}
   run_once: "{{ __pulp_run_once }}"
   delegate_to: "{{ hostvars['localhost']['pulp_database_config_host'] | default(inventory_hostname) }}"
   environment:
     PULP_SETTINGS: "{{ pulp_settings_file }}"
     LD_LIBRARY_PATH: "{{ pulp_ld_library_path }}"
-    PULP_SIGNING_KEY_FINGERPRINT: "{{ galaxy_signing_key.stdout }}"
+    PULP_SIGNING_KEY_FINGERPRINT: "{{ collection_signing_key.stdout }}"
   register: result
   changed_when: result.rc == 0
   failed_when: >
@@ -246,5 +246,29 @@
     ((result.rc == 1) and
     ('Key (name)=({{ __pulp_common_merged_pulp_settings.galaxy_collection_signing_service }}) already exists.' not in result.stderr))
   when: galaxy_create_default_collection_signing_service
+  become: true
+  become_user: "{{ pulp_user }}"
+
+# This task is located here in pulp_database_config because it depends on the database fields encryption key
+# and on the database migrations having been run.
+- name: Add the galaxy container signing service to the Pulp application
+  shell: >
+    {{ pulp_django_admin_path }} add-signing-service
+    {{ __pulp_common_merged_pulp_settings.galaxy_container_signing_service }}
+    {{ pulp_scripts_dir }}/container_sign.sh {{ container_signing_key.stdout }}
+    --class container:ManifestSigningService
+  run_once: "{{ __pulp_run_once }}"
+  delegate_to: "{{ hostvars['localhost']['pulp_database_config_host'] | default(inventory_hostname) }}"
+  environment:
+    PULP_SETTINGS: "{{ pulp_settings_file }}"
+    LD_LIBRARY_PATH: "{{ pulp_ld_library_path }}"
+    PULP_CONTAINER_SIGNING_KEY_FINGERPRINT: "{{ container_signing_key.stdout }}"
+  register: result
+  changed_when: result.rc == 0
+  failed_when: >
+    (result.rc not in [0, 1]) or
+    ((result.rc == 1) and
+    ('Key (name)=({{ __pulp_common_merged_pulp_settings.galaxy_container_signing_service }}) already exists.' not in result.stderr))
+  when: galaxy_create_default_container_signing_service
   become: true
   become_user: "{{ pulp_user }}"
