@@ -13,6 +13,29 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.20.4 (2022-08-30)
+===================
+
+
+Features
+--------
+
+- Add support for Ubuntu 22.04.
+  [#1356](https://github.com/pulp/pulp_installer/issues/1356)
+
+
+Bugfixes
+--------
+
+- Fix error `Failed to set permissions on the temporary files Ansible needs to create when becoming an unprivileged user` on the task `pulp_common : Upgrade to a recent edition of pip (supporting manylinux2014)` on Ubuntu and possibly Debian by installing the `acl` package.
+  [#1351](https://github.com/pulp/pulp_installer/issues/1351)
+- Fix compatiblity with ansible-lint 6.5.
+  [#1357](https://github.com/pulp/pulp_installer/issues/1357)
+
+
+----
+
+
 3.20.3 (2022-08-17)
 ===================
 
