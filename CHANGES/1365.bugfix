@@ -1,0 +1,1 @@
+Fix the jinja2 indent for the nginx template in the pulp_webserver role.
