@@ -1,0 +1,1 @@
+Install python3-setuptools on Debian and Ubuntu. Fixes an issue with Ubuntu 20.04 (which is not officially supported.)
