@@ -13,6 +13,27 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.20.5 (2022-09-06)
+===================
+
+
+Features
+--------
+
+- Add support for pulp_container signing service
+  [#1347](https://github.com/pulp/pulp_installer/issues/1347)
+
+
+Bugfixes
+--------
+
+- Fix the jinja2 indent for the nginx template in the pulp_webserver role.
+  [#1365](https://github.com/pulp/pulp_installer/issues/1365)
+
+
+----
+
+
 3.20.4 (2022-08-30)
 ===================
 
