@@ -50,6 +50,15 @@ jobs:
         if: matrix.python != '2.7' && matrix.ansible == 'ansible~=2.9.0'
         run: pip install molecule~=3.6.1 molecule-docker~=1.1
         shell: bash
+      # Stable release 0.3.3 does not support Ansible 6 / ansible-core 2.13.
+      # Stable releases 0.2.z support Ansible 2.9, but not with collections support.
+      - name: Install mitogen (Ansible 2.10+)
+        if: matrix.ansible != 'ansible~=2.9.0'
+        run: |
+          cd ..
+          git clone https://github.com/mitogen-hq/mitogen.git
+          pip install ./mitogen
+        shell: bash
       - name: Setting pulp.pulp_installer collection
         # Downloading dependencies sometimes fails the 1st time, so retry
         run: |
@@ -82,7 +91,16 @@ jobs:
       - name: Molecule converge
         run: |
           ansible --version
-          molecule converge --scenario-name ${{ matrix.test_type }}
+          set +e
+          MITOGEN_LOCATION=$(pip show mitogen | grep Location | cut -f 2 -d " ")
+          set -e
+          if [ "$MITOGEN_LOCATION" != ""]; then
+            STRATEGY=mitogen_linear
+            MITOGEN_PATH=$MITOGEN_LOCATION/ansible_mitogen/plugins/strategy/
+          else
+            STRATEGY=linear  # The default
+          fi
+          ANSIBLE_STRATEGY=${STRATEGY} ANSIBLE_STRATEGY_PLUGINS=${MITOGEN_PATH} molecule converge --scenario-name ${{ matrix.test_type }}
         env:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
