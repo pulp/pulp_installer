@@ -1,2 +1,0 @@
-# These variables are used by molecule verify, not the installer itself
-pulp_python_interpreter: '/opt/rh/rh-python38/root/usr/bin/python3.8'
