@@ -1,29 +1,2 @@
-pulp_install_plugins:
-  # galaxy-ng:
-  #   source_dir: "/var/lib/pulp/devel/galaxy_ng"
-  # pulp-ansible:
-  #   source_dir: "/var/lib/pulp/devel/pulp_ansible"
-  # pulp-certguard:
-  #   source_dir: "/var/lib/pulp/devel/pulp-certguard"
-  # pulp-container:
-  #   source_dir: "/var/lib/pulp/devel/pulp_container"
-  # pulp-cookbook:
-  #   source_dir: "/var/lib/pulp/devel/pulp_cookbook"
-  # pulp-deb:
-  #   source_dir: "/var/lib/pulp/devel/pulp_deb"
-  pulp-file:
-    git_url: "https://github.com/pulp/pulp_file"
-    source_dir: "/var/lib/pulp/devel/pulp_file"
-  # pulp-gem:
-  #   source_dir: "/var/lib/pulp/devel/pulp_gem"
-  # pulp-maven:
-  #   source_dir: "/var/lib/pulp/devel/pulp_maven"
-  # pulp-npm:
-  #   source_dir: "/var/lib/pulp/devel/pulp_npm"
-  # pulp-python:
-  #   source_dir: "/var/lib/pulp/devel/pulp_python"
-  # pulp-rpm:
-  #   source_dir: "/home/vagrant/devel/pulp_rpm"
-
 # These variables are used by molecule verify, not the installer itself
 pulp_python_interpreter: /usr/bin/python3
