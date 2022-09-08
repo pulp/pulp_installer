@@ -61,13 +61,6 @@
       set_fact:
         pulp_ld_library_path: "{{ pulp_env_ld_library_path.stdout }}"
 
-    # Become root so as to search paths like /usr/sbin.
-    - name: Find the nologin executable
-      command: which nologin
-      changed_when: False
-      check_mode: False
-      register: result
-
     - name: Make sure {{ pulp_group }} group exists
       group:
         name: '{{ pulp_group }}'
@@ -81,7 +74,7 @@
       user:
         name: '{{ pulp_user }}'
         uid: '{{ pulp_user_id }}'
-        shell: '{{ result.stdout.strip() }}'
+        shell: '/usr/sbin/nologin'
         home: '{{ pulp_user_home }}'
         system: true
         group: '{{ pulp_group }}'
