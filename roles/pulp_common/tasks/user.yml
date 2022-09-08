@@ -1,0 +1,66 @@
+---
+# Create and manage the pulp user account
+- name: Make sure {{ pulp_group }} group exists
+  group:
+    name: '{{ pulp_group }}'
+    gid: '{{ pulp_group_id }}'
+    state: present
+    system: true
+  become: true
+
+# If we do not create it here, but it is separate from developer_user,
+# the following task would create it incorrectly with default settings.
+- name: Create user {{ pulp_user }}
+  user:
+    name: '{{ pulp_user }}'
+    uid: '{{ pulp_user_id }}'
+    shell: '/usr/sbin/nologin'
+    home: '{{ pulp_user_home }}'
+    system: true
+    group: '{{ pulp_group }}'
+    groups:
+      - '{{ pulp_group }}'
+    append: true
+  # The check implicitly does an or for this check:
+  # developer_user is not defined
+  when: pulp_user != developer_user | default('')
+  notify: Restore SELinux contexts on Pulp dirs that must exist
+  become: true
+
+- name: Add user {{ pulp_user }} to extra groups
+  user:
+    name: '{{ pulp_user }}'
+    groups: '{{ pulp_extra_groups }}'
+    append: true
+  when: pulp_extra_groups is defined
+  become: true
+
+- name: Add user {{ developer_user }} to {{ pulp_group }} group
+  user:
+    name: '{{ developer_user }}'
+    groups:
+      - '{{ pulp_group }}'
+    append: true
+  when: developer_user is defined
+  become: true
+
+- name: Check if the redis group exists
+  command: getent group redis
+  changed_when: False
+  check_mode: False
+  register: redis_group
+  failed_when: redis_group.rc not in [0, 2]
+
+- name: Add user pulp to the redis group
+  user:
+    name: '{{ pulp_user }}'
+    groups: redis
+    append: true
+  when:
+    - __pulp_common_merged_pulp_settings.redis_url is defined
+    - "__pulp_common_merged_pulp_settings.redis_url.startswith('unix:')"
+    - redis_group.rc == 0
+  become: true
+
+- name: Reset ssh conn to allow user changes to affect when ssh user and pulp user are the same
+  meta: reset_connection

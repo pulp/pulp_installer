@@ -1,0 +1,111 @@
+---
+- name: Create and manage the pulp directories
+  block:
+
+    # World executable is needed for ngingx/apache to serve content at
+    # pulp_webserver_static_dir, which is the subdir pulpcore_static by default.
+    #
+    # We need to create it in case the pulp_user already exists
+    # and has a different home dir. Like "vagrant" for pulplift.
+    - name: Make sure {{ pulp_user_home }} is world executable, and exists
+      file:
+        path: '{{ pulp_user_home }}'
+        state: directory
+        mode: 'u+rwx,o+x'
+        owner: '{{ pulp_user }}'
+        group: '{{ pulp_group }}'
+
+    - name: Create deploy root dir for pulp
+      file:
+        path: '{{ __pulp_common_merged_pulp_settings.deploy_root }}'
+        state: directory
+        mode: 'u+rwx,o+x'
+        owner: '{{ pulp_user }}'
+        group: '{{ pulp_group }}'
+
+    - name: Create media dir for Pulp
+      file:
+        path: '{{ __pulp_common_merged_pulp_settings.media_root }}'
+        state: directory
+        owner: '{{ pulp_user }}'
+        group: '{{ pulp_group }}'
+        mode: "u+rwx,g+rwx,o+rx"
+        seuser: _default
+        serole: _default
+        setype: _default
+
+    - name: Create cache dir for Pulp
+      file:
+        path: '{{ __pulp_common_merged_pulp_settings.working_directory }}'
+        state: directory
+        owner: '{{ pulp_user }}'
+        group: '{{ pulp_group }}'
+        mode: "u+rwx,g+rwx,o+rx"
+        serole: _default
+        setype: _default
+        seuser: _default
+
+    - name: Create file upload temp dir for Pulp
+      file:
+        path: '{{ __pulp_common_merged_pulp_settings.file_upload_temp_dir }}'
+        state: directory
+        owner: '{{ pulp_user }}'
+        group: '{{ pulp_group }}'
+        mode: "u+rwx,g+rwx,o+rx"
+        serole: _default
+        setype: _default
+        seuser: _default
+
+    - name: Create assets (static) dir for Pulp
+      file:
+        path: '{{ __pulp_common_merged_pulp_settings.static_root }}'
+        state: directory
+        owner: '{{ pulp_user }}'
+        group: '{{ pulp_group }}'
+        mode: "u+rwx,g+rx,o+rx"
+        serole: _default
+        setype: _default
+        seuser: _default
+
+    - name: Check if artifact directory exists at old path
+      stat:
+        path: '{{ __pulp_old_artifact_dir }}'
+      register: old_artifact_dir_stat
+
+    - name: Move artifact directory inside MEDIA_ROOT
+      script: 'scripts/move-artifacts-to-media-root.sh {{ __pulp_old_artifact_dir }} {{ __pulp_artifact_dir }}'
+      args:
+        creates: '{{ __pulp_artifact_dir }}'
+      when: old_artifact_dir_stat.stat.exists
+
+    - name: Create artifact dir for Pulp
+      file:
+        path: '{{ __pulp_artifact_dir }}'
+        state: directory
+        owner: '{{ pulp_user }}'
+        group: '{{ pulp_group }}'
+        mode: "u+rwx,g+rwx,o+rx"
+        serole: _default
+        setype: _default
+        seuser: _default
+
+    - name: Create scripts directory to hold user-provided scripts
+      file:
+        path: "{{ pulp_scripts_dir }}"
+        state: directory
+        owner: "{{ pulp_user }}"
+        group: "{{ pulp_group }}"
+        mode: "u+rwx,g+rwx,o+rx"
+
+    - name: Create cert directory to hold token authentication key
+      file:
+        path: "{{ pulp_certs_dir }}"
+        state: directory
+        owner: "{{ pulp_user }}"
+        group: "{{ pulp_group }}"
+        mode: 0700
+        serole: _default
+        setype: _default
+        seuser: _default
+
+  become: true
