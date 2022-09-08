@@ -131,6 +131,9 @@
     __pulp_rhel_pulpcore_repo_enable_default: True
     __pulp_rhel_scl_repo_enable_default: True
 
+- import_tasks: user.yml
+- import_tasks: dirs.yml
+- import_tasks: pulp2-workarounds.yml
 - import_tasks: install.yml
 - import_tasks: configure.yml
 
