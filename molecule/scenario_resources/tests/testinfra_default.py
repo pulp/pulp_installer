@@ -19,6 +19,19 @@ def test_pulp_home(host):
   else:
     assert False
 
+def test_certs_dir(host):
+
+  certs_dir = host.file("/etc/pulp/certs")
+  certs_dir_alt = host.file("/opt/pulp/etc/certs")
+
+  if certs_dir.exists:
+    assert certs_dir.user == "pulp"
+    assert certs_dir.group == "pulp"
+  elif certs_dir_alt.exists:
+    assert certs_dir_alt.user == "pulp"
+    assert certs_dir_alt.group == "pulp"
+  else:
+    assert False
 
 @pytest.mark.parametrize("service", [
     "pulpcore-api", "pulpcore-content", "pulpcore-worker@1", "pulpcore-worker@2"

@@ -185,9 +185,12 @@
       when:
         - result_restart_service is not defined
 
+# The last 2 are not for hostvars for other hosts, but in case pulp_webserver runs on the same host
 - name: Make variables available to other hosts in other roles via hostvars
   set_fact:
     pulp_install_source: "{{ pulp_install_source }}"
     pulp_install_dir: "{{ pulp_install_dir }}"
     pulp_python_interpreter: "{{ pulp_python_interpreter }}"
     __pulp_common_merged_pulp_settings: "{{ __pulp_common_merged_pulp_settings }}"
+    pulp_user: "{{ pulp_user }}"
+    pulp_group: "{{ pulp_group }}"
