@@ -7,6 +7,10 @@
       rpm_key:
         state: present
         key: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_facts.distribution_major_version }}
+      register: import_epel_key
+      retries: 5
+      delay: 5
+      until: import_epel_key is succeeded
       when:
         - __pulp_os_family == 'RedHat'
         - ansible_facts.distribution_major_version|int in [7,8,9,10]
