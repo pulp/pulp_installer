@@ -1,6 +1,5 @@
 ---
-# vars file for pulp_rpm_prerequisites on Fedora
-# Also used by RHEL8 / CentOS8
+# vars file for pulp_rpm_prerequisites on SLES-15
 rpm_prereq_packages:
   - gcc
   - make
