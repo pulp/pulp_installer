@@ -1,0 +1,20 @@
+---
+# We set the following to mod_ssl as httpd is a dependency
+# and hence will be pulled.
+pulp_seboolean_packages:
+  - python3-selinux-3.0-1.20.x86_64 
+  - python3-semanage-3.0-1.19.x86_64  
+pulp_firewall_dependencies:
+  - python3-firewall
+pulp_webserver_apache_package:
+  - mod_ssl
+  # workaround an undeclared dependency, for the centos:8stream container image
+  # https://bugzilla.redhat.com/show_bug.cgi?id=2050888
+  - hostname
+pulp_webserver_apache_service: httpd
+pulp_webserver_apache_vhost_dir: /etc/httpd/conf.d
+pulp_webserver_apache_snippets_dir: /etc/httpd/pulp
+pulp_webserver_apache_log_dir: /var/log/httpd
+pulp_webserver_trusted_root_certificates_path: /etc/pki/trust/anchors/
+pulp_webserver_trusted_root_certificates_update_bin: update-ca-certificates
+

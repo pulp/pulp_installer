@@ -41,6 +41,26 @@
         - __pulp_os_family == 'RedHat'
         - ansible_facts.distribution_major_version|int == 7
         - pulp_redis_package_name.startswith('rh-')
+        
+    - name: create redis configuration
+      copy:
+        src: /etc/redis/default.conf.example
+        dest: "{{ pulp_redis_conf_file | default(_pulp_redis_conf_file) }}"
+        remote_src: yes
+      when: ansible_os_family == 'Suse'
+        
+    - name: create redis systemd service
+      template:
+        src: "{{ item }}"
+        dest: /etc/systemd/system/{{ pulp_redis_server_name | default(_pulp_redis_server_name) }}.service
+        mode: 0644
+      with_first_found:
+        - files:
+          - "{{ ansible_os_family }}/redis.service.j2"
+          - redis.service.j2
+          paths:
+            - ../templates
+      when: ansible_os_family == 'Suse'
 
     - name: Configure Redis to listen on Unix Domain Socket
       include_tasks: configure_uds.yml

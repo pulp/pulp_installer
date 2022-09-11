@@ -1,0 +1,18 @@
+---
+pulp_preq_packages:
+  - python39
+  - python39-devel
+  - python3-selinux     # For ansible itself
+  - python3-policycoreutils  # For ansible itself
+  - gcc                 # For psycopg2
+  - make                # For make docs, and SELinux policy install
+  - git                 # For source install, and SELinux policy install
+  - sudo
+  - gpg2         
+  - pkg-config
+  - libpq5      
+
+# Pulp requires Python 3.8+.
+pulp_python_interpreter: /usr/bin/python3.9
+pulp_python_cryptography:
+  - python3-cryptography
