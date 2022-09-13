@@ -74,7 +74,7 @@
         that:
           - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-rpm'][0].version is version("3.14.15", "=")
       when: ansible_facts.os_family == 'RedHat'
-# Test updates (upgrade=true on a branch)
+# Test updates (upgrade=true on a branch, also add pulp-container)
 - hosts: all
   force_handlers: True
   tasks:
@@ -89,11 +89,17 @@
           pulp_rpm:
             version: "3.14"
             upgrade: true
+          pulp_container:
+            version: "2.8"
+            upgrade: true
       when: ansible_facts.os_family == 'RedHat'
     - set_fact:
         pulp_install_plugins:
           pulp_file:
             version: "1.8"
+            upgrade: true
+          pulp_container:
+            version: "2.8"
             upgrade: true
       when: ansible_facts.os_family == 'Debian'
     - include_role:
@@ -102,11 +108,12 @@
       pip_package_info:
         clients: "/usr/local/lib/pulp/bin/pip"
       register: pip_pkgs
-    - name: Assert pulpcore>=3.14.6, pulp-file>=1.8.2
+    - name: Assert pulpcore>=3.14.6, pulp-file>=1.8.2, pulp-container>=2.8.0
       assert:
         that:
           - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulpcore'][0].version is version("3.14.6", ">=")
           - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-file'][0].version is version("1.8.2", ">=")
+          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-container'][0].version is version("2.8.0", ">=")
     - name: Assert pulp-rpm>=3.14.12
       assert:
         that:
@@ -127,12 +134,16 @@
           pulp_rpm:
             version: "3.17"
             upgrade: false
+          pulp_container:
+            version: "2.14"
+            upgrade: false
       when: ansible_facts.os_family == 'RedHat'
     - set_fact:
         pulp_install_plugins:
           pulp_file:
-            version: "1.10"
-            upgrade: fasle
+          pulp_container:
+            version: "2.14"
+            upgrade: false
       when: ansible_facts.os_family == 'Debian'
     - include_role:
         name: pulp_database_config
@@ -140,13 +151,21 @@
       pip_package_info:
         clients: "/usr/local/lib/pulp/bin/pip"
       register: pip_pkgs
-    - name: Assert pulpcore>=3.18.0, pulp-file>=1.10.0
+    - name: Assert pulpcore>=3.18.0, pulp-file>=1.10.0, pulp-container >=2.14.0
       assert:
         that:
           - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulpcore'][0].version is version("3.18.0", ">=")
           - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-file'][0].version is version("1.10.0", ">=")
+          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-container'][0].version is version("2.14.0", ">=")
     - name: Assert pulp-rpm>=3.17.0
       assert:
         that:
           - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-rpm'][0].version is version("3.17.0", ">=")
       when: ansible_facts.os_family == 'RedHat'
+    - name: Show the output of container-repair-media-type
+      debug:
+        var: repair_pip
+    - name: Assert that container-repair-media-type was run
+      assert:
+        that:
+          - '"Successfully repaired" in repair_pip.stdout'
