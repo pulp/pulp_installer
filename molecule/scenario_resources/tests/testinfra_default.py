@@ -20,6 +20,26 @@ def test_pulp_home(host):
     assert False
 
 
+def test_pulp_static_dir(host):
+
+  galaxy_installed_dir = host.file("/etc/galaxy-importer")
+  static_dir = host.file("/var/lib/pulp/assets")
+  static_dir_alt = host.file("/opt/pulp/assets")
+  static_dir_galaxy = host.file("/var/lib/pulp/static")
+
+  if galaxy_installed_dir.exists:
+    assert static_dir_galaxy.user == "pulp"
+    assert static_dir_galaxy.group == "pulp"
+  elif static_dir.exists:
+    assert static_dir.user == "pulp"
+    assert static_dir.group == "pulp"
+  elif static_dir_alt.exists:
+    assert static_dir_alt.user == "pulp"
+    assert static_dir_alt.group == "pulp"
+  else:
+    assert False
+
+
 @pytest.mark.parametrize("service", [
     "pulpcore-api", "pulpcore-content", "pulpcore-worker@1", "pulpcore-worker@2"
 ])
