@@ -20,6 +20,11 @@ Role Variables
    one wants to import. The path is on the Ansible management node.
    It is used to encrypt certain fields in the database (such as credentials.)
    If not specified, a new key will be generated. (Only generated if one doesn't exist.)
+* `pulp_container_repair_media_type`: Whether or not to run the command `pulpcore-manager
+   container-repair-media-type`, which fixes an issue with OCI manifests by modifying the
+   database. Accepts `True`, `False`, or `auto`. Defaults to `auto`, which runs the command
+   if pulp-container is currently installed at a version where the database is affected,
+   and if pulp-container is being upgraded to a version where the repair command is present.
 
 Role Variables for advanced usage
 ---------------------------------

@@ -1,4 +1,15 @@
 ---
+# We test for all the possible package names, including ones used in the past
+- name: Set a fact for the version of pulp-container installed prior to upgrade
+  set_fact:
+    pulp_container_old_version: "{{ ansible_facts.packages[item].0.version }}"
+  when: ansible_facts.packages[item] is defined
+  with_items:
+    - python3-pulp-container
+    - python38-pulp-container
+    - python39-pulp-container
+    - tfm-pulpcore-python3-pulp-container
+
 - name: Prepare to install the Pulp packages
   block:
     - name: "Enumerate the list of updates from the {{ __pulp_pkg_repo_name }} repo"

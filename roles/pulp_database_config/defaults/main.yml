@@ -5,3 +5,5 @@ galaxy_create_default_collection_signing_service: false
 galaxy_create_default_container_signing_service: false
 
 pulp_force_change_admin_password: false
+
+pulp_container_repair_media_type: "auto"
