@@ -138,7 +138,7 @@
     - name: Obtain list of packages in the venv to see if any plugins are installed
       pip_package_info:
         clients: "{{ pulp_install_dir }}/bin/pip"
-      register: pip_pkgs
+      register: pip_pkgs_preinstall
 
     - name: Create requirements.in file to check pulpcore/plugin compatibility
       template:
@@ -314,11 +314,11 @@
     - name: Obtain list of packages & versions in the venv after pulpcore install
       pip_package_info:
         clients: "{{ pulp_install_dir }}/bin/pip"
-      register: pip_pkgs
+      register: pip_pkgs_midinstall
 
     - name: Set __pulpcore_version to the pulpcore that was installed  ## noqa jinja
       set_fact:
-        __pulpcore_version: "{{ pip_pkgs.packages[pulp_install_dir + '/bin/pip'].pulpcore[0].version }}"
+        __pulpcore_version: "{{ pip_pkgs_midinstall.packages[pulp_install_dir + '/bin/pip'].pulpcore[0].version }}"
       when: pulp_source_dir is defined
 
     - name: Patch md5usedforsecurity in Django (devel only)
@@ -340,7 +340,7 @@
         state: present
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
-      when: pip_pkgs.packages[pulp_install_dir + '/bin/pip'].dynaconf[0].version is version("3.1.1", "<")
+      when: pip_pkgs_midinstall.packages[pulp_install_dir + '/bin/pip'].dynaconf[0].version is version("3.1.1", "<")
 
     - name: Upgrade django-storages if it is older than 1.12.2
       pip:
@@ -349,8 +349,8 @@
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
       when:
-        - pip_pkgs.packages[pulp_install_dir + '/bin/pip']['django-storages'] is defined
-        - pip_pkgs.packages[pulp_install_dir + '/bin/pip']['django-storages'][0].version is version("1.12.2", "<")
+        - pip_pkgs_midinstall.packages[pulp_install_dir + '/bin/pip']['django-storages'] is defined
+        - pip_pkgs_midinstall.packages[pulp_install_dir + '/bin/pip']['django-storages'][0].version is version("1.12.2", "<")
 
     - name: Create constraints file to lock the django and pulpcore version when plugins are installed
       template:
@@ -425,6 +425,11 @@
         state: present
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+
+    - name: Obtain list of packages & versions in the venv after plugins install
+      pip_package_info:
+        clients: "{{ pulp_install_dir }}/bin/pip"
+      register: pip_pkgs_postinstall
 
   become: true
   become_user: '{{ pulp_user }}'
