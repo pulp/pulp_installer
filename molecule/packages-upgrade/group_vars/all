@@ -6,6 +6,7 @@ pulp_install_selinux_policies: True
 pulp_install_plugins:
   pulp-file:
   pulp-rpm:
+  pulp-container:
 pulp_settings:
   secret_key: secret
   content_origin: "https://{{ ansible_fqdn }}"

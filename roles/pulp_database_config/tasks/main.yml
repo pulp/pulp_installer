@@ -247,6 +247,95 @@
     PULP_WORKING_DIRECTORY: "{{ pulp_user_home }}/tmp"
     PULP_FILE_UPLOAD_TEMP_DIR: "{{ pulp_user_home }}/tmp"
 
+# We run the command when:
+# 1. The old version is <= 2.9.5 or (>=2.10.0 and <= 2.10.4 ) or (>= 2.11.0 and <= 2.11.1)
+#    or (>= 2.12.0 and <= 2.12.2) or ==2.13.0
+# 2. The new version is (>= 2.9.7 and < 2.10.0) or (>= 2.10.8 and < 2.11.0) or (>= 2.11.2 and < 2.12.0)
+#    or (>= 2.12.3 and < 2.13.0) or >= 2.13.2
+- name: Run the pulpcore-manager container-repair-media-type command (pip mode)
+  command: "{{ pulp_django_admin_path }} container-repair-media-type"
+  register: repair_pip
+  failed_when: '"Successfully repaired" not in repair_pip.stdout'
+  changed_when: '"Successfully repaired 0 manifests." not in repair_pip.stdout'
+  when:
+    - pip_pkgs_preinstall.packages[pulp_install_dir + '/bin/pip']['pulp-container'] is defined
+    - >
+      pulp_container_repair_media_type | bool or
+      (pulp_container_repair_media_type == "auto" and
+      ((pip_pkgs_preinstall.packages[pulp_install_dir + '/bin/pip']['pulp-container'][0].version is version("2.9.5", "<=")) or
+      (pip_pkgs_preinstall.packages[pulp_install_dir + '/bin/pip']['pulp-container'][0].version is version("2.10.0", ">=") and
+      pip_pkgs_preinstall.packages[pulp_install_dir + '/bin/pip']['pulp-container'][0].version is version("2.10.4", "<=")) or
+      (pip_pkgs_preinstall.packages[pulp_install_dir + '/bin/pip']['pulp-container'][0].version is version("2.11.0", ">=") and
+      pip_pkgs_preinstall.packages[pulp_install_dir + '/bin/pip']['pulp-container'][0].version is version("2.11.1", "<=")) or
+      (pip_pkgs_preinstall.packages[pulp_install_dir + '/bin/pip']['pulp-container'][0].version is version("2.12.0", ">=") and
+      pip_pkgs_preinstall.packages[pulp_install_dir + '/bin/pip']['pulp-container'][0].version is version("2.12.2", "<=")) or
+      pip_pkgs_preinstall.packages[pulp_install_dir + '/bin/pip']['pulp-container'][0].version is version("2.13.0", "=="))
+      and
+      ((pip_pkgs_postinstall.packages[pulp_install_dir + '/bin/pip']['pulp-container'][0].version is version("2.9.7", ">=") and
+      pip_pkgs_postinstall.packages[pulp_install_dir + '/bin/pip']['pulp-container'][0].version is version("2.10.0", "<") ) or
+      (pip_pkgs_postinstall.packages[pulp_install_dir + '/bin/pip']['pulp-container'][0].version is version("2.10.8", ">=") and
+      pip_pkgs_postinstall.packages[pulp_install_dir + '/bin/pip']['pulp-container'][0].version is version("2.11.0", "<")) or
+      (pip_pkgs_postinstall.packages[pulp_install_dir + '/bin/pip']['pulp-container'][0].version is version("2.11.1", ">=") and
+      pip_pkgs_postinstall.packages[pulp_install_dir + '/bin/pip']['pulp-container'][0].version is version("2.12.0", "<")) or
+      (pip_pkgs_postinstall.packages[pulp_install_dir + '/bin/pip']['pulp-container'][0].version is version("2.12.3", ">=") and
+      pip_pkgs_postinstall.packages[pulp_install_dir + '/bin/pip']['pulp-container'][0].version is version("2.13.0", "<")) or
+      pip_pkgs_postinstall.packages[pulp_install_dir + '/bin/pip']['pulp-container'][0].version is version("2.13.2", ">="))
+      )
+  run_once: "{{ __pulp_run_once }}"
+  delegate_to: "{{ hostvars['localhost']['pulp_database_config_host'] | default(inventory_hostname) }}"
+  become: true
+  become_user: '{{ pulp_user }}'
+  environment:
+    PULP_SETTINGS: "{{ pulp_settings_file }}"
+    LD_LIBRARY_PATH: "{{ pulp_ld_library_path }}"
+
+- name: Show output from the repair command
+  debug:
+    var: repair_pip
+    verbosity: 1
+
+- name: Run the pulpcore-manager container-repair-media-type command (packages mode)
+  command: "{{ pulp_django_admin_path }} container-repair-media-type"
+  register: repair_packages
+  failed_when: '"Successfully repaired" not in repair_packages.stdout'
+  changed_when: '"Successfully repaired 0 manifests." not in repair_packages.stdout'
+  when:
+    - pulp_container_old_version is defined
+    - >
+      pulp_container_repair_media_type | bool or
+      (pulp_container_repair_media_type == "auto" and
+      ((pulp_container_old_version is version("2.9.5", "<=")) or
+      (pulp_container_old_version is version("2.10.0", ">=") and
+      pulp_container_old_version is version("2.10.4", "<=")) or
+      (pulp_container_old_version is version("2.11.0", ">=") and
+      pulp_container_old_version is version("2.11.1", "<=")) or
+      (pulp_container_old_version is version("2.12.0", ">=") and
+      pulp_container_old_version is version("2.12.2", "<=")) or
+      pulp_container_old_version is version("2.13.0", "=="))
+      and
+      ((ansible_facts.packages[pulp_pkg_name_prefix + 'pulp-container'][0].version is version("2.9.7", ">=") and
+      ansible_facts.packages[pulp_pkg_name_prefix + 'pulp-container'][0].version is version("2.10.0", "<") ) or
+      (ansible_facts.packages[pulp_pkg_name_prefix + 'pulp-container'][0].version is version("2.10.8", ">=") and
+      ansible_facts.packages[pulp_pkg_name_prefix + 'pulp-container'][0].version is version("2.11.0", "<")) or
+      (ansible_facts.packages[pulp_pkg_name_prefix + 'pulp-container'][0].version is version("2.11.1", ">=") and
+      ansible_facts.packages[pulp_pkg_name_prefix + 'pulp-container'][0].version is version("2.12.0", "<")) or
+      (ansible_facts.packages[pulp_pkg_name_prefix + 'pulp-container'][0].version is version("2.12.3", ">=") and
+      ansible_facts.packages[pulp_pkg_name_prefix + 'pulp-container'][0].version is version("2.13.0", "<")) or
+      ansible_facts.packages[pulp_pkg_name_prefix + 'pulp-container'][0].version is version("2.13.2", ">="))
+      )
+  run_once: "{{ __pulp_run_once }}"
+  delegate_to: "{{ hostvars['localhost']['pulp_database_config_host'] | default(inventory_hostname) }}"
+  become: true
+  become_user: '{{ pulp_user }}'
+  environment:
+    PULP_SETTINGS: "{{ pulp_settings_file }}"
+    LD_LIBRARY_PATH: "{{ pulp_ld_library_path }}"
+
+- name: Show output from the repair command
+  debug:
+    var: repair_packages
+    verbosity: 1
+
 # This task is located here in pulp_database_config because it depends on the database fields encryption key
 # and on the database migrations having been run.
 - name: Add the galaxy signing service to the Pulp application

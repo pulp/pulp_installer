@@ -1,0 +1,1 @@
+Run `pulpcore-manager container-repair-media-type` when upgrading from a version of pulp-container that needs to be repaired, to a version of pulp-container that has the command. Introduces the variable `pulp_container_repair_media_type`.

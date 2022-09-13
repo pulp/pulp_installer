@@ -23,7 +23,7 @@ lint: |
 platforms:
   - <<: *platform_base
     name: centos-8
-    image: quay.io/pulp/pulp-ci-pkgs-c8:3.7.9
+    image: quay.io/pulp/pulp-ci-pkgs-c8:3.7.9-1
     command: /sbin/init
 provisioner:
   name: ansible
