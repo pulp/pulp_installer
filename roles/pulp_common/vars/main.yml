@@ -38,14 +38,14 @@ __pulp_common_pulp_settings_defaults:
   media_root: "{{ pulp_settings.deploy_root | default(pulp_user_home) | regex_replace('\\/$', '') }}/media"
   private_key_path: "{{ pulp_certs_dir }}/token_private_key.pem"
   public_key_path: "{{ pulp_certs_dir }}/token_public_key.pem"
-  static_root: "{{ pulp_settings.deploy_root | default(pulp_user_home) | regex_replace('\\/$', '') }}{{ pulp_settings.static_url | default('/assets/') | regex_replace('\\/$', '') }}"
-  static_url: "/assets/"
+  static_url: "{{ (pulp_install_plugins_normalized['galaxy-ng'] is defined) | ternary('/static/','/assets/') }}"
   token_server: "{{ pulp_webserver_disable_https | default(false) | ternary('http', 'https') }}://{{ ansible_facts.fqdn }}/token/"
   token_signature_algorithm: ES256
   working_directory: "{{ pulp_settings.deploy_root | default(pulp_user_home) | regex_replace('\\/$', '') }}/tmp"
   content_path_prefix: "/pulp/content/"
 __pulp_common_pulp_settings_defaults_dependent_vars:
   file_upload_temp_dir: "{{ pulp_settings.working_directory | default(__pulp_common_pulp_settings_defaults.working_directory) }}"
+  static_root: "{{ pulp_settings.deploy_root | default(pulp_user_home) | regex_replace('\\/$', '') }}{{ pulp_settings.static_url | default(__pulp_common_pulp_settings_defaults.static_url) | regex_replace('\\/$', '') }}"
 
 __pulp_common_merged_pulp_settings: "{{ __pulp_common_pulp_settings_defaults | combine(__pulp_common_pulp_settings_defaults_dependent_vars, recursive=true) | combine(pulp_settings, recursive=True) }}"
 
