@@ -13,6 +13,20 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.21.0 (2022-09-13)
+===================
+
+
+Deprecations and Removals
+-------------------------
+
+- Remove logic to add the repo ppa:directhex/mock-dnf on Ubuntu 20.04 and earlier when pulp-rpm is being installed. The PPA was only ever made available for Ubuntu 16.04, and the installer definitely will not support such an old version of Ubuntu now. Note that there is no known way to install pulp-rpm on Ubuntu 20.04 or 18.04, but it installs on Ubuntu 22.04.
+  [#1366](https://github.com/pulp/pulp_installer/issues/1366)
+
+
+----
+
+
 3.20.5 (2022-09-06)
 ===================
 
