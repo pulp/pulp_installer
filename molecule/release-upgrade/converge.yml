@@ -117,21 +117,21 @@
   force_handlers: True
   tasks:
     - set_fact:
-        pulpcore_version: "3.20"
+        pulpcore_version: "3.21"
         pulpcore_update: false
     - set_fact:
         pulp_install_plugins:
           pulp_file:
-            version: "1.10"
+            version: "1.11"
             upgrade: false
           pulp_rpm:
-            version: "3.17"
+            version: "3.18"
             upgrade: false
       when: ansible_facts.os_family == 'RedHat'
     - set_fact:
         pulp_install_plugins:
           pulp_file:
-            version: "1.10"
+            version: "1.11"
             upgrade: fasle
       when: ansible_facts.os_family == 'Debian'
     - include_role:
@@ -140,13 +140,13 @@
       pip_package_info:
         clients: "/usr/local/lib/pulp/bin/pip"
       register: pip_pkgs
-    - name: Assert pulpcore>=3.18.0, pulp-file>=1.10.0
+    - name: Assert pulpcore>=3.21.0, pulp-file>=1.11.1
       assert:
         that:
-          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulpcore'][0].version is version("3.18.0", ">=")
-          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-file'][0].version is version("1.10.0", ">=")
-    - name: Assert pulp-rpm>=3.17.0
+          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulpcore'][0].version is version("3.21.0", ">=")
+          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-file'][0].version is version("1.11.1", ">=")
+    - name: Assert pulp-rpm>=3.18.1
       assert:
         that:
-          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-rpm'][0].version is version("3.17.0", ">=")
+          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-rpm'][0].version is version("3.18.1", ">=")
       when: ansible_facts.os_family == 'RedHat'
