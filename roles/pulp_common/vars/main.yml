@@ -38,7 +38,7 @@ __pulp_common_pulp_settings_defaults:
   media_root: "{{ pulp_settings.deploy_root | default(pulp_user_home) | regex_replace('\\/$', '') }}/media"
   private_key_path: "{{ pulp_certs_dir }}/token_private_key.pem"
   public_key_path: "{{ pulp_certs_dir }}/token_public_key.pem"
-  static_url: "{{ (pulp_install_plugins_normalized['galaxy-ng'] is defined) | ternary('/static/','/assets/') }}"
+  static_url: "{{ (pulp_install_plugins_normalized['galaxy-ng'] is defined) | ternary('/static/', '/assets/') }}"
   token_server: "{{ pulp_webserver_disable_https | default(false) | ternary('http', 'https') }}://{{ ansible_facts.fqdn }}/token/"
   token_signature_algorithm: ES256
   working_directory: "{{ pulp_settings.deploy_root | default(pulp_user_home) | regex_replace('\\/$', '') }}/tmp"
