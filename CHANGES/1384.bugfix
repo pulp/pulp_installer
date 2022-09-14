@@ -1,1 +1,0 @@
-Fix galaxy-ng UI not loading due to pulp_installer overriding pulp_setting.static_url from "/static/" to "/assets/".

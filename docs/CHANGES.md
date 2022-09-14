@@ -13,6 +13,26 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.21.1 (2022-09-14)
+===================
+
+
+Bugfixes
+--------
+
+- Install python3-setuptools on Debian and Ubuntu. Fixes an issue with Ubuntu 20.04 (which is not officially supported.)
+  [#1368](https://github.com/pulp/pulp_installer/issues/1368)
+- Speed up CI using mitogen on Ansible 2.10 tests
+  [#1377](https://github.com/pulp/pulp_installer/issues/1377)
+- Fix wrong permissions for /etc/pulp/certs when pulp_user/pulp_group are not set, and both pulp_common and pulp_webserver are run on the same host.
+  [#1378](https://github.com/pulp/pulp_installer/issues/1378)
+- Fix galaxy-ng UI not loading due to pulp_installer overriding pulp_setting.static_url from "/static/" to "/assets/".
+  [#1384](https://github.com/pulp/pulp_installer/issues/1384)
+
+
+----
+
+
 3.21.0 (2022-09-13)
 ===================
 
