@@ -1,1 +1,0 @@
-Fix wrong permissions for /etc/pulp/certs when pulp_user/pulp_group are not set, and both pulp_common and pulp_webserver are run on the same host.
