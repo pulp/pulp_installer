@@ -26,6 +26,7 @@ pulp_settings:
   content_origin: "https://{{ ansible_fqdn }}"
   secret_key: secret
   redis_url: "unix:/var/run/redis/redis.sock"
+  telemetry: false
 pulp_webserver_server: apache
 
 # These variables are used by molecule verify, not the installer itself

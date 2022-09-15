@@ -64,6 +64,7 @@ pulp_settings:
       NAME: pulp
       USER: pulp
       PASSWORD: password
+  telemetry: false
 __pulp_molecule_verify_skip_testinfra_tests: true
 __pulp_molecule_verify_has_db_fields_key: false
 

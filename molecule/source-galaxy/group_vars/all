@@ -39,6 +39,7 @@ pulp_settings:
   galaxy_auto_sign_collections: true
   galaxy_collection_signing_service: ansible-default
   galaxy_container_signing_service: container-default
+  telemetry: false
 
 # Galaxy Configuration
 # Set this __galaxy variables according to your needs.
