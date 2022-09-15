@@ -54,6 +54,7 @@ pulp_settings:
   static_root: /opt/pulp/assets
   working_directory: /opt/pulp/cache
   file_upload_temp_dir: /opt/pulp/file_upload_temp
+  telemetry: false
 
 # These variables are used by molecule verify, not the installer itself
 pulp_lib_path: /opt/pulp/devel

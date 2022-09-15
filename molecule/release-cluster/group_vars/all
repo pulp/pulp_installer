@@ -64,6 +64,7 @@ pulp_settings:
       NAME: pulp
       USER: pulp
       PASSWORD: password
+  telemetry: false
 # Configuring postgresql_hba_entries is no longer necessary, but we document this as an alternative to be
 # specified, so we test this value anyway.
 postgresql_hba_entries:
