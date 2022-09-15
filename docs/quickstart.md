@@ -4,6 +4,10 @@ Getting started
 The Pulp 3 Ansible installer is a collection of roles to install or upgrade Pulp 3 hosted on galaxy:
 [https://galaxy.ansible.com/pulp/pulp_installer](https://galaxy.ansible.com/pulp/pulp_installer)
 
+System Requirements
+-------------------
+Review the [system requirements](index.md#system-requirements) on the home page
+
 Installation
 ------------
 The Pulp 3 Ansible installer itself is normally installed.

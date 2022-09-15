@@ -66,6 +66,9 @@ runs one of these currently supported operating systems:
 - Debian 11 Bullseye (needs `allow_world_readable_tmpfiles = True` in ansible.cfg)
 - Debian 22.04 Jammy (needs `allow_world_readable_tmpfiles = True` in ansible.cfg)
 
+The server must have the command `sudo` installed. (If you are using an alternative [become
+method](https://docs.ansible.com/ansible/latest/user_guide/become.html), sudo is not needed.)
+
 The server cannot provide any other HTTP (port 80, 443) service on the same hostname as Pulp's API. The only
 exception is Pulp 2. The REST APIs for Pulp 2 and Pulp 3 can be served on the same hostname as
 long as the `apache` webserver is deployed for both.
