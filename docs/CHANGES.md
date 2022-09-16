@@ -13,6 +13,27 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.21.2 (2022-09-16)
+===================
+
+
+Features
+--------
+
+- Run `pulpcore-manager container-repair-media-type` when upgrading from a version of pulp-container that needs to be repaired, to a version of pulp-container that has the command. Introduces the variable `pulp_container_repair_media_type`.
+  [#1387](https://github.com/pulp/pulp_installer/issues/1387)
+
+
+Improved Documentation
+----------------------
+
+- Document the dependency on `sudo`.
+  [#804](https://github.com/pulp/pulp_installer/issues/804)
+
+
+----
+
+
 3.21.1 (2022-09-14)
 ===================
 
