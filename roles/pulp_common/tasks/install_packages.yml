@@ -16,7 +16,8 @@
       yum:
         list: updates
         disablerepo: "*"
-        enablerepo: "{{ __pulp_pkg_repo_name }}"
+        enablerepo: "{{ pulp_pkg_upgrade_repo_name | default(__pulp_pkg_repo_name) }}"
+        exclude: "{{ pulp_pkg_exclude_from_upgrade | default(omit) }}"
       register: updates
 
     - name: List packages to be upgraded
@@ -74,6 +75,7 @@
       yum:
         name: "{{ updates.results | map(attribute='name') | list }}"
         state: latest  # noqa package-latest
+        exclude: "{{ pulp_pkg_exclude_from_upgrade | default(omit) }}"
         conf_file: "{{ __dnf_conf.path | default(omit) }}"
         # update_only is a needed part of installing older updates
         update_only: true
