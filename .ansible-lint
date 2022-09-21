@@ -8,6 +8,8 @@ skip_list:
   # Sometimes using `when: result.changed` is more robust. Like when you need to immediately run the
   # commands, or you have a rescue block.
   - 'no-handler'
+  # This accidentally flags the "copy" module with the "content" parameter using jinja2. But template has no "content" parameter.
+  - 'template-instead-of-copy'
 exclude_paths:
   - ./roles/ansible-role-postgresql/
   - ./roles/geerlingguy.postgresql/
