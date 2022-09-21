@@ -200,6 +200,10 @@ Furthermore, the following variables are used, or behave *differently* from abov
 * `pulp_pkg_selinux_name` The name of the package containing the SELinux policies to install. See
   `pulp_install_selinux_policies`, except `git` is not used; the package manager is used instead.
    Defaults to "pulpcore-selinux".
+* `pulp_pkg_exclude_from_upgrade`: Optional. A list of packages that should be excluded from upgrade (Can be
+   used when `pulp_pkg_upgrade_all=true`).
+* `pulp_pkg_upgrade_repo_name`: Optional. yum/dnf package repo to enable during upgrade (Can be used when
+  `pulp_pkg_upgrade_all=true`).
 
 Role Variables for advanced usage
 ---------------------------------
