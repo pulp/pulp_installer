@@ -33,6 +33,8 @@
         seuser: _default
         serole: _default
         setype: _default
+      # pulp_installer's object storage docs instruct users to set this to an empty string
+      when: __pulp_common_merged_pulp_settings.media_root | length > 0
 
     - name: Create cache dir for Pulp
       file:
