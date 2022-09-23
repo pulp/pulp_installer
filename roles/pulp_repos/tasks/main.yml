@@ -44,6 +44,8 @@
   become: true
   when: __pulp_repos_epel_enable_default and pulp_repos_epel_enable and pulp_repos_enable
 
+# __ambiguously_named_repo_enabled has already been set in the role defaults
+#
 # Try multiple possible names for the rhel7 optional repo until it is found.
 # The query ensures that a single string rather than a list of strings is valid.
 - name: Find and enable the first found name of the RHEL7 Optional repo
@@ -51,17 +53,21 @@
   loop: "{{ rhel7_optional_repo }}"
   loop_control:
     loop_var: __ambiguously_named_repo
-  vars:
-    reg_variable: "__pulp_common_repo_enabled"
   when:
     - ansible_facts.distribution == "RedHat"
     - ansible_facts.distribution_major_version|int == 7
     # Works for both strings and lists to make sure not empty
     - rhel7_optional_repo is not none
     - rhel7_optional_repo | length > 0
-    # Prevents running again once completed.
-    - __pulp_common_repo_enabled is not defined
     - __pulp_repos_rhel_optional_enable_default and pulp_repos_rhel_optional_enable and pulp_repos_enable
+
+- name: Set the variable stating that the RHEL CodeReady Builder repo has not yet been enabled
+  set_fact:
+    __ambiguously_named_repo_enabled: false
+  when:
+    - ansible_facts.distribution == "RedHat"
+    - ansible_facts.distribution_major_version|int >= 8
+    - __pulp_repos_rhel_codeready_enable_default and pulp_repos_rhel_codeready_enable and pulp_repos_enable
 
 # Note: There are at least 3 needs for this repo:
 # 1. pulp_devel needs it for at least python-django-bash-completion
@@ -78,16 +84,12 @@
   loop: "{{ pulp_rhel_codeready_repo }}"
   loop_control:
     loop_var: __ambiguously_named_repo
-  vars:
-    reg_variable: "__pulp_codeready_repo_enabled"
   when:
     - ansible_facts.distribution == "RedHat"
     - ansible_facts.distribution_major_version|int >= 8
     # Works for both strings and lists to make sure not empty
     - pulp_rhel_codeready_repo is not none
     - pulp_rhel_codeready_repo | length > 0
-    # Prevents running again once completed.
-    - __pulp_codeready_repo_enabled is not defined
     - __pulp_repos_rhel_codeready_enable_default and pulp_repos_rhel_codeready_enable and pulp_repos_enable
 
 - name: Enable the CentOS CRB repo
@@ -182,6 +184,13 @@
 
 - name: Enable SCL repository
   block:
+    - name: Set the variable stating that the SCL repo has not yet been enabled
+      set_fact:
+        __ambiguously_named_repo_enabled: false
+      when:
+        - ansible_facts.distribution == "RedHat"
+        - ansible_facts.distribution_major_version|int == 7
+
     # Try multiple possible names for the rhel7 SCL repo until it is found.
     # The query ensures that a single string rather than a list of strings is valid.
     - name: Find and enable the first found name of the RHEL7 SCL repo
@@ -189,16 +198,12 @@
       loop: "{{ pulp_rhel7_scl_repo }}"
       loop_control:
         loop_var: __ambiguously_named_repo
-      vars:
-        reg_variable: "__pulp_database_repo_enabled"
       when:
         - ansible_facts.distribution == "RedHat"
         - ansible_facts.distribution_major_version|int == 7
         # Works for both strings and lists to make sure not empty
         - pulp_rhel7_scl_repo is not none
         - pulp_rhel7_scl_repo | length > 0
-        # Prevents running again once completed. Specific to the role name.
-        - __pulp_database_repo_enabled is not defined
 
     - name: Install SCL repo packages on CentOS 7
       package:

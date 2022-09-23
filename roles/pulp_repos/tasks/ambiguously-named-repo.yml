@@ -1,16 +1,21 @@
 ---
-# NOTE: Keep in sync with pulp_database/tasks/ambiguously-named.repo.yml
-# NOTE: __pulp_common_repo_enabled is named specific to this version of ambiguously-named.repo.yml , since it
-# would bleed over into other runs of other ambiguously-named.repo.yml files.
+# NOTE: Every time you create a loop to call this playbook, you must set in a prior set_fact task:
+# __ambiguously_named_repo_enabled: false
+#
+# We cannot check __ambiguously_named_repo_enabled in the "when:" on the include_tasks,
+# it evaluates at the beginning, rather than in between loop operations.
+# So instead, we apply it to every task. This is equivalent to:
+# https://stackoverflow.com/a/61874047/2930194
 
-- name: "Determine which file in /etc/yum.repos.d/ has the {{ __ambiguously_named_repo }} repo"
+- name: "Determine which file in /etc/yum.repos.d/ has the repo {{ __ambiguously_named_repo }}"
   shell: grep -l -E "^\[{{ __ambiguously_named_repo }}\]" /etc/yum.repos.d/*.repo
   register: repo_file
   changed_when: false
   failed_when: false
   check_mode: False
+  when: not __ambiguously_named_repo_enabled
 
-- name: "Enable the {{ __ambiguously_named_repo }} repo"
+- name: "Enable the repo {{ __ambiguously_named_repo }}"
   ini_file:
     path: "{{ repo_file.stdout }}"
     section: "{{ __ambiguously_named_repo }}"
@@ -18,6 +23,16 @@
     value: "1"
     no_extra_spaces: true
     mode: '0644'
-  when: repo_file.rc == 0
-  register: "{{ reg_variable }}"
+  register: __ambiguously_named_repo_result
   become: true
+  when:
+    - repo_file.rc == 0
+    - not __ambiguously_named_repo_enabled
+
+# Effectively break the loop, the repeated tasks will be skipped
+- name: Set a fact that the repo has been successfully enabled
+  set_fact:
+    __ambiguously_named_repo_enabled: true
+  when:
+    - repo_file.rc == 0
+    - not __ambiguously_named_repo_enabled
