@@ -31,9 +31,9 @@ pulp_pkg_repo_gpgcheck: True
 pulp_install_source: pip
 
 pulp_rhel_codeready_repo:
-  - codeready-builder-for-rhel-8-x86_64-rpms
   - rhui-codeready-builder-for-rhel-8-rhui-rpms
   - codeready-builder-for-rhel-8-rhui-rpms
+  - codeready-builder-for-rhel-8-x86_64-rpms
 rhel7_optional_repo:
   - rhui-rhel-7-server-rhui-optional-rpms
   - rhel-7-server-rhui-optional-rpms
@@ -46,3 +46,5 @@ pulp_rhel7_scl_repo:
   - rhui-rhel-server-rhui-rhscl-7-rpms  # seen on RHEL7.7 on AWS
   - rhel-server-rhscl-7-rpms
   - rhel-workstation-rhscl-7-rpms
+
+__ambiguously_named_repo_enabled: false
