@@ -1,1 +1,0 @@
-Do not fail if `pulp_settings.media_root` is set to an empty string. This is what is documented to do for S3 object storage.

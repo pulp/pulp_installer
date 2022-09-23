@@ -13,6 +13,22 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.21.3 (2022-09-23)
+===================
+
+
+Bugfixes
+--------
+
+- Allow packages to be excluded from upgrade and a repo to be specified for upgrade.
+  [#1394](https://github.com/pulp/pulp_installer/issues/1394)
+- Do not fail if `pulp_settings.media_root` is set to an empty string. This is what is documented to do for S3 object storage.
+  [#1402](https://github.com/pulp/pulp_installer/issues/1402)
+
+
+----
+
+
 3.21.2 (2022-09-16)
 ===================
 
