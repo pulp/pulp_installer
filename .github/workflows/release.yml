@@ -151,7 +151,7 @@ jobs:
       - name: Install httpie
         run: |
           echo ::group::HTTPIE
-          pip install httpie
+          pip install httpie tweepy
           echo ::endgroup::
           echo "HTTPIE_CONFIG_DIR=$GITHUB_WORKSPACE/.ci/assets/httpie/" >> $GITHUB_ENV
       - name: Setting secrets
@@ -166,6 +166,9 @@ jobs:
           make dist
       - name: Deploy Ansible Collection
         run: make publish GALAXY_API_KEY=${{ secrets.GALAXY_API_KEY }}
+      - name: Tweet
+        continue-on-error: true
+        run: python .ci/scripts/tweet.py ${GITHUB_REF##*/}
       - name: Run publish docs script
         env:
           PULP_DOCS_KEY: ${{ secrets.PULP_DOCS_KEY }}
