@@ -1,0 +1,10 @@
+---
+# When you updated this, update vagrant/requirements.nested-docker.yaml also.
+collections:
+- ansible.posix
+- name: community.crypto
+  version: ">=1.0.0"
+- community.general
+- name: community.postgresql
+  version: ">=2.1.5"
+- mdellweg.filters
