@@ -15,6 +15,7 @@
     - developer_user is defined or developer_user_home is defined
 
 - name: Install Nginx
+  become: true
   block:
 
     - name: Install Nginx
@@ -97,5 +98,3 @@
         state: started
         enabled: true
         daemon_reload: true
-
-  become: true

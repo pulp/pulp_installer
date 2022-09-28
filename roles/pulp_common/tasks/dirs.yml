@@ -1,5 +1,6 @@
 ---
 - name: Create and manage the pulp directories
+  become: true
   block:
 
     # World executable is needed for ngingx/apache to serve content at
@@ -7,7 +8,7 @@
     #
     # We need to create it in case the pulp_user already exists
     # and has a different home dir. Like "vagrant" for pulplift.
-    - name: Make sure {{ pulp_user_home }} is world executable, and exists
+    - name: Make sure {{ pulp_user_home }} is world executable, and exists  # noqa name[template]
       file:
         path: '{{ pulp_user_home }}'
         state: directory
@@ -109,5 +110,3 @@
         serole: _default
         setype: _default
         seuser: _default
-
-  become: true

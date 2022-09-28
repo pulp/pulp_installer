@@ -36,6 +36,10 @@
   service_facts:
 
 - name: pulpcore resource manager  ## noqa name
+  become: true
+  when:
+    - ansible_facts.services['pulpcore-resource-manager.service'] is defined
+    - __pulpcore_version is version('3.14', '>=')
   block:
 
     - name: Disable pulpcore-resource-manager service
@@ -52,11 +56,6 @@
     - name: Reload systemd for the pulpcore-resource-manager removal
       systemd:
         daemon_reload: true
-
-  become: true
-  when:
-    - ansible_facts.services['pulpcore-resource-manager.service'] is defined
-    - __pulpcore_version is version('3.14', '>=')
 
 - name: Get already existing workers  ## noqa jinja
   set_fact:

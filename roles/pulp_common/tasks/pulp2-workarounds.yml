@@ -7,15 +7,17 @@
   become: true
 
 - name: Fix permissions if Pulp 2 is already installed (https://pulp.plan.io/issues/5553#note-5)
+  become: true
+  when: pulp_user_home_stat.stat.pw_name == "apache"
   block:
-    - name: Add user 'apache' to '{{ pulp_group }}' group if it exists
+    - name: Add user 'apache' to '{{ pulp_group }}' group if it exists  ## noqa name[template]
       user:
         name: apache
         groups:
           - '{{ pulp_group }}'
         append: true
 
-    - name: Set permissions on '{{ pulp_user_home }}' if pulp2 is installed
+    - name: Set permissions on '{{ pulp_user_home }}' if pulp2 is installed  ## noqa name[template]
       file:
         path: '{{ pulp_user_home }}'
         state: directory
@@ -34,12 +36,9 @@
     # have the pulp group rather than the apache group.
     # But you cannot make chmod or the file module only do setgid for dirs
     # and not files.
-    - name: Set setgid on the {{ pulp_user_home }} subdirs
+    - name: Set setgid on the {{ pulp_user_home }} subdirs  # noqa name[template]
       file:
         path: "{{ item }}"
         mode: g+s
       with_items: "{{ dirs_needing_setgid.stdout_lines }}"
       when: dirs_needing_setgid.stdout | length > 0
-
-  become: true
-  when: pulp_user_home_stat.stat.pw_name == "apache"

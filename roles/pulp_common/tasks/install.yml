@@ -1,8 +1,9 @@
 ---
 - name: General system changes before installation
+  become: true
   block:
 
-    - name: Enable Python {{ pulp_pkg_name_prefix[:-1] }} module stream
+    - name: Enable Python module stream {{ pulp_pkg_name_prefix[:-1] }}
       command: dnf -y module enable {{ pulp_pkg_name_prefix[:-1] }}
       register: python_module_enable
       when:
@@ -60,8 +61,6 @@
     - name: Set LD_LIBRARY_PATH as a fact
       set_fact:
         pulp_ld_library_path: "{{ pulp_env_ld_library_path.stdout }}"
-
-  become: true
 
 - name: install pulp from {{ pulp_install_source }}
   include_tasks: install_{{ pulp_install_source }}.yml

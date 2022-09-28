@@ -1,5 +1,6 @@
 ---
 - name: Tune bashrc.d
+  when: pulp_devel_supplement_bashrc | bool
   block:
   - name: Create ~/.bashrc.d/
     file:
@@ -73,6 +74,4 @@
       src: files/pulp_cli.bashrc
       dest: '{{ developer_user_home }}/.bashrc.d/pulp_cli.bashrc'
       mode: '0644'
-
-  when: pulp_devel_supplement_bashrc | bool
 ...

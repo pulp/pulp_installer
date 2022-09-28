@@ -40,17 +40,19 @@
     - not ansible_facts.mounts | selectattr('mount', 'match', '^/var/lib/pulp$') | map(attribute='options') | first | regex_search('context=')
 
 - name: Remount the static dir
+  become: true
+  when: fstab.changed
   block:
     # We also cannot run "mount -o remount" to add an SELinux context, it results on the dmesg error:
     # unable to change security options during remount
     #
     # Note: Unlike state=mounted, this does not remove it from the fstab. It only temporarily unmounts.
-    - name: 'If {{ __remount_point }} changed, unmount'
+    - name: 'If {{ __remount_point }} changed, unmount'  ## noqa name[template]
       mount:
         path: '{{ __remount_point }}'
         state: unmounted
 
-    - name: 'If {{ __remount_point }} changed, remount'  # noqa no-changed-when
+    - name: 'If {{ __remount_point }} changed, remount'  # noqa no-changed-when name[template]
       command: 'mount {{ __remount_point }}'
 
   rescue:
@@ -72,12 +74,12 @@
       failed_when: false
       register: static_dir_unmount
 
-    - name: 'If {{ __remount_point }} changed, unmount (retry)'
+    - name: 'If {{ __remount_point }} changed, unmount (retry)'  ## noqa name[template]
       mount:
         path: '{{ __remount_point }}'
         state: unmounted
 
-    - name: 'If {{ __remount_point }} changed, remount (retry)'  # noqa no-changed-when
+    - name: 'If {{ __remount_point }} changed, remount (retry)'  # noqa no-changed-when name[template]
       command: 'mount {{ __remount_point }}'
 
     - name: Remount /var/lib/pulp/pulpcore_static  # noqa no-changed-when
@@ -91,6 +93,3 @@
       become: true
       # The service may not be installed
       failed_when: false
-
-  become: true
-  when: fstab.changed

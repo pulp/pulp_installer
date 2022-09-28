@@ -1,5 +1,6 @@
 ---
 - name: Install Apache
+  become: true
   block:
 
     - name: Install Apache
@@ -117,5 +118,3 @@
         state: started
         enabled: true
         daemon_reload: true
-
-  become: true

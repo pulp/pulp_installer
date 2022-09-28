@@ -13,6 +13,7 @@
   register: __pulp_webserver_ca_cert
 
 - name: Generate CA
+  when: not __pulp_webserver_ca_cert.stat.exists
   block:
     - name: Generate CA key
       openssl_privatekey:
@@ -42,7 +43,6 @@
         serole: _default
         setype: _default
         seuser: _default
-  when: not __pulp_webserver_ca_cert.stat.exists
 
 - name: Look for webserver certificate
   stat:
@@ -53,6 +53,7 @@
   register: __pulp_webserver_cert
 
 - name: Generate webserver certificate
+  when: not __pulp_webserver_cert.stat.exists
   block:
     - name: Generate private keys
       openssl_privatekey:
@@ -96,7 +97,6 @@
         setype: _default
         seuser: _default
       notify: Reload {{ pulp_webserver_server }}
-  when: not __pulp_webserver_cert.stat.exists
 
 - name: Cleanup CSR files
   file:

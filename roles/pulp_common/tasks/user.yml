@@ -1,6 +1,6 @@
 ---
 # Create and manage the pulp user account
-- name: Make sure {{ pulp_group }} group exists
+- name: Make sure {{ pulp_group }} group exists  ## noqa name[template]
   group:
     name: '{{ pulp_group }}'
     gid: '{{ pulp_group_id }}'
@@ -27,7 +27,7 @@
   notify: Restore SELinux contexts on Pulp dirs that must exist
   become: true
 
-- name: Add user {{ pulp_user }} to extra groups
+- name: Add user {{ pulp_user }} to extra groups  ## noqa name[template]
   user:
     name: '{{ pulp_user }}'
     groups: '{{ pulp_extra_groups }}'
@@ -35,7 +35,7 @@
   when: pulp_extra_groups is defined
   become: true
 
-- name: Add user {{ developer_user }} to {{ pulp_group }} group
+- name: Add user {{ developer_user }} to {{ pulp_group }} group  ## noqa name[template]
   user:
     name: '{{ developer_user }}'
     groups:
