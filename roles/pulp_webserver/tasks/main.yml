@@ -97,6 +97,12 @@
 - include_tasks: "{{ pulp_webserver_server }}.yml"
 
 - name: SELinux packages
+  become: true
+  when:
+    - __pulp_os_family == 'RedHat'
+    - ansible_facts.selinux.status == 'enabled'
+    - pulp_webserver_api_hosts | rejectattr('address', 'match', '^unix:.+') | list | count >= 1 or
+      pulp_webserver_content_hosts  | rejectattr('address', 'match','^unix:.+') | list | count >= 1
   block:
 
     - name: Install packages for Ansible seboolean module
@@ -109,13 +115,6 @@
         name: httpd_can_network_connect
         state: true
         persistent: true
-
-  become: true
-  when:
-    - __pulp_os_family == 'RedHat'
-    - ansible_facts.selinux.status == 'enabled'
-    - pulp_webserver_api_hosts | rejectattr('address', 'match', '^unix:.+') | list | count >= 1 or
-      pulp_webserver_content_hosts  | rejectattr('address', 'match','^unix:.+') | list | count >= 1
 
 # In case an ACME role relies on a change made in pulp_webserver.
 - name: Flush handlers

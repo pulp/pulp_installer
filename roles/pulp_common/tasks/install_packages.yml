@@ -11,8 +11,12 @@
     - tfm-pulpcore-python3-pulp-container
 
 - name: Prepare to install the Pulp packages
+  become: true
+  when:
+    - __pulp_os_family == 'RedHat'
+    - pulp_pkg_upgrade_all
   block:
-    - name: "Enumerate the list of updates from the {{ __pulp_pkg_repo_name }} repo"
+    - name: "Enumerate the list of updates from the repo {{ __pulp_pkg_repo_name }}"
       yum:
         list: updates
         disablerepo: "*"
@@ -31,6 +35,7 @@
     # These 3 tasks have changed_when: false for the sake if idempotency
     # We are not modifying the system after all, just the value of the conf file
     - name: Generate a temporary dnf.conf
+      when: ansible_pkg_mgr == "dnf"
       block:
 
         - name: Generate a temp filepath for the temp dnf.conf
@@ -69,8 +74,6 @@
             group: root
           changed_when: false
 
-      when: ansible_pkg_mgr == "dnf"
-
     - name: Upgrade all existing installed Pulp packages
       yum:
         name: "{{ updates.results | map(attribute='name') | list }}"
@@ -86,15 +89,11 @@
         # When upgrading from very early RPMs (like 3.3), this task happens twice
         - molecule-idempotence-notest
 
-  become: true
-  when:
-    - __pulp_os_family == 'RedHat'
-    - pulp_pkg_upgrade_all
-
 - name: Install the Pulp packages
+  become: true
   block:
 
-    - name: "Install the Pulp undeclared {{ ansible_facts.pkg_mgr }} package dependencies"
+    - name: "Install the Pulp undeclared package dependencies via {{ ansible_facts.pkg_mgr }}"  # noqa name[template]
       package:
         name: "{{ pulp_pkg_undeclared_deps }}"
         state: "{{ pulp_pkg_upgrade_all | ternary('latest', 'present') }}"
@@ -103,7 +102,7 @@
         - Collect static content
         - Restart all Pulp services
 
-    - name: "Install pulpcore via {{ ansible_facts.pkg_mgr }} packages"  ## noqa jinja
+    - name: "Install pulpcore via {{ ansible_facts.pkg_mgr }}"  ## noqa jinja
       package:
         name: >-
           {{ pulp_pkg_pulpcore_name }}
@@ -116,7 +115,7 @@
         - Collect static content
         - Restart all Pulp services
 
-    - name: "Install Pulp plugins via {{ ansible_facts.pkg_mgr }} packages"  ## noqa jinja
+    - name: "Install Pulp plugins via {{ ansible_facts.pkg_mgr }}"  ## noqa jinja
       package:
         name: >-
           {{ pulp_pkg_name_prefix }}{{ __pulp_common_package.key }}
@@ -154,7 +153,7 @@
         - Collect static content
         - Restart all Pulp services
 
-    - name: "Install gunicorn via {{ ansible_facts.pkg_mgr }} packages"
+    - name: "Install gunicorn via {{ ansible_facts.pkg_mgr }}"
       package:
         name: "{{ pulp_pkg_name_prefix }}gunicorn"
         state: present
@@ -168,8 +167,6 @@
         # when permissive or enforcing. That would be stored in .mode & .config_mode
         - pulp_install_selinux_policies | bool or
           (ansible_facts.selinux.status == "enabled" and pulp_install_selinux_policies == "auto")
-
-  become: true
 
 # Some logic later on varies depending on the pulpcore version.
 - name: Gather package facts

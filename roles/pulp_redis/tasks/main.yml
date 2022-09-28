@@ -15,6 +15,8 @@
     - always
 
 - name: Redis config
+  become: true
+  when: pulp_cache_enabled
   block:
 
     - name: Enable EPEL repository
@@ -56,6 +58,3 @@
         state: started
         enabled: yes
         daemon_reload: yes
-
-  become: true
-  when: pulp_cache_enabled

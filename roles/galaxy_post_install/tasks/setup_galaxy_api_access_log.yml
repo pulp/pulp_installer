@@ -1,5 +1,6 @@
 ---
 - name: Preparing loogger
+  become: true
   block:
   - name: Create Galaxy api access log file
     file:
@@ -30,5 +31,3 @@
       setype: _default
       seuser: _default
     notify: Restart pulpcore-api.service post galaxy
-
-  become: true

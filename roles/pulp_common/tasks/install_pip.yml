@@ -5,6 +5,12 @@
     gather_subset: selinux
 
 - name: Compile & install the pulpcore SELinux policy
+  become: true
+  when:
+    - __pulp_os_family == 'RedHat'
+    # when permissive or enforcing. That would be stored in .mode & .config_mode
+    - pulp_install_selinux_policies|bool or
+      (ansible_facts.selinux.status == "enabled" and pulp_install_selinux_policies == "auto")
   block:
 
     - name: Install SELinux policy build dependencies
@@ -12,7 +18,7 @@
         name:
           - selinux-policy-devel
 
-    - name: 'Ensure that /usr/local/share/selinux/{{ ansible_facts.selinux.type }} exists'
+    - name: 'Ensure that /usr/local/share/selinux/{{ ansible_facts.selinux.type }} exists'  # noqa name[template]
       file:
         path: "{{ item }}"
         state: directory
@@ -71,13 +77,6 @@
       loop: '{{ __pulp_selinux_policy_pkgs }}'
       when: selinux_policy_installed.changed
 
-  become: true
-  when:
-    - __pulp_os_family == 'RedHat'
-    # when permissive or enforcing. That would be stored in .mode & .config_mode
-    - pulp_install_selinux_policies|bool or
-      (ansible_facts.selinux.status == "enabled" and pulp_install_selinux_policies == "auto")
-
 - name: Check if venv already exists
   stat:
     path: "{{ pulp_install_dir }}/pyvenv.cfg"
@@ -103,6 +102,8 @@
   become: true
 
 - name: Prepare the virtualenv itself
+  become: true
+  become_user: '{{ pulp_user }}'
   block:
 
     # Hack for use system-wide packages when enabled by user - Must be first usage of virtualenv
@@ -129,10 +130,10 @@
         line: "include-system-site-packages = true"
       when: pulp_use_system_wide_pkgs | bool
 
+- name: Prepare for preflight checks
+  when: pulp_source_dir is undefined
   become: true
   become_user: '{{ pulp_user }}'
-
-- name: Prepare for preflight checks
   block:
 
     - name: Obtain list of packages in the venv to see if any plugins are installed
@@ -154,10 +155,6 @@
         state: present
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
-
-  when: pulp_source_dir is undefined
-  become: true
-  become_user: '{{ pulp_user }}'
 
 # When there are no plugin prereqs roles
 - name: Run preflight check (no prereq roles)
@@ -231,6 +228,8 @@
     - compatibility.rc != 0
 
 - name: Install Pulp via Pip
+  become: true
+  become_user: '{{ pulp_user }}'
   block:
 
     - name: Install the prereq_pip_packages
@@ -430,7 +429,4 @@
       pip_package_info:
         clients: "{{ pulp_install_dir }}/bin/pip"
       register: pip_pkgs_postinstall
-
-  become: true
-  become_user: '{{ pulp_user }}'
 ...

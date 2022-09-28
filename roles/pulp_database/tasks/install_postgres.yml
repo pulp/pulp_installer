@@ -7,6 +7,10 @@
     __pulp_rhel_scl_repo_enable_default: True
 
 - name: Check if PostgreSQL < 10 is in use
+  become: yes
+  when:
+    - __pulp_os_family == 'RedHat'
+    - ansible_facts.distribution_major_version|int == 7
   block:
     - name: Check if PostgreSQL < 10 is initialized.
       stat:
@@ -19,10 +23,6 @@
       when: previous_pgdata_dir_version.stat.exists
       tags:
         - molecule-idempotence-notest
-  become: yes
-  when:
-    - __pulp_os_family == 'RedHat'
-    - ansible_facts.distribution_major_version|int == 7
 
 - name: Stop PostgreSQL < 10 service
   systemd:
@@ -38,6 +38,10 @@
     - pg_version.stdout is version('10', '<')
 
 - name: Install and enable the SCL to be used for postgresql commands in geerlingguy.postgresql
+  become: yes
+  when:
+    - __pulp_os_family == 'RedHat'
+    - ansible_facts.distribution_major_version|int == 7
   block:
     - name: Install PostgreSQL SCL
       yum:
@@ -63,12 +67,16 @@
       register: symlink_result
       failed_when: "symlink_result is failed and 'refusing to convert from file to symlink' not in symlink_result.msg"
       check_mode: false
+
+- name: Upgrade PostgreSQL < 10
   become: yes
   when:
     - __pulp_os_family == 'RedHat'
     - ansible_facts.distribution_major_version|int == 7
-
-- name: Upgrade PostgreSQL < 10
+    - previous_pgdata_dir_version.stat.exists
+    - pg_version is defined
+    - pg_version.changed
+    - pg_version.stdout is version('10', '<')
   block:
     # https://access.redhat.com/documentation/en-us/red_hat_software_collections/3/html/3.3_release_notes/chap-migration#sect-Migration-PostgreSQL-9_6-10
     - name: Backup previous PostgreSQL
@@ -90,16 +98,12 @@
         && {{ postgresql_bin_path }}/postgresql-setup --upgrade --upgrade-from=rh-postgresql96-postgresql
       when:
         - not pgdata_dir_version.stat.exists
+
+- name: Reinstall tzdata
   become: yes
   when:
     - __pulp_os_family == 'RedHat'
-    - ansible_facts.distribution_major_version|int == 7
-    - previous_pgdata_dir_version.stat.exists
-    - pg_version is defined
-    - pg_version.changed
-    - pg_version.stdout is version('10', '<')
-
-- name: Reinstall tzdata
+    - ansible_facts.distribution_major_version|int == 9
   # Hack to fix tzdata issue:
   # https://gitlab.com/redhat/centos-stream/release-engineering/kickstarts/-/blob/main/CentOS-Stream-9-container-base.ks#L47-50
   # "if you want to change the timezone, bind-mount it from the host or reinstall tzdata"
@@ -116,12 +120,8 @@
         state: latest
         security: yes
 
-  become: yes
-  when:
-    - __pulp_os_family == 'RedHat'
-    - ansible_facts.distribution_major_version|int == 9
-
 - name: Include geerlingguy.postgresql role
+  become: yes
   block:
     - name: Install and configure PostgreSQL
       include_role:
@@ -132,4 +132,3 @@
             - molecule-idempotence-notest
       vars:
         ansible_os_family: "{{ __pulp_os_family }}"
-  become: yes

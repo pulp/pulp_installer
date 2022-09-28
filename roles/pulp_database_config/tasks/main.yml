@@ -73,6 +73,9 @@
     - hostvars[item]['pulp_database_config_host'] is defined
 
 - name: Pick & set the correct host to run pulp_database_config based on existing keys
+  when:
+    - __pulp_run_once
+    - not pulp_db_fields_key | length
   block:
 
     - name: Identify the hosts that are currently running the pulp_database_config role
@@ -138,10 +141,6 @@
         - hostvars['localhost']['pulp_database_config_host'] is not defined
         - item.stat.exists
 
-  when:
-    - __pulp_run_once
-    - not pulp_db_fields_key | length
-
 - name: Pick & set the sole host to run pulp_database_config if no host has the key, or if the key is to be imported
   set_fact:
     pulp_database_config_host: "{{ inventory_hostname }}"
@@ -197,6 +196,13 @@
     - not pulp_db_fields_key | length
 
 - name: Run database migrations and manage the admin account
+  run_once: "{{ __pulp_run_once }}"
+  delegate_to: "{{ hostvars['localhost']['pulp_database_config_host'] | default(inventory_hostname) }}"
+  become: true
+  become_user: '{{ pulp_user }}'
+  environment:
+    PULP_SETTINGS: "{{ pulp_settings_file }}"
+    LD_LIBRARY_PATH: "{{ pulp_ld_library_path }}"
   block:
     - name: Run database migrations
       command: '{{ pulp_django_admin_path }} migrate --no-input'
@@ -217,14 +223,6 @@
       when: >
             ((__pulp_database_config_admin_account_exists.stdout == "False") | default(false)) or
             (pulp_force_change_admin_password)
-
-  run_once: "{{ __pulp_run_once }}"
-  delegate_to: "{{ hostvars['localhost']['pulp_database_config_host'] | default(inventory_hostname) }}"
-  become: true
-  become_user: '{{ pulp_user }}'
-  environment:
-    PULP_SETTINGS: "{{ pulp_settings_file }}"
-    LD_LIBRARY_PATH: "{{ pulp_ld_library_path }}"
 
 # We run the command when:
 # 1. The old version is <= 2.9.5 or (>=2.10.0 and <= 2.10.4 ) or (>= 2.11.0 and <= 2.11.1)

@@ -1,5 +1,6 @@
 ---
 - name: Prepare galaxy-importer
+  become: true
   block:
   - name: Ensure tar is available for galaxy-importer
     package:
@@ -23,5 +24,3 @@
       serole: _default
       setype: _default
       seuser: _default
-
-  become: true

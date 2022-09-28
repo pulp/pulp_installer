@@ -18,6 +18,7 @@
   when: galaxy_collection_signing_service_key is defined
 
 - name: Check collection signing service gpg key file
+  when: galaxy_collection_signing_service_key is undefined
   block:
     - name: Set permissions on the collection signing service gpg key file
       file:
@@ -37,7 +38,6 @@
           private key file and either place it there on {{ inventory_hostname }}, or
           place it somehwere on the ansible management node and set the variable
           galaxy_collection_signing_service_key=/path/to/file.gpg"
-  when: galaxy_collection_signing_service_key is undefined
 
 - name: Import the collection signing service script
   copy:
@@ -50,6 +50,7 @@
   when: galaxy_collection_signing_service_script is defined
 
 - name: Check collection signing service script
+  when: galaxy_collection_signing_service_script is undefined
   block:
     - name: Set permissions on the collection signing service script
       file:
@@ -66,9 +67,10 @@
           signing service script and either place it there on {{ inventory_hostname }}, or
           place it somehwere on the ansible management node and set the variable
           galaxy_collection_signing_service_script=/path/to/file.sh"
-  when: galaxy_collection_signing_service_script is undefined
 
 - name: Commands run as pulp_user
+  become: true
+  become_user: "{{ pulp_user }}"
   block:
     - name: Inspect collection signing service GPG key file
       shell: >
@@ -99,6 +101,3 @@
       # gpg: inserting ownertrust of 6
       # gpg: changing ownertrust from 3 to 6
       changed_when: "'ownertrust' in result.stderr"
-
-  become: true
-  become_user: "{{ pulp_user }}"

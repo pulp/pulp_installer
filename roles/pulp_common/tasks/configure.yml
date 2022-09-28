@@ -1,5 +1,6 @@
 ---
 - name: Set config dirs
+  become: true
   block:
     - name: Create configuration directory for Pulp
       file:
@@ -62,5 +63,3 @@
       include_role:
         name: galaxy_post_install
       when: pulp_install_plugins_normalized['galaxy-ng'] is defined
-
-  become: true

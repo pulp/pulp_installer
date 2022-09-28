@@ -1,5 +1,6 @@
 ---
 - name: Install galaxy UI from source
+  when: __galaxy_ui_source is defined and __galaxy_ui_source == "source"
   block:
     - name: Install NPM (distro-agnostic)
       package:
@@ -15,6 +16,8 @@
       register: is_hub_installed
 
     - name: Build galaxy
+      become: yes
+      become_user: '{{ pulp_user }}'
       block:
         - name: Cloning Ansible Hub UI
           git:
@@ -53,11 +56,6 @@
             group: '{{ pulp_group }}'
             mode: "u+rwx,g+rx,o+rx"
             remote_src: yes
-      become: yes
-      become_user: '{{ pulp_user }}'
-
-
-  when: __galaxy_ui_source is defined and __galaxy_ui_source == "source"
 
 - name: Download galaxy ui from github
   command:

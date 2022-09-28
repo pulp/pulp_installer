@@ -23,6 +23,7 @@
   become: true
 
 - name: Config pulpcore-content service
+  become: true
   block:
 
     - name: Apply the SELinux type to the TCP port that pulpcore-content listens on
@@ -51,4 +52,3 @@
         name: pulpcore-content.service
         state: started
         enabled: true
-  become: true

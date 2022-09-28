@@ -47,6 +47,7 @@
   become: true
 
 - name: Non-key-related pulp-api install tasks
+  become: true
   block:
 
     - name: Apply the SELinux type to the TCP port that pulpcore-api listens on
@@ -75,5 +76,3 @@
         state: started
         enabled: true
         daemon_reload: true
-
-  become: true
