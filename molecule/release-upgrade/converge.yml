@@ -135,14 +135,16 @@
             version: "3.17"
             upgrade: false
           pulp_container:
-            version: "2.14"
+            version: "2.11"
             upgrade: false
       when: ansible_facts.os_family == 'RedHat'
     - set_fact:
         pulp_install_plugins:
           pulp_file:
+            version: "1.10"
+            upgrade: false
           pulp_container:
-            version: "2.14"
+            version: "2.11"
             upgrade: false
       when: ansible_facts.os_family == 'Debian'
     - include_role:
@@ -151,12 +153,12 @@
       pip_package_info:
         clients: "/usr/local/lib/pulp/bin/pip"
       register: pip_pkgs
-    - name: Assert pulpcore>=3.18.0, pulp-file>=1.10.0, pulp-container >=2.14.0
+    - name: Assert pulpcore>=3.18.0, pulp-file>=1.10.0, pulp-container >=2.11.0
       assert:
         that:
           - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulpcore'][0].version is version("3.18.0", ">=")
           - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-file'][0].version is version("1.10.0", ">=")
-          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-container'][0].version is version("2.14.0", ">=")
+          - pip_pkgs.packages['/usr/local/lib/pulp/bin/pip']['pulp-container'][0].version is version("2.11.0", ">=")
     - name: Assert pulp-rpm>=3.17.0
       assert:
         that:
