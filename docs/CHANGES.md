@@ -13,6 +13,20 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.21.4 (2022-09-28)
+===================
+
+
+Bugfixes
+--------
+
+- Fix failure when enabling repos on RHEL with the error message `Ansible "register" is not templatable, but we found: {{ reg_variable }}.` Also fix the ability to not attempt to enable any subsequent possible names for the repo after the actual repo name has been found. Also fix the order of the CodeReady Builder repo names: The RHUI names are now 1st.
+  [#1398](https://github.com/pulp/pulp_installer/issues/1398)
+
+
+----
+
+
 3.21.3 (2022-09-23)
 ===================
 
