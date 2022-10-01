@@ -521,6 +521,29 @@ Devel
 ----
 
 
+3.18.17 (2022-09-29)
+====================
+
+
+Features
+--------
+
+- Run `pulpcore-manager container-repair-media-type` when upgrading from a version of pulp-container that needs to be repaired, to a version of pulp-container that has the command. Introduces the variable `pulp_container_repair_media_type`.
+  [#1387](https://github.com/pulp/pulp_installer/issues/1387)
+
+
+Bugfixes
+--------
+
+- Allow packages to be excluded from upgrade and a repo to be specified for upgrade.
+  [#1394](https://github.com/pulp/pulp_installer/issues/1394)
+- Fix failure when enabling repos on RHEL with the error message `Ansible "register" is not templatable, but we found: {{ reg_variable }}.` Also fix the ability to not attempt to enable any subsequent possible names for the repo after the actual repo name has been found. Also fix the order of the CodeReady Builder repo names: The RHUI names are now 1st.
+  [#1398](https://github.com/pulp/pulp_installer/issues/1398)
+
+
+----
+
+
 3.18.16 (2022-08-09)
 ====================
 
