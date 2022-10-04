@@ -108,6 +108,7 @@
       failed_when: false
       with_items: "{{ hostvars['localhost']['__pulp_database_config_hosts'] }}"
       become: true
+      run_once: true
 
     # 'equalto' test is not available on EL7's python-jinja2 2.7 RPM,
     # so we use 'sameas' to compare to true/false, and 'match' to compare strings.
