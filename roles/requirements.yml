@@ -1,0 +1,3 @@
+---
+roles:
+- include: roles/pulp_database/requirements.yml
