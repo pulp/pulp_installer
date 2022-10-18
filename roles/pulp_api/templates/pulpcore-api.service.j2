@@ -28,9 +28,7 @@ LimitNOFILE=524288
 ExecStart={{ __pulp_daemons_dir }}/gunicorn pulpcore.app.wsgi:application \
           --bind '{{ pulp_api_bind }}' \
           --workers {{ pulp_api_workers }} \
-          --timeout {{ pulp_service_timeout }} \
-          --access-logfile - \
-          --access-logformat 'pulp [%({correlation-id}o)s]: %(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"'
+          --timeout {{ pulp_service_timeout }}
 
 # This provides reconnect support for PostgreSQL and Redis. Without reconnect support, if either
 # is not available at startup or becomes disconnected, this process will die and not respawn.
