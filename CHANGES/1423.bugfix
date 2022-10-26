@@ -1,0 +1,1 @@
+Fix webserver conf file not setting HSTS header properly
