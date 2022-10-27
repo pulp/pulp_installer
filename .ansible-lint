@@ -10,6 +10,10 @@ skip_list:
   - 'no-handler'
   # This accidentally flags the "copy" module with the "content" parameter using jinja2. But template has no "content" parameter.
   - 'template-instead-of-copy'
+  # There's no point in naming import_tasks tasks
+  - name[missing]
+  # sometimes you want to specify something whose syntax is lowercase as the beginning of a task name
+  - name[casing]
 exclude_paths:
   - ./roles/ansible-role-postgresql/
   - ./roles/geerlingguy.postgresql/
