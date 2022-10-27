@@ -1,25 +1,26 @@
 ---
 dependency:
   name: galaxy
+# This yaml anchor is ignored by molecule, but can be reused in yaml
+# It is ignored in the dependency section, and cannot be a top-level section
+  .platform_base: &platform_base
+    privileged: False
+    volumes:
+      - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    tmpfs:
+      # Fixes issues accessing .so files under /tmp during pip builds.
+      # https://github.com/docker/compose/issues/1339
+      - /tmp:exec,mode=1777
+      - /run
+      - /run/lock
+    capabilities:
+      - NET_ADMIN
+      - NET_RAW
+    pre_build_image: true
 driver:
   name: docker
 lint: |
     ansible-lint
-# This is ignored by molecule, but can be reused in yaml
-.platform_base: &platform_base
-  privileged: False
-  volumes:
-    - /sys/fs/cgroup:/sys/fs/cgroup:ro
-  tmpfs:
-    # Fixes issues accessing .so files under /tmp during pip builds.
-    # https://github.com/docker/compose/issues/1339
-    - /tmp:exec,mode=1777
-    - /run
-    - /run/lock
-  capabilities:
-    - NET_ADMIN
-    - NET_RAW
-  pre_build_image: true
 platforms:
   - <<: *platform_base
     name: debian-11
