@@ -1,0 +1,1 @@
+Fix failure on task "Set crypto policy for Fedora" on Fedora 35 due to `update-crypto-policies` not being installed.
