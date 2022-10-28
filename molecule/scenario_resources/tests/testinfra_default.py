@@ -77,8 +77,8 @@ def test_pulp_status_redirect(host):
     assert '301' in output
 
 
-def test_pulp_status_max_1_redirect(host):
-    output = host.check_output("curl http://localhost/pulp/api/v3/status/ --max-redirs 1 -skL -w ' status: %{http_code}'")
+def test_pulp_status_max_2_redirect(host):
+    output = host.check_output("curl http://localhost/pulp/api/v3/status/ --max-redirs 2 -skL -w ' status: %{http_code}'")
     assert 'status: 200' in output
     assert 'database_connection' in output
 
