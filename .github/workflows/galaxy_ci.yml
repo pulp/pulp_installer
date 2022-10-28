@@ -39,7 +39,7 @@ jobs:
         run: |
           python -m venv venv
           source venv/bin/activate
-          pip install galaxy_ng
+          pip install galaxy_ng~=4.5.0
           PULPCORE_VERSION=$(pip show pulpcore | sed -n -e "s/Version: //p")
           echo "PULPCORE_VERSION=$PULPCORE_VERSION"
           sed -i "s/PLACEHOLDER/$PULPCORE_VERSION/" molecule/release-galaxy/group_vars/all
