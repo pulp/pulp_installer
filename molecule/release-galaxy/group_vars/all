@@ -23,8 +23,10 @@ pulp_settings:
   rh_entitlement_required: insights
   galaxy_auto_sign_collections: true
   galaxy_collection_signing_service: ansible-default
+  galaxy_container_signing_service: container-default
   telemetry: false
 galaxy_create_default_collection_signing_service: true
+galaxy_create_default_container_signing_service: true
 
 # These variables are used by molecule verify, not the installer itself
 pulp_lib_path: /var/lib/pulp
