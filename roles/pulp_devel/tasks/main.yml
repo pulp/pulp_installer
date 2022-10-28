@@ -67,6 +67,13 @@
   become: true
   become_user: "{{ developer_user }}"
 
+- name: Install update-crypto-policies command on Fedora
+  become: true
+  package:
+    name: crypto-policies-scripts
+  when:
+    - ansible_facts.distribution == "Fedora"
+
 - name: Set crypto policy for Fedora (to allow using CDN certificates)
   become: true
   command: update-crypto-policies --set LEGACY
