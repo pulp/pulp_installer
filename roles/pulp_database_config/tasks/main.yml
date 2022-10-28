@@ -94,10 +94,6 @@
       delegate_facts: true
       run_once: true
 
-    # This task must be run against all hosts, not just those running pulp_database_config.
-    # However, running it against all hosts produces a massive data structure where
-    # __pulp_db_fields_key_stat.results has a list of dictionaries, with elements
-    # "item" (the inventory_hostname) and "stat".
     - name: Check if any of said hosts already have the database fields encryption key
       stat:
         path: "{{ __pulp_common_merged_pulp_settings.db_encryption_key }}"
