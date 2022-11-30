@@ -148,23 +148,3 @@ jobs:
           PY_COLORS: '1'
           ANSIBLE_FORCE_COLOR: '1'
         shell: bash
-      - name: Send Build details to Slack
-        id: slack
-        uses: slackapi/slack-github-action@v1.18.0
-        if: failure()
-        with:
-          payload: |
-            {
-              "text": "Galaxy Installer CI ${{ job.status }}\nhttps://github.com/pulp/pulp_installer/actions/runs/${{ github.run_id }}",
-              "blocks": [
-                {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "Galaxy Installer CI ${{ job.status }}\nhttps://github.com/pulp/pulp_installer/actions/runs/${{ github.run_id }}"
-                  }
-                }
-              ]
-            }
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_PULP_CHANNEL }}
