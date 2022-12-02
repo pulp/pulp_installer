@@ -74,6 +74,7 @@
   when: ansible_facts.distribution == 'Debian'
   # This is a lie, but necessary for Idempotence test
   changed_when: False
+  become: yes
 
 - name: Gather package facts
   package_facts:
