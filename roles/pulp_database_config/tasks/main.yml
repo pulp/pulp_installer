@@ -35,7 +35,7 @@
 # Then same as #1 or #2.
 # 5. The user accidentally runs pulp_database_config a 2nd time in their playbook
 # run - the global pulp_database_config_host has already been set the
-# 1st time, so it will not be overriden. The prior designated host is used
+# 1st time, so it will not be overridden. The prior designated host is used
 # to re-run it.
 # 6. The existing keys are not identical - the key from 1 random host,
 # or the host specified in pulp_database_config_host, gets copied to the others

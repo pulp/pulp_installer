@@ -136,7 +136,7 @@
         - Collect static content
         - Restart all Pulp services
 
-    - name: "Install Pulp plugins (with overriden names) via {{ ansible_facts.pkg_mgr }}"  ## noqa jinja
+    - name: "Install Pulp plugins (with overridden names) via {{ ansible_facts.pkg_mgr }}"  ## noqa jinja
       package:
         name: >-
           {{ __pulp_common_package.value.pkg_name }}
