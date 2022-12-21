@@ -5,11 +5,20 @@
 user nginx nginx;
 {% endif %}
 # Gunicorn docs suggest this value.
-worker_processes 1;
+worker_processes {{ pulp_webserver_worker_processes }}; # 2 * num_cpu
+
 events {
+    {% if  pulp_webserver_worker_processes > 1 %}
+    worker_connections {{ pulp_webserver_worker_connection }};  # 1024 * num_cpu
+    accept_mutex on;
+    {% else %}
     worker_connections 1024;  # increase if you have lots of clients
     accept_mutex off;  # set to 'on' if nginx worker_processes > 1
+    {% endif %}
 }
+
+worker_rlimit_nofile {{ pulp_webserver_worker_rlimit_nofile }};  # 2 * worker_connections
+
 
 http {
     include mime.types;

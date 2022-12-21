@@ -12,6 +12,13 @@ pulp_config_dir: '/etc/pulp'
 pulp_certs_dir: '{{ pulp_config_dir }}/certs'
 pulp_webserver_httpd_servername: '{{ ansible_facts.fqdn }}'
 pulp_user_home: '/var/lib/pulp'
+
+# https://web.archive.org/web/20180820022131/http://blog.martinfjordvald.com/2011/04/optimizing-nginx-for-high-traffic-loads/
+pulp_webserver_num_cpu: 10
+pulp_webserver_worker_processes: "{{ pulp_webserver_num_cpu*2|int }}"
+pulp_webserver_worker_connection: "{{ pulp_webserver_num_cpu*1024|int }}"
+pulp_webserver_worker_rlimit_nofile: "{{ pulp_webserver_worker_connection*2|int }}"
+
 # The "static" dir is used by Pulp 2, and has conflicting SELinux policies.
 # https://pulp.plan.io/issues/5995
 pulp_webserver_static_dir: "{{ pulp_user_home | regex_replace('\\/$', '') }}/pulpcore_static"
