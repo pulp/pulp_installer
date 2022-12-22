@@ -110,7 +110,7 @@
   block:
     - name: Downgrade tzdata
       dnf:
-        name: http://mirror.stream.centos.org/9-stream/BaseOS/x86_64/os/Packages/tzdata-2021e-1.el9.noarch.rpm
+        name: https://mirror.stream.centos.org/9-stream/BaseOS/x86_64/os/Packages/tzdata-2022f-1.el9.noarch.rpm
         state: present
         disable_gpg_check: "{{ not ansible_facts.distribution == 'CentOS' }}"
 
