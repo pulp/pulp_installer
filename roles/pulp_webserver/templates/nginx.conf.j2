@@ -8,7 +8,7 @@ user nginx nginx;
 worker_processes {{ pulp_webserver_worker_processes }}; # 2 * num_cpu
 
 events {
-    {% if  pulp_webserver_worker_processes > 1 %}
+    {% if pulp_webserver_worker_processes|int > 1 %}
     worker_connections {{ pulp_webserver_worker_connection }};  # 1024 * num_cpu
     accept_mutex on;
     {% else %}

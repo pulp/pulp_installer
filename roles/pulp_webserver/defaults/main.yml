@@ -17,7 +17,7 @@ pulp_user_home: '/var/lib/pulp'
 pulp_webserver_num_cpu: 10
 pulp_webserver_worker_processes: "{{ pulp_webserver_num_cpu*2|int }}"
 pulp_webserver_worker_connection: "{{ pulp_webserver_num_cpu*1024|int }}"
-pulp_webserver_worker_rlimit_nofile: "{{ pulp_webserver_worker_connection*2|int }}"
+pulp_webserver_worker_rlimit_nofile: "{{ pulp_webserver_worker_connection|int*2|int }}"
 
 # The "static" dir is used by Pulp 2, and has conflicting SELinux policies.
 # https://pulp.plan.io/issues/5995
