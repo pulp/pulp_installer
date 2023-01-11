@@ -99,27 +99,6 @@
       when:
         - not pgdata_dir_version.stat.exists
 
-- name: Reinstall tzdata
-  become: yes
-  when:
-    - __pulp_os_family == 'RedHat'
-    - ansible_facts.distribution_major_version|int == 9
-  # Hack to fix tzdata issue:
-  # https://gitlab.com/redhat/centos-stream/release-engineering/kickstarts/-/blob/main/CentOS-Stream-9-container-base.ks#L47-50
-  # "if you want to change the timezone, bind-mount it from the host or reinstall tzdata"
-  block:
-    - name: Downgrade tzdata
-      dnf:
-        name: http://mirror.stream.centos.org/9-stream/BaseOS/x86_64/os/Packages/tzdata-2021e-1.el9.noarch.rpm
-        state: present
-        disable_gpg_check: "{{ not ansible_facts.distribution == 'CentOS' }}"
-
-    - name: Upgrade tzdata  # noqa package-latest
-      dnf:
-        name: tzdata
-        state: latest
-        security: yes
-
 - name: Include geerlingguy.postgresql role
   become: yes
   block:
