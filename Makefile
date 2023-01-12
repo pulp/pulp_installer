@@ -57,12 +57,12 @@ vendor:
 	ansible-galaxy collection install --force community.general -p ./temp
 	ansible-galaxy collection install --force community.crypto -p ./temp
 	mkdir -p plugins/modules
-	cp temp/ansible_collections/community/general/plugins/modules/files/ini_file.py plugins/modules
-	cp temp/ansible_collections/community/general/plugins/modules/packaging/language/pip_package_info.py plugins/modules
-	cp temp/ansible_collections/community/general/plugins/modules/packaging/language/npm.py plugins/modules
-	cp temp/ansible_collections/community/general/plugins/modules/system/locale_gen.py plugins/modules
-	cp temp/ansible_collections/community/general/plugins/modules/system/make.py plugins/modules
-	cp temp/ansible_collections/community/general/plugins/modules/system/seport.py plugins/modules
+	cp temp/ansible_collections/community/general/plugins/modules/ini_file.py plugins/modules
+	cp temp/ansible_collections/community/general/plugins/modules/pip_package_info.py plugins/modules
+	cp temp/ansible_collections/community/general/plugins/modules/npm.py plugins/modules
+	cp temp/ansible_collections/community/general/plugins/modules/locale_gen.py plugins/modules
+	cp temp/ansible_collections/community/general/plugins/modules/make.py plugins/modules
+	cp temp/ansible_collections/community/general/plugins/modules/seport.py plugins/modules
 	rm -rf temp
 
 install: $(MANIFEST)
