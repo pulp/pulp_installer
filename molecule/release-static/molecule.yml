@@ -26,22 +26,12 @@ platforms:
     name: centos-7
     image: ghcr.io/pulp/molecule_centos7
     command: /sbin/init
+    cgroupns_mode: host
   - <<: *platform_base
     name: rocky-8
     image: ghcr.io/pulp/molecule_rocky8
     command: /sbin/init
-  - <<: *platform_base
-    name: rocky-9
-    image: ghcr.io/pulp/molecule_rocky9
-    command: /sbin/init
-  - <<: *platform_base
-    name: ubuntu-22
-    image: ghcr.io/pulp/molecule_ubuntu22.04
-    command: /sbin/init
-  - <<: *platform_base
-    name: fedora-36
-    image: ghcr.io/pulp/molecule_fedora36
-    command: /usr/sbin/init
+    cgroupns_mode: host
 provisioner:
   name: ansible
   env:

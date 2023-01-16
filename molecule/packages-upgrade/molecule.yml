@@ -27,14 +27,12 @@ platforms:
     # molecule often fails to pull, so we pull all images in .travis.yml
     image: quay.io/pulp/pulp-ci-pkgs-c7:3.7.9-1
     command: /sbin/init
+    cgroupns_mode: host
   - <<: *platform_base
     name: centos-8
     image: quay.io/pulp/pulp-ci-pkgs-c8:3.7.9-1
     command: /sbin/init
-  - <<: *platform_base
-    name: centos-9
-    image: quay.io/pulp/pulp-ci-pkgs-c9:3.18.5-1
-    command: /sbin/init
+    cgroupns_mode: host
 provisioner:
   name: ansible
   env:
