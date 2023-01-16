@@ -26,30 +26,37 @@ platforms:
     name: pulp-api1
     image: ghcr.io/pulp/molecule_centos7
     command: /sbin/init
+    cgroupns_mode: host
   - <<: *platform_base
     name: pulp-api2
     image: ghcr.io/pulp/molecule_centosstream8
     command: /sbin/init
+    cgroupns_mode: host
   - <<: *platform_base
     name: pulp-content1
-    image: ghcr.io/pulp/molecule_centosstream9
+    image: ghcr.io/pulp/molecule_rocky8
     command: /sbin/init
+    cgroupns_mode: host
   - <<: *platform_base
     name: pulp-content2
-    image: ghcr.io/pulp/molecule_ubuntu22.04
+    image: ghcr.io/pulp/molecule_centos7
     command: /sbin/init
+    cgroupns_mode: host
   - <<: *platform_base
     name: pulp-database
-    image: ghcr.io/pulp/molecule_rocky9
+    image: ghcr.io/pulp/molecule_centosstream8
     command: /sbin/init
+    cgroupns_mode: host
   - <<: *platform_base
     name: pulp-redis
-    image: ghcr.io/pulp/molecule_debian11
+    image: ghcr.io/pulp/molecule_rocky8
     command: /sbin/init
+    cgroupns_mode: host
   - <<: *platform_base
     name: pulp-webserver
-    image: ghcr.io/pulp/molecule_fedora36
+    image: ghcr.io/pulp/molecule_rocky8
     command: /usr/sbin/init
+    cgroupns_mode: host
 provisioner:
   name: ansible
   env:

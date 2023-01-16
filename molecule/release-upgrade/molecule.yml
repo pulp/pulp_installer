@@ -27,19 +27,12 @@ platforms:
     # molecule often fails to pull, so we pull all images in .travis.yml
     image: quay.io/pulp/pulp_rpm-ci-c7:3.1.0
     command: /sbin/init
+    cgroupns_mode: host
   - <<: *platform_base
-    name: debian-11
-    image: quay.io/pulp/pulp-ci-dbullseye:3.14.4
+    name: centos-8
+    image: quay.io/pulp/pulp_installer-pip-ci-c8:3.9.1
     command: /sbin/init
-  # We do not test CentOS 8 because otherwise this becomes the longest running CI test.
-  - <<: *platform_base
-    name: centos-stream9
-    image: quay.io/pulp/pulp_installer-pip-ci-c9:3.13.0
-    command: /sbin/init
-  - <<: *platform_base
-    name: fedora-36
-    image: quay.io/pulp/pulp_installer-pip-ci-f36:3.13.0
-    command: /usr/sbin/init
+    cgroupns_mode: host
 provisioner:
   name: ansible
   env:
