@@ -245,7 +245,7 @@
         name: "pulpcore{{ '[' + pulp_install_object_storage + ']' if pulp_install_object_storage != 'filesystem' else '' }}{% if __pulpcore_version | wordcount > 2 %}=={{ __pulpcore_version }}{% else %}~={{ __pulpcore_version }}.0{% endif %}"
         # pulp_upgrade true/false -> ansible pip module latest/present ->
         # pip command "install --upgrade"/"install"
-        state: '{{ (pulpcore_update == true) | ternary("latest", "present") }}'
+        state: '{{ (pulpcore_update == true) | ternary("latest", "present") }}'  # noqa args[module]
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
       when: pulp_source_dir is undefined
@@ -365,7 +365,7 @@
            {%- if item.value.version is defined %}{% if item.value.version | wordcount > 2 %}=={{ item.value.version }}{% else %}~={{ item.value.version }}.0{% endif %}{% endif %}
         # item.upgrade true/false -> ansible pip module latest / present
         # pip command "install --upgrade install"
-        state: "{{ (item.value.upgrade | default(false) == true) | ternary('latest', 'present') }}"
+        state: "{{ (item.value.upgrade | default(false) == true) | ternary('latest', 'present') }}"  # noqa args[module]
         extra_args: "-c {{ pulp_install_dir }}/pip_constraints_for_plugins.txt"
         virtualenv: '{{ pulp_install_dir }}'
         virtualenv_command: '{{ pulp_python_interpreter }} -m venv'

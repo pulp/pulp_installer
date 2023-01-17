@@ -1,29 +1,29 @@
 ---
 - name: Set Pulp CLI
   block:
-  - name: Check if CLI path exists
-    stat:
-      path: "{{ developer_user_home }}/devel/pulp-cli"
-    register: is_cli_installed
+    - name: Check if CLI path exists
+      stat:
+        path: "{{ developer_user_home }}/devel/pulp-cli"
+      register: is_cli_installed
 
-  - name: Install Pulp CLI
-    pip:
-      name: "{{ is_cli_installed.stat.exists | ternary(is_cli_installed.stat.path, 'pulp-cli') }}"
-      editable: "{{ is_cli_installed.stat.exists | ternary(pulp_pip_editable, false) }}"
-      state: present
-      virtualenv: '{{ pulp_install_dir }}'
-      virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
-    environment:
-      SETUPTOOLS_USE_DISTUTILS: stdlib
+    - name: Install Pulp CLI
+      pip:
+        name: "{{ is_cli_installed.stat.exists | ternary(is_cli_installed.stat.path, 'pulp-cli') }}"
+        editable: "{{ is_cli_installed.stat.exists | ternary(pulp_pip_editable, false) }}"
+        state: present
+        virtualenv: '{{ pulp_install_dir }}'
+        virtualenv_command: '{{ pulp_python_interpreter }} -m venv'
+      environment:
+        SETUPTOOLS_USE_DISTUTILS: stdlib
 
-  - name: Create ~/.config/pulp
-    file:
-      path: "{{ developer_user_home }}/.config/pulp"
-      state: directory
-      mode: '0755'
+    - name: Create ~/.config/pulp
+      file:
+        path: "{{ developer_user_home }}/.config/pulp"
+        state: directory
+        mode: '0755'
 
-  - name: Configure CLI
-    template:
-      src: templates/cli.settings.toml.j2
-      dest: "{{ developer_user_home }}/.config/pulp/settings.toml"
-      mode: '0664'
+    - name: Configure CLI
+      template:
+        src: templates/cli.settings.toml.j2
+        dest: "{{ developer_user_home }}/.config/pulp/settings.toml"
+        mode: '0664'

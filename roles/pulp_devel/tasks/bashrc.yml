@@ -2,76 +2,76 @@
 - name: Tune bashrc.d
   when: pulp_devel_supplement_bashrc | bool
   block:
-  - name: Create ~/.bashrc.d/
-    file:
-      path: "{{ developer_user_home }}/.bashrc.d/"
-      state: directory
-      mode: '0775'
+    - name: Create ~/.bashrc.d/
+      file:
+        path: "{{ developer_user_home }}/.bashrc.d/"
+        state: directory
+        mode: '0775'
 
-  - name: Define developer aliases in ~/.bashrc.d/
-    template:
-      src: templates/alias.bashrc.j2
-      dest: "{{ developer_user_home }}/.bashrc.d/alias.bashrc"
-      mode: '0644'
+    - name: Define developer aliases in ~/.bashrc.d/
+      template:
+        src: templates/alias.bashrc.j2
+        dest: "{{ developer_user_home }}/.bashrc.d/alias.bashrc"
+        mode: '0644'
 
-  - name: Source developer aliases in ~/.bashrc.d/
-    blockinfile:
-      path: "{{ developer_user_home }}/.bashrc"
-      block: |
-        if [ -d ~/.bashrc.d ]; then
-          for file in ~/.bashrc.d/*; do
-            . "$file"
-          done
-        fi
-      mode: '0644'
-      marker: "# {mark} Ansible managed block: source bashrc.d/"
-      create: yes
+    - name: Source developer aliases in ~/.bashrc.d/
+      blockinfile:
+        path: "{{ developer_user_home }}/.bashrc"
+        block: |
+          if [ -d ~/.bashrc.d ]; then
+            for file in ~/.bashrc.d/*; do
+              . "$file"
+            done
+          fi
+        mode: '0644'
+        marker: "# {mark} Ansible managed block: source bashrc.d/"
+        create: yes
 
-  - name: Add Django supplemental bashrc
-    template:
-      src: templates/django.bashrc.j2
-      dest: '{{ developer_user_home }}/.bashrc.d/django.bashrc'
-      mode: '0644'
+    - name: Add Django supplemental bashrc
+      template:
+        src: templates/django.bashrc.j2
+        dest: '{{ developer_user_home }}/.bashrc.d/django.bashrc'
+        mode: '0644'
 
-  - name: Add virtualenv supplemental bashrc
-    template:
-      src: templates/venv.bashrc.j2
-      dest: '{{ developer_user_home }}/.bashrc.d/venv.bashrc'
-      mode: '0644'
-    when: ansible_facts.distribution != 'Ubuntu'
+    - name: Add virtualenv supplemental bashrc
+      template:
+        src: templates/venv.bashrc.j2
+        dest: '{{ developer_user_home }}/.bashrc.d/venv.bashrc'
+        mode: '0644'
+      when: ansible_facts.distribution != 'Ubuntu'
 
-  # We need to do this or else it fails to initialize, and every time a new
-  # shell is spawned, it spews messages like:
-  # virtualenvwrapper.user_scripts creating /usr/local/lib/premkproject
-  # Which in turn breaks the task:
-  # pulp_webserver : Copy snippets from the pulp_database_config host
-  - name: Initialize virtualenvwrapper
-    command: 'bash {{ developer_user_home }}/.bashrc.d/venv.bashrc'
-    args:
-      creates: '{{ pulp_install_dir }}../premkproject'
-    become_user: root
-    register: virtualenvwrapper
+    # We need to do this or else it fails to initialize, and every time a new
+    # shell is spawned, it spews messages like:
+    # virtualenvwrapper.user_scripts creating /usr/local/lib/premkproject
+    # Which in turn breaks the task:
+    # pulp_webserver : Copy snippets from the pulp_database_config host
+    - name: Initialize virtualenvwrapper
+      command: 'bash {{ developer_user_home }}/.bashrc.d/venv.bashrc'
+      args:
+        creates: '{{ pulp_install_dir }}../premkproject'
+      become_user: root
+      register: virtualenvwrapper
 
-  - name: Install bindings requirements for testing locally  # noqa no-changed-when
-    shell: >-
-      source {{ developer_user_home }}/.bashrc.d/alias.bashrc
-      && source {{ developer_user_home }}/.bashrc.d/venv.bashrc
-      && pbindings {{ item.key | replace("-", "_") }} python
-    args:
-      executable: /bin/bash
-    changed_when: false
-    with_dict: "{{ pulp_install_plugins_normalized }}"
+    - name: Install bindings requirements for testing locally  # noqa no-changed-when
+      shell: >-
+        source {{ developer_user_home }}/.bashrc.d/alias.bashrc
+        && source {{ developer_user_home }}/.bashrc.d/venv.bashrc
+        && pbindings {{ item.key | replace("-", "_") }} python
+      args:
+        executable: /bin/bash
+      changed_when: false
+      with_dict: "{{ pulp_install_plugins_normalized }}"
 
-  - name: Add fzf bashrc
-    copy:
-      src: files/fzf.bashrc
-      dest: '{{ developer_user_home }}/.bashrc.d/fzf.bashrc'
-      mode: '0644'
-    when: ansible_facts.distribution == 'Fedora'
+    - name: Add fzf bashrc
+      copy:
+        src: files/fzf.bashrc
+        dest: '{{ developer_user_home }}/.bashrc.d/fzf.bashrc'
+        mode: '0644'
+      when: ansible_facts.distribution == 'Fedora'
 
-  - name: Add pulp_cli bashrc
-    copy:
-      src: files/pulp_cli.bashrc
-      dest: '{{ developer_user_home }}/.bashrc.d/pulp_cli.bashrc'
-      mode: '0644'
+    - name: Add pulp_cli bashrc
+      copy:
+        src: files/pulp_cli.bashrc
+        dest: '{{ developer_user_home }}/.bashrc.d/pulp_cli.bashrc'
+        mode: '0644'
 ...
