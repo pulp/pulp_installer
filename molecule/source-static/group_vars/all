@@ -5,7 +5,7 @@ pulp_git_url: "https://github.com/pulp/pulpcore"
 pulp_git_revision: "main"
 pulp_api_bind: "unix:/var/run/pulpcore-api/pulpcore-api.sock"
 pulp_content_bind: "unix:/var/run/pulpcore-content/pulpcore-content.sock"
-pulp_redis_bind: "unix:/var/run/redis/redis.sock"
+pulp_redis_bind: "unix://var/run/redis/redis.sock"
 # Extras are intended to test the functionality of the installer, they result in a harmless warning.
 pulp_install_plugins:
   # galaxy-ng:
@@ -50,7 +50,7 @@ pulp_settings:
   db_encryption_key: /opt/pulp/database_fields.symmetric.key
   media_root: /opt/pulp/media
   secret_key: secret
-  redis_url: "unix:/var/run/redis/redis.sock"
+  redis_url: "unix://var/run/redis/redis.sock"
   static_root: /opt/pulp/assets
   working_directory: /opt/pulp/cache
   file_upload_temp_dir: /opt/pulp/file_upload_temp

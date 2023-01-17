@@ -1,0 +1,1 @@
+Update docs to show a unix:// URL for redis rather than a unix:/ URL. The new python redis packages requires this.
