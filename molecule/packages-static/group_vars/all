@@ -4,7 +4,7 @@ pulp_upgrade: true
 pulp_install_source: packages
 pulp_api_bind: "unix:/var/run/pulpcore-api/pulpcore-api.sock"
 pulp_content_bind: "unix:/var/run/pulpcore-content/pulpcore-content.sock"
-pulp_redis_bind: "unix:/var/run/redis/redis.sock"
+pulp_redis_bind: "unix://var/run/redis/redis.sock"
 pulp_install_selinux_policies: True
 pulp_install_plugins:
   pulp-file:
@@ -12,7 +12,7 @@ pulp_install_plugins:
 pulp_settings:
   content_origin: "https://{{ ansible_fqdn }}"
   secret_key: secret
-  redis_url: "unix:/var/run/redis/redis.sock"
+  redis_url: "unix://var/run/redis/redis.sock"
   telemetry: false
 
 # These variables are used by molecule verify, not the installer itself
