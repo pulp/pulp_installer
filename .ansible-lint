@@ -14,6 +14,8 @@ skip_list:
   - name[missing]
   # sometimes you want to specify something whose syntax is lowercase as the beginning of a task name
   - name[casing]
+  - galaxy[no-changelog]
+  - meta-unsupported-ansible
 exclude_paths:
   - ./roles/ansible-role-postgresql/
   - ./roles/geerlingguy.postgresql/
