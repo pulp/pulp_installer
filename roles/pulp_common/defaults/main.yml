@@ -50,10 +50,11 @@ pulp_pkg_selinux_name: "pulpcore-selinux"
 pulp_pkg_upgrade_all: false
 pulp_upgraded_manually: false
 
-# keep this two in sync with pulp_repos/defaults/main.yml
+# keep these 3 in sync with pulp_repos/defaults/main.yml
 # due to CI coverage test
 __pulp_pkg_repo_name: "pulpcore"
-pulp_pkg_repo: "https://yum.theforeman.org/pulpcore/3.18/el{{ ansible_distribution_major_version }}/$basearch/"
+__pulp_pkg_repo_version: '{{ (ansible_distribution_major_version | int == 7) | ternary("3.18", "3.21") }}'
+pulp_pkg_repo: "https://yum.theforeman.org/pulpcore/{{ __pulp_pkg_repo_version }}/el{{ ansible_distribution_major_version }}/$basearch/"
 
 # The order is significant; linear order to handle the dependency tree
 __pulp_selinux_policy_pkgs:

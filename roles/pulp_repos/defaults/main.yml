@@ -22,10 +22,14 @@ pulp_rhel_scl_repo_enable: True
 __pulp_rhel_pulpcore_repo_enable_default: False
 pulp_rhel_pulpcore_repo_enable: True
 
-__pulp_pkg_repo_name: "pulpcore"
 __pulp_pkg_repo_gpgkey: "{{ pulp_pkg_repo.rstrip('/') }}/../../GPG-RPM-KEY-pulpcore"
 
-pulp_pkg_repo: "https://yum.theforeman.org/pulpcore/3.18/el{{ ansible_distribution_major_version }}/$basearch/"
+# keep these 3 in sync with pulp_common/defaults/main.yml
+# due to CI coverage test
+__pulp_pkg_repo_name: "pulpcore"
+__pulp_pkg_repo_version: '{{ (ansible_distribution_major_version | int == 7) | ternary("3.18", "3.21") }}'
+pulp_pkg_repo: "https://yum.theforeman.org/pulpcore/{{ __pulp_pkg_repo_version }}/el{{ ansible_distribution_major_version }}/$basearch/"
+
 pulp_pkg_repo_gpgcheck: True
 
 pulp_install_source: pip
