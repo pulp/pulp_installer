@@ -13,6 +13,42 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.22.0 (2023-01-19)
+===================
+
+
+Features
+--------
+
+- Update packages mode to install the 3.21 RPMs instead of the 3.18 RPMs when on el8 or el9.
+  [#1453](https://github.com/pulp/pulp_installer/issues/1453)
+
+
+Bugfixes
+--------
+
+- Remove access logging from gunicorn command line options within the pulpcore-api.service file
+  [#1422](https://github.com/pulp/pulp_installer/issues/1422)
+- Fix webserver conf file not setting HSTS header properly
+  [#1423](https://github.com/pulp/pulp_installer/issues/1423)
+- Fix failure on task "Set crypto policy for Fedora" on Fedora 35 due to `update-crypto-policies` not being installed.
+  [#1431](https://github.com/pulp/pulp_installer/issues/1431)
+- It's no longer necessary to reinstall tzdata on EL9
+  [#1446](https://github.com/pulp/pulp_installer/issues/1446)
+- Fix `make vendor` failing to find ini_file.py .
+  [#1448](https://github.com/pulp/pulp_installer/issues/1448)
+
+
+Improved Documentation
+----------------------
+
+- Update docs to show a unix:// URL for redis rather than a unix:/ URL. The new python redis packages requires this.
+  [#1452](https://github.com/pulp/pulp_installer/issues/1452)
+
+
+----
+
+
 3.21.4 (2022-09-28)
 ===================
 
