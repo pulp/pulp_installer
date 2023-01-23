@@ -1,3 +1,8 @@
 ---
 # Needed because on Ansible 2.9.27 (and possibly 2.10) Rocky is incorrectly familied.
 __pulp_os_family: '{{ (ansible_facts.os_family == "Rocky") | ternary("RedHat", ansible_facts.os_family) }}'
+
+# identical to geerlingguy.postgresql
+postgresql_user: postgres
+postgresql_unix_socket_directories:
+  - /var/run/postgresql

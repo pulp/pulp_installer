@@ -80,6 +80,13 @@ system from the list above, but each node can run a different OS.
 
 If you are using an existing PostgreSQL host/cluster, version 10 or higher is required.
 
+If you are using an existing PostgreSQL host/cluster, and it is at version 10 through 12, you
+must do one of the following:
+1. Create a new database (default name: `pulp`) and load the postgresql extension `hstore` for it.
+2. Create a new database (default name: `pulp`) and give the Pulp user account (default name:
+   `pulp`) `superuser` permission. The account must also be the `owner` of the database. After
+   installation (or upgrade to pulpcore 3.22), the superuser permission can be taken away.
+
 If you are using an existing Redis host/cluster, version 3 or higher is required.
 
 The Ansible collection requires [geerlingguy.postgresql](https://galaxy.ansible.com/geerlingguy/postgresql) role,

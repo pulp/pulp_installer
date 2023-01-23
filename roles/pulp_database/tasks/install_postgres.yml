@@ -111,3 +111,17 @@
             - molecule-idempotence-notest
       vars:
         ansible_os_family: "{{ __pulp_os_family }}"
+
+# hstore requires for pulpcore 3.22 due to https://github.com/pulp/pulpcore/issues/3400
+#
+# postgresql_user comes from the geerlingguy.postgresql role. It refers to both the Linux OS
+# account name, and the PostgreSQL account name for the default superuser. It is per-distro, but
+# seems to evaluate to "postgres" on all distros.
+- name: Add postgres hstore extension
+  postgresql_ext:
+    name: hstore
+    db: "{{ __pulp_database_merged_pulp_settings.databases.default.NAME }}"
+    login_user: "{{ postgresql_user }}"
+    login_unix_socket: "{{ postgresql_unix_socket_directories[0] | default(omit) }}"
+  become: true
+  become_user: "{{ postgresql_user }}"
