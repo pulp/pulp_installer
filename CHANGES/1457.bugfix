@@ -1,0 +1,1 @@
+Fix failing to load the PostgreSQL extension `hstore` during migrations by loading the `hstore` extension ahead of time as the `postgresql_user` account (default `postgres`). Also document that this needs to be done manually for external PostgreSQL hosts/clusters.
