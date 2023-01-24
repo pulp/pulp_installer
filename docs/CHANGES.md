@@ -37,6 +37,8 @@ Bugfixes
   [#1446](https://github.com/pulp/pulp_installer/issues/1446)
 - Fix `make vendor` failing to find ini_file.py .
   [#1448](https://github.com/pulp/pulp_installer/issues/1448)
+- Fix failing to load the PostgreSQL extension `hstore` during migrations by loading the `hstore` extension ahead of time as the `postgresql_user` account (default `postgres`). Also document that this needs to be done manually for external PostgreSQL hosts/clusters.
+  [#1457](https://github.com/pulp/pulp_installer/issues/1457)
 
 
 Improved Documentation
