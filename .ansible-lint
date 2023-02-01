@@ -16,6 +16,8 @@ skip_list:
   - name[casing]
   - galaxy[no-changelog]
   - meta-unsupported-ansible
+  # We're on maintenance now for 3.22. We're not going to refactor to be incompatible with ansible 2.9.
+  - fqcn[keyword]
 exclude_paths:
   - ./roles/ansible-role-postgresql/
   - ./roles/geerlingguy.postgresql/
