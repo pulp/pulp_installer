@@ -1,6 +1,0 @@
----
-- hosts: localhost
-  force_handlers: True
-  remote_user: root
-  roles:
-    - pulp_rpm_prerequisites
