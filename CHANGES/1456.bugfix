@@ -1,0 +1,1 @@
+Fix the token authentication key pair being non-identical across hosts. If they already exist non-identical, 1 will be selected at random to be copied to the other hosts.
