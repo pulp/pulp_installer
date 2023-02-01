@@ -1,21 +1,98 @@
 ---
-- name: Look for token authentication key
-  stat:
-    path: "{{ pulp_certs_dir }}/token_private_key.pem"
-    get_attributes: false
-    get_checksum: false
-    get_mime: false
-  become: true
-  become_user: "{{ pulp_user }}"
-  register: __pulp_token_auth_key
+# Generate the token auth private key, and copy it to the other hosts if need be
 
-- name: Generate token authentication private key
+- name: Pick & set the host to copy the token auth private key from
+  when:
+    - __pulp_run_once
+  block:
+
+    - name: Identify the hosts that are currently running the pulp_api role
+      debug:
+        var: inventory_hostname
+      register: ____pulp_token_auth_key_host_temp
+
+    - name: Set a list of hosts that are currently running the pulp_api role
+      set_fact:
+        # We do not use json_query because it requires jmespath on the control
+        # node. We should not introduce an addtl control node dependency
+        # unless there is a very compelling reason.
+        # __pulp_api_hosts: "{{ hostvars|json_query('*.____pulp_token_auth_key_host_temp.inventory_hostname') }}"
+        __pulp_api_hosts: "{{ groups['all'] | map('extract', hostvars, '____pulp_token_auth_key_host_temp') | select('defined') | list | map(attribute='inventory_hostname') | list }}"
+      delegate_to: localhost
+      delegate_facts: true
+      run_once: true
+
+    - name: Check if any of said hosts already have the token authentication private key
+      stat:
+        path: "{{ pulp_certs_dir }}/token_private_key.pem"
+      register: __pulp_token_auth_key_stat
+      delegate_to: "{{ item }}"
+      # We do `failed_when: false` because some hosts, used by 3rd-party roles,
+      # might not have become enabled. pulplift is 1 example, it has localhost.
+      failed_when: false
+      with_items: "{{ hostvars['localhost']['__pulp_api_hosts'] }}"
+      become: true
+
+    - name: Pick & set the host to copy the token auth private key from, if any hosts have the key
+      set_fact:
+        __pulp_token_auth_key_host: "{{ item.item }}"
+      run_once: True
+      delegate_to: localhost
+      delegate_facts: yes
+      with_items: "{{ __pulp_token_auth_key_stat.results }}"
+      # We break the loop if the variable is already set, from this loop or by the user.
+      # We only set the variable if its a host where they exists.
+      when:
+        - hostvars['localhost']['__pulp_token_auth_key_host'] is not defined
+        - item.stat.exists
+
+- name: Pick & set the sole host to generate the token auth private key if no host has the key
+  set_fact:
+    __pulp_token_auth_key_host: "{{ inventory_hostname }}"
+  run_once: true
+  delegate_to: localhost
+  delegate_facts: yes
+  when:
+    - __pulp_run_once
+    - hostvars['localhost']['__pulp_token_auth_key_host'] is not defined
+
+- name: Generate the token auth private key
   openssl_privatekey:
     path: "{{ pulp_certs_dir }}/token_private_key.pem"
     type: ECC
     curve: secp256r1
     owner: "{{ pulp_user }}"
     group: "{{ pulp_group }}"
+    mode: 0640
+    serole: _default
+    setype: _default
+    seuser: _default
+    regenerate: never
+    # Backup shouldn't be necessary because of "regenerate: never", but let's be extra safe
+    backup: true
   become: true
-  become_user: "{{ pulp_user }}"
-  when: not __pulp_token_auth_key.stat.exists
+  run_once: "{{ __pulp_run_once }}"
+  delegate_to: "{{ hostvars['localhost']['__pulp_token_auth_key_host'] | default(inventory_hostname) }}"
+
+- name: Get the token auth private key from the host that has it or that was used to generate it
+  slurp:
+    src: "{{ pulp_certs_dir }}/token_private_key.pem"
+  delegate_to: "{{ hostvars['localhost']['__pulp_token_auth_key_host'] | default(inventory_hostname) }}"
+  run_once: "{{ __pulp_run_once }}"
+  register: __pulp_token_auth_key_content
+  changed_when: false
+  check_mode: false
+  become: true
+
+- name: Copy the token auth private key to all the other hosts
+  copy:
+    content: "{{ __pulp_token_auth_key_content['content'] | b64decode }}"
+    dest: "{{ pulp_certs_dir }}/token_private_key.pem"
+    owner: "{{ pulp_user }}"
+    group: "{{ pulp_group }}"
+    mode: 0640
+    serole: _default
+    setype: _default
+    seuser: _default
+    backup: true
+  become: true

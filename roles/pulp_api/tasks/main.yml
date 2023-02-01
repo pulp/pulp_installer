@@ -16,8 +16,13 @@
   openssl_publickey:
     path: "{{ pulp_certs_dir }}/token_public_key.pem"
     privatekey_path: "{{ pulp_certs_dir }}/token_private_key.pem"
+    mode: 0644
     owner: "{{ pulp_user }}"
     group: "{{ pulp_group }}"
+    serole: _default
+    setype: _default
+    seuser: _default
+    backup: true
   become: true
   become_user: "{{ pulp_user }}"
   when:
