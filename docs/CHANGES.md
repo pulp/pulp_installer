@@ -13,6 +13,20 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.22.1 (2023-02-02)
+===================
+
+
+Bugfixes
+--------
+
+- Fix the token authentication key pair being non-identical across hosts. If they already exist non-identical, 1 will be selected at random to be copied to the other hosts.
+  [#1456](https://github.com/pulp/pulp_installer/issues/1456)
+
+
+----
+
+
 3.22.0 (2023-01-19)
 ===================
 
