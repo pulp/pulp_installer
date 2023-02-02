@@ -10,18 +10,20 @@ pulp_install_plugins:
   # pulp-certguard:
   pulp-container:
     extras: VitaminC
+    version: "2.14"
   # pulp-cookbook:
   # pulp-deb:
   pulp-file:
     extras:
      - VitaminC
      - VitaminD
-    version: "1.10.3"
+    version: "1.11"
   # pulp-gem:
   # pulp-maven:
   # pulp-npm:
   # pulp-python:
   pulp-rpm:
+    version: "3.18"
 pulp_settings:
   content_origin: "https://{{ ansible_fqdn }}"
   secret_key: secret
