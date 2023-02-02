@@ -16,7 +16,7 @@ pulp_install_plugins:
     extras:
      - VitaminC
      - VitaminD
-    version: "1.10.3"
+    version: "1.11.3"
   # pulp-gem:
   # pulp-maven:
   # pulp-npm:
