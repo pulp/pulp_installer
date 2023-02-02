@@ -4,9 +4,7 @@ pulp_configure_firewall: none
 pulp_default_admin_password: password
 pulp_install_plugins:
   pulp-file:
-    version: "1.11"
   pulp-container:
-    version: "2.14"
 pulp_redis_bind: '0.0.0.0:6379'
 pulp_api_bind: "{{ ansible_default_ipv4['address'] }}:24817"
 pulp_content_bind: "{{ ansible_default_ipv4['address'] }}:24816"

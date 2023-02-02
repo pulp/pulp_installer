@@ -42,7 +42,7 @@ jobs:
         run: |
           python -m venv venv
           source venv/bin/activate
-          pip install galaxy_ng==4.6
+          pip install galaxy_ng
           PULPCORE_VERSION=$(pip show pulpcore | sed -n -e "s/Version: //p")
           echo "PULPCORE_VERSION=$PULPCORE_VERSION"
           sed -i "s/PLACEHOLDER/$PULPCORE_VERSION/" molecule/release-galaxy/group_vars/all
@@ -53,7 +53,7 @@ jobs:
         run: |
           python -m venv venv
           source venv/bin/activate
-          pip install git+https://github.com/ansible/galaxy_ng.git@stable-4.6
+          pip install git+https://github.com/ansible/galaxy_ng.git
 
           PULPCORE_VERSION=$(pip show pulpcore | sed -n -e "s/Version: //p")
           echo "PULPCORE_VERSION=$PULPCORE_VERSION"
