@@ -218,7 +218,8 @@ jobs:
           pip install ansible-core
       - name: Install Ansible-lint
         run: |
-          pip install ansible-lint[yamllint]
+          # pulp_installer is now on maintenance, so limit the lint checks
+          pip install "ansible-lint[yamllint]<6.13"
       - name: Lint test
         run: |
           ansible-lint
