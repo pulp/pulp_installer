@@ -34,6 +34,11 @@ platforms:
     image: ghcr.io/pulp/molecule_centosstream8
     command: /sbin/init
     cgroupns_mode: host
+  - <<: *platform_base
+    name: centos-9
+    image: ghcr.io/pulp/molecule_centosstream9
+    command: /sbin/init
+    cgroupns_mode: host
 provisioner:
   name: ansible
   env:

@@ -34,7 +34,7 @@ platforms:
     cgroupns_mode: host
   - <<: *platform_base
     name: pulp-content
-    image: ghcr.io/pulp/molecule_centos7
+    image: ghcr.io/pulp/molecule_centosstream9
     command: /sbin/init
     cgroupns_mode: host
   - <<: *platform_base
@@ -49,7 +49,7 @@ platforms:
     cgroupns_mode: host
   - <<: *platform_base
     name: pulp-webserver
-    image: ghcr.io/pulp/molecule_centosstream8
+    image: ghcr.io/pulp/molecule_rocky9
     command: /usr/sbin/init
     cgroupns_mode: host
 provisioner:
