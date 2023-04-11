@@ -11,8 +11,6 @@
 
     - name: Enable Python 3.8 module stream
       command: dnf -y module enable python38
-      args:
-        warn: false
       register: python38_module_enable
       when:
         - ansible_facts.distribution in ['RedHat', 'CentOS']
