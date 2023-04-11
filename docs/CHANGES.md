@@ -13,6 +13,37 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.15.9-4 (2023-04-11)
+=====================
+
+
+Bugfixes
+--------
+
+- Fix `make vendor` failing to find ini_file.py .
+  [#1448](https://pulp.plan.io/issues/1448)
+
+
+Deprecations and Removals
+-------------------------
+
+- Removed the use_new_worker_type from dev-playbook example. And adjusted the resource-manager test
+  in the health checks.
+  [#9158](https://pulp.plan.io/issues/9158)
+- Ensure resource manager is not started for pulpcore >= 3.16
+  [#9386](https://pulp.plan.io/issues/9386)
+
+
+Devel
+-----
+
+- Fix CI tests with Ansible 2.9 and Python 3 failing to install prereleases of community.docker due to molecule-docker 2.0.0 being released.
+  [#1330](https://pulp.plan.io/issues/1330)
+
+
+----
+
+
 3.15.9-3 (2022-07-27)
 =====================
 
