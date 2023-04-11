@@ -1,2 +1,0 @@
-Removed the use_new_worker_type from dev-playbook example. And adjusted the resource-manager test
-in the health checks.
