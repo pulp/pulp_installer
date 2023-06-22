@@ -21,7 +21,7 @@ Release Guide
 
 For older releases of pulp_installer, you may have to manually upload the collection to galaxy.ansible.com.
 
-1. Prepare a tarball of the pulp_insaller collection (from inside the root of the collection, run `ansible-galaxy collection build`).\
+1. Prepare a tarball of the pulp_insaller collection (from inside the root of the collection, run `make vendor && make dist`).\
    **NOTE**: ansible-galaxy>=2.9 is required.\
    **NOTE:** the tarball will include every untracked file in the repo unless you git clean, even
 ignored files. You may want to just clone the repo to another temporary dir instead.
