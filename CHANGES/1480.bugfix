@@ -1,1 +1,0 @@
-Add no_log to the task `pulp.pulp_installer.pulp_common : Make variables available to other hosts in other roles via hostvars`

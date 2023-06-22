@@ -13,6 +13,20 @@ Changelog
 
 <!-- TOWNCRIER -->
 
+3.21.6 (2023-06-22)
+===================
+
+
+Bugfixes
+--------
+
+- Add no_log to the task `pulp.pulp_installer.pulp_common : Make variables available to other hosts in other roles via hostvars`
+  [#1480](https://github.com/pulp/pulp_installer/issues/1480)
+
+
+----
+
+
 3.21.5 (2023-02-03)
 ===================
 
