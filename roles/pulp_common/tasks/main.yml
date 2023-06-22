@@ -194,3 +194,4 @@
     __pulp_common_merged_pulp_settings: "{{ __pulp_common_merged_pulp_settings }}"
     pulp_user: "{{ pulp_user }}"
     pulp_group: "{{ pulp_group }}"
+  no_log: true
