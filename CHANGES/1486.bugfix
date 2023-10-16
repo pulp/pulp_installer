@@ -1,0 +1,1 @@
+Added conditional blocks around the ExecStart parts in pulpcore-api and pulpcore-content systemd units to support the new entrypoints in releases >= 3.33i
