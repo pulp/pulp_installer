@@ -25,7 +25,11 @@ LimitNOFILE=524288
 
 # timeout is needed Pulp to service its 1st request on extremely slow
 # machines, such as qemu-emulated 2-core machines
+{% if __pulpcore_version is version('3.33', '>=') -%}
+ExecStart={{ __pulp_daemons_dir }}/pulpcore-api \
+{% else %}
 ExecStart={{ __pulp_daemons_dir }}/gunicorn pulpcore.app.wsgi:application \
+{%- endif %}
           --name pulp-api \
           --bind '{{ pulp_api_bind }}' \
           --workers {{ pulp_api_workers }} \

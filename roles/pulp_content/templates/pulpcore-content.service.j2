@@ -25,10 +25,14 @@ LimitNOFILE=524288
 
 # timeout is needed Pulp to service its 1st request on extremely slow
 # machines, such as qemu-emulated 2-core machines
+{% if __pulpcore_version is version('3.33', '>=') -%}
+ExecStart={{ __pulp_daemons_dir }}/pulpcore-content \
+{% else %}
 ExecStart={{ __pulp_daemons_dir }}/gunicorn pulpcore.content:server \
           --name pulp-content \
-          --bind '{{ pulp_content_bind }}' \
           --worker-class 'aiohttp.GunicornWebWorker' \
+{% endif %}
+          --bind '{{ pulp_content_bind }}' \
           --workers {{ pulp_content_workers }} \
           --timeout {{ pulp_service_timeout }} \
           --access-logfile -
