@@ -1,0 +1,1 @@
+Copy static files instead of symlink to avoid pulp failing to start due to stale symlinks after upgrade
