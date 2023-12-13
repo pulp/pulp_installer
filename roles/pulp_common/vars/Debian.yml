@@ -16,7 +16,7 @@ __galaxy_ldap_packages:
   - ldapvi
   - libldap-common
   - libldap-dev
-  - python-dev
+  - python3-dev
   - libldap2-dev
   - libsasl2-dev
   - libssl-dev
