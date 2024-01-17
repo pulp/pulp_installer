@@ -23,6 +23,9 @@ WorkingDirectory=/var/run/pulpcore-worker-%i/
 RuntimeDirectory=pulpcore-worker-%i
 LimitNOFILE=524288
 
+# Labels pulpcore-worker messages in syslog appropriately
+SyslogIdentifier=pulpcore-worker-%i
+
 {% if __pulpcore_version is version('3.14', '>=') -%}
 ExecStart={{ __pulp_daemons_dir }}/pulpcore-worker
 {%- else -%}
