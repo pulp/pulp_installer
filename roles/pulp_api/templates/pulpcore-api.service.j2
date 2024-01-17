@@ -23,6 +23,9 @@ PIDFile=/run/pulpcore-api.pid
 RuntimeDirectory=pulpcore-api
 LimitNOFILE=524288
 
+# Labels pulpcore-api messages in syslog appropriately
+SyslogIdentifier=pulp-wsgi-server
+
 # timeout is needed Pulp to service its 1st request on extremely slow
 # machines, such as qemu-emulated 2-core machines
 {% if __pulpcore_version is version('3.33', '>=') -%}
