@@ -1,3 +1,8 @@
+DEPRECATED!
+This repo is deprecated. 
+You can read about why, and the migration path, [here.](https://discourse.pulpproject.org/t/pulp-installer-3-22-will-be-the-last-release-for-the-installer/706)
+
+
 [![Pulp CI](https://github.com/pulp/pulp_installer/actions/workflows/ci.yml/badge.svg)](https://github.com/pulp/pulp_installer/actions/workflows/ci.yml)
 
 Pulp 3 Ansible Installer
